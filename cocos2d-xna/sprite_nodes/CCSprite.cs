@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace cocos2d
 {
-    public class CCLayer
+    class CCSprite
     {
     }
 }
