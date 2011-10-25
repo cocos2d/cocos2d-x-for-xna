@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloCocos2d", "HelloCocos2d\HelloCocos2d\HelloCocos2d.csproj", "{2076D138-759C-465F-BC67-5BE580C54216}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "HelloCocos2dContent", "HelloCocos2d\HelloCocos2dContent\HelloCocos2dContent.contentproj", "{567D3909-77EC-4AE3-93E8-E63CDBE1BC22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cocos2d-xna", "cocos2d-xna\cocos2d-xna.csproj", "{47EE6CE6-493D-4967-944A-5E55B71AA9FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Windows Phone = Debug|Windows Phone
+		Release|Windows Phone = Release|Windows Phone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2076D138-759C-465F-BC67-5BE580C54216}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{2076D138-759C-465F-BC67-5BE580C54216}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{2076D138-759C-465F-BC67-5BE580C54216}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{2076D138-759C-465F-BC67-5BE580C54216}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{2076D138-759C-465F-BC67-5BE580C54216}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{2076D138-759C-465F-BC67-5BE580C54216}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{567D3909-77EC-4AE3-93E8-E63CDBE1BC22}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{567D3909-77EC-4AE3-93E8-E63CDBE1BC22}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Release|Windows Phone.Build.0 = Release|Windows Phone
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
