@@ -60,13 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CCDirector.cs" />
+    <Compile Include="cocoa\CCGeometry.cs" />
+    <Compile Include="cocoa\CCObject.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="actions\" />
     <Folder Include="base_nodes\" />
-    <Folder Include="cocoa\" />
     <Folder Include="effects\" />
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="label_nodes\" />
