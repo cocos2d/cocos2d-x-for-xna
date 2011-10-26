@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 namespace cocos2d
 {
     enum NodeTag
@@ -92,10 +93,34 @@ namespace cocos2d
     {
         public CCNode()
         {
+            // Only initialize the members that are not default value.
+
+            m_tPosition = new CCPoint();
+            m_tPositionInPixels = new CCPoint();
+            m_bIsVisible = true;
+            m_tAnchorPoint = new CCPoint();
+            m_tAnchorPointInPixels = new CCPoint();
+            m_tContentSize = new CCSize();
+            m_tContentSizeInPixels = new CCSize();
+            m_bIsRelativeAnchorPoint = true;
+            m_bIsTransformDirty = true;
+            m_bIsInverseDirty = true;
+
+            /*
+             * @todo
+            #ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+            m_bIsTransformGLDirty(true)
+            #endif
+             * */
         }
 
         ~CCNode()
         {
+            //@todo CCLOGINFO( "cocos2d: deallocing" );
+            foreach (CCNode node in m_pChildren)
+            {
+                node.parent = null;
+            }
         }
 
         /** allocates and initializes a node.
@@ -103,8 +128,7 @@ namespace cocos2d
 		*/
         public static CCNode node()
         {
-            ///@todo
-            throw new NotImplementedException();
+            return new CCNode();
         }
 
         //scene managment
@@ -115,8 +139,14 @@ namespace cocos2d
 		*/
         public virtual void onEnter()
         {
-            ///@todo
-            throw new NotImplementedException();
+            foreach (CCNode node in m_pChildren)
+            {
+                node.onEnter();
+            }
+
+            resumeSchedulerAndActions();
+
+            m_bIsRunning = true;
         }
 
         /** callback that is called when the CCNode enters in the 'stage'.
@@ -125,8 +155,10 @@ namespace cocos2d
 		*/
         public virtual void onEnterTransitionDidFinish()
         {
-            ///@todo
-            throw new NotImplementedException();
+            foreach (CCNode node in m_pChildren)
+            {
+                node.onEnterTransitionDidFinish();
+            }
         }
 
         /** callback that is called every time the CCNode leaves the 'stage'.
@@ -135,8 +167,14 @@ namespace cocos2d
 		*/
         public virtual void onExit()
         {
-            ///@todo
-            throw new NotImplementedException();
+            pauseSchedulerAndActions();
+
+            m_bIsRunning = false;
+
+            foreach (CCNode node in m_pChildren)
+            {
+                node.onExit();
+            }
         }
 
         // composition: ADD
@@ -147,8 +185,8 @@ namespace cocos2d
 		*/
         public virtual void addChild(CCNode child)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(child != null, "Argument must be no-null");
+            addChild(child, child.zOrder, child.tag);
         }
 
         /** Adds a child to the container with a z-order
@@ -157,8 +195,8 @@ namespace cocos2d
 		*/
         public virtual void addChild(CCNode child, int zOrder)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(child != null, "Argument must be no-null");
+            addChild(child, zOrder, child.tag);
         }
 
         /** Adds a child to the container with z order and tag
@@ -167,8 +205,25 @@ namespace cocos2d
 		*/
         public virtual void addChild(CCNode child, int zOrder, int tag)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(child != null, "Argument must be non-null");
+            Debug.Assert(child.m_pParent == null, "child already added. It can't be added again");
+
+            if (m_pChildren == null)
+            {
+                childrenAlloc();
+            }
+
+            insertChild(child, zOrder);
+
+            this.m_nTag = tag;
+
+            this.parent = this;
+
+            if (m_bIsRunning)
+            {
+                child.onEnter();
+                child.onEnterTransitionDidFinish();
+            }
         }
 
         // composition: REMOVE
@@ -179,17 +234,29 @@ namespace cocos2d
 		*/
         public void removeFromParentAndCleanup(bool cleanup)
         {
-            ///@todo
-            throw new NotImplementedException();
+            m_pParent.removeChild(this, cleanup);
         }
 
         /** Removes a child from the container. It will also cleanup all running actions depending on the cleanup parameter.
-		@since v0.7.1
-		*/
+		
+         * "remove" logic MUST only be on this method
+         * If a class want's to extend the 'removeChild' behavior it only needs
+         * to override this method
+         * 
+         * @since v0.7.1
+       */
         public virtual void removeChild(CCNode child, bool cleanup)
         {
-            ///@todo
-            throw new NotImplementedException();
+            // explicit nil handling
+            if (m_pChildren == null)
+            {
+                return;
+            }
+
+            if (m_pChildren.Contains(child))
+            {
+                detachChild(child, cleanup);
+            }
         }
 
         /** Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter
@@ -197,8 +264,18 @@ namespace cocos2d
 		*/
         public void removeChildByTag(int tag, bool cleanup)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(tag != (int)NodeTag.kCCNodeTagInvalid, "Invalid tag");
+
+            CCNode child = getChildByTag(tag);
+
+            if (child == null)
+            {
+                Debug.WriteLine("cocos2d: removeChildByTag: child not found!");
+            }
+            else
+            {
+                removeChild(child, cleanup);
+            }
         }
 
         /** Removes all children from the container and do a cleanup all running actions depending on the cleanup parameter.
@@ -206,8 +283,28 @@ namespace cocos2d
 		*/
         public virtual void removeAllChildrenWithCleanup(bool cleanup)
         {
-            ///@todo
-            throw new NotImplementedException();
+            // not using detachChild improves speed here
+
+            foreach (CCNode node in m_pChildren)
+            {
+                // IMPORTANT:
+                //  -1st do onExit
+                //  -2nd cleanup
+                if (m_bIsRunning)
+                {
+                    node.onExit();
+                }
+
+                if (cleanup)
+                {
+                    node.cleanup();
+                }
+
+                // set parent nil at the end
+                node.parent = null;
+            }
+
+            m_pChildren.Clear();
         }
 
         // composition: GET
@@ -218,8 +315,17 @@ namespace cocos2d
         */
         public CCNode getChildByTag(int tag)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(tag != (int)NodeTag.kCCNodeTagInvalid, "Invalid tag");
+
+            foreach (CCNode node in m_pChildren)
+            {
+                if (node.m_nTag == tag)
+                {
+                    return node;
+                }
+            }
+
+            return null;
         }
 
         /** Reorders a child according to a new z value.
@@ -227,8 +333,11 @@ namespace cocos2d
 		*/
         public virtual void reorderChild(CCNode child, int zOrder)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(child != null, "Child must be non-null");
+
+            m_pChildren.Remove(child);
+
+            insertChild(child, zOrder);
         }
 
         /** Stops all running actions and schedulers
@@ -236,8 +345,15 @@ namespace cocos2d
 		*/
         public virtual void cleanup()
         {
-            ///@todo
-            throw new NotImplementedException();
+            // actions
+            stopAllActions();
+            unsheduleAllSelectors();
+
+            // timers
+            foreach (CCNode node in m_pChildren)
+            {
+                node.cleanup();
+            }
         }
 
         // draw
@@ -255,15 +371,78 @@ namespace cocos2d
 		*/
         public virtual void draw()
         {
-            ///@todo
+            // override me
+            // Only use- this function to draw your staff.
+            // DON'T draw your stuff outside this method
             throw new NotImplementedException();
         }
 
         // recursive method that visit its children and draw them
         public virtual void visit()
         {
+            // quick return if not visible
+            if (!m_bIsVisible)
+            {
+                return;
+            }
+
             ///@todo
-            throw new NotImplementedException();
+            // glPushMatrix();
+
+            ///@todo
+            /*
+            if (m_pGrid && m_pGrid->isActive())
+            {
+                m_pGrid->beforeDraw();
+                this->transformAncestors();
+            }
+             */
+
+            transform();
+
+            CCNode node;
+            int i = 0;
+
+            if ((m_pChildren != null) && (m_pChildren.Count > 0))
+            {
+                // draw children zOrder < 0
+                for (; i < m_pChildren.Count; ++i)
+                {
+                    node = m_pChildren[i];
+                    if (node.m_nZOrder < 0)
+                    {
+                        node.visit();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // self draw
+            draw();
+
+            // draw children zOrder >= 0
+            if ((m_pChildren != null) && (m_pChildren.Count > 0))
+            {
+                for (; i < m_pChildren.Count; ++i)
+                {
+                    node = m_pChildren[i];
+
+                    node.visit();
+                }
+            }
+
+            ///@todo
+            /*
+             * if (m_pGrid && m_pGrid->isActive())
+ 	           {
+ 		           m_pGrid->afterDraw(this);
+	           }
+ 
+	           glPopMatrix();
+             */
         }
 
         // transformations
@@ -540,6 +719,39 @@ namespace cocos2d
 		*/
         // CCPoint convertTouchToNodeSpaceAR(CCTouch* touch);
 
+        // lazy allocs
+        private void childrenAlloc()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // helper that reorder a child
+        private void insertChild(CCNode child, int z)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // used internally to alter the zOrder variable. DON'T call this method manually
+        private void setZOrder(int z)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        private void detachChild(CCNode child, bool doCleanup)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        private CCPoint convertToWindowSpace(CCPoint nodePoint)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
         // Properties
 
         // The z order of the node relative to it's "brothers": children of the same parent
@@ -720,7 +932,7 @@ namespace cocos2d
          */
 
         // Array of children
-        private List<CCObject> m_pChildren;
+        private List<CCNode> m_pChildren;
         public List<CCObject> children
         {
             // read only
