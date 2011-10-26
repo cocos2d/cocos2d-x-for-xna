@@ -94,7 +94,7 @@ namespace cocos2d
         {
         }
 
-        public ~CCNode()
+        ~CCNode()
         {
         }
 
@@ -296,6 +296,249 @@ namespace cocos2d
             ///@todo
             throw new NotImplementedException();
         }
+
+        /** returns a "local" axis aligned bounding box of the node in pixels.
+		The returned box is relative only to its parent.
+		The returned box is in Points.
+
+		@since v0.99.5
+		*/
+        public CCRect boundingBoxInPixels()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // actions
+
+        ///@todo
+        /** Executes an action, and returns the action that is executed.
+		The node becomes the action's target.
+		@warning Starting from v0.8 actions don't retain their target anymore.
+		@since v0.7.1
+		@return An Action pointer
+		*/
+
+       // CCAction* runAction(CCAction* action);
+
+        // Removes all actions from the running action list
+        public void stopAllActions()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// @todo
+        /// </summary>
+        // Removes an action from the running action list
+        /*
+        public void stopAction(CCAction action)
+        {
+        }
+         * */
+
+        /** Removes an action from the running action list given its tag
+		@since v0.7.1
+		*/
+        public void stopActionByTag(int tag)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        ///@todo
+
+        /** Gets an action from the running action list given its tag
+		@since v0.7.1
+		@return the Action the with the given tag
+		*/
+		/*CCAction* getActionByTag(int tag);
+         */
+
+        /** Returns the numbers of actions that are running plus the ones that are schedule to run (actions in actionsToAdd and actions arrays). 
+		* Composable actions are counted as 1 action. Example:
+		*    If you are running 1 Sequence of 7 actions, it will return 1.
+		*    If you are running 7 Sequences of 2 actions, it will return 7.
+		*/
+        public uint numberOfRunningActions()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // timers
+
+        ///@todo
+        //check whether a selector is scheduled
+        // bool isScheduled(SEL_SCHEDULE selector);
+
+        /** schedules the "update" method. It will use the order number 0. This method will be called every frame.
+		Scheduled methods with a lower order value will be called before the ones that have a higher order value.
+		Only one "update" method could be scheduled per node.
+
+		@since v0.99.3
+		*/
+        public void sheduleUpdate()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** schedules the "update" selector with a custom priority. This selector will be called every frame.
+		Scheduled selectors with a lower priority will be called before the ones that have a higher value.
+		Only one "update" selector could be scheduled per node (You can't have 2 'update' selectors).
+
+		@since v0.99.3
+		*/
+        public void scheduleUpdateWithPriority(int priority)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /* unschedules the "update" method.
+
+		@since v0.99.3
+		*/
+        public void unscheduleUpdate()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        ///@todo
+        /** schedules a selector.
+		The scheduled selector will be ticked every frame
+		*/
+        // void schedule(SEL_SCHEDULE selector);
+
+        ///@todo
+        /** schedules a custom selector with an interval time in seconds.
+		If time is 0 it will be ticked every frame.
+		If time is 0, it is recommended to use 'scheduleUpdate' instead.
+		If the selector is already scheduled, then the interval parameter 
+		will be updated without scheduling it again.
+		*/
+        // void schedule(SEL_SCHEDULE selector, ccTime interval);
+
+        ///@todo
+        /** unschedules a custom selector.*/
+        // void unschedule(SEL_SCHEDULE selector);
+
+        /** unschedule all scheduled selectors: custom selectors, and the 'update' selector.
+		Actions are not affected by this method.
+		@since v0.99.3
+		*/
+        public void unsheduleAllSelectors()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** resumes all scheduled selectors and actions.
+		Called internally by onEnter
+		*/
+        public void resumeSchedulerAndActions()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** pauses all scheduled selectors and actions.
+		Called internally by onExit
+		*/
+        public void pauseSchedulerAndActions()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /*
+         * These functions are not needed. They are designed for no RTTI.
+         * 
+        virtual void selectorProtocolRetain(void);
+		virtual void selectorProtocolRelease(void);
+
+		virtual CCRGBAProtocol* convertToRGBAProtocol(void) { return NULL; }
+		virtual CCLabelProtocol* convertToLabelProtocol(void) { return NULL; }
+         */
+
+        // transformation methods
+        ///@todo
+
+        /** Returns the matrix that transform the node's (local) space coordinates into the parent's space coordinates.
+        The matrix is in Pixels.
+        @since v0.7.1
+        */
+        // CCAffineTransform nodeToParentTransform(void);
+
+        /** Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
+		The matrix is in Pixels.
+		@since v0.7.1
+		*/
+        // 
+        // CCAffineTransform parentToNodeTransform(void);
+
+        /** Retrusn the world affine transform matrix. The matrix is in Pixels.
+		@since v0.7.1
+		*/
+        // CCAffineTransform nodeToWorldTransform(void);
+
+        /** Returns the inverse world affine transform matrix. The matrix is in Pixels.
+		@since v0.7.1
+		*/
+        // CCAffineTransform worldToNodeTransform(void);
+
+        /** Converts a Point to node (local) space coordinates. The result is in Points.
+		@since v0.7.1
+		*/
+        public CCPoint convertToNodeSpace(CCPoint worldPoint)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Converts a Point to world space coordinates. The result is in Points.
+		@since v0.7.1
+		*/
+        public CCPoint convertToWorldSpace(CCPoint nodePoint)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Converts a Point to node (local) space coordinates. The result is in Points.
+		treating the returned/received node point as anchor relative.
+		@since v0.7.1
+		*/
+        public CCPoint convertToNodeSpaceAR(CCPoint worldPoint)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Converts a local Point to world space coordinates.The result is in Points.
+		treating the returned/received node point as anchor relative.
+		@since v0.7.1
+		*/
+        public CCPoint convertToWorldSpaceAR(CCPoint nodePoint)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        ///@todo
+        /** convenience methods which take a CCTouch instead of CCPoint
+		@since v0.7.1
+		*/
+        // public CCPoint convertTouchToNodeSpace(CCTouch touch);
+
+        ///@todo
+        /** converts a CCTouch (world coordinates) into a local coordiante. This method is AR (Anchor Relative).
+		@since v0.7.1
+		*/
+        // CCPoint convertTouchToNodeSpaceAR(CCTouch* touch);
 
         // Properties
 
