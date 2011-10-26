@@ -200,44 +200,9 @@ namespace cocos2d
              throw new NotImplementedException();
         }
 
-        private short m_nWidth;
-        public short width
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private short m_nHeight;
-        public short height
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private short m_nBitsPerComponent;
-        public short bitsPerComponent
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public short width  { get; set; }
+        public short height { get; set; }
+        public short bitsPerComponent{ get; set; }
 
         private bool m_bHasAlpha;
         private bool m_bPreMulti;
