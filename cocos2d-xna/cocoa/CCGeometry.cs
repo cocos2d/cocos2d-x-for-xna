@@ -23,6 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System;
+using System.Diagnostics;
 namespace cocos2d
 {
     public class CCPoint
@@ -44,6 +45,8 @@ namespace cocos2d
 
         public static bool CCPointEqualToPoint(CCPoint point1, CCPoint point2)
         {
+            Debug.Assert((point1 != null) && (point2 != null));
+
             if ((point1 == null) || (point2 == null))
             {
                 return false;
@@ -74,8 +77,16 @@ namespace cocos2d
 
         public static bool CCSizeEqualSize(CCSize size1, CCSize size2)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert((size1 != null) && (size2 != null));
+
+            if ((size1 == null) || (size2 == null))
+            {
+                return false;
+            }
+            else
+            {
+                return ((size1.width == size2.width) && (size1.height == size2.height));
+            }
         }
     }
 
@@ -86,74 +97,126 @@ namespace cocos2d
 
         public CCRect()
         {
-            throw new NotImplementedException();
-            ///@todo initialization
+            origin = new CCPoint();
+            size = new CCSize();
         }
 
         public CCRect(float x, float y, float width, float height)
         {
-            throw new NotImplementedException();
-            ///@todo initialization
+            // Only support that, the width and height > 0
+            Debug.Assert(width >= 0 && height >= 0);
+
+            origin.x = x;
+            origin.y = y;
+
+            size.width = width;
+            size.height = height;
         }
 
         // return the leftmost x-value of 'rect'
         public static float CCRectGetMinX(CCRect rect)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(rect != null);
+
+            // If rect is null, throw the exception
+            return rect.origin.x;
         }
 
         // return the rightmost x-value of 'rect'
         public static float CCRectGetMaxX(CCRect rect)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(rect != null);
+
+            // If rect is null, throw the exception
+            return rect.origin.x + rect.size.width;
         }
 
         // return the midpoint x-value of 'rect'
         public static float CCRectGetMidX(CCRect rect)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(rect != null);
+
+            // If rect is null, throw the exception
+            return (rect.origin.x + rect.size.width / 2.0f);
         }
 
         // Return the bottommost y-value of 'rect'
         public static float CCRectGetMinY(CCRect rect)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(rect != null);
+
+            // If rect is null, throw the exception
+            return rect.origin.y;
         }
 
         // Return the topmost y-value of 'rect'
         public static float CCRectGetMaxY(CCRect rect)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(rect != null);
+
+            // If rect is null, throw the exception
+            return rect.origin.y + rect.size.height;
         }
 
         // Return the midpoint y-value of 'rect'
         public static float CCRectGetMidY(CCRect rect)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(rect != null);
+
+            // Return the midpoint y-value of 'rect'
+            return (rect.origin.y + rect.size.height / 2.0f);
         }
 
         public static bool CCRectEqualToRect(CCRect rect1, CCRect rect2)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert((rect1 != null) && (rect2 != null));
+
+            if ((rect1 == null) || (rect2 == null))
+            {
+                return false;
+            }
+            else
+            {
+                return (CCPoint.CCPointEqualToPoint(rect1.origin, rect2.origin)
+                && (CCSize.CCSizeEqualSize(rect1.size, rect2.size)));
+            }           
         }
 
-        public static bool CCRectContainsPoint(CCRect rect1, CCRect rect2)
+        public static bool CCRectContainsPoint(CCRect rect, CCPoint point)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert((rect != null) && (point != null));
+
+            bool bRet = false;
+
+            if ((rect != null) && (point != null))
+            {
+                if (point.x >= CCRectGetMinX(rect)
+                    && point.x <= CCRectGetMaxX(rect)
+                    && point.y >= CCRectGetMinY(rect)
+                    && point.y <= CCRectGetMaxY(rect))
+                {
+                    bRet = true;
+                }
+            }
+
+            return bRet;
         }
 
-        public static bool CCRectIntersetsRect(CCRect rect1, CCRect rect2)
+        public static bool CCRectIntersetsRect(CCRect rectA, CCRect rectB)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert((rectA != null) && (rectB != null));
+
+            bool bRet = false;
+
+            if ((rectA != null) && (rectB != null))
+            {
+                bRet = !(CCRectGetMaxX(rectA) < CCRectGetMinX(rectB)
+                      || CCRectGetMaxX(rectB) < CCRectGetMinX(rectA)
+                      || CCRectGetMaxY(rectA) < CCRectGetMinY(rectB)
+                      || CCRectGetMaxY(rectB) < CCRectGetMinY(rectA));
+            }
+
+            return bRet;
         }
     }
 }
