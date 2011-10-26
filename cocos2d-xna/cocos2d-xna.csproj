@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="CCDirector.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayer.cs" />
+    <Compile Include="platform\CCApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +74,6 @@
     <Folder Include="menu_nodes\" />
     <Folder Include="misc_nodes\" />
     <Folder Include="particle_nodes\" />
-    <Folder Include="platform\" />
     <Folder Include="script_support\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
