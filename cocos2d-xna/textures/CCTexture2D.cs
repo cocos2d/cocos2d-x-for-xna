@@ -28,9 +28,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+//#include <string>
+//#include "CCObject.h"
+//#include "CCGeometry.h"
+//#include "ccTypes.h"
+
 namespace cocos2d.textures
 {
-    class CCTexture2D
+    public class CCTexture2D
     {
+
+
     }
 }

@@ -27,16 +27,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// #include "CCCommon.h"
+
 namespace cocos2d
 {
     public class CCImage
     {
-
-        public CCImage()
-        {
-            throw new NotImplementedException();
-        }
-
         enum EImageFormat
         {
             kFmtJpg = 0,
@@ -56,6 +52,17 @@ namespace cocos2d
             kAlignLeft          = 0x31, ///< Horizontal left and vertical center.
             kAlignTopLeft       = 0x11, ///< Horizontal left and vertical top.
         };
+
+
+        public CCImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        ~CCImage()
+        {
+            throw new NotImplementedException();
+        }
 
         ///** 
         //@brief  Load the image from the specified path. 
@@ -148,7 +155,7 @@ namespace cocos2d
              throw new NotImplementedException();
         }
 
-        char getData()               
+        char[] getData()               
         {   
             throw new NotImplementedException();
         }
@@ -193,8 +200,46 @@ namespace cocos2d
              throw new NotImplementedException();
         }
 
-        public short nWidth {get; set;}
-        public short nHeight {get; set;}
-        public short nBitsPerComponent {get; set;}
+        private short m_nWidth;
+        public short width
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private short m_nHeight;
+        public short height
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private short m_nBitsPerComponent;
+        public short bitsPerComponent
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private bool m_bHasAlpha;
+        private bool m_bPreMulti;
     }
 }
