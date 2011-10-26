@@ -25,6 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+using System;
+using System.Collections.Generic;
 namespace cocos2d
 {
     enum NodeTag
@@ -96,6 +98,204 @@ namespace cocos2d
         {
         }
 
+        /** allocates and initializes a node.
+		The node will be created as "autorelease".
+		*/
+        public static CCNode node()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        //scene managment
+
+        /** callback that is called every time the CCNode enters the 'stage'.
+		If the CCNode enters the 'stage' with a transition, this callback is called when the transition starts.
+		During onEnter you can't a "sister/brother" node.
+		*/
+        public virtual void onEnter()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** callback that is called when the CCNode enters in the 'stage'.
+		If the CCNode enters the 'stage' with a transition, this callback is called when the transition finishes.
+		@since v0.8
+		*/
+        public virtual void onEnterTransitionDidFinish()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** callback that is called every time the CCNode leaves the 'stage'.
+		If the CCNode leaves the 'stage' with a transition, this callback is called when the transition finishes.
+		During onExit you can't access a sibling node.
+		*/
+        public virtual void onExit()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // composition: ADD
+
+        /** Adds a child to the container with z-order as 0.
+		If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
+		@since v0.7.1
+		*/
+        public virtual void addChild(CCNode child)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Adds a child to the container with a z-order
+		If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
+		@since v0.7.1
+		*/
+        public virtual void addChild(CCNode child, int zOrder)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Adds a child to the container with z order and tag
+		If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
+		@since v0.7.1
+		*/
+        public virtual void addChild(CCNode child, int zOrder, int tag)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // composition: REMOVE
+
+        /** Remove itself from its parent node. If cleanup is true, then also remove all actions and callbacks.
+		If the node orphan, then nothing happens.
+		@since v0.99.3
+		*/
+        public void removeFromParentAndCleanup(bool cleanup)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Removes a child from the container. It will also cleanup all running actions depending on the cleanup parameter.
+		@since v0.7.1
+		*/
+        public virtual void removeChild(CCNode child, bool cleanup)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter
+		@since v0.7.1
+		*/
+        public void removeChildByTag(int tag, bool cleanup)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Removes all children from the container and do a cleanup all running actions depending on the cleanup parameter.
+		@since v0.7.1
+		*/
+        public virtual void removeAllChildrenWithCleanup(bool cleanup)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // composition: GET
+
+        /** Gets a child from the container given its tag
+        @return returns a CCNode object
+        @since v0.7.1
+        */
+        public CCNode getChildByTag(int tag)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Reorders a child according to a new z value.
+		* The child MUST be already added.
+		*/
+        public virtual void reorderChild(CCNode child, int zOrder)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Stops all running actions and schedulers
+		@since v0.8
+		*/
+        public virtual void cleanup()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // draw
+
+        /** Override this method to draw your own node.
+		The following GL states will be enabled by default:
+		- glEnableClientState(GL_VERTEX_ARRAY);
+		- glEnableClientState(GL_COLOR_ARRAY);
+		- glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		- glEnable(GL_TEXTURE_2D);
+
+		AND YOU SHOULD NOT DISABLE THEM AFTER DRAWING YOUR NODE
+
+		But if you enable any other GL state, you should disable it after drawing your node.
+		*/
+        public virtual void draw()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // recursive method that visit its children and draw them
+        public virtual void visit()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // transformations
+
+        // performs OpenGL view-matrix transformation based on position, scale, rotation and other attributes.
+        public void transform()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** performs OpenGL view-matrix transformation of it's ancestors.
+		Generally the ancestors are already transformed, but in certain cases (eg: attaching a FBO)
+		it's necessary to transform the ancestors again.
+		@since v0.7.2
+		*/
+        public void transformAncestors()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** returns a "local" axis aligned bounding box of the node.
+		The returned box is relative only to its parent.
+
+		@since v0.8.2
+		*/
+        public CCRect boundingBox()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
 
         // Properties
 
@@ -106,7 +306,8 @@ namespace cocos2d
             // read only
             get
             {
-                return m_nZOrder;
+                ///@todo
+                throw new NotImplementedException();
             }
         }
 
@@ -123,11 +324,13 @@ namespace cocos2d
         {
             get
             {
-                return m_fVertexZ;
+                ///@todo
+                throw new NotImplementedException();
             }
             set
             {
-                m_fVertexZ = value;
+                /// @todo
+                throw new NotImplementedException();
             }
         }
 
@@ -137,11 +340,13 @@ namespace cocos2d
         {
             get
             {
-                return m_fRotation;
+                ///@todo
+                throw new NotImplementedException();
             }
             set
             {
-                m_fRotation = value;
+                throw new NotImplementedException();
+                /// @todo
             }
         }
 
@@ -155,11 +360,13 @@ namespace cocos2d
         {
             get
             {
-                return m_fSkewX;
+                ///@todo
+                throw new NotImplementedException();
             }
             set
             {
-                m_fSkewX = value;
+                /// @todo
+                throw new NotImplementedException();
             }
         }
 
@@ -173,13 +380,309 @@ namespace cocos2d
         {
             get
             {
-                return m_fSkewY;
+                ///@todo
+                throw new NotImplementedException();
             }
             set
             {
-                m_fSkewY = value;
+                ///@todo
+                throw new NotImplementedException();
             }
         }
 
+        // The scale factor of the node. 1.0 is the default scale factor. It modifies the X and Y scale at the same time.
+        private float m_fScale;
+        public float scale
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        // The scale factor of the node. 1.0 is the default scale factor. It only modifies the X scale factor.
+        private float m_fScaleX;
+        public float scaleX
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        // The scale factor of the node. 1.0 is the default scale factor. It only modifies the Y scale factor.
+        private float m_fScaleY;
+        public float scaleY
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        // Position (x,y) of the node in points. (0,0) is the left-bottom corner.
+        private CCPoint m_tPosition;
+        public CCPoint position
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        // Position (x,y) of the node in pixels. (0,0) is the left-bottom corner.
+        private CCPoint m_tPositionInPixels;
+        public CCPoint positionInPixels
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        ///@todo add CCCamera
+        /** A CCCamera object that lets you move the node using a gluLookAt
+           
+       @property(nonatomic,readonly) CCCamera* camera;
+         */
+
+        // Array of children
+        private List<CCObject> m_pChildren;
+        public List<CCObject> children
+        {
+            // read only
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        ///@todo
+        /** A CCGrid object that is used when applying effects */
+        /// @property(nonatomic,readwrite,retain) CCGridBase* grid;
+
+        // Whether of not the node is visible. Default is YES
+        private bool m_bIsVisible;
+        public bool visible
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        /** anchorPoint is the point around which all transformations and positioning manipulations take place.
+            It's like a pin in the node where it is "attached" to its parent.
+            The anchorPoint is normalized, like a percentage. (0,0) means the bottom-left corner and (1,1) means the top-right corner.
+            But you can use values higher than (1,1) and lower than (0,0) too.
+            The default anchorPoint is (0,0). It starts in the bottom-left corner. CCSprite and other subclasses have a different default anchorPoint.
+            @since v0.8
+        */
+        private CCPoint m_tAnchorPoint;
+        public CCPoint anchorPoint
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        /** The anchorPoint in absolute pixels.
+            Since v0.8 you can only read it. If you wish to modify it, use anchorPoint instead
+        */
+        private CCPoint m_tAnchorPointInPixels;
+        public CCPoint anchorPointInPixels
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        /** The untransformed size of the node in Points
+            The contentSize remains the same no matter the node is scaled or rotated.
+            All nodes has a size. Layer and Scene has the same size of the screen.
+            @since v0.8
+        */
+        private CCSize m_tContentSize;
+        public CCSize contentSize
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        /** The untransformed size of the node in Pixels
+            The contentSize remains the same no matter the node is scaled or rotated.
+            All nodes has a size. Layer and Scene has the same size of the screen.
+            @since v0.8
+        */
+        private CCSize m_tContentSizeInPixels;
+        public CCSize contentSizeInPixels
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        // whether or not the node is running
+        private bool m_bIsRunning;
+        public bool isRunning
+        {
+            // read only
+            get
+            {
+                return m_bIsRunning;
+            }
+        }
+
+        // A weak reference to the parent
+        private CCNode m_pParent;
+        public CCNode parent
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        /** If YES the transformtions will be relative to it's anchor point.
+          * Sprites, Labels and any other sizeble object use it have it enabled by default.
+          * Scenes, Layers and other "whole screen" object don't use it, have it disabled by default.
+          */
+        private bool m_bIsRelativeAnchorPoint;
+        public bool isRelativeAnchorPoint
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        // A tag used to identify the node easily
+        private int m_nTag;
+        public int tag
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        // A custom user data pointer
+        private object m_pUserData;
+        public object userData
+        {
+            get
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+            set
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+        }
+
+        // internal member variables
+
+
+        // To reduce memory, place bools that are not properties here:
+        protected bool m_bIsTransformDirty;
+        protected bool m_bIsInverseDirty;
+
+        ///@todo
+        /*
+         * CCAffineTransform m_tTransform, m_tInverse;
+        #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+            GLfloat	transformGL_[16];
+        #endif
+         * 
+         * #ifdef	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                bool m_bIsTransformGLDirty;
+        #endif
+        */
     }
 }
