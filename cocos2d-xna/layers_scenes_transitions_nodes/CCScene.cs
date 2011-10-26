@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace cocos2d
 {
-    class CCScene
+    public class CCScene
     {
     }
 }
