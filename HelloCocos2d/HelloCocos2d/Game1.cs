@@ -34,8 +34,8 @@ namespace HelloCocos2d
             // Extend battery life under lock.
             InactiveSleepTime = TimeSpan.FromSeconds(1);
 
-            CCDirector director = new CCDirector(this);
-            this.Components.Add(director);
+            //CCDirector director = new CCDirector(this);
+            //this.Components.Add(director);
 
             graphics.IsFullScreen = true;
         }
