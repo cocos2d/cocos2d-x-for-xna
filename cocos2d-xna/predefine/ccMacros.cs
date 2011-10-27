@@ -127,6 +127,23 @@ namespace cocos2d
             return ((CC_HOST_IS_BIG_ENDIAN() == true) ? (i) : CC_SWAP16(i));
         }
 
+        /*
+         * macros of CCGeometry.h
+         */
+        public static CCPoint CCPointMake(float x, float y)
+        {
+            return new CCPoint(x, y);
+        }
+        public static CCSize CCSizeMake(float width, float height)
+        {
+            return new CCSize(width, height);
+        }
+        public static CCRect CCRectMake(float x, float y, float width, float height)
+        {
+            return new CCRect(x, y, width, height);
+        }
+
+
         // The following macros are defined for opengl es, they are not needed.
 
         // #if CC_OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA
