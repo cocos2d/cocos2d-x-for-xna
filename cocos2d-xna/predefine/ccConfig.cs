@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace cocos2d.predefine
+namespace cocos2d
 {
     class ccConfig
     {
