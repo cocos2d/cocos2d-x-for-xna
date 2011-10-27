@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="base_nodes\CCNode.cs" />
     <Compile Include="CCDirector.cs" />
+    <Compile Include="CCDisplayLinkDirector.cs" />
     <Compile Include="cocoa\CCGeometry.cs" />
     <Compile Include="cocoa\CCObject.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayer.cs" />
