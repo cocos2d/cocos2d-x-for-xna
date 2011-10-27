@@ -27,7 +27,7 @@ namespace cocos2d
     /// <summary>
     /// Add functions if needed.
     /// </summary>
-    class CCObject
+    public class CCObject
     {
     }
 }
