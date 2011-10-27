@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="base_nodes\CCNode.cs" />
     <Compile Include="CCDirector.cs" />
+    <Compile Include="cocoa\CCAffineTransform.cs" />
     <Compile Include="CCDisplayLinkDirector.cs" />
     <Compile Include="cocoa\CCGeometry.cs" />
     <Compile Include="cocoa\CCObject.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="platform\CCImage.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCScene.cs" />
     <Compile Include="platform\CCApplication.cs" />
+    <Compile Include="predefine\ccMacros.cs" />
     <Compile Include="predefine\ccTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sprite_nodes\CCSprite.cs" />

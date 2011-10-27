@@ -722,28 +722,64 @@ namespace cocos2d
         // lazy allocs
         private void childrenAlloc()
         {
-            ///@todo
-            throw new NotImplementedException();
+            m_pChildren = new List<CCNode>();
         }
 
         // helper that reorder a child
         private void insertChild(CCNode child, int z)
-        {
-            ///@todo
-            throw new NotImplementedException();
+        {            
+            // Get last member
+            CCNode a = m_pChildren.Count > 0 ? m_pChildren[m_pChildren.Count - 1] : null;
+
+            if (a.zOrder <= z)
+            {
+                m_pChildren.Add(child);
+            }
+            else
+            {
+                int index = 0;
+                foreach (CCNode node in m_pChildren)
+                {
+                    if (node.m_nZOrder > z)
+                    {
+                        m_pChildren.Insert(index, child);
+                        break;
+                    }
+
+                    ++index;
+                }
+            }
+
+            child.setZOrder(z);
         }
 
         // used internally to alter the zOrder variable. DON'T call this method manually
         private void setZOrder(int z)
         {
-            ///@todo
-            throw new NotImplementedException();
+            m_nZOrder = z;
         }
 
         private void detachChild(CCNode child, bool doCleanup)
         {
-            ///@todo
-            throw new NotImplementedException();
+            // IMPORTANT:
+            //  -1st do onExit
+            //  -2nd cleanup
+            if (m_bIsRunning)
+            {
+                child.onExit();
+            }
+
+            // If you don't do cleanup, the child's actions will not get removed and the
+            // its scheduledSelectors_ dict will not get released!
+            if (doCleanup)
+            {
+                child.cleanup();
+            }
+
+            // set parent nil at the end
+            child.parent = null;
+
+            m_pChildren.Remove(child);
         }
 
         private CCPoint convertToWindowSpace(CCPoint nodePoint)
@@ -756,14 +792,13 @@ namespace cocos2d
 
         // The z order of the node relative to it's "brothers": children of the same parent
         private int m_nZOrder;
-        public int zOrder
-        {
+        public int zOrder 
+        { 
             // read only
-            get
+            get 
             {
-                ///@todo
-                throw new NotImplementedException();
-            }
+                return m_nZOrder;
+            } 
         }
 
         /** The real openGL Z vertex.
@@ -899,13 +934,19 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_tPosition;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                // 
+                ///if (CC_CONTENT_SCALE_FACTOR() == 1)
+                ///{
+                   //// m_tPositionInPixels = m_tPosition;
+               /// }
+               /// else
+               /// {
+               ///     m_tPositionInPixels = ccpMult(newPosition, CC_CONTENT_SCALE_FACTOR());
+               /// }
             }
         }
 
