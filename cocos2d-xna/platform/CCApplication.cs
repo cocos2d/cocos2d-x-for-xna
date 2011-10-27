@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace cocos2d.platform
 {
-    public class CCApplication : Microsoft.Xna.Framework.GameComponent
+    public abstract class CCApplication : Microsoft.Xna.Framework.DrawableGameComponent
     {
         /// <summary>
         /// This function change the PVRFrame show/hide setting in register.
@@ -23,10 +23,14 @@ namespace cocos2d.platform
         // sharedApplication pointer
         static CCApplication sm_pSharedApplication;
 
-        //void statusBarFrame(CCRect* rect)
-        //{
-
-        //}
+        /// <summary>
+        /// Get current applicaiton instance.
+        /// </summary>
+        /// <returns>Current application instance pointer.</returns>
+        public static CCApplication sharedApplication()
+        {
+            return sm_pSharedApplication;
+        }
 
         #region virtual Method
 
@@ -66,54 +70,53 @@ namespace cocos2d.platform
         /// Callback by CCDirector for limit FPS
         /// </summary>
         /// <param name="interval">The time, which expressed in second in second, between current frame and next. </param>
-        public void setAnimationInterval(double interval) { }
+        public double animationInterval
+        {
+            set
+            {
+                game.TargetElapsedTime = TimeSpan.FromSeconds(value);
+            }
+        }
 
         /// <summary>
         /// Callback by CCDirector for change device orientation. 
         /// </summary>
         /// <param name="orientation">  The defination of orientation which CCDirector want change to.</param>
         /// <returns>The actual orientation of the application.</returns>
-        public Orientation setOrientation(Orientation orientation)
+        public Orientation orientation
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// @brief	Get current applicaiton instance.
-        /// </summary>
-        /// <returns>Current application instance pointer.</returns>
-        public CCApplication sharedApplication()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int run()
-        {
-            throw new NotImplementedException();
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
         /// Get status bar rectangle in EGLView window.
         /// </summary>
         /// <param name="rect"></param>
-        //void statusBarFrame(CCRect* rect);
+        public void statusBarFrame(CCRect rect)
+        {
+            throw new NotImplementedException();
+        }
 
-        //ccLanguageType CCApplication::getCurrentLanguage()
+        //static ccLanguageType CCApplication::getCurrentLanguage()
         //{
 
         //}
 
         #region GameComponent
 
+        Game game;
         public CCApplication(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
+            this.game = game;
         }
 
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
+            sm_pSharedApplication = this;
 
             base.Initialize();
         }
@@ -124,9 +127,13 @@ namespace cocos2d.platform
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-
             base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            CCDirector.sharedDirector().mainLoop();
+            base.Draw(gameTime);
         }
 
         #endregion
