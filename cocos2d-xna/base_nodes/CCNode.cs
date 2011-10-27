@@ -938,15 +938,14 @@ namespace cocos2d
             }
             set
             {
-                // 
-                ///if (CC_CONTENT_SCALE_FACTOR() == 1)
-                ///{
-                   //// m_tPositionInPixels = m_tPosition;
-               /// }
-               /// else
-               /// {
-               ///     m_tPositionInPixels = ccpMult(newPosition, CC_CONTENT_SCALE_FACTOR());
-               /// }
+                if (ccMacros.CC_CONTENT_SCALE_FACTOR() == 1)
+                {
+                    m_tPositionInPixels = m_tPosition;
+                }
+                else
+                {
+                    m_tPositionInPixels = CCPointExtension.ccpMult(value, ccMacros.CC_CONTENT_SCALE_FACTOR());
+                }
             }
         }
 
