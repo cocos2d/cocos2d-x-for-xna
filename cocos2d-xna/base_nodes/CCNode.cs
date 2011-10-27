@@ -946,6 +946,8 @@ namespace cocos2d
                 {
                     m_tPositionInPixels = CCPointExtension.ccpMult(value, ccMacros.CC_CONTENT_SCALE_FACTOR());
                 }
+
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
             }
         }
 
