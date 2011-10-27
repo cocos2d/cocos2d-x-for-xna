@@ -948,6 +948,13 @@ namespace cocos2d
                 }
 
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
+
+                /*
+                 * @todo
+                #ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+	            m_bIsTransformGLDirty = true;
+               #endif
+                 */
             }
         }
 
@@ -957,13 +964,27 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_tPositionInPixels;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                m_tPositionInPixels = value;
+
+                if (ccMacros.CC_CONTENT_SCALE_FACTOR() == 1)
+                {
+                    m_tPosition = m_tPositionInPixels;
+                }
+                else
+                {
+                    m_tPosition = CCPointExtension.ccpMult(value, 1 / ccMacros.CC_CONTENT_SCALE_FACTOR());
+                }
+
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX  
+                // @todo
+                //m_bIsTransformGLDirty = true;
+#endif // CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
             }
         }
 
@@ -1170,16 +1191,19 @@ namespace cocos2d
         protected bool m_bIsTransformDirty;
         protected bool m_bIsInverseDirty;
 
-        ///@todo
+
         /*
          * CCAffineTransform m_tTransform, m_tInverse;
-        #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-            GLfloat	transformGL_[16];
-        #endif
-         * 
-         * #ifdef	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                bool m_bIsTransformGLDirty;
-        #endif
-        */
+         */
+#if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+        // @todo
+        // float[]	transformGL;
+#endif
+          
+#if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+        //@todo
+        // private bool m_bIsTransformGLDirty;
+#endif
+        
     }
 }

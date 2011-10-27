@@ -61,5 +61,5 @@ THE SOFTWARE.
  * CC_IS_RETINA_DISPLAY_SUPPORTED
  * 
  * 
- * CC_DIRECTOR_FPS_INTERVAL and CC_RETINA_DISPLAY_FILENAME_SUFFIX are implemented in ccMacros.cs as a static function.
+ * CC_DIRECTOR_FPS_INTERVAL and CC_RETINA_DISPLAY_FILENAME_SUFFIX are defined in ccMacros.cs.
  */

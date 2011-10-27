@@ -128,7 +128,7 @@ namespace cocos2d
         }
 
         /*
-         * macros of CCGeometry.h
+         * Macros of CCGeometry.h
          */
         public static CCPoint CCPointMake(float x, float y)
         {
@@ -142,6 +142,12 @@ namespace cocos2d
         {
             return new CCRect(x, y, width, height);
         }
+
+        /*
+         * Macros defined in ccConfig.h
+         */
+        public static readonly string CC_RETINA_DISPLAY_FILENAME_SUFFIX = "-hd";
+        public static readonly float CC_DIRECTOR_FPS_INTERVAL = 0.5f;
 
 
         // The following macros are defined for opengl es, they are not needed.
