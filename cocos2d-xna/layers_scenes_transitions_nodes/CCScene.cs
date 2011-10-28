@@ -31,7 +31,7 @@ using System.Text;
 
 namespace cocos2d
 {
-    enum ccSceneFlag
+    public enum ccSceneFlag
     {
 	    ccNormalScene     = 1 << 0,
 	    ccTransitionScene = 1 << 1,
@@ -74,7 +74,7 @@ namespace cocos2d
             return m_eSceneType; 
         }
 
-    protected ccSceneFlag m_eSceneType;
+        protected ccSceneFlag m_eSceneType;
     }
 
 
