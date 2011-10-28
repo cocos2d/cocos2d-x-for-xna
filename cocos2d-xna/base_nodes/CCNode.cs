@@ -89,7 +89,7 @@ namespace cocos2d
 	Camera:
 	- Each node has a camera. By default it points to the center of the CCNode.
 	*/
-    class CCNode : CCObject
+    public class CCNode : CCObject
     {
         public CCNode()
         {
