@@ -72,6 +72,7 @@
     <Compile Include="predefine\ccConfig.cs" />
     <Compile Include="predefine\ccMacros.cs" />
     <Compile Include="predefine\CCPointExtension.cs" />
+    <Compile Include="predefine\CCProtocols.cs" />
     <Compile Include="predefine\CCTouch.cs" />
     <Compile Include="predefine\CCTouchDelegateProtocol.cs" />
     <Compile Include="predefine\ccTypes.cs" />
