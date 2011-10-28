@@ -1034,7 +1034,7 @@ namespace cocos2d
             }
             set
             {
-                if (! CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint)
+                if (! CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint))
                 {
                     m_tAnchorPoint = value;
                     m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x, 

@@ -178,7 +178,7 @@ namespace cocos2d
             else
             {
                 return (CCPoint.CCPointEqualToPoint(rect1.origin, rect2.origin)
-                && (CCSize.CCSizeEqualSize(rect1.size, rect2.size)));
+                && (CCSize.CCSizeEqualToSize(rect1.size, rect2.size)));
             }           
         }
 
