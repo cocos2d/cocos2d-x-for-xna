@@ -26,7 +26,16 @@ THE SOFTWARE.
 
 namespace cocos2d
 {
-    public class CCLayer
+    //
+    // CCLayer
+    //
+    /** @brief CCLayer is a subclass of CCNode that implements the TouchEventsDelegate protocol.
+
+    All features from CCNode are valid, plus the following new features:
+    - It can receive iPhone Touches
+    - It can receive Accelerometer input
+    */
+    public class CCLayer : CCNode
     {
     }
 }
