@@ -75,7 +75,7 @@ namespace cocos2d
             this.height = height;
         }
 
-        public static bool CCSizeEqualSize(CCSize size1, CCSize size2)
+        public static bool CCSizeEqualToSize(CCSize size1, CCSize size2)
         {
             Debug.Assert((size1 != null) && (size2 != null));
 
