@@ -106,12 +106,9 @@ namespace cocos2d
             m_bIsTransformDirty = true;
             m_bIsInverseDirty = true;
 
-            /*
-             * @todo
-            #ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-            m_bIsTransformGLDirty(true)
-            #endif
-             * */
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+            m_bIsTransformGLDirty = true;
+#endif
         }
 
         ~CCNode()
@@ -949,12 +946,11 @@ namespace cocos2d
 
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
 
-                /*
-                 * @todo
-                #ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
 	            m_bIsTransformGLDirty = true;
-               #endif
-                 */
+#endif
+
             }
         }
 
@@ -982,8 +978,7 @@ namespace cocos2d
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
 
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX  
-                // @todo
-                //m_bIsTransformGLDirty = true;
+                m_bIsTransformGLDirty = true;
 #endif // CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
             }
         }
@@ -996,13 +991,12 @@ namespace cocos2d
 
         // Array of children
         private List<CCNode> m_pChildren;
-        public List<CCObject> children
+        public List<CCNode> children
         {
             // read only
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_pChildren;
             }
         }
 
@@ -1016,13 +1010,11 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_bIsVisible;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                m_bIsVisible = value;
             }
         }
 
@@ -1038,13 +1030,21 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_tAnchorPoint;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                if (! CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint)
+                {
+                    m_tAnchorPoint = value;
+                    m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x, 
+                        m_tContentSizeInPixels.height * m_tAnchorPoint.y);
+                    m_bIsTransformDirty = m_bIsInverseDirty = true;
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+		            m_bIsTransformGLDirty = true;
+#endif
+                    
+                }
             }
         }
 
@@ -1054,15 +1054,10 @@ namespace cocos2d
         private CCPoint m_tAnchorPointInPixels;
         public CCPoint anchorPointInPixels
         {
+            // read only
             get
             {
-                ///@todo
-                throw new NotImplementedException();
-            }
-            set
-            {
-                ///@todo
-                throw new NotImplementedException();
+                return m_tAnchorPointInPixels;
             }
         }
 
@@ -1076,13 +1071,31 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_tContentSize;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                if (! CCSize.CCSizeEqualToSize(value, m_tContentSize))
+                {
+                    m_tContentSize = value;
+
+                    if (ccMacros.CC_CONTENT_SCALE_FACTOR() == 1)
+                    {
+                        m_tContentSizeInPixels = m_tContentSize;
+                    }
+                    else
+                    {
+                        m_tContentSizeInPixels = new CCSize(value.width * ccMacros.CC_CONTENT_SCALE_FACTOR(),
+                            value.height * ccMacros.CC_CONTENT_SCALE_FACTOR());
+                    }
+
+                    m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x,
+                        m_tContentSizeInPixels.height * m_tAnchorPoint.y);
+                    m_bIsTransformDirty = m_bIsInverseDirty = true;
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                    m_bIsTransformGLDirty = true;
+#endif
+                }
             }
         }
 
@@ -1096,13 +1109,32 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_tContentSizeInPixels;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                if (! CCSize.CCSizeEqualToSize(value, m_tContentSizeInPixels))
+                {
+                    m_tContentSizeInPixels = value;
+
+                    if (ccMacros.CC_CONTENT_SCALE_FACTOR() == 1)
+                    {
+                        m_tContentSize = m_tContentSizeInPixels;
+                    }
+                    else
+                    {
+                        m_tContentSize = new CCSize(value.width / ccMacros.CC_CONTENT_SCALE_FACTOR(),
+                            value.height / ccMacros.CC_CONTENT_SCALE_FACTOR());
+                    }
+
+                    m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x,
+                        m_tContentSizeInPixels.height * m_tAnchorPoint.y);
+                    m_bIsTransformDirty = m_bIsInverseDirty = true;
+
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                    m_bIsTransformGLDirty = true;
+#endif // CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                }
             }
         }
 
@@ -1123,13 +1155,11 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_pParent;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                m_pParent = value;
             }
         }
 
@@ -1142,13 +1172,15 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_bIsRelativeAnchorPoint;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                m_bIsRelativeAnchorPoint = value;
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+	            m_bIsTransformGLDirty = true;
+#endif
             }
         }
 
@@ -1158,13 +1190,11 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_nTag;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                m_nTag = value;
             }
         }
 
@@ -1174,13 +1204,11 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_pUserData;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                m_pUserData = value;
             }
         }
 
@@ -1201,8 +1229,7 @@ namespace cocos2d
 #endif
           
 #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-        //@todo
-        // private bool m_bIsTransformGLDirty;
+        protected bool m_bIsTransformGLDirty;
 #endif
         
     }
