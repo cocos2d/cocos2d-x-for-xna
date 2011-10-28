@@ -90,4 +90,22 @@ namespace cocos2d
         // sets a new texture. it will be retained
         void setTexture(CCTexture2D texture);
     }
+
+    public interface CCLabelProtocol
+    {
+        // sets a new label using an string
+        void setString(string label);
+
+        // returns the string that is rendered
+        string getString();
+    }
+
+    /** OpenGL projection protocol */
+    public interface CCProjectionProtocol
+    {
+        /** Called by CCDirector when the porjection is updated, and "custom" projection is used
+	    @since v0.99.5
+	    */
+        void updateProjection();
+    }
 }
