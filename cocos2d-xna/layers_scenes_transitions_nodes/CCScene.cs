@@ -24,9 +24,91 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace cocos2d
 {
-    public class CCScene
+    enum ccSceneFlag
     {
+	    ccNormalScene     = 1 << 0,
+	    ccTransitionScene = 1 << 1,
+    };
+
+    /** @brief CCScene is a subclass of CCNode that is used only as an abstract concept.
+
+    CCScene an CCNode are almost identical with the difference that CCScene has it's
+    anchor point (by default) at the center of the screen.
+
+    For the moment CCScene has no other logic than that, but in future releases it might have
+    additional logic.
+
+    It is a good practice to use and CCScene as the parent of all your nodes.
+    */
+    public class CCScene : CCNode
+    {
+        public CCScene()
+        {
+            throw new NotImplementedException();
+        }
+
+	    ~CCScene()
+        {
+        
+        }
+
+	    public bool init()
+        {
+            throw new NotImplementedException();
+        }
+
+	    public static CCScene node()
+        {
+            throw new NotImplementedException();
+        }
+
+	    public ccSceneFlag getSceneType() 
+        { 
+            return m_eSceneType; 
+        }
+
+    protected ccSceneFlag m_eSceneType;
     }
+
+
+    // todo
+    //// for the subclass of CCScene, each has to implement the static "node" method 
+    //#define SCENE_NODE_FUNC(scene) \
+    //static scene* node() \
+    //{ \
+    //    scene *pRet = new scene(); \
+    //    if (pRet && pRet->init()) \
+    //    { \
+    //        pRet->autorelease(); \
+    //        return pRet; \
+    //    } \
+    //    else \
+    //    { \
+    //        delete pRet; \
+    //        pRet = NULL; \
+    //        return NULL; \
+    //    } \
+    //}; 
+
+    //#define SCENE_FUNC_PARAM(__TYPE__,__PARAMTYPE__,__PARAM__) \
+    //    static cocos2d::CCScene* node(__PARAMTYPE__ __PARAM__) \
+    //{ \
+    //    cocos2d::CCScene * scene = NULL; \
+    //    do  \
+    //{ \
+    //    scene = cocos2d::CCScene::node(); \
+    //    CC_BREAK_IF(! scene); \
+    //    __TYPE__ *layer = __TYPE__::node(__PARAM__); \
+    //    CC_BREAK_IF(! layer); \
+    //    scene->addChild(layer); \
+    //} while (0); \
+    //    return scene; \
+    //};
 }
