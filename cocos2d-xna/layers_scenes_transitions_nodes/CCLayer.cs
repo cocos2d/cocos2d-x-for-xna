@@ -42,36 +42,109 @@ namespace cocos2d
     {
         public CCLayer()
         {
-            ///@todo
-            throw new NotImplementedException();
+            anchorPoint = CCPointExtension.ccp(0.5f, 0.5f);
+            isRelativeAnchorPoint = false;
         }
 
-        ~CCLayer()
-        {
-            ///@todo
-            throw new NotImplementedException();
-        }
+        ~CCLayer(){ }
 
         public static new CCLayer node()
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCLayer ret = new CCLayer();
+            if (ret.init())
+            {
+                return ret;
+            }
+            else
+            {
+                ret = null;
+            }
+
+            return ret;
+        }
+
+        public bool init()
+        {
+            bool bRet = false;
+            do
+            {
+                CCDirector director = CCDirector.sharedDirector();
+                if (director == null)
+                {
+                    break;
+                }
+
+                contentSize = director.getWinSize();
+                m_bIsTouchEnabled = false;
+                m_bIsAccelerometerEnabled = false;
+
+                bRet = true;
+            } while (false);
+
+            return bRet;
         }
 
         public override void onEnter()
         {
-            ///@todo
-            throw new NotImplementedException();
+            // register 'parent' nodes first
+            // since events are propagated in reverse order
+            if (m_bIsTouchEnabled)
+            {
+                registerWithTouchDispatcher();
+            }
+
+            // then iterate over all the children
+            base.onEnter();
+
+            // add this layer to concern the Accelerometer Sensor
+            
+            if (m_bIsAccelerometerEnabled)
+            {
+
+                ///@todo
+                throw new NotImplementedException();
+            }
+
+            // add this layer to concern the kaypad msg
+            if (m_bIsKeypadEnabled)
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
         }
         public override void onExit()
         {
-            ///@todo
-            throw new NotImplementedException();
+            if (m_bIsTouchEnabled)
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+
+            // remove this layer from the delegates who concern Accelerometer Sensor
+            if (m_bIsAccelerometerEnabled)
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+
+            // remove this layer from the delegates who concern the kaypad msg
+            if (m_bIsKeypadEnabled)
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+
+            base.onExit();
         }
         public override void onEnterTransitionDidFinish()
         {
-            ///@todo
-            throw new NotImplementedException();
+            if (m_bIsAccelerometerEnabled)
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+
+            base.onEnterTransitionDidFinish();
         }
 
         // touches
@@ -136,13 +209,26 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_bIsTouchEnabled;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                if (m_bIsTouchEnabled != value)
+                {
+                    m_bIsTouchEnabled = value;
+                    if (isRunning)
+                    {
+                        if (value)
+                        {
+                            registerWithTouchDispatcher();
+                        }
+                        else
+                        {
+                            ///@todo
+                            throw new NotImplementedException();
+                        }
+                    }
+                }
             }
         }
 
@@ -155,13 +241,27 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_bIsAccelerometerEnabled;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                if (value != m_bIsAccelerometerEnabled)
+                {
+                    m_bIsAccelerometerEnabled = value;
+                    if (isRunning)
+                    {
+                        if (value)
+                        {
+                            ///@todo
+                            throw new NotImplementedException();
+                        }
+                        else
+                        {
+                            ///@todo
+                            throw new NotImplementedException();
+                        } 
+                    }
+                }
             }
         }
 
@@ -174,13 +274,27 @@ namespace cocos2d
         {
             get
             {
-                ///@todo
-                throw new NotImplementedException();
+                return m_bIsKeypadEnabled;
             }
             set
             {
-                ///@todo
-                throw new NotImplementedException();
+                if (value != m_bIsKeypadEnabled)
+                {
+                    m_bIsKeypadEnabled = value;
+                    if (isRunning)
+                    {
+                        if (value)
+                        {
+                            ///@todo
+                            throw new NotImplementedException();
+                        }
+                        else
+                        {
+                            ///@todo
+                            throw new NotImplementedException();
+                        }                       
+                    }
+                }
             }
         }
     }
