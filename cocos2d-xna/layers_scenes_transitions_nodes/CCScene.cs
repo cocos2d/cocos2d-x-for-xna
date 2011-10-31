@@ -64,7 +64,7 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-	    public static CCScene node()
+	    public static new CCScene node()
         {
             throw new NotImplementedException();
         }
