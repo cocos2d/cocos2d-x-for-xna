@@ -788,7 +788,7 @@ namespace cocos2d
         // Properties
 
         // The z order of the node relative to it's "brothers": children of the same parent
-        private int m_nZOrder;
+        protected int m_nZOrder;
         public int zOrder 
         { 
             // read only
@@ -806,8 +806,8 @@ namespace cocos2d
 			@warning: Use it at your own risk since it might break the cocos2d parent-children z order
 			@since v0.8
 			*/
-        private float m_fVertexZ;
-        public float vertexZ
+        protected float m_fVertexZ;
+        public virtual float vertexZ
         {
             get
             {
@@ -822,8 +822,8 @@ namespace cocos2d
         }
 
         // The rotation (angle) of the node in degrees. 0 is the default rotation angle. Positive values rotate node CW
-        private float m_fRotation;
-        public float rotation
+        protected float m_fRotation;
+        public virtual float rotation
         {
             get
             {
@@ -842,8 +842,8 @@ namespace cocos2d
             Thus, it is the angle between the Y axis and the left edge of the shape
             The default skewX angle is 0. Positive values distort the node in a CW direction.
         */
-        private float m_fSkewX;
-        public float skewX
+        protected float m_fSkewX;
+        public virtual float skewX
         {
             get
             {
@@ -862,8 +862,8 @@ namespace cocos2d
             Thus, it is the angle between the X axis and the bottom edge of the shape
             The default skewY angle is 0. Positive values distort the node in a CCW direction.
         */
-        private float m_fSkewY;
-        public float skewY
+        protected float m_fSkewY;
+        public virtual float skewY
         {
             get
             {
@@ -878,8 +878,8 @@ namespace cocos2d
         }
 
         // The scale factor of the node. 1.0 is the default scale factor. It modifies the X and Y scale at the same time.
-        private float m_fScale;
-        public float scale
+        protected float m_fScale;
+        public virtual float scale
         {
             get
             {
@@ -894,8 +894,8 @@ namespace cocos2d
         }
 
         // The scale factor of the node. 1.0 is the default scale factor. It only modifies the X scale factor.
-        private float m_fScaleX;
-        public float scaleX
+        protected float m_fScaleX;
+        public virtual float scaleX
         {
             get
             {
@@ -910,8 +910,8 @@ namespace cocos2d
         }
 
         // The scale factor of the node. 1.0 is the default scale factor. It only modifies the Y scale factor.
-        private float m_fScaleY;
-        public float scaleY
+        protected float m_fScaleY;
+        public virtual float scaleY
         {
             get
             {
@@ -926,8 +926,8 @@ namespace cocos2d
         }
 
         // Position (x,y) of the node in points. (0,0) is the left-bottom corner.
-        private CCPoint m_tPosition;
-        public CCPoint position
+        protected CCPoint m_tPosition;
+        public virtual CCPoint position
         {
             get
             {
@@ -955,8 +955,8 @@ namespace cocos2d
         }
 
         // Position (x,y) of the node in pixels. (0,0) is the left-bottom corner.
-        private CCPoint m_tPositionInPixels;
-        public CCPoint positionInPixels
+        protected CCPoint m_tPositionInPixels;
+        public virtual CCPoint positionInPixels
         {
             get
             {
@@ -990,7 +990,7 @@ namespace cocos2d
          */
 
         // Array of children
-        private List<CCNode> m_pChildren;
+        protected List<CCNode> m_pChildren;
         public List<CCNode> children
         {
             // read only
@@ -1005,8 +1005,8 @@ namespace cocos2d
         /// @property(nonatomic,readwrite,retain) CCGridBase* grid;
 
         // Whether of not the node is visible. Default is YES
-        private bool m_bIsVisible;
-        public bool visible
+        protected bool m_bIsVisible;
+        public virtual bool visible
         {
             get
             {
@@ -1025,8 +1025,8 @@ namespace cocos2d
             The default anchorPoint is (0,0). It starts in the bottom-left corner. CCSprite and other subclasses have a different default anchorPoint.
             @since v0.8
         */
-        private CCPoint m_tAnchorPoint;
-        public CCPoint anchorPoint
+        protected CCPoint m_tAnchorPoint;
+        public virtual CCPoint anchorPoint
         {
             get
             {
@@ -1051,7 +1051,7 @@ namespace cocos2d
         /** The anchorPoint in absolute pixels.
             Since v0.8 you can only read it. If you wish to modify it, use anchorPoint instead
         */
-        private CCPoint m_tAnchorPointInPixels;
+        protected CCPoint m_tAnchorPointInPixels;
         public CCPoint anchorPointInPixels
         {
             // read only
@@ -1066,7 +1066,7 @@ namespace cocos2d
             All nodes has a size. Layer and Scene has the same size of the screen.
             @since v0.8
         */
-        private CCSize m_tContentSize;
+        protected CCSize m_tContentSize;
         public CCSize contentSize
         {
             get
@@ -1104,7 +1104,7 @@ namespace cocos2d
             All nodes has a size. Layer and Scene has the same size of the screen.
             @since v0.8
         */
-        private CCSize m_tContentSizeInPixels;
+        protected CCSize m_tContentSizeInPixels;
         public CCSize contentSizeInPixels
         {
             get
@@ -1139,7 +1139,7 @@ namespace cocos2d
         }
 
         // whether or not the node is running
-        private bool m_bIsRunning;
+        protected bool m_bIsRunning;
         public bool isRunning
         {
             // read only
@@ -1150,7 +1150,7 @@ namespace cocos2d
         }
 
         // A weak reference to the parent
-        private CCNode m_pParent;
+        protected CCNode m_pParent;
         public CCNode parent
         {
             get
@@ -1167,8 +1167,8 @@ namespace cocos2d
           * Sprites, Labels and any other sizeble object use it have it enabled by default.
           * Scenes, Layers and other "whole screen" object don't use it, have it disabled by default.
           */
-        private bool m_bIsRelativeAnchorPoint;
-        public bool isRelativeAnchorPoint
+        protected bool m_bIsRelativeAnchorPoint;
+        public virtual bool isRelativeAnchorPoint
         {
             get
             {
@@ -1185,7 +1185,7 @@ namespace cocos2d
         }
 
         // A tag used to identify the node easily
-        private int m_nTag;
+        protected int m_nTag;
         public int tag
         {
             get
@@ -1199,7 +1199,7 @@ namespace cocos2d
         }
 
         // A custom user data pointer
-        private object m_pUserData;
+        protected object m_pUserData;
         public object userData
         {
             get

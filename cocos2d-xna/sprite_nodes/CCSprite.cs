@@ -25,8 +25,30 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System;
+using System.Diagnostics;
 namespace cocos2d
 {
+    /**
+         Whether or not an CCSprite will rotate, scale or translate with it's parent.
+         Useful in health bars, when you want that the health bar translates with it's parent but you don't
+         want it to rotate with its parent.
+         @since v0.99.0
+         */
+    public enum ccHonorParentTransform
+    {
+        //! Translate with it's parent
+        CC_HONOR_PARENT_TRANSFORM_TRANSLATE = 1 << 0,
+        //! Rotate with it's parent
+        CC_HONOR_PARENT_TRANSFORM_ROTATE = 1 << 1,
+        //! Scale with it's parent
+        CC_HONOR_PARENT_TRANSFORM_SCALE = 1 << 2,
+        //! Skew with it's parent
+        CC_HONOR_PARENT_TRANSFORM_SKEW = 1 << 3,
+
+        //! All possible transformation enabled. Default value.
+        CC_HONOR_PARENT_TRANSFORM_ALL = CC_HONOR_PARENT_TRANSFORM_TRANSLATE | CC_HONOR_PARENT_TRANSFORM_ROTATE | CC_HONOR_PARENT_TRANSFORM_SCALE | CC_HONOR_PARENT_TRANSFORM_SKEW,
+    }
+
     /** CCSprite is a 2d image ( http://en.wikipedia.org/wiki/Sprite_(computer_graphics) )
     *
     * CCSprite can be created with an image, or with a sub-rectangle of an image.
@@ -50,50 +72,51 @@ namespace cocos2d
     * The default anchorPoint in CCSprite is (0.5, 0.5).
     */
     public class CCSprite : CCNode, CCTextureProtocol, CCRGBAProtocol
-    {
-        /**
-         Whether or not an CCSprite will rotate, scale or translate with it's parent.
-         Useful in health bars, when you want that the health bar translates with it's parent but you don't
-         want it to rotate with its parent.
-         @since v0.99.0
-         */
-        public enum ccHonorParentTransform
-        {
-            //! Translate with it's parent
-            CC_HONOR_PARENT_TRANSFORM_TRANSLATE = 1 << 0,
-            //! Rotate with it's parent
-            CC_HONOR_PARENT_TRANSFORM_ROTATE = 1 << 1,
-            //! Scale with it's parent
-            CC_HONOR_PARENT_TRANSFORM_SCALE = 1 << 2,
-            //! Skew with it's parent
-            CC_HONOR_PARENT_TRANSFORM_SKEW = 1 << 3,
-
-            //! All possible transformation enabled. Default value.
-            CC_HONOR_PARENT_TRANSFORM_ALL = CC_HONOR_PARENT_TRANSFORM_TRANSLATE | CC_HONOR_PARENT_TRANSFORM_ROTATE | CC_HONOR_PARENT_TRANSFORM_SCALE | CC_HONOR_PARENT_TRANSFORM_SKEW,
-        }
-
+    {        
         // Properties
 
         /** Opacity: conforms to CCRGBAProtocol protocol */
         private byte m_nOpacity;
         public byte getOpacity()
         {
-            throw new NotImplementedException();
+            return m_nOpacity;
         }
         public void setOpacity(byte value)
         {
-            throw new NotImplementedException();
+            m_nOpacity = value;
+
+            // special opacity for premultiplied textures
+            if (m_bOpacityModifyRGB)
+            {
+                setColor(m_sColorUnmodified);
+            }
+
+            updateColor();
         }
 
         /** Color: conforms with CCRGBAProtocol protocol */
         private ccColor3B m_sColor;
         public ccColor3B getColor()
         {
-            throw new NotImplementedException();
+            if (m_bOpacityModifyRGB)
+            {
+                return m_sColorUnmodified;
+            }
+
+            return m_sColor;
         }
         public void setColor(ccColor3B value)
         {
-            throw new NotImplementedException();
+            m_sColor = m_sColorUnmodified = value;
+
+            if (m_bOpacityModifyRGB)
+            {
+                m_sColor.r = (byte)(value.r * m_nOpacity / 255);
+                m_sColor.g = (byte)(value.g * m_nOpacity / 255);
+                m_sColor.b = (byte)(value.b * m_nOpacity / 255);
+            }
+
+            updateColor();
         }
 
         /** whether or not the Sprite needs to be updated in the Atlas */
@@ -102,11 +125,11 @@ namespace cocos2d
         {
             get
             {
-                throw new NotImplementedException();
+                return m_bDirty;
             }
             set
             {
-                throw new NotImplementedException();
+                m_bDirty = value;
             }
         }
 
@@ -227,7 +250,14 @@ namespace cocos2d
 	     */
         public static CCSprite spriteWithTexture(CCTexture2D texture)
         {
-            throw new NotImplementedException();
+            CCSprite sprite = new CCSprite();
+            if (sprite != null && sprite.initWithTexture(texture))
+            {
+                return sprite;
+            }
+
+            sprite = null;
+            return null;
         }
 
         /** Creates an sprite with a texture and a rect.
@@ -235,12 +265,20 @@ namespace cocos2d
 	     */
         public static CCSprite spriteWithTexture(CCTexture2D texture, CCRect rect)
         {
-            throw new NotImplementedException();
+            CCSprite sprite = new CCSprite();
+            if (sprite != null && sprite.initWithTexture(texture, rect))
+            {
+                return sprite;
+            }
+
+            sprite = null;
+            return null;
         }
 
         /** Creates an sprite with a texture, a rect and offset. */
         public static CCSprite spriteWithTexture(CCTexture2D texture, CCRect rect, CCPoint offset)
         {
+            // not implement
             throw new NotImplementedException();
         }
 
@@ -262,7 +300,14 @@ namespace cocos2d
 	     */
         public static CCSprite spriteWithFile(string fileName)
         {
-            throw new NotImplementedException();
+            CCSprite sprite = new CCSprite();
+            if (sprite != null && sprite.initWithFile(fileName))
+            {
+                return sprite;
+            }
+
+            sprite = null;
+            return sprite;
         }
 
         /** Creates an sprite with an image filename and a rect.
@@ -270,7 +315,15 @@ namespace cocos2d
 	     */
         public static CCSprite spriteWithFile(string fileName, CCRect rect)
         {
-            throw new NotImplementedException();
+            CCSprite sprite = new CCSprite();
+
+            if (sprite != null && sprite.initWithFile(fileName, rect))
+            {
+                return sprite;
+            }
+
+            sprite = null;
+            return sprite;
         }
 
         /** Creates an sprite with an CCBatchNode and a rect */
@@ -279,122 +332,335 @@ namespace cocos2d
 
         public virtual bool init()
         {
-            throw new NotImplementedException();
+            m_bDirty = m_bRecursiveDirty = false;
+
+            // by default use "Self Render".
+            // if the sprite is added to an batchnode, then it will automatically switch to "SpriteSheet Render"
+            useSelfRender();
+
+            m_bOpacityModifyRGB = true;
+            m_nOpacity = 255;
+            m_sColor = m_sColorUnmodified = new ccColor3B(255, 255, 255);
+
+            /*
+             * @todo, they are designed for opengl es, how to replace them?
+             * 
+            m_sBlendFunc.src = CC_BLEND_SRC;
+            m_sBlendFunc.dst = CC_BLEND_DST;
+             */
+
+            // update texture (calls updateBlendFunc)
+            setTexture(null);
+
+            // clean the Quad
+            //memset(&m_sQuad, 0, sizeof(m_sQuad));
+            m_sQuad = new ccV3F_C4B_T2F_Quad();
+
+            m_bFlipX = m_bFlipY = false;
+
+            // default transform anchor: center
+            anchorPoint = (CCPointExtension.ccp(0.5f, 0.5f));
+
+            // zwoptex default values
+            m_obOffsetPositionInPixels = new CCPoint();
+
+            m_eHonorParentTransform = ccHonorParentTransform.CC_HONOR_PARENT_TRANSFORM_ALL;
+            m_bHasChildren = false;
+
+            // Atlas: Color
+            m_sQuad.bl.colors = new ccColor4B(255, 255, 255, 255);
+            m_sQuad.br.colors = new ccColor4B(255, 255, 255, 255);
+            m_sQuad.tl.colors = new ccColor4B(255, 255, 255, 255);
+            m_sQuad.tr.colors = new ccColor4B(255, 255, 255, 255);
+
+            // Atlas: Vertex
+
+            // updated in "useSelfRender"
+
+            // Atlas: TexCoords
+
+            setTextureRectInPixels(new CCRect(), false, new CCSize());
+
+            return true;
         }
 
-        public CCSprite()
-        {
-            throw new NotImplementedException();
-        }
-        ~CCSprite()
-        {
-            throw new NotImplementedException();
-        }
+        public CCSprite() { }
+        ~CCSprite() { }
 
         public override void removeChild(CCNode child, bool cleanup)
         {
-            throw new NotImplementedException();
+            if (m_bUseBatchNode)
+            {
+                ///@todo
+                throw new NotImplementedException();
+            }
+
+            base.removeChild(child, cleanup);
         }
 
         public override void removeAllChildrenWithCleanup(bool cleanup)
         {
-            throw new NotImplementedException();
+            if (m_bUseBatchNode)
+            {
+                foreach (CCNode node in m_pChildren)
+                {
+                    ///@todo
+                    throw new NotImplementedException();
+                }
+            }
+
+            base.removeAllChildrenWithCleanup(cleanup);
+
+            m_bHasChildren = false;
         }
 
         public override void reorderChild(CCNode child, int zOrder)
         {
-            throw new NotImplementedException();
+            Debug.Assert(child != null);
+            Debug.Assert(m_pChildren.Contains(child));
+
+            if (zOrder == child.zOrder)
+            {
+                return;
+            }
+
+            if (m_bUseBatchNode)
+            {
+                // XXX: Instead of removing/adding, it is more efficient to reorder manually
+                removeChild(child, false);
+                addChild(child, zOrder);
+            }
+            else
+            {
+                base.reorderChild(child, zOrder);
+            }
         }
 
         public override void addChild(CCNode child)
         {
-            throw new NotImplementedException();
+            base.addChild(child);
         }
 
         public override void addChild(CCNode child, int zOrder)
         {
-            throw new NotImplementedException();
+            base.addChild(child, zOrder);
         }
 
         public override void addChild(CCNode child, int zOrder, int tag)
         {
-            throw new NotImplementedException();
-        }
+            Debug.Assert(child != null);
+
+            base.addChild(child, zOrder, tag);
+
+            if (m_bUseBatchNode)
+            {
+                ///@todo
+                //assert(((CCSprite*)pChild)->getTexture()->getName() == m_pobTextureAtlas->getTexture()->getName());
+                //unsigned int index = m_pobBatchNode->atlasIndexForChild((CCSprite*)(pChild), zOrder);
+		        //m_pobBatchNode->insertChild((CCSprite*)(pChild), index);
+                throw new NotImplementedException();
+            }
+
+            m_bHasChildren = true;
+        }      
 
         public virtual void setDirtyRecursively(bool bValue)
         {
-            throw new NotImplementedException();
+            m_bDirty = m_bRecursiveDirty = bValue;
+            // recursively set dirty
+            if (m_bHasChildren)
+            {
+                foreach (CCNode child in m_pChildren)
+                {
+                    ((CCSprite)child).setDirtyRecursively(true);
+                }
+            }
         }
 
-        public virtual void setPosition(CCPoint pos)
+        private void SET_DIRTY_RECURSIVELY()
         {
-            throw new NotImplementedException();
+            if (m_bUseBatchNode)
+            {
+                m_bDirty = m_bRecursiveDirty = true;
+                if (m_bHasChildren)
+                {
+                    setDirtyRecursively(true);
+                }
+            }
         }
 
-        public virtual void setPositionInPixels(CCPoint pos)
+        public override CCPoint position
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.position;
+            }
+            set
+            {
+                base.position = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setRotation(float fRotation)
+        public override CCPoint positionInPixels
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.positionInPixels;
+            }
+            set
+            {
+                base.positionInPixels = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setSkewX(float sx)
+        public override float rotation
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.rotation;
+            }
+            set
+            {
+                base.rotation = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setSkewY(float sy)
+        public override float skewX
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.skewX;
+            }
+            set
+            {
+                base.skewX = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setScaleX(float fScaleX)
+        public override float skewY
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.skewY;
+            }
+            set
+            {
+                base.skewY = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setScaleY(float fScaleY)
+        public override float scaleX
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.scaleX;
+            }
+            set
+            {
+                base.scaleX = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setScale(float fScale)
+        public override float scaleY
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.scaleY;
+            }
+            set
+            {
+                base.scaleY = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setVetexZ(float fVetexZ)
+        public override float scale
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.scale;
+            }
+            set
+            {
+                base.scale = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setAnchorPoint(CCPoint anchor)
+        public override float vertexZ
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.vertexZ;
+            }
+            set
+            {
+                base.vertexZ = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setIsRelativeAnchorPoint(bool bRelative)
+        public override CCPoint anchorPoint
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.anchorPoint;
+            }
+            set
+            {
+                base.anchorPoint = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
-        public virtual void setIsVisible(bool bVisible)
+        public override bool isRelativeAnchorPoint
         {
-            throw new NotImplementedException();
+            get
+            {
+                return base.isRelativeAnchorPoint;
+            }
+            set
+            {
+                base.isRelativeAnchorPoint = value;
+                SET_DIRTY_RECURSIVELY();
+            }
+        }
+
+        public override bool visible
+        {
+            get
+            {
+                return base.visible;
+            }
+            set
+            {
+                base.visible = value;
+                SET_DIRTY_RECURSIVELY();
+            }
         }
 
         public void setFilpX(bool bFlipX)
         {
-            throw new NotImplementedException();
+            if (m_bFlipX != bFlipX)
+            {
+                m_bFlipX = bFlipX;
+                setTextureRectInPixels(m_obRectInPixels, m_bRectRotated, m_tContentSizeInPixels);
+            }
         }
 
         public void setFlipY(bool bFlipY)
         {
-            throw new NotImplementedException();
-
+            if (m_bFlipY != bFlipY)
+            {
+                m_bFlipY = bFlipY;
+                setTextureRectInPixels(m_obRectInPixels, m_bRectRotated, m_tContentSizeInPixels);
+            }
         }
         /** whether or not the sprite is flipped horizontally. 
 	    It only flips the texture of the sprite, and not the texture of the sprite's children.
@@ -406,7 +672,7 @@ namespace cocos2d
 
         public bool isFlipX()
         {
-            throw new NotImplementedException();
+            return m_bFlipX;
         }
 
         /** whether or not the sprite is flipped vertically.
@@ -418,33 +684,61 @@ namespace cocos2d
 	    */
         public bool isFlipY()
         {
-            throw new NotImplementedException();
+            return m_bFlipY;
         }
 
         void updateColor()
         {
-            throw new NotImplementedException();
+            m_sQuad.bl.colors = new ccColor4B(m_sColor.r, m_sColor.g, m_sColor.b, m_nOpacity);
+            m_sQuad.br.colors = new ccColor4B(m_sColor.r, m_sColor.g, m_sColor.b, m_nOpacity);
+            m_sQuad.tl.colors = new ccColor4B(m_sColor.r, m_sColor.g, m_sColor.b, m_nOpacity);
+            m_sQuad.tr.colors = new ccColor4B(m_sColor.r, m_sColor.g, m_sColor.b, m_nOpacity);
+
+            // renders using Sprite Manager
+            if (m_bUseBatchNode)
+            {
+                if (m_uAtlasIndex != ccMacros.CCSpriteIndexNotInitialized)
+                {
+                    //@todo
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    // no need to set it recursively
+                    // update dirty_, don't update recursiveDirty_
+                    m_bDirty = true;
+                }
+            }
+
+            // self render
+            // do nothing
         }
 
         /** opacity: conforms to CCRGBAProtocol protocol */
 	    public virtual void setIsOpacityModifyRGB(bool bValue)
         {
-            throw new NotImplementedException();
+            ccColor3B oldColor = m_sColor;
+            m_bOpacityModifyRGB = bValue;
+            m_sColor = oldColor;
         }
 
 	    public virtual bool getIsOpacityModifyRGB()
         {
-            throw new NotImplementedException();
+            return m_bOpacityModifyRGB;
         }
 
         // CCTextureProtocol
         public virtual void setTexture(CCTexture2D texture)
         {
-            throw new NotImplementedException();
+            Debug.Assert(! m_bUseBatchNode,  "CCSprite: setTexture doesn't work when the sprite is rendered using a CCSpriteBatchNode");
+
+            m_pobTexture = texture;
+
+            updateBlendFunc();
         }
         public virtual CCTexture2D getTexture()
         {
-            throw new NotImplementedException();
+            return m_pobTexture;
         }
 
         /** Initializes an sprite with a texture.
@@ -453,7 +747,12 @@ namespace cocos2d
 	     */
         public bool initWithTexture(CCTexture2D texture)
         {
-            throw new NotImplementedException();
+            Debug.Assert(texture != null);
+
+            CCRect rect = new CCRect();
+            rect.size = texture.getContentSize();
+
+            return initWithTexture(texture, rect);
         }
 
         /** Initializes an sprite with a texture and a rect.
@@ -461,7 +760,12 @@ namespace cocos2d
 	     */
         public bool initWithTexture(CCTexture2D texture, CCRect rect)
         {
-            throw new NotImplementedException();
+            Debug.Assert(texture != null);
+            init();
+            setTexture(texture);
+            setTextureRect(rect);
+
+            return true;
         }
 
         ///@todo
@@ -518,19 +822,79 @@ namespace cocos2d
 	     */
         public void useSelfRender()
         {
+            m_uAtlasIndex = ccMacros.CCSpriteIndexNotInitialized;
+            m_bUseBatchNode = false;
+            /*
+             * ///@todo
+            m_pobTextureAtlas = NULL;
+            m_pobBatchNode = NULL;
+             */
             throw new NotImplementedException();
+            m_bDirty = m_bRecursiveDirty = false;
+
+            float x1 = 0 + m_obOffsetPositionInPixels.x;
+            float y1 = 0 + m_obOffsetPositionInPixels.y;
+            float x2 = x1 + m_obRectInPixels.size.width;
+            float y2 = y1 + m_obRectInPixels.size.height;
+            m_sQuad.bl.vertices = ccTypes.vertex3(x1, y1, 0);
+            m_sQuad.br.vertices = ccTypes.vertex3(x2, y1, 0);
+            m_sQuad.tl.vertices = ccTypes.vertex3(x1, y2, 0);
+            m_sQuad.tr.vertices = ccTypes.vertex3(x2, y2, 0);
         }
 
         /** updates the texture rect of the CCSprite in points. */
         public void setTextureRect(CCRect rect)
         {
-            throw new NotImplementedException();
+            CCRect rectInPixels = ccMacros.CC_RECT_POINTS_TO_PIXELS(rect);
+            setTextureRectInPixels(rectInPixels, false, rectInPixels.size);
         }
 
         /** updates the texture rect, rectRotated and untrimmed size of the CCSprite in pixels */
         public void setTextureRectInPixels(CCRect rect, bool rotated, CCSize size)
         {
-            throw new NotImplementedException();
+            m_obRectInPixels = rect;
+            m_obRect = ccMacros.CC_RECT_PIXELS_TO_POINTS(rect);
+            m_bRectRotated = rotated;
+
+            contentSizeInPixels = size;
+            updateTextureCoords(m_obRectInPixels);
+
+            CCPoint relativeOffsetInPixels = m_obUnflippedOffsetPositionFromCenter;
+
+            if (m_bFlipX)
+            {
+                relativeOffsetInPixels.x = -relativeOffsetInPixels.x;
+            }
+            if (m_bFlipY)
+            {
+                relativeOffsetInPixels.y = -relativeOffsetInPixels.y;
+            }
+
+            m_obOffsetPositionInPixels.x = relativeOffsetInPixels.x + (m_tContentSizeInPixels.width - m_obRectInPixels.size.width) / 2;
+            m_obOffsetPositionInPixels.y = relativeOffsetInPixels.y + (m_tContentSizeInPixels.height - m_obRectInPixels.size.height) / 2;
+
+            // rendering using batch node
+            if (m_bUseBatchNode)
+            {
+                // update dirty_, don't update recursiveDirty_
+                m_bDirty = true;
+            }
+            else
+            {
+                // self rendering
+
+                // Atlas: Vertex
+                float x1 = 0 + m_obOffsetPositionInPixels.x;
+		        float y1 = 0 + m_obOffsetPositionInPixels.y;
+		        float x2 = x1 + m_obRectInPixels.size.width;
+		        float y2 = y1 + m_obRectInPixels.size.height;
+
+		        // Don't update Z.
+		        m_sQuad.bl.vertices = ccTypes.vertex3(x1, y1, 0);
+		        m_sQuad.br.vertices = ccTypes.vertex3(x2, y1, 0);
+		        m_sQuad.tl.vertices = ccTypes.vertex3(x1, y2, 0);
+		        m_sQuad.tr.vertices = ccTypes.vertex3(x2, y2, 0);
+            }
         }
 
         ///@todo
@@ -600,6 +964,10 @@ namespace cocos2d
         // opacity and RGB protocol
         protected ccColor3B m_sColorUnmodified;
         protected bool m_bOpacityModifyRGB;
+
+        // image is flipped
+        protected bool m_bFlipX;
+        protected bool m_bFlipY;
     }
 
     public struct transformValues_

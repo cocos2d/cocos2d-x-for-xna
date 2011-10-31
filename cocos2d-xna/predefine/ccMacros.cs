@@ -149,6 +149,11 @@ namespace cocos2d
         public static readonly string CC_RETINA_DISPLAY_FILENAME_SUFFIX = "-hd";
         public static readonly float CC_DIRECTOR_FPS_INTERVAL = 0.5f;
 
+        /*
+         * Macros defined in CCSprite.h
+         */
+        public static readonly uint CCSpriteIndexNotInitialized = 0xffffffff; // CCSprite invalid index on the CCSpriteBatchode
+
 
         // The following macros are defined for opengl es, they are not needed.
 
