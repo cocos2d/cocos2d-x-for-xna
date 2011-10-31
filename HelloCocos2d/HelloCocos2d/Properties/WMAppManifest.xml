@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.0">
   <App xmlns="" ProductID="{fae88574-fc54-4ebe-9407-c02ff91f66b5}" Title="HelloCocos2d" RuntimeType="XNA" Version="1.0.0.0" Genre="Apps.Normal" Author="" Description="" Publisher="">
     <IconPath IsRelative="true" IsResource="false"></IconPath>
     <Capabilities>
@@ -15,10 +15,6 @@
       <Capability Name="ID_CAP_IDENTITY_USER" />
       <Capability Name="ID_CAP_IDENTITY_DEVICE" />
 
-      <!-- Windows Phone OS 7.1 Capabilities -->
-      <Capability Name="ID_CAP_ISV_CAMERA" />
-      <Capability Name="ID_CAP_CONTACTS" />
-      <Capability Name="ID_CAP_APPOINTMENTS" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default"/>
