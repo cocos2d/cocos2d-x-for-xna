@@ -114,7 +114,6 @@ namespace cocos2d
         #region GameComponent
 
         Game game;
-
         public CCApplication(Game game, ContentManager content)
             : base(game)
         {
@@ -153,7 +152,6 @@ namespace cocos2d
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             base.LoadContent();
         }
 

@@ -25,7 +25,8 @@ namespace cocos2d
 
         public override void startAnimation()
         {
-            sharedDirector().animationInterval = m_dAnimationInterval;
+            m_bInvalid = false;
+            //sharedDirector().animationInterval = m_dAnimationInterval;
         }
 
         public override void mainLoop(GameTime gameTime)

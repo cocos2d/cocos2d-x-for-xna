@@ -116,17 +116,9 @@ namespace cocos2d
 
         protected void setNextScene()
         {
-            ccSceneFlag runningSceneType = ccSceneFlag.ccNormalScene;
-            ccSceneFlag newSceneType = m_pNextScene.getSceneType();
-
-            if (m_pRunningScene != null)
-            {
-                runningSceneType = m_pRunningScene.getSceneType();
-            }
-
             // If it is not a transition, call onExit/cleanup
             /*if (! newIsTransition)*/
-            if (((int)newSceneType & (int)ccSceneFlag.ccTransitionScene) > 0)
+            if (!(m_pNextScene is CCTransitionScene))
             {
                 if (m_pRunningScene != null)
                 {
@@ -149,7 +141,7 @@ namespace cocos2d
             // m_pNextScene.retain();
             m_pNextScene = null;
 
-            if (((int)runningSceneType & (int)ccSceneFlag.ccTransitionScene) > 0 && m_pRunningScene != null)
+            if (!(m_pRunningScene is CCTransitionScene) && m_pRunningScene != null)
             {
                 m_pRunningScene.onEnter();
                 m_pRunningScene.onEnterTransitionDidFinish();

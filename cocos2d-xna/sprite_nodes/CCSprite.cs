@@ -26,6 +26,8 @@ THE SOFTWARE.
 
 using System;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 namespace cocos2d
 {
     /**
@@ -72,7 +74,7 @@ namespace cocos2d
     * The default anchorPoint in CCSprite is (0.5, 0.5).
     */
     public class CCSprite : CCNode, CCTextureProtocol, CCRGBAProtocol
-    {        
+    {
         // Properties
 
         /** Opacity: conforms to CCRGBAProtocol protocol */
@@ -246,6 +248,14 @@ namespace cocos2d
 
         public override void draw()
         {
+            //Debug.WriteLine("CCSprite.draw");
+            Texture2D textureHello = CCApplication.sharedApplication().content.Load<Texture2D>("HelloWorld");
+            CCApplication.sharedApplication().spriteBatch.Begin();
+
+            CCApplication.sharedApplication().spriteBatch.Draw(textureHello, Vector2.Zero, Color.White);
+
+            CCApplication.sharedApplication().spriteBatch.End();
+
             ///@todo
             //throw new NotImplementedException();
         }
@@ -463,12 +473,12 @@ namespace cocos2d
                 ///@todo
                 //assert(((CCSprite*)pChild)->getTexture()->getName() == m_pobTextureAtlas->getTexture()->getName());
                 //unsigned int index = m_pobBatchNode->atlasIndexForChild((CCSprite*)(pChild), zOrder);
-		        //m_pobBatchNode->insertChild((CCSprite*)(pChild), index);
+                //m_pobBatchNode->insertChild((CCSprite*)(pChild), index);
                 throw new NotImplementedException();
             }
 
             m_bHasChildren = true;
-        }      
+        }
 
         public virtual void setDirtyRecursively(bool bValue)
         {
@@ -721,14 +731,14 @@ namespace cocos2d
         }
 
         /** opacity: conforms to CCRGBAProtocol protocol */
-	    public virtual void setIsOpacityModifyRGB(bool bValue)
+        public virtual void setIsOpacityModifyRGB(bool bValue)
         {
             ccColor3B oldColor = m_sColor;
             m_bOpacityModifyRGB = bValue;
             m_sColor = oldColor;
         }
 
-	    public virtual bool getIsOpacityModifyRGB()
+        public virtual bool getIsOpacityModifyRGB()
         {
             return m_bOpacityModifyRGB;
         }
@@ -736,7 +746,7 @@ namespace cocos2d
         // CCTextureProtocol
         public virtual void setTexture(CCTexture2D texture)
         {
-            Debug.Assert(! m_bUseBatchNode,  "CCSprite: setTexture doesn't work when the sprite is rendered using a CCSpriteBatchNode");
+            Debug.Assert(!m_bUseBatchNode, "CCSprite: setTexture doesn't work when the sprite is rendered using a CCSpriteBatchNode");
 
             m_pobTexture = texture;
 
@@ -813,7 +823,7 @@ namespace cocos2d
         /** Initializes an sprite with an CCSpriteBatchNode and a rect in pixels
 	    @since v0.99.5
 	    */
-	    //bool initWithBatchNodeRectInPixels(CCSpriteBatchNode *batchNode, const CCRect& rect);
+        //bool initWithBatchNodeRectInPixels(CCSpriteBatchNode *batchNode, const CCRect& rect);
 
         // BatchNode methods
 
@@ -891,15 +901,15 @@ namespace cocos2d
 
                 // Atlas: Vertex
                 float x1 = 0 + m_obOffsetPositionInPixels.x;
-		        float y1 = 0 + m_obOffsetPositionInPixels.y;
-		        float x2 = x1 + m_obRectInPixels.size.width;
-		        float y2 = y1 + m_obRectInPixels.size.height;
+                float y1 = 0 + m_obOffsetPositionInPixels.y;
+                float x2 = x1 + m_obRectInPixels.size.width;
+                float y2 = y1 + m_obRectInPixels.size.height;
 
-		        // Don't update Z.
-		        m_sQuad.bl.vertices = ccTypes.vertex3(x1, y1, 0);
-		        m_sQuad.br.vertices = ccTypes.vertex3(x2, y1, 0);
-		        m_sQuad.tl.vertices = ccTypes.vertex3(x1, y2, 0);
-		        m_sQuad.tr.vertices = ccTypes.vertex3(x2, y2, 0);
+                // Don't update Z.
+                m_sQuad.bl.vertices = ccTypes.vertex3(x1, y1, 0);
+                m_sQuad.br.vertices = ccTypes.vertex3(x2, y1, 0);
+                m_sQuad.tl.vertices = ccTypes.vertex3(x1, y2, 0);
+                m_sQuad.tr.vertices = ccTypes.vertex3(x2, y2, 0);
             }
         }
 
@@ -921,7 +931,7 @@ namespace cocos2d
 
         ///@todo
         /** returns the current displayed frame. */
-	    //CCSpriteFrame* displayedFrame(void);
+        //CCSpriteFrame* displayedFrame(void);
 
         // Animation
 
@@ -980,9 +990,9 @@ namespace cocos2d
     {
         CCPoint pos;    // position  x and y
         CCPoint scale;  // scale x and y
-        float   rotation;
+        float rotation;
         CCPoint skew;   // skew x and y
         CCPoint ap;     // anchor point in pixels
-        bool    visible;
+        bool visible;
     }
 }
