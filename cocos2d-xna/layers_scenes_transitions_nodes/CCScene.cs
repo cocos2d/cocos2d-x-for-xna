@@ -31,12 +31,6 @@ using System.Text;
 
 namespace cocos2d
 {
-    public enum ccSceneFlag
-    {
-	    ccNormalScene     = 1 << 0,
-	    ccTransitionScene = 1 << 1,
-    };
-
     /** @brief CCScene is a subclass of CCNode that is used only as an abstract concept.
 
     CCScene an CCNode are almost identical with the difference that CCScene has it's
@@ -53,7 +47,6 @@ namespace cocos2d
         {
             isRelativeAnchorPoint = false;
             anchorPoint = CCPointExtension.ccp(0.5f, 0.5f);
-            sceneType = ccSceneFlag.ccNormalScene;
         }
 
 	    ~CCScene()
@@ -93,13 +86,58 @@ namespace cocos2d
 
             return null;
         }
+    }
 
-	    public ccSceneFlag getSceneType() 
-        { 
-            return sceneType; 
+    public class CCNormalScene : CCScene
+    {
+        public CCNormalScene()
+        {
         }
 
-        protected ccSceneFlag sceneType;
+        ~CCNormalScene()
+        {
+        }
+
+        public static new CCNormalScene node()
+        {
+            CCNormalScene pRet = new CCNormalScene();
+            if (pRet.init())
+            {
+                return pRet;
+            }
+            else
+            {
+                return null;
+            }
+
+            return null;
+        }
+    }
+
+    public class CCTransitionScene : CCScene
+    {
+        public CCTransitionScene()
+        {
+        }
+
+        ~CCTransitionScene()
+        {
+        }
+
+        public static new CCTransitionScene node()
+        {
+            CCTransitionScene pRet = new CCTransitionScene();
+            if (pRet.init())
+            {
+                return pRet;
+            }
+            else
+            {
+                return null;
+            }
+
+            return null;
+        }
     }
 
 }
