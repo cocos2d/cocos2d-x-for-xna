@@ -244,6 +244,12 @@ namespace cocos2d
             m_sBlendFunc = value;
         }
 
+        public override void draw()
+        {
+            ///@todo
+            //throw new NotImplementedException();
+        }
+
         /** Creates an sprite with a texture.
 	     The rect used will be the size of the texture.
 	     The offset will be (0,0).
