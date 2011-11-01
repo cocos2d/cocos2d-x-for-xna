@@ -138,7 +138,10 @@ namespace cocos2d
         {
             foreach (CCNode node in m_pChildren)
             {
-                node.onEnter();
+                if (node != null)
+                {
+                    node.onEnter();
+                }              
             }
 
             resumeSchedulerAndActions();
@@ -154,7 +157,10 @@ namespace cocos2d
         {
             foreach (CCNode node in m_pChildren)
             {
-                node.onEnterTransitionDidFinish();
+                if (node != null)
+                {
+                    node.onEnterTransitionDidFinish();
+                }               
             }
         }
 
@@ -170,7 +176,10 @@ namespace cocos2d
 
             foreach (CCNode node in m_pChildren)
             {
-                node.onExit();
+                if (node != null)
+                {
+                    node.onExit();
+                }                
             }
         }
 
@@ -284,21 +293,24 @@ namespace cocos2d
 
             foreach (CCNode node in m_pChildren)
             {
-                // IMPORTANT:
-                //  -1st do onExit
-                //  -2nd cleanup
-                if (m_bIsRunning)
+                if (node != null)
                 {
-                    node.onExit();
-                }
+                    // IMPORTANT:
+                    //  -1st do onExit
+                    //  -2nd cleanup
+                    if (m_bIsRunning)
+                    {
+                        node.onExit();
+                    }
 
-                if (cleanup)
-                {
-                    node.cleanup();
-                }
+                    if (cleanup)
+                    {
+                        node.cleanup();
+                    }
 
-                // set parent nil at the end
-                node.parent = null;
+                    // set parent nil at the end
+                    node.parent = null;
+                }               
             }
 
             m_pChildren.Clear();
@@ -316,7 +328,7 @@ namespace cocos2d
 
             foreach (CCNode node in m_pChildren)
             {
-                if (node.m_nTag == tag)
+                if (node != null && node.m_nTag == tag)
                 {
                     return node;
                 }
@@ -349,7 +361,10 @@ namespace cocos2d
             // timers
             foreach (CCNode node in m_pChildren)
             {
-                node.cleanup();
+                if (node != null)
+                {
+                    node.cleanup();
+                }              
             }
         }
 
@@ -406,7 +421,7 @@ namespace cocos2d
                 for (; i < m_pChildren.Count; ++i)
                 {
                     node = m_pChildren[i];
-                    if (node.m_nZOrder < 0)
+                    if (node != null && node.m_nZOrder < 0)
                     {
                         node.visit();
                     }
@@ -427,7 +442,10 @@ namespace cocos2d
                 {
                     node = m_pChildren[i];
 
-                    node.visit();
+                    if (node != null)
+                    {
+                        node.visit();
+                    }                   
                 }
             }
 
@@ -737,7 +755,7 @@ namespace cocos2d
                 int index = 0;
                 foreach (CCNode node in m_pChildren)
                 {
-                    if (node.m_nZOrder > z)
+                    if (node != null && node.m_nZOrder > z)
                     {
                         m_pChildren.Insert(index, child);
                         break;
