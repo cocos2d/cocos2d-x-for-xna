@@ -135,7 +135,7 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-                /**
+        /**
         @brief	Create image with specified string.
         @param  pText       the text which the image show, nil cause init fail
         @param  nWidth      the image width, if 0, the width match the text's width

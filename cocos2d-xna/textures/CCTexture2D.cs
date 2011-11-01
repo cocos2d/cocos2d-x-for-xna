@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 //#include <string>
 //#include "CCObject.h"
@@ -107,21 +109,21 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-	    /** These functions are needed to create mutable textures */
-	    public void releaseData(object data)
-        {
-            throw new NotImplementedException();
-        }
-	    public object keepData(object data, uint length)
-        {
-            throw new NotImplementedException();
-        }
+        ///** These functions are needed to create mutable textures */
+        //public void releaseData(object data)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public object keepData(object data, uint length)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-	    /** Intializes with a texture2d with data */
-	    public bool initWithData(object data, CCTexture2DPixelFormat pixelFormat, uint pixelsWide, uint pixelsHigh, CCSize contentSize)
-        {
-            throw new NotImplementedException();
-        }
+        ///** Intializes with a texture2d with data */
+        //public bool initWithData(object data, CCTexture2DPixelFormat pixelFormat, uint pixelsWide, uint pixelsHigh, CCSize contentSize)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 	    /**
 	    Drawing extensions to make it easy to draw basic quads using a CCTexture2D object.
@@ -130,23 +132,29 @@ namespace cocos2d
 	    /** draws a texture at a given point */
 	    public void drawAtPoint(CCPoint point)
         {
-            throw new NotImplementedException();
+            // todo get spritebatch
+            //spriteBatch.Begin();
+            //spriteBatch.Draw(texture2D, new Vector2(point.x, point.y), Color.White);
+            //spriteBatch.End();
         }
 	    /** draws a texture inside a rect */
 	    public void drawInRect(CCRect rect)
         {
-            throw new NotImplementedException();
+            // todo get spritebatch
+            //spriteBatch.Begin();
+            // spriteBatch.Draw(texture2D, new Rectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height), Color.White);
+            //spriteBatch.End();
         }
 
-	    /**
-	    Extensions to make it easy to create a CCTexture2D object from an image file.
-	    Note that RGBA type textures will have their alpha premultiplied - use the blending mode (GL_ONE, GL_ONE_MINUS_SRC_ALPHA).
-	    */
-	    /** Initializes a texture from a UIImage object */
-	    public bool initWithImage(CCImage uiImage)
-        {
-            throw new NotImplementedException();
-        }
+        ///**
+        //Extensions to make it easy to create a CCTexture2D object from an image file.
+        //Note that RGBA type textures will have their alpha premultiplied - use the blending mode (GL_ONE, GL_ONE_MINUS_SRC_ALPHA).
+        //*/
+        ///** Initializes a texture from a UIImage object */
+        //public bool initWithImage(CCImage uiImage)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 	    /**
 	    Extensions to make it easy to create a CCTexture2D object from a string of text.
@@ -185,6 +193,14 @@ namespace cocos2d
 	    public bool initWithPVRFile(string file)
         {
             throw new NotImplementedException();
+        }
+
+        /** Initializes a texture from a content file */
+        public bool initWithFile(string file)
+        {
+            // todo load texture2d from file 
+            // texture2D = Content.Load<Texture2D>(file);
+            return false;
         }
 
 	    /** sets the min filter, mag filter, wrap s and wrap t texture parameters.
@@ -269,9 +285,15 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        private bool initPremultipliedATextureWithImage(CCImage image, uint pixelsWide, uint pixelsHigh)
-        {
-            throw new NotImplementedException();
+        //private bool initPremultipliedATextureWithImage(CCImage image, uint pixelsWide, uint pixelsHigh)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        private Texture2D texture2D;
+        public Texture2D getTexture2D()
+        { 
+            return texture2D; 
         }
     
         // By default PVR images are treated as if they don't have the alpha channel premultiplied
