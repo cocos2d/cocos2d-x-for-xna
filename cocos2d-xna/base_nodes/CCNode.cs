@@ -728,7 +728,7 @@ namespace cocos2d
             // Get last member
             CCNode a = m_pChildren.Count > 0 ? m_pChildren[m_pChildren.Count - 1] : null;
 
-            if (a.zOrder <= z)
+            if (a != null || a.zOrder <= z)
             {
                 m_pChildren.Add(child);
             }
