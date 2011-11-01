@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
@@ -132,18 +133,26 @@ namespace cocos2d
 	    /** draws a texture at a given point */
 	    public void drawAtPoint(CCPoint point)
         {
-            // todo get spritebatch
-            //spriteBatch.Begin();
-            //spriteBatch.Draw(texture2D, new Vector2(point.x, point.y), Color.White);
-            //spriteBatch.End();
+            if (null == texture2D)
+            {
+                return;
+            }
+
+            CCApplication.sharedApplication().spriteBatch.Begin();
+            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(point.x, point.y), Color.White);
+            CCApplication.sharedApplication().spriteBatch.End();
         }
 	    /** draws a texture inside a rect */
 	    public void drawInRect(CCRect rect)
         {
-            // todo get spritebatch
-            //spriteBatch.Begin();
-            // spriteBatch.Draw(texture2D, new Rectangle(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height), Color.White);
-            //spriteBatch.End();
+            if (null == texture2D)
+            {
+                return;
+            }
+
+            CCApplication.sharedApplication().spriteBatch.Begin();
+            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Rectangle((int)(rect.origin.x), (int)(rect.origin.y), (int)(rect.size.width), (int)(rect.size.height)), Color.White);
+            CCApplication.sharedApplication().spriteBatch.End();
         }
 
         ///**
@@ -198,9 +207,19 @@ namespace cocos2d
         /** Initializes a texture from a content file */
         public bool initWithFile(string file)
         {
-            // todo load texture2d from file 
-            // texture2D = Content.Load<Texture2D>(file);
-            return false;
+            bool ret = false;
+            do
+            {
+                // todo check whether the file format is correct 
+                texture2D = CCApplication.sharedApplication().content.Load<Texture2D>(file);
+                if (null != texture2D)
+                {
+                    ret = true;
+                    break;
+                }
+                
+            } while (false);
+            return ret;
         }
 
 	    /** sets the min filter, mag filter, wrap s and wrap t texture parameters.
