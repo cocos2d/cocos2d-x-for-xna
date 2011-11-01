@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace cocos2d.platform
+namespace cocos2d
 {
     public abstract class CCApplication : Microsoft.Xna.Framework.DrawableGameComponent
     {
@@ -21,7 +21,7 @@ namespace cocos2d.platform
         { }
 
         // sharedApplication pointer
-        static CCApplication sm_pSharedApplication;
+        protected static CCApplication sm_pSharedApplication;
 
         /// <summary>
         /// Get current applicaiton instance.
@@ -39,7 +39,7 @@ namespace cocos2d.platform
         /// </summary>
         public virtual bool initInstance()
         {
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -57,12 +57,18 @@ namespace cocos2d.platform
         /// <summary>
         ///  The function be called when the application enter background
         /// </summary>
-        public virtual void applicationDidEnterBackground() { }
+        public virtual void applicationDidEnterBackground() 
+        {
+            
+        }
 
         /// <summary>
         /// The function be called when the application enter foreground
         /// </summary>
-        public virtual void applicationWillEnterForeground() { }
+        public virtual void applicationWillEnterForeground()
+        {
+
+        }
 
         #endregion
 
@@ -79,9 +85,9 @@ namespace cocos2d.platform
         }
 
         /// <summary>
-        /// Callback by CCDirector for change device orientation. 
+        /// Callback by CCDirector for change devic e orientation. 
         /// </summary>
-        /// <param name="orientation">  The defination of orientation which CCDirector want change to.</param>
+        /// <param name="orientation">The defination of orientation which CCDirector want change to.</param>
         /// <returns>The actual orientation of the application.</returns>
         public Orientation orientation
         {
@@ -108,15 +114,22 @@ namespace cocos2d.platform
         #region GameComponent
 
         Game game;
-        public CCApplication(Game game)
+
+        public CCApplication(Game game, ContentManager content)
             : base(game)
         {
             this.game = game;
+            this._graphics = new GraphicsDeviceManager(game);
+            this.content = content;
         }
 
         public override void Initialize()
         {
             sm_pSharedApplication = this;
+            PVRFrameEnableControlWindow(false);
+
+            initInstance();
+            applicationDidFinishLaunching();
 
             base.Initialize();
         }
@@ -132,11 +145,35 @@ namespace cocos2d.platform
 
         public override void Draw(GameTime gameTime)
         {
-            CCDirector.sharedDirector().mainLoop();
+            CCDirector.sharedDirector().mainLoop(gameTime);
+
             base.Draw(gameTime);
         }
 
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            base.LoadContent();
+        }
+
         #endregion
+
+        GraphicsDeviceManager _graphics;
+
+        /// <summary>
+        /// Gets the current ContentManager
+        /// </summary>
+        internal ContentManager content
+        {
+            get;
+            private set;
+        }
+        internal SpriteBatch spriteBatch
+        {
+            get;
+            private set;
+        }
     }
 
     public enum Orientation

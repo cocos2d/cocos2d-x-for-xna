@@ -2,29 +2,60 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
+    /***************************************************
+    * implementation of DisplayLinkDirector
+    **************************************************/
+
+    // should we afford 4 types of director ??
+    // I think DisplayLinkDirector is enough
+    // so we now only support DisplayLinkDirector
+
     public class CCDisplayLinkDirector : CCDirector
     {
-        public override void setAnimationInterval(double dValue)
-        {
-            throw new NotImplementedException();
-        }
+        bool m_bInvalid;
 
         public override void stopAnimation()
         {
-            throw new NotImplementedException();
+            m_bInvalid = true;
         }
 
         public override void startAnimation()
         {
-            throw new NotImplementedException();
+            sharedDirector().animationInterval = m_dAnimationInterval;
         }
 
-        public override void mainLoop()
+        public override void mainLoop(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            if (m_bPurgeDirecotorInNextLoop)
+            {
+                purgeDirector();
+                m_bPurgeDirecotorInNextLoop = false;
+            }
+            else if (!m_bInvalid)
+            {
+                drawScene();
+            }
+        }
+
+        public override double animationInterval
+        {
+            get
+            {
+                return base.animationInterval;
+            }
+            set
+            {
+                m_dAnimationInterval = value;
+                if (!m_bInvalid)
+                {
+                    stopAnimation();
+                    startAnimation();
+                }
+            }
         }
     }
 }

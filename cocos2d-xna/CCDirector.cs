@@ -12,11 +12,284 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
-    public abstract class CCDirector
+    public abstract class CCDirector : CCObject
     {
-        public virtual bool init()
+        readonly double kDefaultFPS = 60;
+
+        #region singleton stuff
+
+        /** There are 4 types of Director.
+        - kCCDirectorTypeNSTimer (default)
+        - kCCDirectorTypeMainLoop
+        - kCCDirectorTypeThreadMainLoop
+        - kCCDirectorTypeDisplayLink
+
+        Each Director has it's own benefits, limitations.
+        Now we only support DisplayLink director, so it has not effect. 
+       */
+
+        ///<summary>
+        /// This method should be called before any other call to the director.
+        ///@since v0.8.2
+        /// </summary>
+        public static bool setDirectorType(ccDirectorType obDirectorType)
+        {
+            // we only support CCDisplayLinkDirector
+            CCDirector.sharedDirector();
+
+            return true;
+        }
+
+        static CCDirector s_sharedDirector = new CCDisplayLinkDirector();
+        static bool s_bFirstRun = true;
+
+        /// <summary>
+        /// returns a shared instance of the director
+        /// </summary>
+        /// <returns></returns>
+        public static CCDirector sharedDirector()
+        {
+            if (s_bFirstRun)
+            {
+                s_sharedDirector.init();
+                s_bFirstRun = false;
+            }
+
+            return s_sharedDirector;
+        }
+
+        #endregion
+
+        #region Protected
+
+        protected void purgeDirector()
+        {
+            // don't release the event handlers
+            // They are needed in case the director is run again
+            //CCTouchDispatcher::sharedDispatcher()->removeAllDelegates();
+
+            if (m_pRunningScene != null)
+            {
+                //m_pRunningScene->onExit();
+                //m_pRunningScene->cleanup();
+                //m_pRunningScene->release();
+            }
+
+            m_pRunningScene = null;
+            m_pNextScene = null;
+
+            // remove all objects, but don't release it.
+            // runWithScene might be executed after 'end'.
+            m_pobScenesStack.Clear();
+
+            stopAnimation();
+
+#if CC_DIRECTOR_FAST_FPS
+            //CC_SAFE_RELEASE_NULL(m_pFPSLabel);
+#endif
+
+            //CC_SAFE_RELEASE_NULL(m_pProjectionDelegate);
+
+            // purge bitmap cache
+            //CCLabelBMFont::purgeCachedData();
+
+            // purge all managers
+            //CCAnimationCache::purgeSharedAnimationCache();
+            //CCSpriteFrameCache::purgeSharedSpriteFrameCache();
+            //CCActionManager::sharedManager()->purgeSharedManager();
+            //CCScheduler::purgeSharedScheduler();
+            //CCTextureCache::purgeSharedTextureCache();
+
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_AIRPLAY)	
+	CCUserDefault::purgeSharedUserDefault();
+#endif
+            // OpenGL view
+            //m_pobOpenGLView->release();
+            //m_pobOpenGLView = NULL;
+        }
+        protected bool m_bPurgeDirecotorInNextLoop; // this flag will be set to true in end()
+
+        protected void updateContentScaleFactor()
         {
             throw new NotImplementedException();
+        }
+
+        protected void setNextScene()
+        {
+            ccSceneFlag runningSceneType = ccSceneFlag.ccNormalScene;
+            ccSceneFlag newSceneType = m_pNextScene.getSceneType();
+
+            if (m_pRunningScene != null)
+            {
+                runningSceneType = m_pRunningScene.getSceneType();
+            }
+
+            // If it is not a transition, call onExit/cleanup
+            /*if (! newIsTransition)*/
+            if (((int)newSceneType & (int)ccSceneFlag.ccTransitionScene) > 0)
+            {
+                if (m_pRunningScene != null)
+                {
+                    m_pRunningScene.onExit();
+                }
+
+                // issue #709. the root node (scene) should receive the cleanup message too
+                // otherwise it might be leaked.
+                if (m_bSendCleanupToScene && m_pRunningScene != null)
+                {
+                    m_pRunningScene.cleanup();
+                }
+            }
+
+            if (m_pRunningScene != null)
+            {
+                //m_pRunningScene.release();
+            }
+            m_pRunningScene = m_pNextScene;
+            // m_pNextScene.retain();
+            m_pNextScene = null;
+
+            if (((int)runningSceneType & (int)ccSceneFlag.ccTransitionScene) > 0 && m_pRunningScene != null)
+            {
+                m_pRunningScene.onEnter();
+                m_pRunningScene.onEnterTransitionDidFinish();
+            }
+        }
+
+#if CC_DIRECTOR_FAST_FPS
+        /** shows the FPS in the screen */
+        protected void showFPS()
+        {
+            throw new NotImplementedException();
+        }
+#else
+        protected void showFPS()
+        {
+            throw new NotImplementedException();
+        }
+#endif // CC_DIRECTOR_FAST_FPS
+
+        /** calculates delta time since last time it was called */
+        protected void calculateDeltaTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected double m_dAnimationInterval;
+        protected double m_dOldAnimationInterval;
+
+        /* landscape mode ? */
+        bool m_bLandscape;
+
+        bool m_bDisplayFPS;
+        float m_fAccumDt;
+        float m_fFrameRate;
+#if	CC_DIRECTOR_FAST_FPS
+        //CCLabelTTF *m_pFPSLabel;
+#endif
+
+        /* is the running scene paused */
+        bool m_bPaused;
+
+        /* How many frames were called since the director started */
+        uint m_uTotalFrames;
+        uint m_uFrames;
+
+        /* The running scene */
+        CCScene m_pRunningScene;
+
+        /* will be the next 'runningScene' in the next frame
+         nextScene is a weak reference. */
+        CCScene m_pNextScene;
+
+        /* If YES, then "old" scene will receive the cleanup message */
+        bool m_bSendCleanupToScene;
+
+        /* scheduled scenes */
+        List<CCScene> m_pobScenesStack;
+
+        /* last time the main loop was updated */
+        // cc_timeval m_pLastUpdate;
+
+        /* delta time since last tick to main loop */
+        float m_fDeltaTime;
+
+        /* whether or not the next delta time will be zero */
+        bool m_bNextDeltaTimeZero;
+
+        /* projection used */
+        ccDirectorProjection m_eProjection;
+
+        /* window size in points */
+        CCSize m_obWinSizeInPoints;
+
+        /* window size in pixels */
+        CCSize m_obWinSizeInPixels;
+
+        /* content scale factor */
+        float m_fContentScaleFactor;
+
+        /* store the fps string */
+        string m_pszFPS;
+
+        /* This object will be visited after the scene. Useful to hook a notification node */
+        CCNode m_pNotificationNode;
+
+        /* Projection protocol delegate */
+        //CCProjectionProtocol *m_pProjectionDelegate;
+
+        /* The device orientation */
+        ccDeviceOrientation m_eDeviceOrientation;
+        /* contentScaleFactor could be simulated */
+        bool m_bIsContentScaleSupported;
+
+        bool m_bRetinaDisplay;
+
+        #endregion
+
+        public virtual bool init()
+        {
+            //scene
+            m_pRunningScene = null;
+            m_pNextScene = null;
+
+            m_pNotificationNode = null;
+
+            m_dOldAnimationInterval = m_dAnimationInterval = 1.0 / kDefaultFPS;
+            m_pobScenesStack = new List<CCScene>();
+
+            // Set default projection (3D)
+            m_eProjection = ccDirectorProjection.kCCDirectorProjectionDefault;
+
+            // projection delegate if "Custom" projection is used
+            //m_pProjectionDelegate = NULL;
+
+            //FPS
+            m_bDisplayFPS = false;
+            m_uTotalFrames = m_uFrames = 0;
+            m_pszFPS = "";
+            //m_pLastUpdate = new struct cc_timeval();
+
+            m_bPaused = false;
+
+            //paused?
+            m_bPaused = false;
+
+            //purge?
+            m_bPurgeDirecotorInNextLoop = false;
+
+            m_obWinSizeInPixels = m_obWinSizeInPoints = new CCSize(0, 0);
+
+            // portrait mode default
+            m_eDeviceOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
+
+            //m_pobOpenGLView = NULL;
+
+            m_bRetinaDisplay = false;
+            m_fContentScaleFactor = 1;
+            m_bIsContentScaleSupported = false;
+
+            return true;
         }
 
         // attribute
@@ -24,20 +297,25 @@ namespace cocos2d
         /// <summary>
         ///  Get current running Scene. Director can only run one Scene at the time 
         /// </summary>
-        CCScene getRunningScene() { throw new NotImplementedException(); }
-
-        /// <summary>
-        /// Get the FPS value
-        /// </summary>
-        public double getAnimationInterval()
+        CCScene runningScene
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
-        /// Set the FPS value.
+        /// the FPS value
         /// </summary>
-        public abstract void setAnimationInterval(double dValue);
+        public virtual double animationInterval
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set { throw new NotImplementedException(); }
+        }
 
         /// <summary>
         /// Whether or not to display the FPS on the bottom-left corner 
@@ -54,12 +332,8 @@ namespace cocos2d
         /// <param name="bDisplayFPS"></param>
         public void setDisplayFPS(bool bDisplayFPS)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
-
-        /** Get the CCEGLView, where everything is rendered */
-        //public static CC_GLVIEW* getOpenGLView(void) { return m_pobOpenGLView; }
-        //void setOpenGLView(CC_GLVIEW *pobOpenGLView);
 
         public bool isNextDeltaTimeZero()
         {
@@ -92,8 +366,11 @@ namespace cocos2d
         ///@since v0.8.2
         /// </summary>
         /// <returns></returns>
-        public ccDirectorProjection getProjection() { throw new NotImplementedException(); }
-        public void setProjection(ccDirectorProjection kProjection) { }
+        public ccDirectorProjection projection
+        {
+            get;
+            set;
+        }
 
         /** How many frames were called since the director started */
 
@@ -114,7 +391,9 @@ namespace cocos2d
         /// <returns></returns>
         public CCSize getWinSize()
         {
-            throw new NotImplementedException();
+            CCSize s = new CCSize(800, 480);
+
+            return s;
         }
 
         /// <summary>
@@ -123,9 +402,12 @@ namespace cocos2d
         /// On Mac winSize and winSizeInPixels return the same value.
         /// </summary>
         /// <returns></returns>
-        public CCSize getWinSizeInPixels()
+        public CCSize winSizeInPixels
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
@@ -133,9 +415,12 @@ namespace cocos2d
         /// It doesn't take into account any possible rotation of the window.
         /// </summary>
         /// <returns></returns>
-        public CCSize getDisplaySizeInPixels()
+        public CCSize displaySizeInPixels
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
@@ -170,7 +455,13 @@ namespace cocos2d
         }
 
         /// XXX: missing description 
-        public float getZEye() { throw new NotImplementedException(); }
+        public float zEye
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         // Scene Management
 
@@ -182,7 +473,11 @@ namespace cocos2d
         /// <param name="pScene"></param>
         public void runWithScene(CCScene pScene)
         {
-            throw new NotImplementedException();
+            Debug.Assert(pScene != null, "pScene cannot be null");
+            Debug.Assert(m_pRunningScene == null, "m_pRunningScene cannot be null");
+
+            pushScene(pScene);
+            startAnimation();
         }
 
         /// <summary>
@@ -194,7 +489,12 @@ namespace cocos2d
         /// <param name="pScene"></param>
         public void pushScene(CCScene pScene)
         {
-            throw new NotImplementedException();
+            Debug.Assert(pScene != null, "pScene cannot be null");
+
+            m_bSendCleanupToScene = false;
+
+            m_pobScenesStack.Add(pScene);
+            m_pNextScene = pScene;
         }
 
         /// <summary>
@@ -270,9 +570,56 @@ namespace cocos2d
         /// Draw the scene.
         /// This method is called every frame. Don't call it manually.
         /// </summary>
-        public void drawScene()
+        protected void drawScene()
         {
-            throw new NotImplementedException();
+            //tick before glClear: issue #533
+            if (!m_bPaused)
+            {
+                //CCScheduler::sharedScheduler()->tick(m_fDeltaTime);
+            }
+
+            //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            /* to avoid flickr, nextScene MUST be here: after tick and before draw.
+             XXX: Which bug is this one. It seems that it can't be reproduced with v0.9 */
+            if (m_pNextScene != null)
+            {
+                setNextScene();
+            }
+
+            //glPushMatrix();
+
+            applyOrientation();
+
+            // By default enable VertexArray, ColorArray, TextureCoordArray and Texture2D
+            // CC_ENABLE_DEFAULT_GL_STATES();
+
+            // draw the scene
+            if (m_pRunningScene != null)
+            {
+                m_pRunningScene.visit();
+            }
+
+            // draw the notifications node
+            if (m_pNotificationNode != null)
+            {
+                m_pNotificationNode.visit();
+            }
+
+            if (m_bDisplayFPS)
+            {
+                showFPS();
+            }
+
+#if CC_ENABLE_PROFILERS
+	showProfilers();
+#endif
+
+            //CC_DISABLE_DEFAULT_GL_STATES();
+
+            //glPopMatrix();
+
+            m_uTotalFrames++;
         }
 
         // Memory Helper
@@ -314,7 +661,7 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        public abstract void mainLoop();
+        public abstract void mainLoop(GameTime gameTime);
 
         // Profiler
         public void showProfilers()
@@ -327,7 +674,34 @@ namespace cocos2d
         /// </summary>
         public void applyOrientation()
         {
-            throw new NotImplementedException();
+            CCSize s = m_obWinSizeInPixels;
+            float w = s.width / 2;
+            float h = s.height / 2;
+
+            // XXX it's using hardcoded values.
+            // What if the the screen size changes in the future?
+            switch (m_eDeviceOrientation)
+            {
+                case ccDeviceOrientation.CCDeviceOrientationPortrait:
+                    // nothing
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown:
+                    // upside down
+                    //glTranslatef(w, h, 0);
+                    //glRotatef(180, 0, 0, 1);
+                    //glTranslatef(-w, -h, 0);
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationLandscapeRight:
+                    //glTranslatef(w, h, 0);
+                    //glRotatef(90, 0, 0, 1);
+                    //glTranslatef(-h, -w, 0);
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationLandscapeLeft:
+                    //glTranslatef(w, h, 0);
+                    //glRotatef(-90, 0, 0, 1);
+                    //glTranslatef(-h, -w, 0);
+                    break;
+            }
         }
 
         public ccDeviceOrientation deviceOrientation { get; set; }
@@ -352,31 +726,6 @@ namespace cocos2d
             throw new NotImplementedException();
         }
         public bool isRetinaDisplay()
-        {
-            throw new NotImplementedException();
-        }
-
-        /** There are 4 types of Director.
-        - kCCDirectorTypeNSTimer (default)
-        - kCCDirectorTypeMainLoop
-        - kCCDirectorTypeThreadMainLoop
-        - kCCDirectorTypeDisplayLink
-
-        Each Director has it's own benefits, limitations.
-        Now we only support DisplayLink director, so it has not effect. 
-        */
-
-        ///<summary>
-        /// This method should be called before any other call to the director.
-        ///@since v0.8.2
-        /// </summary>
-        public static bool setDirectorType(ccDirectorType obDirectorType) { throw new NotImplementedException(); }
-
-        /// <summary>
-        /// returns a shared instance of the director
-        /// </summary>
-        /// <returns></returns>
-        public static CCDirector sharedDirector()
         {
             throw new NotImplementedException();
         }

@@ -18,14 +18,12 @@ namespace HelloCocos2d
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         Texture2D textureHello;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             // Frame rate is 30 fps by default for Windows Phone.
@@ -34,10 +32,8 @@ namespace HelloCocos2d
             // Extend battery life under lock.
             InactiveSleepTime = TimeSpan.FromSeconds(1);
 
-            //CCDirector director = new CCDirector(this);
-            //this.Components.Add(director);
-
-            graphics.IsFullScreen = true;
+            CCApplication application = new AppDelegate(this, Content);
+            this.Components.Add(application);
         }
 
         /// <summary>
@@ -100,11 +96,11 @@ namespace HelloCocos2d
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
 
-            spriteBatch.Draw(textureHello, Vector2.Zero, Color.White);
+            //spriteBatch.Draw(textureHello, Vector2.Zero, Color.White);
 
-            spriteBatch.End();
+            //spriteBatch.End();
 
             base.Draw(gameTime);
         }
