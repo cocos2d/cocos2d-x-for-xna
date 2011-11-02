@@ -811,14 +811,20 @@ namespace cocos2d
 	     */
         public bool initWithFile(string fileName)
         {
-            CCTexture2D textureFromFile = new CCTexture2D();
-            if (false == textureFromFile.initWithFile(fileName))
+            Debug.Assert(null == fileName, "fileName is null");
+
+            CCTexture2D textureFromFile = CCTextureCache.sharedTextureCache().addImage(fileName);
+
+            if (null != textureFromFile)
             {
-                return false;
+                CCRect rect = new CCRect();
+                rect.origin.x = 0.0f;
+                rect.origin.y = 0.0f;
+                rect.size = textureFromFile.getContentSize();
+                return initWithTexture(textureFromFile, rect);
             }
 
-            return initWithTexture(textureFromFile);
-
+            return false;
         }
 
         /** Initializes an sprite with an image filename, and a rect.

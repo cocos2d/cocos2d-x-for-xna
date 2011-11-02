@@ -206,21 +206,16 @@ namespace cocos2d
         }
 
         /** Initializes a texture from a content file */
-        public bool initWithFile(string file)
+        public bool initWithTexture(Texture2D texture)
         {
-            bool ret = false;
-            do
+            if (null == texture)
             {
-                // todo check whether the file format is correct 
-                texture2D = CCApplication.sharedApplication().content.Load<Texture2D>(file);
-                if (null != texture2D)
-                {
-                    ret = true;
-                    break;
-                }
-                
-            } while (false);
-            return ret;
+                return false;
+            }
+
+            texture2D = texture;
+
+            return true;
         }
 
 	    /** sets the min filter, mag filter, wrap s and wrap t texture parameters.

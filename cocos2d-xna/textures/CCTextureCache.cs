@@ -27,6 +27,10 @@ THE SOFTWARE.
 using System.Collections.Generic;
 using System;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+
 namespace cocos2d
 {
     /** @brief Singleton that handles the loading of textures
@@ -88,7 +92,37 @@ namespace cocos2d
 	    */
         public CCTexture2D addImage(string fileimage)
         {
-            throw new NotImplementedException();
+            Debug.Assert(fileimage != null, "TextureCache: fileimage MUST not be NULL");
+
+	        CCTexture2D texture;
+
+	        // remove possible -HD suffix to prevent caching the same image twice (issue #1040)
+            string pathKey = fileimage;
+	        bool isTextureExist = m_pTextures.TryGetValue(pathKey, out texture);
+
+            if (false == isTextureExist) 
+	        {
+                Texture2D textureXna = CCApplication.sharedApplication().content.Load<Texture2D>(fileimage);
+				texture = new CCTexture2D();
+				bool isInited = texture.initWithTexture(textureXna);
+
+				if( isInited )
+				{
+#if CC_ENABLE_CACHE_TEXTTURE_DATA
+                    // cache the texture file name
+                    VolatileTexture::addImageTexture(texture, fullpath.c_str(), CCImage::kFmtPng);
+#endif
+
+                    m_pTextures.Add(pathKey, texture);
+				}
+				else
+				{
+					Debug.Assert(false, "cocos2d: Couldn't add image:" + fileimage +" in CCTextureCache");
+                    return null;
+				}
+	        }
+
+	        return texture;
         }
 
         /** Returns a Texture2D object given an UIImage image
