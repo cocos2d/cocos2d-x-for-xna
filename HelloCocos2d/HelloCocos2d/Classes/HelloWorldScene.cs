@@ -11,7 +11,7 @@ namespace HelloCocos2d
         /// <summary>
         ///  Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
         /// </summary>
-        public virtual bool init()
+        public bool init()
         {
             //////////////////////////////
             // 1. super init first
@@ -100,6 +100,20 @@ namespace HelloCocos2d
             return scene;
         }
 
+        public static new CCLayer node()
+        {
+            HelloCocos2dScene ret = new HelloCocos2dScene();
+            if (ret.init())
+            {
+                return ret;
+            }
+            else
+            {
+                ret = null;
+            }
+
+            return ret;
+        }
         /// <summary>
         /// a selector callback
         /// </summary>
