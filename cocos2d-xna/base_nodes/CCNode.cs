@@ -219,7 +219,7 @@ namespace cocos2d
 
             this.m_nTag = tag;
 
-            this.parent = this;
+            child.parent = this;
 
             if (m_bIsRunning)
             {
