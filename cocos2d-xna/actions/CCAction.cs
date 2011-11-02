@@ -43,5 +43,115 @@ namespace cocos2d
             ///@todo
             throw new NotImplementedException();
         }
+
+        public virtual CCObject copyWithZone(CCZone zone)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        //! return true if the action has finished
+        public virtual bool isDone()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        //! called before the action start. It will also set the target.
+        public virtual void startWithTarget(CCNode target)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** 
+	    called after the action has finished. It will set the 'target' to nil.
+        IMPORTANT: You should never call "[action stop]" manually. Instead, use: "target->stopAction(action);"
+	    */
+        public virtual void stop()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        //! called every frame with it's delta time. DON'T override unless you know what you are doing.
+        public virtual void step(float dt)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** 
+	    called once per frame. time a value between 0 and 1
+
+	    For example: 
+	    - 0 means that the action just started
+	    - 0.5 means that the action is in the middle
+	    - 1 means that the action is over
+	    */
+        public virtual void update(float dt)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        /** Allocates and initializes the action */
+        public static CCAction action()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // Properties
+
+        /** Set the original target, since target can be nil.
+	    Is the target that were used to run the action. Unless you are doing something complex, like CCActionManager, you should NOT call this method.
+	    The target is 'assigned', it is not 'retained'.
+	    @since v0.8.2
+	    */
+        protected CCNode m_pTarget;
+        public CCNode target
+        {
+            get
+            {
+                return m_pTarget;
+            }
+            set
+            {
+                m_pTarget = value;
+            }
+        }
+
+        /** The "target".
+	    The target will be set with the 'startWithTarget' method.
+	    When the 'stop' method is called, target will be set to nil.
+	    The target is 'assigned', it is not 'retained'.
+	    */
+        protected CCNode m_pOriginalTarget;
+        public CCNode originalTarget
+        {
+            get
+            {
+                return m_pOriginalTarget;
+            }
+            set
+            {
+                m_pOriginalTarget = value;
+            }
+        }
+
+        /** The action tag. An identifier of the action */
+        protected int m_nTag;
+        public int tag
+        {
+            get
+            {
+                return m_nTag;
+            }
+            set
+            {
+                m_nTag = value;
+            }
+        }
     }
 }
