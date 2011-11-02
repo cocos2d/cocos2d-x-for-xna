@@ -97,10 +97,10 @@ namespace cocos2d
 	    * The "key" parameter will be used as the "key" for the cache.
 	    * If "key" is nil, then a new texture will be created each time.
 	    */
-        public CCTexture2D addUIImage(CCImage image, string key)
-        {
-            throw new NotImplementedException();
-        }
+        //public CCTexture2D addUIImage(CCImage image, string key)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /** Returns an already created texture. Returns nil if the texture doesn't exist.
 	    @since v0.99.5
