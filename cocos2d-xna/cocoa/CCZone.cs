@@ -1,7 +1,5 @@
 /****************************************************************************
-Copyright (c) 2010-2011 cocos2d-x.org
-Copyright (c) 2008-2010 Ricardo Quesada
-Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2010 cocos2d-x.org
 
 http://www.cocos2d-x.org
 
@@ -24,24 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-using System;
 namespace cocos2d
 {
-    public enum ActionTag
+    public class CCZone
     {
-        //! Default tag
-        kCCActionTagInvalid = -1,
-    }
-
-    /** 
-    @brief Base class for CCAction objects.
-     */
-    public class CCAction : CCObject
-    {
-        public CCAction()
+        public CCZone(CCObject obj)
         {
-            ///@todo
-            throw new NotImplementedException();
+            this.m_pCopyObject = obj;
         }
+
+        public CCZone() { }
+
+        public CCObject m_pCopyObject;
     }
 }

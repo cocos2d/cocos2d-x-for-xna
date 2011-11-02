@@ -71,6 +71,7 @@
     <Compile Include="CCDisplayLinkDirector.cs" />
     <Compile Include="cocoa\CCGeometry.cs" />
     <Compile Include="cocoa\CCObject.cs" />
+    <Compile Include="cocoa\CCZone.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayer.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCScene.cs" />
     <Compile Include="platform\CCApplication.cs" />
