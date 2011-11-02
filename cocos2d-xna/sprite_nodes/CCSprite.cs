@@ -811,7 +811,7 @@ namespace cocos2d
 	     */
         public bool initWithFile(string fileName)
         {
-            Debug.Assert(null == fileName, "fileName is null");
+            Debug.Assert(null != fileName, "fileName is null");
 
             CCTexture2D textureFromFile = CCTextureCache.sharedTextureCache().addImage(fileName);
 
