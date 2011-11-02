@@ -248,13 +248,20 @@ namespace cocos2d
 
         public override void draw()
         {
+            if (null == m_pobTexture)
+            {
+                return;
+            }
+
+            m_pobTexture.drawAtPoint(new CCPoint(0.0f, 0.0f));
+
             //Debug.WriteLine("CCSprite.draw");
-            Texture2D textureHello = CCApplication.sharedApplication().content.Load<Texture2D>("HelloWorld");
-            CCApplication.sharedApplication().spriteBatch.Begin();
+            //Texture2D textureHello = CCApplication.sharedApplication().content.Load<Texture2D>("HelloWorld");
+            //CCApplication.sharedApplication().spriteBatch.Begin();
 
-            CCApplication.sharedApplication().spriteBatch.Draw(textureHello, Vector2.Zero, Color.White);
+            //CCApplication.sharedApplication().spriteBatch.Draw(textureHello, Vector2.Zero, Color.White);
 
-            CCApplication.sharedApplication().spriteBatch.End();
+            //CCApplication.sharedApplication().spriteBatch.End();
 
             ///@todo
             //throw new NotImplementedException();
@@ -804,7 +811,14 @@ namespace cocos2d
 	     */
         public bool initWithFile(string fileName)
         {
-            throw new NotImplementedException();
+            CCTexture2D textureFromFile = new CCTexture2D();
+            if (false == textureFromFile.initWithFile(fileName))
+            {
+                return false;
+            }
+
+            return initWithTexture(textureFromFile);
+
         }
 
         /** Initializes an sprite with an image filename, and a rect.

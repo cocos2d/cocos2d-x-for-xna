@@ -53,7 +53,7 @@ namespace HelloCocos2d
             //this->addChild(pLabel, 1);
 
             // add "HelloWorld" splash screen"
-            CCSprite pSprite = CCSprite.spriteWithFile("HelloWorld.png");
+            CCSprite pSprite = CCSprite.spriteWithFile("HelloWorld");
 
             // position the sprite on the center of the screen
             pSprite.position = new CCPoint(size.width / 2, size.height / 2);
