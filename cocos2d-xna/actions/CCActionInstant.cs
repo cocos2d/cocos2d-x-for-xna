@@ -23,9 +23,51 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+using System;
 namespace cocos2d
 {
+    /** 
+	@brief Instant actions are immediate actions. They don't have a duration like
+	the CCIntervalAction actions.
+	*/ 
     public class CCActionInstant : CCFiniteTimeAction
     {
+        public CCActionInstant()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        ~CCActionInstant() { }
+
+        public override CCObject copyWithZone(CCZone zone)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        public override bool isDone()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        public override void step(float dt)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        public override void update(float dt)
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        public override CCFiniteTimeAction reverse()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
     }
 }

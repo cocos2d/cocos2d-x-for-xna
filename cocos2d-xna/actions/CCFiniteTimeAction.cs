@@ -24,9 +24,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+using System;
 namespace cocos2d
 {
     public class CCFiniteTimeAction : CCAction
     {
+        public CCFiniteTimeAction() { }
+
+        ~CCFiniteTimeAction() { }
+
+        public virtual CCFiniteTimeAction reverse()
+        {
+            ///@todo
+            throw new NotImplementedException();
+        }
+
+        // Properties
+
+        //! duration in seconds
+        protected float m_fDuration;
+        public float duration
+        {
+            get
+            {
+                return m_fDuration;
+            }
+            set
+            {
+                m_fDuration = value;
+            }
+        }
     }
 }
