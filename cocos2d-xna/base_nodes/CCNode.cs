@@ -105,6 +105,7 @@ namespace cocos2d
             m_bIsRelativeAnchorPoint = true;
             m_bIsTransformDirty = true;
             m_bIsInverseDirty = true;
+            m_pChildren = new List<CCNode>();
 
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
             m_bIsTransformGLDirty = true;
@@ -213,11 +214,6 @@ namespace cocos2d
         {
             Debug.Assert(child != null, "Argument must be non-null");
             Debug.Assert(child.m_pParent == null, "child already added. It can't be added again");
-
-            if (m_pChildren == null)
-            {
-                childrenAlloc();
-            }
 
             insertChild(child, zOrder);
 
@@ -386,7 +382,6 @@ namespace cocos2d
             // override me
             // Only use- this function to draw your staff.
             // DON'T draw your stuff outside this method
-            throw new NotImplementedException();
         }
 
         // recursive method that visit its children and draw them
@@ -466,7 +461,7 @@ namespace cocos2d
         public void transform()
         {
             ///@todo
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         /** performs OpenGL view-matrix transformation of it's ancestors.
@@ -636,7 +631,7 @@ namespace cocos2d
         public void resumeSchedulerAndActions()
         {
             ///@todo
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         /** pauses all scheduled selectors and actions.
@@ -733,12 +728,6 @@ namespace cocos2d
 		@since v0.7.1
 		*/
         // CCPoint convertTouchToNodeSpaceAR(CCTouch* touch);
-
-        // lazy allocs
-        private void childrenAlloc()
-        {
-            m_pChildren = new List<CCNode>();
-        }
 
         // helper that reorder a child
         private void insertChild(CCNode child, int z)
