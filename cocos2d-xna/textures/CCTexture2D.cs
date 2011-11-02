@@ -97,17 +97,25 @@ namespace cocos2d
     {
         public CCTexture2D()
         {
-            // throw new NotImplementedException();
+            pixelsWide = 0;
+            pixelsHigh = 0;
+            maxS = 0.0f;
+            maxT = 0.0f;
+            hasPremultipliedAlpha = false;
+            PVRHaveAlphaPremultiplied = true;
         }
 
 	    ~CCTexture2D()
         {
-            throw new NotImplementedException();
+#if CC_ENABLE_CACHE_TEXTTURE_DATA
+            VolatileTexture::removeTexture(this);
+#endif
         }
 
 	    public string description()
         {
-            throw new NotImplementedException();
+            string ret = "<CCTexture2D | Dimensions = " + pixelsWide + " x " + pixelsHigh + " | Coordinates = (" + maxS + ", " + maxT + ")>";
+            return ret;
         }
 
         ///** These functions are needed to create mutable textures */
@@ -177,7 +185,7 @@ namespace cocos2d
 	    /** Initializes a texture from a string with font name and font size */
 	    public bool initWithString(string text, string fontName, float fontSize)
         {
-            throw new NotImplementedException();
+            return initWithString(text, new CCSize(0, 0), CCTextAlignment.CCTextAlignmentCenter, fontName, fontSize);
         }
 
 	    /** returns the content size of the texture in points */
@@ -328,7 +336,7 @@ namespace cocos2d
         }
     
         // By default PVR images are treated as if they don't have the alpha channel premultiplied
-        private bool m_bPVRHaveAlphaPremultiplied;
+        private bool PVRHaveAlphaPremultiplied;
 
         /** pixel format of the texture */
         private CCTexture2DPixelFormat pixelFormat { get; set; }
