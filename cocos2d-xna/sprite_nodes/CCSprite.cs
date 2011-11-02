@@ -253,7 +253,7 @@ namespace cocos2d
                 return;
             }
 
-            m_pobTexture.drawAtPoint(new CCPoint(0.0f, 0.0f));
+            m_pobTexture.drawAtPoint(position);
 
             //Debug.WriteLine("CCSprite.draw");
             //Texture2D textureHello = CCApplication.sharedApplication().content.Load<Texture2D>("HelloWorld");
@@ -854,6 +854,9 @@ namespace cocos2d
         {
             m_uAtlasIndex = ccMacros.CCSpriteIndexNotInitialized;
             m_bUseBatchNode = false;
+
+            return;
+
             /*
              * ///@todo
             m_pobTextureAtlas = NULL;
@@ -882,6 +885,9 @@ namespace cocos2d
         /** updates the texture rect, rectRotated and untrimmed size of the CCSprite in pixels */
         public void setTextureRectInPixels(CCRect rect, bool rotated, CCSize size)
         {
+            return;
+            // todo
+
             m_obRectInPixels = rect;
             m_obRect = ccMacros.CC_RECT_PIXELS_TO_POINTS(rect);
             m_bRectRotated = rotated;
@@ -960,12 +966,12 @@ namespace cocos2d
 
         protected void updateTextureCoords(CCRect rect)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         protected void updateBlendFunc()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         protected void getTransformValues(transformValues_ tv)

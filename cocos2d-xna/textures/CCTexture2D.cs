@@ -97,7 +97,7 @@ namespace cocos2d
     {
         public CCTexture2D()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
 	    ~CCTexture2D()
@@ -183,7 +183,8 @@ namespace cocos2d
 	    /** returns the content size of the texture in points */
 	    public CCSize getContentSize()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
+            return contentSize;
         }
 
 #if CC_SUPPORT_PVRTC	
