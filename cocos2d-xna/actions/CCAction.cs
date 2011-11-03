@@ -25,6 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System;
+using System.Diagnostics;
 namespace cocos2d
 {
     public enum ActionTag
@@ -40,28 +41,36 @@ namespace cocos2d
     {
         public CCAction()
         {
-            ///@todo
-            throw new NotImplementedException();
+            m_nTag = (int)ActionTag.kCCActionTagInvalid;
         }
 
-        public virtual CCObject copyWithZone(CCZone zone)
+        public override CCObject copyWithZone(CCZone zone)
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCZone tmpZone = zone;
+            CCAction ret = null;
+            if (tmpZone != null && tmpZone.m_pCopyObject != null)
+            {
+                ret = (CCAction)tmpZone.m_pCopyObject;
+            }
+            else
+            {
+                ret = new CCAction();
+            }
+
+            ret.m_nTag = m_nTag;
+            return ret;
         }
 
         //! return true if the action has finished
         public virtual bool isDone()
         {
-            ///@todo
-            throw new NotImplementedException();
+            return true;
         }
 
         //! called before the action start. It will also set the target.
         public virtual void startWithTarget(CCNode target)
         {
-            ///@todo
-            throw new NotImplementedException();
+            m_pOriginalTarget = m_pTarget = target;
         }
 
         /** 
@@ -70,15 +79,13 @@ namespace cocos2d
 	    */
         public virtual void stop()
         {
-            ///@todo
-            throw new NotImplementedException();
+            m_pTarget = null;
         }
 
         //! called every frame with it's delta time. DON'T override unless you know what you are doing.
         public virtual void step(float dt)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.WriteLine("[Action step]. override me");
         }
 
         /** 
@@ -91,15 +98,13 @@ namespace cocos2d
 	    */
         public virtual void update(float dt)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.WriteLine("[Action update]. override me");
         }
 
         /** Allocates and initializes the action */
         public static CCAction action()
         {
-            ///@todo
-            throw new NotImplementedException();
+            return new CCAction();            
         }
 
         // Properties
