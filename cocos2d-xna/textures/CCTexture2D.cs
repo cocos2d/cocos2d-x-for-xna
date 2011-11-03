@@ -97,12 +97,13 @@ namespace cocos2d
     {
         public CCTexture2D()
         {
-            pixelsWide = 0;
-            pixelsHigh = 0;
-            maxS = 0.0f;
-            maxT = 0.0f;
-            hasPremultipliedAlpha = false;
-            PVRHaveAlphaPremultiplied = true;
+            m_uPixelsWide = 0;
+            m_uPixelsHigh = 0;
+            m_fMaxS = 0.0f;
+            m_fMaxT = 0.0f;
+            m_bHasPremultipliedAlpha = false;
+            m_PVRHaveAlphaPremultiplied = true;
+            m_tContentSize = new CCSize();
         }
 
 	    ~CCTexture2D()
@@ -114,7 +115,7 @@ namespace cocos2d
 
 	    public string description()
         {
-            string ret = "<CCTexture2D | Dimensions = " + pixelsWide + " x " + pixelsHigh + " | Coordinates = (" + maxS + ", " + maxT + ")>";
+            string ret = "<CCTexture2D | Dimensions = " + m_uPixelsWide + " x " + m_uPixelsHigh + " | Coordinates = (" + m_fMaxS + ", " + m_fMaxT + ")>";
             return ret;
         }
 
@@ -188,11 +189,19 @@ namespace cocos2d
             return initWithString(text, new CCSize(0, 0), CCTextAlignment.CCTextAlignmentCenter, fontName, fontSize);
         }
 
+        public CCSize getContentSizeInPixels()
+        {
+	        return m_tContentSize;
+        }
+
 	    /** returns the content size of the texture in points */
 	    public CCSize getContentSize()
         {
-            // throw new NotImplementedException();
-            return contentSize;
+            CCSize ret = new CCSize();
+            ret.width = m_tContentSize.width / ccMacros.CC_CONTENT_SCALE_FACTOR();
+            ret.height = m_tContentSize.height / ccMacros.CC_CONTENT_SCALE_FACTOR();
+
+            return ret;
         }
 
 #if CC_SUPPORT_PVRTC	
@@ -222,6 +231,8 @@ namespace cocos2d
             }
 
             texture2D = texture;
+            m_tContentSize.width = texture2D.Width;
+            m_tContentSize.height = texture2D.Height;
 
             return true;
         }
@@ -336,26 +347,26 @@ namespace cocos2d
         }
     
         // By default PVR images are treated as if they don't have the alpha channel premultiplied
-        private bool PVRHaveAlphaPremultiplied;
+        private bool m_PVRHaveAlphaPremultiplied;
 
         /** pixel format of the texture */
-        private CCTexture2DPixelFormat pixelFormat { get; set; }
+        private CCTexture2DPixelFormat m_ePixelFormat { get; set; }
 	    /** width in pixels */
-        private uint pixelsWide { get; set; }
+        private uint m_uPixelsWide { get; set; }
 	    /** hight in pixels */
-        private uint pixelsHigh { get; set; }
+        private uint m_uPixelsHigh { get; set; }
 
 	    /** texture name */
-        private uint name { get; set; }
+        private uint m_uName { get; set; }
 
 	    /** content size */
-        private CCSize contentSize { get; set; }
+        private CCSize m_tContentSize { get; set; }
 	    /** texture max S */
-	    private float maxS { get; set;}
+	    private float m_fMaxS { get; set;}
 	    /** texture max T */
-	    private float maxT { get; set;}
+	    private float m_fMaxT { get; set;}
 	    /** whether or not the texture has their Alpha premultiplied */
-        private bool hasPremultipliedAlpha { get; set; }
+        private bool m_bHasPremultipliedAlpha { get; set; }
 
     }
 }
