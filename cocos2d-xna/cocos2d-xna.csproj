@@ -60,8 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="actions\CCAction.cs" />
-    <Compile Include="actions\CCActionInstant.cs" />
-    <Compile Include="actions\CCActionInterval.cs" />
+    <Compile Include="actions\action_instants\CCActionInstant.cs" />
+    <Compile Include="actions\action_intervals\CCActionInterval.cs" />
     <Compile Include="actions\CCFiniteTimeAction.cs" />
     <Compile Include="actions\CCFollow.cs" />
     <Compile Include="actions\CCSpeed.cs" />
@@ -88,6 +88,10 @@
     <Compile Include="textures\CCTexture2D.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="actions\action_instants\callfunc\" />
+    <Folder Include="actions\action_intervals\action_ease\" />
+    <Folder Include="actions\action_intervals\grid_action\grid3d_action\" />
+    <Folder Include="actions\action_intervals\grid_action\tiledgrid3d_action\" />
     <Folder Include="effects\" />
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="label_nodes\" />
