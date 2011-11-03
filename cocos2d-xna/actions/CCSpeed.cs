@@ -24,9 +24,107 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+using System.Diagnostics;
 namespace cocos2d
 {
+    /** 
+     @brief Changes the speed of an action, making it take longer (speed>1)
+     or less (speed<1) time.
+     Useful to simulate 'slow motion' or 'fast forward' effect.
+     @warning This action can't be Sequenceable because it is not an CCIntervalAction
+     */
     public class CCSpeed : CCAction
     {
+        public CCSpeed() { }
+
+        ~CCSpeed() { }
+
+        /** initializes the action */
+        public bool initWithAction(CCActionInterval action, float fRate)
+        {
+            Debug.Assert(action != null);
+
+            m_pInnerAction = action;
+            m_fSpeed = fRate;
+
+            return true;
+        }
+
+        public override CCObject copyWithZone(CCZone zone)
+        {
+            CCZone tmpZone = zone;
+            CCSpeed ret = null;
+            if (tmpZone != null && tmpZone.m_pCopyObject != null)
+            {
+                ret = (CCSpeed)tmpZone.m_pCopyObject;
+            }
+            else
+            {
+                ret = new CCSpeed();
+                tmpZone = new CCZone(ret);
+            }
+
+            ret.initWithAction((CCActionInterval)m_pInnerAction.copy(), m_fSpeed);
+
+            return ret;
+        }
+
+        public override void startWithTarget(CCNode target)
+        {
+            base.startWithTarget(target);
+            m_pInnerAction.startWithTarget(target);
+        }
+
+        public override void stop()
+        {
+            m_pInnerAction.stop();
+            base.stop();
+        }
+
+        public override void step(float dt)
+        {
+            
+        }
+
+        public override bool isDone()
+        {
+            return m_pInnerAction.isDone();
+        }
+
+        public virtual CCActionInterval reverse()
+        {
+            return (CCActionInterval)(CCAction)CCSpeed.actionWithAction((CCActionInterval)m_pInnerAction.reverse(), m_fSpeed);
+        }
+
+        public static CCSpeed actionWithAction(CCActionInterval action, float fRate)
+        {
+            CCSpeed ret = new CCSpeed();
+
+            if (ret != null && ret.initWithAction(action, fRate))
+            {
+                return ret;
+            }
+
+            return null;
+        }
+
+        #region Properties
+
+        protected float m_fSpeed;
+        public float speed
+        {
+            get
+            {
+                return m_fSpeed;
+            }
+            set
+            {
+                m_fSpeed = value;
+            }
+        }
+
+        protected CCActionInterval m_pInnerAction;
+
+        #endregion
     }
 }
