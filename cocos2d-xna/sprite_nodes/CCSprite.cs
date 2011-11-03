@@ -253,18 +253,7 @@ namespace cocos2d
                 return;
             }
 
-            m_pobTexture.drawAtPoint(position);
-
-            //Debug.WriteLine("CCSprite.draw");
-            //Texture2D textureHello = CCApplication.sharedApplication().content.Load<Texture2D>("HelloWorld");
-            //CCApplication.sharedApplication().spriteBatch.Begin();
-
-            //CCApplication.sharedApplication().spriteBatch.Draw(textureHello, Vector2.Zero, Color.White);
-
-            //CCApplication.sharedApplication().spriteBatch.End();
-
-            ///@todo
-            //throw new NotImplementedException();
+            m_pobTexture.drawAtPoint(new CCPoint(position.x - anchorPointInPixels.x, position.y - anchorPointInPixels.y));
         }
 
         /** Creates an sprite with a texture.
@@ -407,7 +396,12 @@ namespace cocos2d
             return true;
         }
 
-        public CCSprite() { }
+        public CCSprite() 
+        { 
+            m_obOffsetPositionInPixels = new CCPoint();
+            m_obRectInPixels = new CCRect();
+            m_obUnflippedOffsetPositionFromCenter = new CCPoint();
+        }
         ~CCSprite() { }
 
         public override void removeChild(CCNode child, bool cleanup)
@@ -861,14 +855,12 @@ namespace cocos2d
             m_uAtlasIndex = ccMacros.CCSpriteIndexNotInitialized;
             m_bUseBatchNode = false;
 
-            return;
-
             /*
              * ///@todo
             m_pobTextureAtlas = NULL;
             m_pobBatchNode = NULL;
              */
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
             m_bDirty = m_bRecursiveDirty = false;
 
             float x1 = 0 + m_obOffsetPositionInPixels.x;
@@ -891,9 +883,6 @@ namespace cocos2d
         /** updates the texture rect, rectRotated and untrimmed size of the CCSprite in pixels */
         public void setTextureRectInPixels(CCRect rect, bool rotated, CCSize size)
         {
-            return;
-            // todo
-
             m_obRectInPixels = rect;
             m_obRect = ccMacros.CC_RECT_PIXELS_TO_POINTS(rect);
             m_bRectRotated = rotated;
