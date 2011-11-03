@@ -25,6 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System;
+using System.Diagnostics;
 namespace cocos2d
 {
     /** 
@@ -49,33 +50,72 @@ namespace cocos2d
         /** initializes the action */
         public bool initWithDuration(float d)
         {
-            ///@todo
-            throw new NotImplementedException();
+            m_fDuration = d;
+
+            // prevent division by 0
+            // This comparison could be in step:, but it might decrease the performance
+            // by 3% in heavy based action games.
+            if (m_fDuration == 0)
+            {
+                m_fDuration = (float)ccMacros.FLT_EPSILON;
+            }
+
+            m_elapsed = 0;
+            m_bFirstTick = true;
+
+            return true;
         }
 
         /** returns true if the action has finished */
         public override bool isDone()
         {
-            ///@todo
-            throw new NotImplementedException();
+            return m_elapsed >= m_fDuration;
         }
 
         public override CCObject copyWithZone(CCZone zone)
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCZone tmpZone = zone;
+            CCActionInterval ret = null;
+            if (tmpZone != null && tmpZone.m_pCopyObject != null)
+            {
+                ret = (CCActionInterval)(tmpZone.m_pCopyObject);
+            }
+            else
+            {
+                // action's base class , must be called using __super::copyWithZone(), after overriding from derived class
+                Debug.Assert(false);
+
+                ret = new CCActionInterval();
+                tmpZone = new CCZone(ret);
+            }
+
+            base.copyWithZone(tmpZone);
+
+            ret.initWithDuration(m_fDuration);
+
+            return ret;
         }
 
         public override void step(float dt)
         {
-            ///@todo
-            throw new NotImplementedException();
+            if (m_bFirstTick)
+            {
+                m_bFirstTick = false;
+                m_elapsed = 0;
+            }
+            else
+            {
+                m_elapsed += dt;
+            }
+
+            update(Math.Min(1, m_elapsed / m_fDuration));
         }
 
         public override void startWithTarget(CCNode target)
         {
-            ///@todo
-            throw new NotImplementedException();
+            base.startWithTarget(target);
+            m_elapsed = 0.0f;
+            m_bFirstTick = true;
         }
 
         /// <summary>
@@ -87,26 +127,27 @@ namespace cocos2d
         /// <returns></returns>
         public override CCFiniteTimeAction reverse()
         {
-            ///@todo
             throw new NotImplementedException();
         }
 
         public void setAmplitudeRate(float amp)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(false);
         }
 
         public float getAmplitudeRate()
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(false);
+
+            return 0;
         }
 
         public static CCActionInterval actionWithDuration(float d)
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCActionInterval ret = new CCActionInterval();
+            ret.initWithDuration(d);
+
+            return ret;
         }
 
         #region properties
