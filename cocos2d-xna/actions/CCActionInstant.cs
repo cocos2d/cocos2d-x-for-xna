@@ -32,42 +32,47 @@ namespace cocos2d
 	*/ 
     public class CCActionInstant : CCFiniteTimeAction
     {
-        public CCActionInstant()
-        {
-            ///@todo
-            throw new NotImplementedException();
-        }
+        public CCActionInstant() { }
 
         ~CCActionInstant() { }
 
         public override CCObject copyWithZone(CCZone zone)
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCZone tmpZone = zone;
+            CCActionInstant ret = null;
+
+            if (tmpZone != null && tmpZone.m_pCopyObject != null)
+            {
+                ret = (CCActionInstant)tmpZone.m_pCopyObject;
+            }
+            else
+            {
+                ret = new CCActionInstant();
+                tmpZone = new CCZone(ret);
+            }
+
+            base.copyWithZone(tmpZone);
+            return ret;
         }
 
         public override bool isDone()
         {
-            ///@todo
-            throw new NotImplementedException();
+            return true;
         }
 
         public override void step(float dt)
         {
-            ///@todo
-            throw new NotImplementedException();
+            update(1);
         }
 
         public override void update(float dt)
         {
-            ///@todo
-            throw new NotImplementedException();
+            // ignore
         }
 
         public override CCFiniteTimeAction reverse()
         {
-            ///@todo
-            throw new NotImplementedException();
+            return (CCFiniteTimeAction)copy();
         }
     }
 }
