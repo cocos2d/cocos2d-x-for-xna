@@ -942,6 +942,8 @@ namespace cocos2d
             }
             set
             {
+                m_tPosition = value;
+
                 if (ccMacros.CC_CONTENT_SCALE_FACTOR() == 1)
                 {
                     m_tPositionInPixels = m_tPosition;
