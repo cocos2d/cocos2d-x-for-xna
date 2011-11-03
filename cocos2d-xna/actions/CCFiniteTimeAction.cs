@@ -25,6 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System;
+using System.Diagnostics;
 namespace cocos2d
 {
     public class CCFiniteTimeAction : CCAction
@@ -35,8 +36,8 @@ namespace cocos2d
 
         public virtual CCFiniteTimeAction reverse()
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.WriteLine("cocos2d: FiniteTimeAction#reverse: Implement me");
+            return null;
         }
 
         // Properties
