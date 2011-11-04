@@ -83,8 +83,6 @@ namespace cocos2d
             {
                 return null;
             }
-
-            return null;
         }
     }
 
@@ -109,8 +107,6 @@ namespace cocos2d
             {
                 return null;
             }
-
-            return null;
         }
     }
 
@@ -135,8 +131,6 @@ namespace cocos2d
             {
                 return null;
             }
-
-            return null;
         }
     }
 

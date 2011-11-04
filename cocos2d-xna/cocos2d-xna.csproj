@@ -72,6 +72,7 @@
     <Compile Include="actions\CCSpeed.cs" />
     <Compile Include="base_nodes\CCNode.cs" />
     <Compile Include="CCDirector.cs" />
+    <Compile Include="CCScheduler.cs" />
     <Compile Include="cocoa\CCAffineTransform.cs" />
     <Compile Include="CCDisplayLinkDirector.cs" />
     <Compile Include="cocoa\CCGeometry.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="predefine\CCTouch.cs" />
     <Compile Include="predefine\CCTouchDelegateProtocol.cs" />
     <Compile Include="predefine\ccTypes.cs" />
+    <Compile Include="predefine\selector_protocol.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sprite_nodes\CCSprite.cs" />
     <Compile Include="textures\CCTextureCache.cs" />
