@@ -26,64 +26,53 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
-    public class CCFlipX : CCActionInstant
+    public class CCHide : CCActionInstant
     {
-        public CCFlipX()
+        public CCHide()
         {
-            m_bFlipX = false;
+
         }
 
-        ~CCFlipX()
-        { 
-        
-        }
-    
-        public static CCFlipX actionWithFlipX(bool x) 
+        ~CCHide()
         {
-	        CCFlipX pRet = new CCFlipX();
 
-	        if (pRet != null && pRet.initWithFlipX(x)) {
-		        return pRet;
-	        }
-
-	        return null;
         }
 
-        public bool initWithFlipX(bool x) 
+        public static CCHide action() 
         {
-	        m_bFlipX = x;
-	        return true;
+	        CCHide pRet = new CCHide();
+             
+	        return pRet;
         }
 
         public void startWithTarget(CCNode pTarget) 
         {
 	        base.startWithTarget(pTarget);
-	        ((CCSprite) (pTarget)).setFlipX(m_bFlipX);
+	        pTarget.visible = false;
         }
 
         public CCFiniteTimeAction reverse() 
         {
-	        return actionWithFlipX(!m_bFlipX);
+            throw new NotImplementedException();
+	        // return (CCFiniteTimeAction) (CCShow.action());
         }
 
-        public CCObject copyWithZone(CCZone pZone)
+        public CCObject copyWithZone(CCZone pZone) 
         {
 	        CCZone pNewZone = null;
-	        CCFlipX pRet = null;
+	        CCHide pRet = null;
 
 	        if (pZone != null && pZone.m_pCopyObject != null) 
             {
-		        pRet = (CCFlipX) (pZone.m_pCopyObject);
+		        pRet = (CCHide)(pZone.m_pCopyObject);
 	        } else {
-		        pRet = new CCFlipX();
+		        pRet = new CCHide();
 		        pZone = pNewZone = new CCZone(pRet);
 	        }
 
 	        base.copyWithZone(pZone);
-	        pRet.initWithFlipX(m_bFlipX);
 	        return pRet;
         }
 
-        private bool m_bFlipX;
     }
 }

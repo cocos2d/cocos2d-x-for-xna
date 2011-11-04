@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="actions\action_instants\CCFlipX.cs" />
     <Compile Include="actions\action_instants\CCFlipY.cs" />
+    <Compile Include="actions\action_instants\CCHide.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
     <Compile Include="actions\action_intervals\CCActionInterval.cs" />

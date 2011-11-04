@@ -30,7 +30,7 @@ namespace cocos2d
     {
         public CCFlipY()
         {
-
+            m_bFlipY = false;
         }
 
         ~CCFlipY()
