@@ -26,52 +26,50 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
-    public class CCHide : CCActionInstant
+    public class CCShow : CCActionInstant
     {
-        public CCHide()
+        public CCShow()
         {
 
         }
 
-        ~CCHide()
+        ~CCShow()
         {
 
         }
 
-        public static CCHide action() 
+        public static CCShow action() 
         {
-	        CCHide pRet = new CCHide();
-             
+	        CCShow pRet = new CCShow();
+
 	        return pRet;
         }
 
         public void startWithTarget(CCNode pTarget) 
         {
 	        base.startWithTarget(pTarget);
-	        pTarget.visible = false;
+	        pTarget.visible = true;
         }
 
         public CCFiniteTimeAction reverse() 
         {
-            return (CCFiniteTimeAction) (CCShow.action());
+	        return (CCFiniteTimeAction) (CCHide.action());
         }
 
         public CCObject copyWithZone(CCZone pZone) 
         {
 	        CCZone pNewZone = null;
-	        CCHide pRet = null;
-
+	        CCShow pRet = null;
 	        if (pZone != null && pZone.m_pCopyObject != null) 
             {
-		        pRet = (CCHide)(pZone.m_pCopyObject);
+		        pRet = (CCShow) (pZone.m_pCopyObject);
 	        } else {
-		        pRet = new CCHide();
+		        pRet = new CCShow();
 		        pZone = pNewZone = new CCZone(pRet);
 	        }
 
 	        base.copyWithZone(pZone);
 	        return pRet;
         }
-
     }
 }
