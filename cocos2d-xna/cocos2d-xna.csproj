@@ -64,6 +64,7 @@
     <Compile Include="actions\action_instants\CCHide.cs" />
     <Compile Include="actions\action_instants\CCPlace.cs" />
     <Compile Include="actions\action_instants\CCShow.cs" />
+    <Compile Include="actions\action_instants\CCToggleVisibility.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
     <Compile Include="actions\action_intervals\CCActionInterval.cs" />
