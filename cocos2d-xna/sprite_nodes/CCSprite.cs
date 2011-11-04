@@ -662,7 +662,7 @@ namespace cocos2d
             }
         }
 
-        public void setFilpX(bool bFlipX)
+        public void setFlipX(bool bFlipX)
         {
             if (m_bFlipX != bFlipX)
             {
