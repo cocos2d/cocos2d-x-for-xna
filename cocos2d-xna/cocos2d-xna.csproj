@@ -59,6 +59,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="actions\action_instants\callfunc\CCCallFunc.cs" />
     <Compile Include="actions\action_instants\CCMoveTo.cs" />
     <Compile Include="actions\action_instants\CCFlipX.cs" />
     <Compile Include="actions\action_instants\CCFlipY.cs" />
@@ -104,7 +105,6 @@
     <Compile Include="touch_dispatcher\EGLTouchDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="actions\action_instants\callfunc\" />
     <Folder Include="actions\action_intervals\action_ease\" />
     <Folder Include="actions\action_intervals\grid_action\grid3d_action\" />
     <Folder Include="actions\action_intervals\grid_action\tiledgrid3d_action\" />
