@@ -59,6 +59,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="actions\action_instants\CCMoveTo.cs" />
     <Compile Include="actions\action_instants\CCFlipX.cs" />
     <Compile Include="actions\action_instants\CCFlipY.cs" />
     <Compile Include="actions\action_instants\CCHide.cs" />
