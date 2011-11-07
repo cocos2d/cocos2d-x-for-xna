@@ -32,6 +32,7 @@ namespace cocos2d
         public CCCallFuncO()
         {
             m_pObject = null;
+            m_pCallFuncO = null;
         }
         
         ~CCCallFuncO()
