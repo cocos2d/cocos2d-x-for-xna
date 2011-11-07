@@ -66,7 +66,7 @@ namespace cocos2d
         //}
 
 
-		public bool initWithTarget(SelectorProtocol pSelectorTarget)
+		public virtual bool initWithTarget(SelectorProtocol pSelectorTarget)
         {
 	        m_pSelectorTarget = pSelectorTarget;
 	        return true;
@@ -80,7 +80,7 @@ namespace cocos2d
         //}
 
 		/** executes the callback */
-        public void execute() 
+        public virtual void execute() 
         {
             throw new NotImplementedException();
 
@@ -140,9 +140,9 @@ namespace cocos2d
 		}
 
 		/** Target that will be called */
-		private SelectorProtocol m_pSelectorTarget;
+		protected SelectorProtocol m_pSelectorTarget;
 		/** the script function name to call back */
-		private string m_scriptFuncName;
+	    protected string m_scriptFuncName;
 
         private SEL_CallFunc m_pCallFunc;
     }
