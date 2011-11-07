@@ -36,11 +36,153 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace cocos2d
 {
+    public enum Orientation
+    {
+        /// Device oriented vertically, home button on the bottom
+        kOrientationPortrait = 0,
+        /// Device oriented vertically, home button on the top
+        kOrientationPortraitUpsideDown = 1,
+        /// Device oriented horizontally, home button on the right
+        kOrientationLandscapeLeft = 2,
+        /// Device oriented horizontally, home button on the left
+        kOrientationLandscapeRight = 3,
+    } ;
+
     public abstract class CCApplication : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        #region Fields and Construct Method
+
+        Game game;
+
+        CCTouch m_pTouch;
+        internal GraphicsDeviceManager graphics;
+        Rectangle m_rcViewPort;
+        EGLTouchDelegate m_pDelegate;
+        List<CCTouch> m_pSet;
+
+        bool m_bCaptured;
+        float m_fScreenScaleFactor;
+
+        public CCApplication(Game game, ContentManager content)
+            : base(game)
+        {
+            this.game = game;
+            this.graphics = new GraphicsDeviceManager(game);
+            this.content = content;
+
+            game.Window.OrientationChanged += Window_OrientationChanged;
+
+            TouchPanel.EnabledGestures = GestureType.Tap;
+
+            m_pTouch = new CCTouch();
+            m_pSet = new List<CCTouch>();
+
+            m_fScreenScaleFactor = 1.0f;
+
+              #warning "set height and width as Graphics.Device.Viewport"
+            m_rcViewPort = new Rectangle(0,0, 800, 480);
+        }
+
+        #endregion
+
+        #region GameComponent
+
+        public override void Initialize()
+        {
+            sm_pSharedApplication = this;
+            PVRFrameEnableControlWindow(false);
+
+            initInstance();
+            applicationDidFinishLaunching();
+
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// Allows the game component to update itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        public override void Update(GameTime gameTime)
+        {
+            // Process touch events 
+            ProcessTouch();
+
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            CCDirector.sharedDirector().mainLoop(gameTime);
+
+            base.Draw(gameTime);
+        }
+
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            base.LoadContent();
+        }
+
+         #endregion
+
+        #region Touch Methods
+
+        public EGLTouchDelegate TouchDelegate 
+        { 
+            set { m_pDelegate = value; }
+        }
+
+        private void ProcessTouch()
+        {
+            TouchCollection touchCollection = TouchPanel.GetState();
+
+            foreach (TouchLocation touch in touchCollection)
+            {
+                if (touch.State == TouchLocationState.Pressed)
+                {
+                    if (m_pDelegate != null && m_pTouch != null)
+                    {
+                        if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
+                        {
+                            m_bCaptured = true;
+
+                            m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
+                                                touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                            m_pSet.Add(m_pTouch);
+                            m_pDelegate.touchesBegan(m_pSet, null);
+                        }
+                    }
+                }
+                else if (touch.State == TouchLocationState.Moved)
+                {
+                    if (m_bCaptured)
+                    {
+                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
+                                            touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                        m_pDelegate.touchesMoved(m_pSet, null);
+                    }
+                }
+                else if (touch.State == TouchLocationState.Released)
+                {
+                    if (m_bCaptured)
+                    {
+                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor, 
+                                            touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                        m_pDelegate.touchesEnded(m_pSet, null);
+                        m_pSet.Remove(m_pTouch);
+
+                        m_bCaptured = false;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// This function change the PVRFrame show/hide setting in register.
         /// </summary>
@@ -163,58 +305,6 @@ namespace cocos2d
 
         //}
 
-        #region GameComponent
-
-        Game game;
-        public CCApplication(Game game, ContentManager content)
-            : base(game)
-        {
-            this.game = game;
-            this.graphics = new GraphicsDeviceManager(game);
-            this.content = content;
-
-            game.Window.OrientationChanged += Window_OrientationChanged;
-        }
-
-
-
-        public override void Initialize()
-        {
-            sm_pSharedApplication = this;
-            PVRFrameEnableControlWindow(false);
-
-            initInstance();
-            applicationDidFinishLaunching();
-
-            base.Initialize();
-        }
-
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            CCDirector.sharedDirector().mainLoop(gameTime);
-
-            base.Draw(gameTime);
-        }
-
-        protected override void LoadContent()
-        {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            base.LoadContent();
-        }
-
-        #endregion
-
-        internal GraphicsDeviceManager graphics;
-
         /// <summary>
         /// Gets the current ContentManager
         /// </summary>
@@ -229,16 +319,4 @@ namespace cocos2d
             private set;
         }
     }
-
-    public enum Orientation
-    {
-        /// Device oriented vertically, home button on the bottom
-        kOrientationPortrait = 0,
-        /// Device oriented vertically, home button on the top
-        kOrientationPortraitUpsideDown = 1,
-        /// Device oriented horizontally, home button on the right
-        kOrientationLandscapeLeft = 2,
-        /// Device oriented horizontally, home button on the left
-        kOrientationLandscapeRight = 3,
-    } ;
 }

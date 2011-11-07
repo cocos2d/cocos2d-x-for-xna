@@ -31,5 +31,17 @@ namespace HelloCocos2d
             CCApplication application = new AppDelegate(this, Content);
             this.Components.Add(application);
         }
+
+        protected override void Update(GameTime gameTime)
+        {
+            // Allows the game to exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
+
+            // TODO: Add your update logic here
+
+
+            base.Update(gameTime);
+        }
     }
 }
