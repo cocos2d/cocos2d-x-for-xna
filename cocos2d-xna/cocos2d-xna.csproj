@@ -71,6 +71,7 @@
     <Compile Include="actions\action_instants\CCShow.cs" />
     <Compile Include="actions\action_instants\CCToggleVisibility.cs" />
     <Compile Include="actions\action_intervals\action_ease\CCActionEase.cs" />
+    <Compile Include="actions\action_intervals\action_ease\CCEaseOut.cs" />
     <Compile Include="actions\action_intervals\action_ease\CCEaseRateAction.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
