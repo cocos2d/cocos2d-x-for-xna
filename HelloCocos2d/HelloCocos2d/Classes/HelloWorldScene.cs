@@ -44,7 +44,7 @@ namespace HelloCocos2d
             // create and initialize a label
             //CCLabelTTF* pLabel = CCLabelTTF::labelWithString("Hello World", "Arial", 24);
             // ask director the window size
-            // CCSize size = CCDirector.sharedDirector().getWinSize();
+             CCSize size = CCDirector.sharedDirector().getWinSize();
 
             // position the label on the center of the screen
             //pLabel->setPosition( ccp(size.width / 2, size.height - 50) );
@@ -53,13 +53,13 @@ namespace HelloCocos2d
             //this->addChild(pLabel, 1);
 
             // add "HelloWorld" splash screen"
-            // CCSprite pSprite = CCSprite.spriteWithFile("HelloWorld");
+            CCSprite pSprite = CCSprite.spriteWithFile("HelloWorld");
 
             // position the sprite on the center of the screen
-            // pSprite.position = new CCPoint(size.width / 2, size.height / 2);
+            pSprite.position = new CCPoint(size.width / 2, size.height / 2);
 
             // add the sprite as a child to this layer
-            // this.addChild(pSprite, 0);
+            this.addChild(pSprite, 0);
 
             return true;
         }
