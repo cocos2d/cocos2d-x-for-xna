@@ -36,14 +36,14 @@ namespace cocos2d
         {
         }
 
-        public static CCToggleVisibility action() 
+        public static new CCToggleVisibility action() 
         {
 	        CCToggleVisibility pRet = new CCToggleVisibility();
 
 	        return pRet;
         }
 
-        public void startWithTarget(CCNode pTarget) 
+        public override void startWithTarget(CCNode pTarget) 
         {
 	        base.startWithTarget(pTarget);
 	        pTarget.visible = !pTarget.visible;

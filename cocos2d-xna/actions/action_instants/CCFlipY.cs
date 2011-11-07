@@ -56,18 +56,18 @@ namespace cocos2d
             return true;
         }
 
-        public void startWithTarget(CCNode pTarget)
+        public override void startWithTarget(CCNode pTarget)
         {
             base.startWithTarget(pTarget);
             ((CCSprite)(pTarget)).setFlipY(m_bFlipY);
         }
 
-        public CCFiniteTimeAction reverse()
+        public override CCFiniteTimeAction reverse()
         {
             return actionWithFlipY(!m_bFlipY);
         }
 
-        public CCObject copyWithZone(CCZone pZone)
+        public override CCObject copyWithZone(CCZone pZone)
         {
             CCZone pNewZone = null;
             CCFlipY pRet = null;

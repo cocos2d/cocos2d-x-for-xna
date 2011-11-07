@@ -56,7 +56,7 @@ namespace cocos2d
 	        return true;
         }
 
-        public CCObject copyWithZone(CCZone pZone) 
+        public override CCObject copyWithZone(CCZone pZone) 
         {
 	        CCZone pNewZone = null;
 	        CCPlace pRet = null;
@@ -74,7 +74,7 @@ namespace cocos2d
 	        return pRet;
         }
 
-        public void startWithTarget(CCNode pTarget) 
+        public override void startWithTarget(CCNode pTarget) 
         {
 	        base.startWithTarget(pTarget);
 	        m_pTarget.position = m_tPosition;

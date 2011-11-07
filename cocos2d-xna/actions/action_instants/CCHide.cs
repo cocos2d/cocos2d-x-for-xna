@@ -38,25 +38,25 @@ namespace cocos2d
 
         }
 
-        public static CCHide action() 
+        public static new CCHide action() 
         {
 	        CCHide pRet = new CCHide();
              
 	        return pRet;
         }
 
-        public void startWithTarget(CCNode pTarget) 
+        public override void startWithTarget(CCNode pTarget) 
         {
 	        base.startWithTarget(pTarget);
 	        pTarget.visible = false;
         }
 
-        public CCFiniteTimeAction reverse() 
+        public override CCFiniteTimeAction reverse() 
         {
             return (CCFiniteTimeAction) (CCShow.action());
         }
 
-        public CCObject copyWithZone(CCZone pZone) 
+        public override CCObject copyWithZone(CCZone pZone) 
         {
 	        CCZone pNewZone = null;
 	        CCHide pRet = null;
