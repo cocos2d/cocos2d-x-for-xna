@@ -27,7 +27,7 @@ THE SOFTWARE.
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
-namespace cocos2d
+namespace cocos2d                                                                                                                                               
 {
     //
     // CCTimer

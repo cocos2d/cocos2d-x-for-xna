@@ -6,6 +6,7 @@ Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
+http://www.openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -88,6 +89,132 @@ namespace cocos2d
 
         #endregion
 
+        public virtual bool init()
+        {
+            //scene
+            m_dOldAnimationInterval = m_dAnimationInterval = 1.0 / kDefaultFPS;
+
+            // Set default projection (3D)
+            m_eProjection = ccDirectorProjection.kCCDirectorProjectionDefault;
+
+            // projection delegate if "Custom" projection is used
+            //m_pProjectionDelegate = NULL;
+
+            //FPS
+            m_bDisplayFPS = false;
+            m_uTotalFrames = m_uFrames = 0;
+            m_pszFPS = "";
+
+            m_bPaused = false;
+
+            //paused?
+            m_bPaused = false;
+
+            //purge?
+            m_bPurgeDirecotorInNextLoop = false;
+
+            m_obWinSizeInPixels = m_obWinSizeInPoints = new CCSize(0, 0);
+
+            // portrait mode default
+            m_eDeviceOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
+
+            m_bRetinaDisplay = false;
+            m_fContentScaleFactor = 1;
+            m_bIsContentScaleSupported = false;
+
+            return true;
+        }
+
+        public abstract void mainLoop(GameTime gameTime);
+
+        /// <summary>
+        /// Draw the scene.
+        /// This method is called every frame. Don't call it manually.
+        /// </summary>
+        protected void drawScene(GameTime gameTime)
+        {
+            //tick before glClear: issue #533
+            if (!m_bPaused)
+            {
+                double dt = gameTime.TotalGameTime.TotalMilliseconds - gameTime.ElapsedGameTime.TotalMilliseconds;
+
+                CCScheduler.sharedScheduler().tick((float)dt);
+            }
+
+            //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            /* to avoid flickr, nextScene MUST be here: after tick and before draw.
+             XXX: Which bug is this one. It seems that it can't be reproduced with v0.9 */
+            if (m_pNextScene != null)
+            {
+                setNextScene();
+            }
+
+            //glPushMatrix();
+
+            applyOrientation();
+
+            // By default enable VertexArray, ColorArray, TextureCoordArray and Texture2D
+            // CC_ENABLE_DEFAULT_GL_STATES();
+
+            // draw the scene
+            if (m_pRunningScene != null)
+            {
+                m_pRunningScene.visit();
+            }
+
+            // draw the notifications node
+            if (m_pNotificationNode != null)
+            {
+                m_pNotificationNode.visit();
+            }
+
+            if (m_bDisplayFPS)
+            {
+                showFPS();
+            }
+
+#if CC_ENABLE_PROFILERS
+	showProfilers();
+#endif
+
+            //CC_DISABLE_DEFAULT_GL_STATES();
+
+            //glPopMatrix();
+
+            m_uTotalFrames++;
+        }
+
+        protected void setNextScene()
+        {
+            // If it is not a transition, call onExit/cleanup
+            /*if (! newIsTransition)*/
+            if (!(m_pNextScene is CCTransitionScene))
+            {
+                if (m_pRunningScene != null)
+                {
+                    m_pRunningScene.onExit();
+                }
+
+                // issue #709. the root node (scene) should receive the cleanup message too
+                // otherwise it might be leaked.
+                if (m_bSendCleanupToScene && m_pRunningScene != null)
+                {
+                    m_pRunningScene.cleanup();
+                }
+            }
+
+            m_pRunningScene = m_pNextScene;
+            // m_pNextScene.retain();
+            m_pNextScene = null;
+
+            if (!(m_pRunningScene is CCTransitionScene) && m_pRunningScene != null)
+            {
+                m_pRunningScene.onEnter();
+                m_pRunningScene.onEnterTransitionDidFinish();
+            }
+        }
+
         #region Protected
 
         protected void purgeDirector()
@@ -142,39 +269,7 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        protected void setNextScene()
-        {
-            // If it is not a transition, call onExit/cleanup
-            /*if (! newIsTransition)*/
-            if (!(m_pNextScene is CCTransitionScene))
-            {
-                if (m_pRunningScene != null)
-                {
-                    m_pRunningScene.onExit();
-                }
 
-                // issue #709. the root node (scene) should receive the cleanup message too
-                // otherwise it might be leaked.
-                if (m_bSendCleanupToScene && m_pRunningScene != null)
-                {
-                    m_pRunningScene.cleanup();
-                }
-            }
-
-            if (m_pRunningScene != null)
-            {
-                //m_pRunningScene.release();
-            }
-            m_pRunningScene = m_pNextScene;
-            // m_pNextScene.retain();
-            m_pNextScene = null;
-
-            if (!(m_pRunningScene is CCTransitionScene) && m_pRunningScene != null)
-            {
-                m_pRunningScene.onEnter();
-                m_pRunningScene.onEnterTransitionDidFinish();
-            }
-        }
 
 #if CC_DIRECTOR_FAST_FPS
         /** shows the FPS in the screen */
@@ -188,12 +283,6 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 #endif // CC_DIRECTOR_FAST_FPS
-
-        /** calculates delta time since last time it was called */
-        protected void calculateDeltaTime()
-        {
-            throw new NotImplementedException();
-        }
 
         protected double m_dAnimationInterval;
         protected double m_dOldAnimationInterval;
@@ -222,20 +311,16 @@ namespace cocos2d
          nextScene is a weak reference. */
         CCScene m_pNextScene;
 
-        /* If YES, then "old" scene will receive the cleanup message */
+        /// <summary>
+        /// If YES, then "old" scene will receive the cleanup message
+        /// </summary>
         bool m_bSendCleanupToScene;
 
-        /* scheduled scenes */
-        List<CCScene> m_pobScenesStack;
+        /// <summary>
+        /// scheduled scenes
+        /// </summary>
+        List<CCScene> m_pobScenesStack = new List<CCScene>();
 
-        /* last time the main loop was updated */
-        // cc_timeval m_pLastUpdate;
-
-        /* delta time since last tick to main loop */
-        float m_fDeltaTime;
-
-        /* whether or not the next delta time will be zero */
-        bool m_bNextDeltaTimeZero;
 
         /* projection used */
         ccDirectorProjection m_eProjection;
@@ -267,50 +352,7 @@ namespace cocos2d
 
         #endregion
 
-        public virtual bool init()
-        {
-            //scene
-            m_pRunningScene = null;
-            m_pNextScene = null;
 
-            m_pNotificationNode = null;
-
-            m_dOldAnimationInterval = m_dAnimationInterval = 1.0 / kDefaultFPS;
-            m_pobScenesStack = new List<CCScene>();
-
-            // Set default projection (3D)
-            m_eProjection = ccDirectorProjection.kCCDirectorProjectionDefault;
-
-            // projection delegate if "Custom" projection is used
-            //m_pProjectionDelegate = NULL;
-
-            //FPS
-            m_bDisplayFPS = false;
-            m_uTotalFrames = m_uFrames = 0;
-            m_pszFPS = "";
-            //m_pLastUpdate = new struct cc_timeval();
-
-            m_bPaused = false;
-
-            //paused?
-            m_bPaused = false;
-
-            //purge?
-            m_bPurgeDirecotorInNextLoop = false;
-
-            m_obWinSizeInPixels = m_obWinSizeInPoints = new CCSize(0, 0);
-
-            // portrait mode default
-            m_eDeviceOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
-
-            //m_pobOpenGLView = NULL;
-
-            m_bRetinaDisplay = false;
-            m_fContentScaleFactor = 1;
-            m_bIsContentScaleSupported = false;
-
-            return true;
-        }
 
         // attribute
 
@@ -400,7 +442,10 @@ namespace cocos2d
          If the new scene replaces the old one, the it will receive the "cleanup" message.
          @since v0.99.0
          */
-        public bool isSendCleanupToScene() { throw new NotImplementedException(); }
+        public bool isSendCleanupToScene()
+        {
+            throw new NotImplementedException();
+        }
 
 
         // window size
@@ -411,7 +456,7 @@ namespace cocos2d
         /// <returns></returns>
         public CCSize getWinSize()
         {
-            CCSize s = new CCSize(800, 480);
+            CCSize s = new CCSize(480, 800);
 
             return s;
         }
@@ -586,61 +631,7 @@ namespace cocos2d
         /// </summary>
         public abstract void startAnimation();
 
-        /// <summary>
-        /// Draw the scene.
-        /// This method is called every frame. Don't call it manually.
-        /// </summary>
-        protected void drawScene()
-        {
-            //tick before glClear: issue #533
-            if (!m_bPaused)
-            {
-                //CCScheduler::sharedScheduler()->tick(m_fDeltaTime);
-            }
 
-            //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            /* to avoid flickr, nextScene MUST be here: after tick and before draw.
-             XXX: Which bug is this one. It seems that it can't be reproduced with v0.9 */
-            if (m_pNextScene != null)
-            {
-                setNextScene();
-            }
-
-            //glPushMatrix();
-
-            applyOrientation();
-
-            // By default enable VertexArray, ColorArray, TextureCoordArray and Texture2D
-            // CC_ENABLE_DEFAULT_GL_STATES();
-
-            // draw the scene
-            if (m_pRunningScene != null)
-            {
-                m_pRunningScene.visit();
-            }
-
-            // draw the notifications node
-            if (m_pNotificationNode != null)
-            {
-                m_pNotificationNode.visit();
-            }
-
-            if (m_bDisplayFPS)
-            {
-                showFPS();
-            }
-
-#if CC_ENABLE_PROFILERS
-	showProfilers();
-#endif
-
-            //CC_DISABLE_DEFAULT_GL_STATES();
-
-            //glPopMatrix();
-
-            m_uTotalFrames++;
-        }
 
         // Memory Helper
 
@@ -681,7 +672,7 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        public abstract void mainLoop(GameTime gameTime);
+
 
         // Profiler
         public void showProfilers()
@@ -724,7 +715,17 @@ namespace cocos2d
             }
         }
 
-        public ccDeviceOrientation deviceOrientation { get; set; }
+        /// <summary>
+        /// rotate the objects by engine.
+        /// </summary>
+        public ccDeviceOrientation deviceOrientation
+        {
+            get { return m_eDeviceOrientation; }
+            set
+            {
+                m_eDeviceOrientation = value;
+            }
+        }
 
         /// <summary>
         /// The size in pixels of the surface. It could be different than the screen size.

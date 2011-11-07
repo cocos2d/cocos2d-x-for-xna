@@ -6,6 +6,7 @@ Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
+http://www.openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -66,7 +67,7 @@ namespace cocos2d
             }
             else if (!m_bInvalid)
             {
-                drawScene();
+                drawScene(gameTime);
             }
         }
 

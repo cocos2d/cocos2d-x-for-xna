@@ -85,9 +85,9 @@ namespace cocos2d
         /// <summary>
         ///  The function be called when the application enter background
         /// </summary>
-        public virtual void applicationDidEnterBackground() 
+        public virtual void applicationDidEnterBackground()
         {
-            
+
         }
 
         /// <summary>
@@ -117,13 +117,37 @@ namespace cocos2d
         /// </summary>
         /// <param name="orientation">The defination of orientation which CCDirector want change to.</param>
         /// <returns>The actual orientation of the application.</returns>
-        public Orientation orientation
+        public Orientation setOrientation(Orientation orientation)
         {
-            set
+            switch (orientation)
             {
-                throw new NotImplementedException();
+                case Orientation.kOrientationLandscapeLeft:
+                    graphics.PreferredBackBufferWidth = 800;
+                    graphics.PreferredBackBufferHeight = 480;
+                    graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
+                    graphics.ApplyChanges();
+                    return Orientation.kOrientationLandscapeLeft;
+
+                case Orientation.kOrientationLandscapeRight:
+                    graphics.PreferredBackBufferWidth = 800;
+                    graphics.PreferredBackBufferHeight = 480;
+                    graphics.SupportedOrientations = DisplayOrientation.LandscapeRight;
+                    graphics.ApplyChanges();
+                    return Orientation.kOrientationLandscapeRight;
+
+                default:
+                    graphics.PreferredBackBufferWidth = 480;
+                    graphics.PreferredBackBufferHeight = 800;
+                    graphics.SupportedOrientations = DisplayOrientation.Portrait;
+                    graphics.ApplyChanges();
+                    return Orientation.kOrientationPortrait;
             }
         }
+        void Window_OrientationChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Get status bar rectangle in EGLView window.
@@ -146,9 +170,13 @@ namespace cocos2d
             : base(game)
         {
             this.game = game;
-            this._graphics = new GraphicsDeviceManager(game);
+            this.graphics = new GraphicsDeviceManager(game);
             this.content = content;
+
+            game.Window.OrientationChanged += Window_OrientationChanged;
         }
+
+
 
         public override void Initialize()
         {
@@ -185,7 +213,7 @@ namespace cocos2d
 
         #endregion
 
-        GraphicsDeviceManager _graphics;
+        internal GraphicsDeviceManager graphics;
 
         /// <summary>
         /// Gets the current ContentManager

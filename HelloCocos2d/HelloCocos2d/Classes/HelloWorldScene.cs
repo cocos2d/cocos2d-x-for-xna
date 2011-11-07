@@ -78,24 +78,6 @@ namespace HelloCocos2d
             // add layer as a child to scene
             scene.addChild(layer);
 
-
-            CCSize size = CCDirector.sharedDirector().getWinSize();
-
-            // position the label on the center of the screen
-            //pLabel->setPosition( ccp(size.width / 2, size.height - 50) );
-
-            // add the label as a child to this layer
-            //this->addChild(pLabel, 1);
-
-            // add "HelloWorld" splash screen"
-            CCSprite pSprite = CCSprite.spriteWithFile("HelloWorld");
-
-            // position the sprite on the center of the screen
-            pSprite.position = new CCPoint(size.width / 2, size.height / 2);
-
-            // add the sprite as a child to this layer
-            layer.addChild(pSprite, 0);
-
             // return the scene
             return scene;
         }
