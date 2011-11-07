@@ -51,7 +51,7 @@ namespace HelloCocos2d
 
             // add the label as a child to this layer
             //this->addChild(pLabel, 1);
-
+             
             // add "HelloWorld" splash screen"
             CCSprite pSprite = CCSprite.spriteWithFile("HelloWorld");
 

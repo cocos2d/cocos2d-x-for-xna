@@ -94,9 +94,7 @@
     <Compile Include="sprite_nodes\CCSprite.cs" />
     <Compile Include="textures\CCTextureCache.cs" />
     <Compile Include="textures\CCTexture2D.cs" />
-    <Compile Include="touch_dispatcher\CCStandardTouchDelegate.cs" />
     <Compile Include="touch_dispatcher\CCStandardTouchHandler.cs" />
-    <Compile Include="touch_dispatcher\CCTargetedTouchDelegate.cs" />
     <Compile Include="touch_dispatcher\CCTargetedTouchHandler.cs" />
     <Compile Include="touch_dispatcher\CCTouchDelegate.cs" />
     <Compile Include="touch_dispatcher\CCTouchDispatcher.cs" />
