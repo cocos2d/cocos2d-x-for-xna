@@ -144,15 +144,6 @@ namespace cocos2d
 		/** the script function name to call back */
 		private string m_scriptFuncName;
 
-        SEL_CallFunc m_pCallFunc;
-
-        //union
-        //{
-        //    SEL_CallFunc	m_pCallFunc;
-        //    SEL_CallFuncN	m_pCallFuncN;
-        //    SEL_CallFuncND	m_pCallFuncND;
-        //    SEL_CallFuncO   m_pCallFuncO;
-        //};
-
+        private SEL_CallFunc m_pCallFunc;
     }
 }

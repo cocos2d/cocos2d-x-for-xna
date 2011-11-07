@@ -60,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="actions\action_instants\callfunc\CCCallFunc.cs" />
+    <Compile Include="actions\action_instants\callfunc\CCCallFuncN.cs" />
+    <Compile Include="actions\action_instants\callfunc\CCCallFuncND.cs" />
+    <Compile Include="actions\action_instants\callfunc\CCCallFuncO.cs" />
     <Compile Include="actions\action_instants\CCMoveTo.cs" />
     <Compile Include="actions\action_instants\CCFlipX.cs" />
     <Compile Include="actions\action_instants\CCFlipY.cs" />
