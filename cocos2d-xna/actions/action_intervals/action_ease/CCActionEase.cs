@@ -32,50 +32,54 @@ using System.Text;
 
 namespace cocos2d
 {
-    public class CCActionEase:CCActionInterval
+    public class CCActionEase : CCActionInterval
     {
-      /// <summary>
-      /// initializes the action
-      /// </summary>
-      /// <param name="pAction"></param>
-      /// <returns></returns>
+        /// <summary>
+        /// initializes the action
+        /// </summary>
+        /// <param name="pAction"></param>
+        /// <returns></returns>
         public bool initWithAction(CCActionInterval pAction)
         {
             throw new NotImplementedException();
         }
 
-      public virtual CCObject copyWithZone(CCZone pZone)
-      {
-          throw new NotImplementedException();
-      }
-      public virtual void startWithTarget(CCNode pTarget)
-      {
-          throw new NotImplementedException();
-      }
-	  public virtual void stop()
-      {
-          throw new NotImplementedException();
-      }
-	  public virtual void update(float time)
-      {
-          throw new NotImplementedException();
-      }
-      public virtual CCActionInterval reverse()
-      {
-          throw new NotImplementedException();
-      }
+        public virtual CCObject copyWithZone(CCZone pZone)
+        {
+            throw new NotImplementedException();
+        }
 
-      /// <summary>
-     /// creates the action
-     /// </summary>
-     /// <param name="pAction"></param>
-     /// <returns></returns>
-	 public static CCActionEase actionWithAction(CCActionInterval pAction)
-     {
-        throw new NotImplementedException();
-     }
+        public virtual void startWithTarget(CCNode pTarget)
+        {
+            throw new NotImplementedException();
+        }
 
-     protected CCActionInterval m_pOther;
+        public virtual void stop()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void update(float time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual CCActionInterval reverse()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// creates the action
+        /// </summary>
+        /// <param name="pAction"></param>
+        /// <returns></returns>
+        public static CCActionEase actionWithAction(CCActionInterval pAction)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected CCActionInterval m_pOther;
 
     }
 }
