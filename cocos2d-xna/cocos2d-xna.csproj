@@ -70,6 +70,8 @@
     <Compile Include="actions\action_instants\CCPlace.cs" />
     <Compile Include="actions\action_instants\CCShow.cs" />
     <Compile Include="actions\action_instants\CCToggleVisibility.cs" />
+    <Compile Include="actions\action_intervals\action_ease\CCActionEase.cs" />
+    <Compile Include="actions\action_intervals\action_ease\CCEaseRateAction.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
     <Compile Include="actions\action_intervals\CCActionInterval.cs" />
@@ -108,7 +110,6 @@
     <Compile Include="touch_dispatcher\EGLTouchDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="actions\action_intervals\action_ease\" />
     <Folder Include="actions\action_intervals\grid_action\grid3d_action\" />
     <Folder Include="actions\action_intervals\grid_action\tiledgrid3d_action\" />
     <Folder Include="effects\" />
