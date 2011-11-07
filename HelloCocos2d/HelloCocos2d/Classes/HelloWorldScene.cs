@@ -25,17 +25,18 @@ namespace HelloCocos2d
             //    you may modify it.
 
             // add a "close" icon to exit the progress. it's an autorelease object
-            //CCMenuItemImage *pCloseItem = CCMenuItemImage::itemFromNormalImage(
-            //                                    "CloseNormal.png",
-            //                                    "CloseSelected.png",
+            //CCMenuItemImage pCloseItem = CCMenuItemImage.itemFromNormalImage(
+            //                                    "CloseNormal",
+            //                                    "CloseSelected",
             //                                    this,
-            //                                    menu_selector(HelloWorld::menuCloseCallback) );
-            //pCloseItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20) );
+            //                                    new SEL_MenuHandler(menuCloseCallback));
 
-            // create menu, it's an autorelease object
-            //CCMenu* pMenu = CCMenu::menuWithItems(pCloseItem, NULL);
-            //pMenu->setPosition( CCPointZero );
-            //this->addChild(pMenu, 1);
+            //pCloseItem.position = new CCPoint(CCDirector.sharedDirector().getWinSize().width - 20, 20);
+
+            //// create menu, it's an autorelease object
+            //CCMenu pMenu = CCMenu.menuWithItems(pCloseItem, null);
+            //pMenu.position = new CCPoint(0,0);
+            //this.addChild(pMenu, 1);
 
             /////////////////////////////
             // 3. add your codes below...

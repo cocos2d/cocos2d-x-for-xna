@@ -75,50 +75,82 @@ namespace cocos2d
     */
     public class CCSprite : CCNode, CCTextureProtocol, CCRGBAProtocol
     {
-        // Properties
+        #region Properties
 
-        /** Opacity: conforms to CCRGBAProtocol protocol */
         private byte m_nOpacity;
-        public byte getOpacity()
-        {
-            return m_nOpacity;
-        }
-        public void setOpacity(byte value)
-        {
-            m_nOpacity = value;
 
-            // special opacity for premultiplied textures
-            if (m_bOpacityModifyRGB)
-            {
-                setColor(m_sColorUnmodified);
+        /// <summary>
+        /// Opacity: conforms to CCRGBAProtocol protocol
+        /// </summary>
+        public byte Opacity 
+        {
+            get
+            { 
+                return m_nOpacity;
             }
 
-            updateColor();
+            set
+            {
+                m_nOpacity = value;
+
+                // special opacity for premultiplied textures
+                if (m_bOpacityModifyRGB)
+                {
+                    Color = m_sColorUnmodified;
+                }
+
+                updateColor();            
+            }
         }
 
-        /** Color: conforms with CCRGBAProtocol protocol */
         private ccColor3B m_sColor;
-        public ccColor3B getColor()
+
+        /// <summary>
+        /// Color: conforms with CCRGBAProtocol protocol
+        /// </summary>
+        public ccColor3B Color 
         {
-            if (m_bOpacityModifyRGB)
+            get
             {
-                return m_sColorUnmodified;
+                if (m_bOpacityModifyRGB)
+                {
+                    return m_sColorUnmodified;
+                }
+
+                return m_sColor;
             }
 
-            return m_sColor;
+            set
+            {
+                m_sColor = m_sColorUnmodified = value;
+
+                if (m_bOpacityModifyRGB)
+                {
+                    m_sColor.r = (byte)(value.r * m_nOpacity / 255);
+                    m_sColor.g = (byte)(value.g * m_nOpacity / 255);
+                    m_sColor.b = (byte)(value.b * m_nOpacity / 255);
+                }
+
+                updateColor();
+            }
         }
-        public void setColor(ccColor3B value)
-        {
-            m_sColor = m_sColorUnmodified = value;
 
-            if (m_bOpacityModifyRGB)
+        /// <summary>
+        /// opacity: conforms to CCRGBAProtocol protocol
+        /// </summary>
+        public virtual bool IsOpacityModifyRGB
+        {
+            get
             {
-                m_sColor.r = (byte)(value.r * m_nOpacity / 255);
-                m_sColor.g = (byte)(value.g * m_nOpacity / 255);
-                m_sColor.b = (byte)(value.b * m_nOpacity / 255);
+                return m_bOpacityModifyRGB;
             }
 
-            updateColor();
+            set
+            {
+                ccColor3B oldColor = m_sColor;
+                m_bOpacityModifyRGB = value;
+                m_sColor = oldColor;
+            }
         }
 
         /** whether or not the Sprite needs to be updated in the Atlas */
@@ -234,6 +266,8 @@ namespace cocos2d
                 return m_obOffsetPositionInPixels;
             }
         }
+
+        #endregion
 
         /** conforms to CCTextureProtocol protocol */
         private ccBlendFunc m_sBlendFunc;
@@ -729,19 +763,6 @@ namespace cocos2d
 
             // self render
             // do nothing
-        }
-
-        /** opacity: conforms to CCRGBAProtocol protocol */
-        public virtual void setIsOpacityModifyRGB(bool bValue)
-        {
-            ccColor3B oldColor = m_sColor;
-            m_bOpacityModifyRGB = bValue;
-            m_sColor = oldColor;
-        }
-
-        public virtual bool getIsOpacityModifyRGB()
-        {
-            return m_bOpacityModifyRGB;
         }
 
         // CCTextureProtocol

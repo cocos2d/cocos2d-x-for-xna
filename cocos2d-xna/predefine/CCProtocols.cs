@@ -30,21 +30,17 @@ namespace cocos2d
         /** sets Color
          @since v0.8
          */
-        void setColor(ccColor3B color);
-
         /** returns the color
 	     @since v0.8
 	     */
-        ccColor3B getColor();
+        ccColor3B Color { get; set; }
 
         // returns the opacity
-        byte getOpacity();
-
         /** sets the opacity.
 	     @warning If the the texture has premultiplied alpha then, the R, G and B channels will be modifed.
 	     Values goes from 0 to 255, where 255 means fully opaque.
 	     */
-        void setOpacity(byte opacity);
+        byte Opacity { get; set; }
 
         /** sets the premultipliedAlphaOpacity property.
 	     If set to NO then opacity will be applied as: glColor(R,G,B,opacity);
@@ -52,12 +48,12 @@ namespace cocos2d
 	     Textures with premultiplied alpha will have this property by default on YES. Otherwise the default value is NO
 	     @since v0.8
 	     */
-        void setIsOpacityModifyRGB(bool bValue);
+
+        bool IsOpacityModifyRGB { get; set; }
 
         /** returns whether or not the opacity will be applied using glColor(R,G,B,opacity) or glColor(opacity, opacity, opacity, opacity);
 	     @since v0.8
 	     */
-        bool getIsOpacityModifyRGB();
     }
 
     /**

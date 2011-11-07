@@ -90,6 +90,10 @@
     <Compile Include="cocoa\CCZone.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayer.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCScene.cs" />
+    <Compile Include="menu_nodes\CCMenu.cs" />
+    <Compile Include="menu_nodes\CCMenuItem.cs" />
+    <Compile Include="menu_nodes\CCMenuItemImage.cs" />
+    <Compile Include="menu_nodes\CCMenuItemSprite.cs" />
     <Compile Include="platform\CCApplication.cs" />
     <Compile Include="predefine\ccConfig.cs" />
     <Compile Include="predefine\ccMacros.cs" />
@@ -117,7 +121,6 @@
     <Folder Include="effects\" />
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="label_nodes\" />
-    <Folder Include="menu_nodes\" />
     <Folder Include="misc_nodes\" />
     <Folder Include="particle_nodes\" />
     <Folder Include="script_support\" />
