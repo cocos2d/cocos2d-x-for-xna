@@ -47,6 +47,14 @@ namespace   cocos2d
             b = inb;
         }
 
+        // Convert Color value of XNA Framework to ccColor3B type
+        public ccColor3B(Microsoft.Xna.Framework.Color color)
+        {
+            r = color.R;
+            g = color.B;
+            b = color.B;
+        }
+
         public byte r;
         public byte g;
         public byte b;
@@ -63,6 +71,15 @@ namespace   cocos2d
             g = ing;
             b = inb;
             a = ina;
+        }
+
+        // Convert Color value of XNA Framework to ccColor4B type
+        public ccColor4B(Microsoft.Xna.Framework.Color color)
+        {
+            r = color.R;
+            g = color.B;
+            b = color.B;
+            a = color.A;
         }
 
         public byte r;

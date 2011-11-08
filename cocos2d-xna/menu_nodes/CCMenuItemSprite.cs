@@ -70,8 +70,87 @@ namespace cocos2d
         public bool initFromNormalSprite(CCNode normalSprite, CCNode selectedSprite, CCNode disabledSprite, 
                                     SelectorProtocol target, SEL_MenuHandler selector)
         {
-            throw new NotImplementedException();
+            if (normalSprite == null)
+	        {
+                throw new NullReferenceException();
+	        }
+
+            CCMenuItem.itemWithTarget(target, selector);            
+
+            setNormalImage(normalSprite);
+            setSelectedImage(selectedSprite);
+            setDisabledImage(disabledSprite);
+
+            contentSize = m_pNormalImage.contentSize;
+
+		    return true;
         }
+
+        CCNode getNormalImage()
+	    {
+		    return m_pNormalImage;
+	    }
+
+	    void setNormalImage(CCNode var)
+	    {
+            if (var != null)
+            {
+                addChild(var);
+                var.anchorPoint = new CCPoint(0, 0);
+                var.visible = true;
+            }
+
+            if (m_pNormalImage != null)
+            {
+                removeChild(m_pNormalImage, true);
+            }
+
+            m_pNormalImage = var;
+	    }
+
+	    CCNode getSelectedImage()
+	    {
+		    return m_pSelectedImage;
+	    }
+
+	    void setSelectedImage(CCNode var)
+	    {
+            if (var != null)
+            {
+                addChild(var);
+                var.anchorPoint = new CCPoint(0, 0);
+                var.visible = true;
+            }
+
+            if (m_pSelectedImage != null)
+            {
+                removeChild(m_pSelectedImage, true);
+            }
+
+            m_pSelectedImage = var;
+	    }
+
+	    CCNode getDisabledImage()
+	    {
+		    return m_pDisabledImage;
+	    }
+
+	    void setDisabledImage(CCNode var)
+	    {
+            if (var != null)
+            {
+                addChild(var);
+                var.anchorPoint = new CCPoint(0, 0);
+                var.visible = true;
+            }
+
+            if (m_pDisabledImage != null)
+            {
+                removeChild(m_pDisabledImage, true);
+            }
+
+            m_pDisabledImage = var;
+	    }
         
         //// super methods
         public ccColor3B Color { get; set; }

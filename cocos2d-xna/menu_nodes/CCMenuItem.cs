@@ -30,7 +30,10 @@ namespace cocos2d
         /// <returns></returns>
         public static CCMenuItem itemWithTarget(SelectorProtocol rec, SEL_MenuHandler selector)
         {
-            throw new NotImplementedException();
+            CCMenuItem pRet = new CCMenuItem();
+            pRet.initWithTarget(rec, selector);
+            
+            return pRet;
         }
 
         /// <summary>
@@ -41,7 +44,12 @@ namespace cocos2d
         /// <returns></returns>
         public bool initWithTarget(SelectorProtocol rec, SEL_MenuHandler selector)
         {
-            throw new NotImplementedException();
+            anchorPoint = new CCPoint(0.5f, 0.5f);
+            m_pListener = rec;
+            m_pfnSelector = selector;
+            m_bIsEnabled = true;
+            m_bIsSelected = false;
+            return true;
         }
 
         /// <summary>
@@ -50,7 +58,9 @@ namespace cocos2d
         /// <returns></returns>
         public CCRect rect() 
         {
-            throw new NotImplementedException();
+            return new CCRect(m_tPosition.x - m_tContentSize.width * m_tAnchorPoint.x,
+                m_tPosition.y - m_tContentSize.height * m_tAnchorPoint.y,
+                m_tContentSize.width, m_tContentSize.height);
         }
 
         /// <summary>
@@ -58,7 +68,19 @@ namespace cocos2d
         /// </summary>
         public virtual void activate()
         {
-            throw new NotImplementedException();
+            if (m_bIsEnabled)
+		    {
+			    if (m_pListener != null)
+			    {
+				    //(m_pListener.m_pfnSelector)(this);
+                }
+
+                  #warning "Need Support CCScriptEngineManager"
+                //if (m_functionName.size() && CCScriptEngineManager.sharedScriptEngineManager().getScriptEngine())
+                //{
+                //    CCScriptEngineManager.sharedScriptEngineManager().getScriptEngine().executeCallFuncN(m_functionName.c_str(), this);
+                //}
+		    }
         }
 
         /// <summary>
@@ -66,7 +88,7 @@ namespace cocos2d
         /// </summary>
         public virtual void selected()
         {
-            throw new NotImplementedException();
+            m_bIsSelected = true;
         }
 
         /// <summary>
@@ -74,7 +96,7 @@ namespace cocos2d
         /// </summary>
         public virtual void unselected() 
         {
-            throw new NotImplementedException();
+            m_bIsSelected = false;
         }
 
         /// <summary>
@@ -92,10 +114,21 @@ namespace cocos2d
         /// </summary>
         /// <param name="rec"></param>
         /// <param name="selector"></param>
-        public void setTarget(SelectorProtocol rec, SEL_MenuHandler selector)
+        public virtual void setTarget(SelectorProtocol rec, SEL_MenuHandler selector)
         {
-            throw new NotImplementedException();
+            m_pListener = rec;
+            m_pfnSelector = selector;
         }
 
+        public virtual bool Enabled 
+        {
+            get { return m_bIsEnabled; }
+            set { m_bIsEnabled = value;}
+        }
+
+        public virtual bool Selected 
+        {
+            get { return m_bIsSelected; }
+        }
     }
 }

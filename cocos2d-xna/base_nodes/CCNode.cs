@@ -1247,5 +1247,6 @@ namespace cocos2d
         protected bool m_bIsTransformGLDirty;
 #endif
         
+
     }
 }

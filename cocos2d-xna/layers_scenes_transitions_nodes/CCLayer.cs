@@ -204,7 +204,7 @@ namespace cocos2d
 	    Only the touches of this node will be affected. This "method" is not propagated to it's children.
 	    @since v0.8.1
 	    */
-        private bool m_bIsTouchEnabled;
+        protected bool m_bIsTouchEnabled;
         public bool isTouchEnabled
         {
             get

@@ -295,9 +295,9 @@ namespace cocos2d
         /// Get status bar rectangle in EGLView window.
         /// </summary>
         /// <param name="rect"></param>
-        public void statusBarFrame(CCRect rect)
+        public void statusBarFrame(out CCRect rect)
         {
-            throw new NotImplementedException();
+            rect = new CCRect(0, 0, 0, 0);
         }
 
         //static ccLanguageType CCApplication::getCurrentLanguage()

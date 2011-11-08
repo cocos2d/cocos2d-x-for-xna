@@ -43,6 +43,11 @@ namespace cocos2d
             this.y = y;
         }
 
+        public static CCPoint Zero 
+        {
+            get { return new CCPoint(0, 0); } 
+        }
+
         public static bool CCPointEqualToPoint(CCPoint point1, CCPoint point2)
         {
             Debug.Assert((point1 != null) && (point2 != null));
@@ -95,14 +100,16 @@ namespace cocos2d
         public CCPoint origin;
         public CCSize size;
 
-        public CCRect()
+        public CCRect() : this(0,0,0,0)
         {
-            origin = new CCPoint();
-            size = new CCSize();
+
         }
 
         public CCRect(float x, float y, float width, float height)
         {
+            origin = new CCPoint();
+            size = new CCSize();
+
             // Only support that, the width and height > 0
             Debug.Assert(width >= 0 && height >= 0);
 
