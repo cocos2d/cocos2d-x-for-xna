@@ -119,6 +119,7 @@ namespace cocos2d
             m_pUpdatesNegList.Clear();
             m_pUpdates0List.Clear();
             m_pUpdatesPosList.Clear();
+            m_listToDelete.Clear();
 
             g_sharedScheduler = null;
         }
@@ -163,17 +164,20 @@ namespace cocos2d
             }
 
             // Interate all over the custom selectors
-            foreach (KeyValuePair<SelectorProtocol, tHashSelectorEntry> kvp in m_pHashForSelectors)
-            {             
-                tHashSelectorEntry elt = kvp.Value;
+            SelectorProtocol[] keys = new SelectorProtocol[m_pHashForSelectors.Keys.Count];
+            m_pHashForSelectors.Keys.CopyTo(keys, 0);
+            for (int i = 0; i < keys.Length; i++)
+            {
+                tHashSelectorEntry elt = m_pHashForSelectors[keys[i]];
                 m_pCurrentTarget = elt;
                 m_bCurrentTargetSalvaged = false;
 
                 if (!m_pCurrentTarget.paused)
                 {
                     // The 'timers' array may change while inside this loop
-                    foreach (CCTimer timer in elt.timers)
+                    for (elt.timerIndex = 0; elt.timerIndex < elt.timers.Count; ++(elt.timerIndex))
                     {
+                        elt.currentTimer = elt.timers[(int)elt.timerIndex];
                         elt.currentTimerSalvaged = false;
 
                         elt.currentTimer.update(dt);
@@ -188,7 +192,7 @@ namespace cocos2d
                         }
                          * */
                         elt.currentTimer = null;
-                    }                    
+                    }
                 }
 
                 // not needed
@@ -202,32 +206,46 @@ namespace cocos2d
             }
 
             // delete all updates that are morked for deletion
+
             // updates with priority < 0
-            foreach (tListEntry entry in m_pUpdatesNegList)
+            for (int i = 0; i < m_pUpdatesNegList.Count; i++)
             {
+                tListEntry entry = m_pUpdatesNegList[i];
                 if (entry.markedForDeletion)
                 {
-                    removeUpdateFromHash(entry);
+                    //removeUpdateFromHash(entry);
+                    m_listToDelete.Add(entry);
                 }
             }
 
             // updates with priority == 0
-            foreach (tListEntry entry in m_pUpdates0List)
+            for (int i = 0; i < m_pUpdates0List.Count; i++)
             {
+                tListEntry entry = m_pUpdates0List[i];
                 if (entry.markedForDeletion)
                 {
-                    removeUpdateFromHash(entry);
+                    //removeUpdateFromHash(entry);
+                    m_listToDelete.Add(entry);
                 }
             }
 
             // updates with priority > 0
-            foreach (tListEntry entry in m_pUpdatesPosList)
+            for (int i = 0; i < m_pUpdatesPosList.Count; i++)
             {
+                tListEntry entry = m_pUpdatesPosList[i];
                 if (entry.markedForDeletion)
                 {
-                    removeUpdateFromHash(entry);
+                    //removeUpdateFromHash(entry);
+                    m_listToDelete.Add(entry);
                 }
             }
+
+            // do the delete
+            foreach (tListEntry entry in m_listToDelete)
+            {
+                removeUpdateFromHash(entry);
+            }
+            m_listToDelete.Clear();
         }
 
         /** The scheduled method will be called every 'interval' seconds.
@@ -254,6 +272,8 @@ namespace cocos2d
             }
             else
             {
+                element = m_pHashForSelectors[target];
+
                 Debug.Assert(element.paused == bPaused);
             }
 
@@ -303,11 +323,11 @@ namespace cocos2d
             }
             else if (nPriority < 0)
             {
-                appendIn(m_pUpdatesNegList, targt, bPaused);
+                priorityIn(m_pUpdatesNegList, targt, nPriority, bPaused);
             }
             else
             {
-                appendIn(m_pUpdatesPosList, targt, bPaused);
+                priorityIn(m_pUpdatesPosList, targt, nPriority, bPaused);
             }
         }
 
@@ -323,18 +343,27 @@ namespace cocos2d
                 return;
             }
 
-            tHashSelectorEntry element = null;
             if (m_pHashForSelectors.ContainsKey(target))
             {
-                element = m_pHashForSelectors[target];
+                 tHashSelectorEntry element = m_pHashForSelectors[target];
 
-                foreach (CCTimer timer in element.timers)
+                for (int i = 0; i < element.timers.Count; i++)
                 {
+                    CCTimer timer = element.timers[i];
+
                     if (selector == timer.m_pfnSelector)
                     {
                         if (timer == element.currentTimer && (!element.currentTimerSalvaged))
                         {
                             element.currentTimerSalvaged = true;
+                        }
+
+                        element.timers.RemoveAt(i);
+
+                        // update timerIndex in case we are in tick:, looping over the actions
+                        if (element.timerIndex >= i)
+                        {
+                            element.timerIndex--;
                         }
 
                         if (element.timers.Count == 0)
@@ -367,10 +396,11 @@ namespace cocos2d
                 return;
             }
 
-            // custom selectors
-            tHashSelectorEntry element = m_pHashForSelectors[target];
-            if (element != null)
+            // custom selectors           
+            if (m_pHashForSelectors.ContainsKey(target))
             {
+                tHashSelectorEntry element = m_pHashForSelectors[target];
+
                 if (element.timers.Contains(element.currentTimer))
                 {
                     element.currentTimerSalvaged = true;
@@ -401,10 +431,9 @@ namespace cocos2d
                 return;
             }
 
-            tHashUpdateEntry element = null;
             if (m_pHashForSelectors.ContainsKey(target))
             {
-                element = m_pHashForUpdates[target];
+                tHashUpdateEntry element = m_pHashForUpdates[target];
                 if (m_bUpdateHashLocked)
                 {
                     element.entry.markedForDeletion = true;
@@ -422,23 +451,30 @@ namespace cocos2d
 	     */
         public void unscheduleAllSelectors()
         {
-            foreach (KeyValuePair<SelectorProtocol, tHashSelectorEntry> kvp in m_pHashForSelectors)
+            tHashSelectorEntry[] hashSelectorToDelete = new tHashSelectorEntry[m_pHashForSelectors.Values.Count];
+            m_pHashForSelectors.Values.CopyTo(hashSelectorToDelete, 0);
+            for (int i = 0; i < hashSelectorToDelete.Length; i++)
             {
-                unscheduleAllSelectorsForTarget(kvp.Value.target);
+                unscheduleAllSelectorsForTarget(hashSelectorToDelete[i].target);
             }
 
             // Updates selectors
-            foreach (tListEntry entry in m_pUpdates0List)
+            tListEntry[] listEntryToDelete = m_pUpdates0List.ToArray();
+            for (int i = 0; i < listEntryToDelete.Length; i++)
             {
-                unscheduleAllSelectorsForTarget(entry.target);
+                unscheduleAllSelectorsForTarget(listEntryToDelete[i].target);
             }
-            foreach (tListEntry entry in m_pUpdatesNegList)
+
+            listEntryToDelete = m_pUpdatesNegList.ToArray();
+            for (int i = 0; i < listEntryToDelete.Length; i++)
             {
-                unscheduleAllSelectorsForTarget(entry.target);
+                unscheduleAllSelectorsForTarget(listEntryToDelete[i].target);
             }
-            foreach (tListEntry entry in m_pUpdatesPosList)
+
+            listEntryToDelete = m_pUpdatesPosList.ToArray();
+            for (int i = 0; i < listEntryToDelete.Length; i++)
             {
-                unscheduleAllSelectorsForTarget(entry.target);
+                unscheduleAllSelectorsForTarget(listEntryToDelete[i].target);
             }
         }
 
@@ -498,10 +534,9 @@ namespace cocos2d
             Debug.Assert(target != null, "target must be non nil");
 
             // Custom selectors
-            tHashSelectorEntry element = m_pHashForSelectors[target];
-            if (element != null)
+            if (m_pHashForSelectors.ContainsKey(target))
             {
-                return element.paused;
+                return m_pHashForSelectors[target].paused;
             }
 
             return false; // should never get here
@@ -545,12 +580,11 @@ namespace cocos2d
 
         private void removeUpdateFromHash(tListEntry entry)
         {
-            tHashUpdateEntry element = null;
             if (m_pHashForUpdates.ContainsKey(entry.target))
             {
                 // list entry
-                element = m_pHashForUpdates[entry.target];
-                element.list.Clear();
+                tHashUpdateEntry element = m_pHashForUpdates[entry.target];
+                element.list.Remove(entry);
                 element.entry = null;
 
                 // hash entry
@@ -582,6 +616,8 @@ namespace cocos2d
             m_pUpdatesPosList = new List<tListEntry>();
             m_pHashForUpdates = new Dictionary<SelectorProtocol, tHashUpdateEntry>();
             m_pHashForSelectors = new Dictionary<SelectorProtocol, tHashSelectorEntry>();
+
+            m_listToDelete = new List<tListEntry>();
 
             return true;
         }
@@ -674,6 +710,8 @@ namespace cocos2d
         protected bool m_bCurrentTargetSalvaged;
         // If true unschedule will not remove anything from a hash. Elements will only be marked for deletion.
         protected bool m_bUpdateHashLocked;
+
+        private List<tListEntry> m_listToDelete;
     }
 
     public class tListEntry
@@ -695,6 +733,7 @@ namespace cocos2d
     {
         public List<CCTimer>    timers;
         public SelectorProtocol target;
+        public uint             timerIndex;
         public CCTimer          currentTimer;
         public bool             currentTimerSalvaged;
         public bool             paused;

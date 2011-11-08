@@ -287,7 +287,7 @@ namespace cocos2d
         }
         void Window_OrientationChanged(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
 

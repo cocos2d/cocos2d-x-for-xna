@@ -78,6 +78,7 @@
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
     <Compile Include="actions\action_intervals\CCActionInterval.cs" />
+    <Compile Include="actions\CCActionManager.cs" />
     <Compile Include="actions\CCFiniteTimeAction.cs" />
     <Compile Include="actions\CCFollow.cs" />
     <Compile Include="actions\CCSpeed.cs" />

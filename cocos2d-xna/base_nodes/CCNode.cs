@@ -503,15 +503,18 @@ namespace cocos2d
 
         // actions
 
-        ///@todo
         /** Executes an action, and returns the action that is executed.
 		The node becomes the action's target.
 		@warning Starting from v0.8 actions don't retain their target anymore.
 		@since v0.7.1
 		@return An Action pointer
 		*/
-
-       // CCAction* runAction(CCAction* action);
+        public CCAction runAction(CCAction action)
+        {
+            Debug.Assert(action != null, "Argument must be non-nil");
+            CCActionManager.sharedManager().addAction(action, this, !m_bIsRunning);
+            return action;
+        }
 
         // Removes all actions from the running action list
         public void stopAllActions()
@@ -633,8 +636,8 @@ namespace cocos2d
 		*/
         public void resumeSchedulerAndActions()
         {
-            ///@todo
-            //throw new NotImplementedException();
+            CCScheduler.sharedScheduler().resumeTarget(this);
+            CCActionManager.sharedManager().resumeTarget(this);
         }
 
         /** pauses all scheduled selectors and actions.
