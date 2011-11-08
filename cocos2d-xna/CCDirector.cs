@@ -454,7 +454,7 @@ namespace cocos2d
         /// <returns></returns>
         public CCSize getWinSize()
         {
-            CCSize s = new CCSize(480, 800);
+            CCSize s = new CCSize(800, 480);
 
             return s;
         }
