@@ -27,7 +27,50 @@ using System;
 namespace cocos2d
 {
     public class CCFadeIn : CCActionInterval
-    {
+    {        
+        public static CCFadeIn actionWithDuration(float d)
+        {
+	        CCFadeIn pAction = new CCFadeIn();
+
+	        pAction.initWithDuration(d);
+
+	        return pAction;
+        }
+
+        public override CCObject copyWithZone(CCZone pZone)
+        {
+	        CCZone pNewZone = null;
+	        CCFadeIn pCopy = null;
+	        if(pZone != null && pZone.m_pCopyObject != null)
+	        {
+		        //in case of being called at sub class
+		        pCopy = (CCFadeIn)(pZone.m_pCopyObject);
+	        }
+	        else
+	        {
+		        pCopy = new CCFadeIn();
+		        pZone = pNewZone = new CCZone(pCopy);
+	        }
+	
+	        base.copyWithZone(pZone);
+            
+	        return pCopy;
+        }
+
+        public override void update(float time)
+        {
+	        CCRGBAProtocol pRGBAProtocol = m_pTarget as CCRGBAProtocol;
+	        if (pRGBAProtocol != null)
+	        {
+                pRGBAProtocol.Opacity = (byte)(255 * time);
+	        }
+        }
+
+        public override CCFiniteTimeAction reverse()
+        {
+	        return CCFadeOut.actionWithDuration(m_fDuration);
+        }
+
 
     }
 }

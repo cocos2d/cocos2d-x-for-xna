@@ -28,6 +28,50 @@ namespace cocos2d
 {
     public class CCFadeOut : CCActionInterval
     {
+        public static CCFadeOut actionWithDuration(float d)
+        {
+	        CCFadeOut pAction = new CCFadeOut();
+
+	        pAction.initWithDuration(d);
+
+	        return pAction;
+        }
+
+        public override CCObject copyWithZone(CCZone pZone)
+        {
+	        CCZone pNewZone = null;
+	        CCFadeOut pCopy = null;
+	        if(pZone != null && pZone.m_pCopyObject != null) 
+	        {
+		        //in case of being called at sub class
+		        pCopy = (CCFadeOut)(pZone.m_pCopyObject);
+	        }
+	        else
+	        {
+		        pCopy = new CCFadeOut();
+		        pZone = pNewZone = new CCZone(pCopy);
+	        }
+
+	        base.copyWithZone(pZone);
+
+	        return pCopy;
+        }
+
+        public override void update(float time)
+        {
+	        CCRGBAProtocol pRGBAProtocol = m_pTarget as CCRGBAProtocol;
+	        if (pRGBAProtocol != null)
+	        {
+		        pRGBAProtocol.Opacity  = (byte)(255 * (1 - time));
+	        }
+	        /*m_pTarget->setOpacity(GLubyte(255 * (1 - time)));*/	
+        }
+
+        public override CCFiniteTimeAction reverse()
+        {
+	        return CCFadeIn.actionWithDuration(m_fDuration);
+        }
+
 
     }
 }
