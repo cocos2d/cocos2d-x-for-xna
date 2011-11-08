@@ -32,18 +32,19 @@ using System.Text;
 
 namespace cocos2d
 {
-    class CCEaseOut : CCEaseRateAction
+    public class CCEaseOut : CCEaseRateAction
     {
-        public virtual void update(float time)
+        public override void update(float time)
         {
             m_pOther.update((float)(Math.Pow(time, 1 / m_fRate)));
         }
 
-        public virtual CCObject copyWithZone(CCZone pZone)
+        public override CCObject copyWithZone(CCZone pZone)
         {
             CCZone pNewZone = null;
             CCEaseOut pCopy = null;
-            if (pZone!=null && pZone.m_pCopyObject!=null)
+
+            if (pZone != null && pZone.m_pCopyObject != null)
             {
                 //in case of being called at sub class
                 pCopy = (CCEaseOut)(pZone.m_pCopyObject);
@@ -65,10 +66,11 @@ namespace cocos2d
         /// <param name="pAction"></param>
         /// <param name="fRate"></param>
         /// <returns></returns>
-        public static CCEaseOut actionWithAction(CCActionInterval pAction, float fRate)
+        public new static CCEaseOut actionWithAction(CCActionInterval pAction, float fRate)
         {
             CCEaseOut pRet = new CCEaseOut();
-            if (pRet!=null)
+
+            if (pRet != null)
             {
                 if (pRet.initWithAction(pAction, fRate))
                 {

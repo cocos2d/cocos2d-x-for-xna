@@ -29,50 +29,92 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
-    public class CCEaseIn : CCEaseRateAction
+    public class CCEaseElasticOut : CCEaseElastic
     {
-
-        public override void update(float time)
+        public override void update(float time) 
         {
-            m_pOther.update((float)Math.Pow(time, m_fRate));
+            float newT = 0;
+
+            if (time == 0 || time == 1)
+            {
+                newT = time;
+            }
+            else
+            {
+                float s = m_fPeriod / 4;
+                newT = (float)(Math.Pow(2, -10 * time) * Math.Sin((time - s) * MathHelper.Pi * 2f / m_fPeriod) + 1);
+            }
+
+            m_pOther.update(newT);
         }
 
-        public override CCObject copyWithZone(CCZone pZone)
+        public override CCFiniteTimeAction reverse() 
+        {
+            return CCEaseElasticIn.actionWithAction((CCActionInterval)m_pOther.reverse(), m_fPeriod);
+        }
+
+        public override CCObject copyWithZone(CCZone pZone) 
         {
             CCZone pNewZone = null;
-            CCEaseIn pCopy = null;
+            CCEaseElasticOut pCopy = null;
 
             if (pZone != null && pZone.m_pCopyObject != null)
             {
                 //in case of being called at sub class
-                pCopy = pZone.m_pCopyObject as CCEaseIn;
+                pCopy = pZone.m_pCopyObject as CCEaseElasticOut;
             }
             else
             {
-                pCopy = new CCEaseIn();
+                pCopy = new CCEaseElasticOut();
                 pZone = pNewZone = new CCZone(pCopy);
             }
 
-            pCopy.initWithAction((CCActionInterval)(m_pOther.copy()), m_fRate);
+            pCopy.initWithAction((CCActionInterval)(m_pOther.copy()), m_fPeriod);
 
             return pCopy;
         }
+        
         /// <summary>
-        /// Creates the action with the inner action and the rate parameter 
+        /// creates the action 
         /// </summary>
         /// <param name="pAction"></param>
-        /// <param name="fRate"></param>
         /// <returns></returns>
-        public static new CCEaseIn actionWithAction(CCActionInterval pAction, float fRate)
+        public new static CCEaseElasticOut actionWithAction(CCActionInterval pAction) 
         {
-            CCEaseIn pRet = new CCEaseIn();
+            CCEaseElasticOut pRet = new CCEaseElasticOut();
 
             if (pRet != null)
             {
-                if (pRet.initWithAction(pAction, fRate))
+                if (pRet.initWithAction(pAction))
+                {
+                    //pRet->autorelease();
+                }
+                else
+                {
+                    //CC_SAFE_RELEASE_NULL(pRet);
+                }
+            }
+
+            return pRet; 
+        }
+
+        /// <summary>
+        /// Creates the action with the inner action and the period in radians (default is 0.3)
+        /// </summary>
+        /// <param name="pAction"></param>
+        /// <param name="fPeriod"></param>
+        /// <returns></returns>
+        public new static CCEaseElasticOut actionWithAction(CCActionInterval pAction, float fPeriod) 
+        {
+            CCEaseElasticOut pRet = new CCEaseElasticOut();
+
+            if (pRet != null)
+            {
+                if (pRet.initWithAction(pAction, fPeriod))
                 {
                     //pRet.autorelease();
                 }
@@ -81,7 +123,8 @@ namespace cocos2d
                     //CC_SAFE_RELEASE_NULL(pRet);
                 }
             }
-            return pRet;
+
+            return pRet; 
         }
     }
 }

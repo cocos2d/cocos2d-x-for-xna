@@ -32,47 +32,52 @@ using System.Text;
 
 namespace cocos2d
 {
-    public class CCEaseIn : CCEaseRateAction
+    public class CCEaseBounceIn : CCEaseBounce
     {
-
-        public override void update(float time)
+        public override void update(float time) 
         {
-            m_pOther.update((float)Math.Pow(time, m_fRate));
+            float newT = 1 - bounceTime(1 - time);
+            m_pOther.update(newT);
         }
 
-        public override CCObject copyWithZone(CCZone pZone)
+        public override CCFiniteTimeAction reverse() 
+        { 
+            return CCEaseBounceOut.actionWithAction((CCActionInterval)m_pOther.reverse());
+        }
+
+        public override CCObject copyWithZone(CCZone pZone) 
         {
             CCZone pNewZone = null;
-            CCEaseIn pCopy = null;
+            CCEaseBounceIn pCopy = null;
 
             if (pZone != null && pZone.m_pCopyObject != null)
             {
                 //in case of being called at sub class
-                pCopy = pZone.m_pCopyObject as CCEaseIn;
+                pCopy = pZone.m_pCopyObject as CCEaseBounceIn;
             }
             else
             {
-                pCopy = new CCEaseIn();
+                pCopy = new CCEaseBounceIn();
                 pZone = pNewZone = new CCZone(pCopy);
             }
 
-            pCopy.initWithAction((CCActionInterval)(m_pOther.copy()), m_fRate);
+            pCopy.initWithAction((CCActionInterval)(m_pOther.copy()));
 
             return pCopy;
         }
-        /// <summary>
-        /// Creates the action with the inner action and the rate parameter 
-        /// </summary>
-        /// <param name="pAction"></param>
-        /// <param name="fRate"></param>
-        /// <returns></returns>
-        public static new CCEaseIn actionWithAction(CCActionInterval pAction, float fRate)
+
+	    /// <summary>
+	    /// creates the action
+	    /// </summary>
+	    /// <param name="pAction"></param>
+	    /// <returns></returns>
+        public new static CCEaseBounceIn actionWithAction(CCActionInterval pAction) 
         {
-            CCEaseIn pRet = new CCEaseIn();
+            CCEaseBounceIn pRet = new CCEaseBounceIn();
 
             if (pRet != null)
             {
-                if (pRet.initWithAction(pAction, fRate))
+                if (pRet.initWithAction(pAction))
                 {
                     //pRet.autorelease();
                 }
@@ -81,7 +86,8 @@ namespace cocos2d
                     //CC_SAFE_RELEASE_NULL(pRet);
                 }
             }
-            return pRet;
+
+            return pRet; 
         }
     }
 }

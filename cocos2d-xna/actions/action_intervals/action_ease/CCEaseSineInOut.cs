@@ -32,67 +32,32 @@ using System.Text;
 
 namespace cocos2d
 {
-    public class CCActionEase : CCActionInterval
+    public class CCEaseSineInOut : CCActionEase
     {
-        /// <summary>
-        /// initializes the action
-        /// </summary>
-        /// <param name="pAction"></param>
-        /// <returns></returns>
-        public bool initWithAction(CCActionInterval pAction)
+        public override void update(float time) 
         {
-		    if (base.initWithDuration(pAction.duration))
-		    {
-			    m_pOther = pAction;
-			    return true;
-		    }
-		    return false;
-		
+            m_pOther.update(-0.5f * ((float)Math.Cos((float)Math.PI * time) - 1));
         }
 
-        public override CCObject copyWithZone(CCZone pZone)
+        public override CCObject copyWithZone(CCZone pZone) 
         {
             CCZone pNewZone = null;
-		    CCActionEase pCopy = null;
+            CCEaseSineInOut pCopy = null;
 
-		    if(pZone != null && pZone.m_pCopyObject != null) 
-		    {
-			    //in case of being called at sub class
-			    pCopy = pZone.m_pCopyObject as CCActionEase;
-		    }
-		    else
-		    {
-			    pCopy = new CCActionEase();
-			    pZone = pNewZone = new CCZone(pCopy);
-		    }
+            if (pZone != null && pZone.m_pCopyObject != null)
+            {
+                //in case of being called at sub class
+                pCopy = (CCEaseSineInOut)(pZone.m_pCopyObject);
+            }
+            else
+            {
+                pCopy = new CCEaseSineInOut();
+                pZone = pNewZone = new CCZone(pCopy);
+            }
 
-		    base.copyWithZone(pZone);
+            pCopy.initWithAction((CCActionInterval)(m_pOther.copy()));
 
-		    pCopy.initWithAction((CCActionInterval)(m_pOther.copy()));
-		
-		    return pCopy;
-        }
-
-        public override void startWithTarget(CCNode pTarget)
-        {
-            base.startWithTarget(pTarget);
-		    m_pOther.startWithTarget(m_pTarget);
-        }
-
-        public override void stop()
-        {
-            m_pOther.stop();
-		    base.stop();
-        }
-
-        public override void update(float time)
-        {
-            m_pOther.update(time);
-        }
-
-        public override CCFiniteTimeAction reverse()
-        {
-            return CCActionEase.actionWithAction((CCActionInterval)m_pOther.reverse());
+            return pCopy;
         }
 
         /// <summary>
@@ -100,15 +65,15 @@ namespace cocos2d
         /// </summary>
         /// <param name="pAction"></param>
         /// <returns></returns>
-        public static CCActionEase actionWithAction(CCActionInterval pAction)
+        public new static CCEaseSineInOut actionWithAction(CCActionInterval pAction) 
         {
-            CCActionEase pRet = new CCActionEase();
+            CCEaseSineInOut pRet = new CCEaseSineInOut();
 
-            if (pRet!=null)
+            if (pRet != null)
             {
                 if (pRet.initWithAction(pAction))
                 {
-                    //pRet->autorelease();
+                    //pRet.autorelease();
                 }
                 else
                 {
@@ -116,10 +81,7 @@ namespace cocos2d
                 }
             }
 
-            return pRet;
+            return pRet; 
         }
-
-        protected CCActionInterval m_pOther;
-
     }
 }
