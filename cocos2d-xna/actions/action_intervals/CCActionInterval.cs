@@ -125,7 +125,7 @@ namespace cocos2d
         /// Fix me if needed.
         /// </summary>
         /// <returns></returns>
-        public override CCFiniteTimeAction reverse()
+        public override CCActionInterval reverse()
         {
             throw new NotImplementedException();
         }
