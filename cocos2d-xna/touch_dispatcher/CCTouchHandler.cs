@@ -34,7 +34,44 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    ///  Object than contains the delegate and priority of the event handler.
+    /// </summary>
     public class CCTouchHandler
     {
+        /// <summary>
+        /// delegate
+        /// </summary>
+        public CCTouchDelegate Delegate { get; set; }
+
+        /// <summary>
+        /// priority
+        /// </summary>
+        public int Priority { get; set; }
+
+       /// <summary>
+        /// enabled selectors 
+       /// </summary>
+        public int getEnabledSelectors { get; set; }
+
+        /// <summary>
+        /// initializes a TouchHandler with a delegate and a priority 
+        /// </summary>
+        public virtual bool initWithDelegate(CCTouchDelegate pDelegate, int nPriority)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// allocates a TouchHandler with a delegate and a priority 
+        /// </summary>
+        public static CCTouchHandler handlerWithDelegate(CCTouchDelegate pDelegate, int nPriority)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected CCTouchDelegate m_pDelegate;
+        protected int m_nPriority;
+        protected int m_nEnabledSelectors;
     }
 }

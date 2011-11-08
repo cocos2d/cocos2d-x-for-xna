@@ -35,32 +35,27 @@ using System.Text;
 
 namespace cocos2d
 {
-    public class CCTouchDelegate
+    public class CCTouchDelegate : ICCTouchDelegate
     {
-        protected ccTouchDelegateFlag m_eTouchDelegateType;
         protected Dictionary<int, string> m_pEventTypeFuncMap;
 
-
         /// <summary>
-        /// only CCTouchDispatcher & children can change m_eTouchDelegateType
+        /// ! call the release() in child(layer or menu)
         /// </summary>
-        /// <returns></returns>
-        internal ccTouchDelegateFlag getTouchDelegateType()
+        public virtual void destroy() 
         {
-            return m_eTouchDelegateType;
         }
 
-        //! call the release() in child(layer or menu)
-        public virtual void destroy() { }
-        //! call the retain() in child (layer or menu)
-        public virtual void keep() { }
+        /// <summary>
+        /// ! call the retain() in child (layer or menu)
+        /// </summary>
+        public virtual void keep()
+        { }
 
         public virtual bool ccTouchBegan(CCTouch pTouch, CCEvent pEvent)
         {
             return false;
         }
-        // optional
-
         public virtual void ccTouchMoved(CCTouch pTouch, CCEvent pEvent)
         {
 
@@ -86,7 +81,9 @@ namespace cocos2d
         {
         }
 
-        // functions for script call back
+        /// <summary>
+        /// functions for script call back
+        /// </summary>
         public void registerScriptTouchHandler(int eventType, string pszScriptFunctionName)
         {
             if (m_pEventTypeFuncMap == null)

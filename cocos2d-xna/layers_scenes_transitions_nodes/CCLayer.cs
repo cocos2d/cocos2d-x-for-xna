@@ -38,7 +38,7 @@ namespace cocos2d
     - It can receive iPhone Touches
     - It can receive Accelerometer input
     */
-    public class CCLayer : CCNode, CCTargetedTouchDelegate, CCStandardTouchDelegate
+    public class CCLayer : CCNode, ICCTargetedTouchDelegate, ICCStandardTouchDelegate
     {
         public CCLayer()
         {
