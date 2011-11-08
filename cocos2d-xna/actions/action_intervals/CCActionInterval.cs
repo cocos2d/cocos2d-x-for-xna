@@ -132,7 +132,7 @@ namespace cocos2d
 
         public void setAmplitudeRate(float amp)
         {
-            Debug.Assert(false);
+            Debug.Assert(false); 
         }
 
         public float getAmplitudeRate()

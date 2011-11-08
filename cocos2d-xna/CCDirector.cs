@@ -136,9 +136,7 @@ namespace cocos2d
             //tick before glClear: issue #533
             if (!m_bPaused)
             {
-                double dt = gameTime.TotalGameTime.TotalSeconds - gameTime.ElapsedGameTime.TotalSeconds;
-
-                CCScheduler.sharedScheduler().tick((float)dt);
+                CCScheduler.sharedScheduler().tick((float)gameTime.ElapsedGameTime.TotalSeconds);
             }
 
             //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
