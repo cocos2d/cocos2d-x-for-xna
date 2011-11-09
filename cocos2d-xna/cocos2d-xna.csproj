@@ -67,7 +67,9 @@
     <Compile Include="actions\action_instants\CCFlipY.cs" />
     <Compile Include="actions\action_instants\CCHide.cs" />
     <Compile Include="actions\action_instants\CCPlace.cs" />
+    <Compile Include="actions\action_instants\CCReuseGrid.cs" />
     <Compile Include="actions\action_instants\CCShow.cs" />
+    <Compile Include="actions\action_instants\CCStopGrid.cs" />
     <Compile Include="actions\action_instants\CCToggleVisibility.cs" />
     <Compile Include="actions\action_intervals\action_ease\CCActionEase.cs" />
     <Compile Include="actions\action_intervals\action_ease\CCEaseBackIn.cs" />
