@@ -33,6 +33,25 @@ namespace cocos2d
      */
     public class CCStopGrid : CCActionInstant
     {
+        public override void startWithTarget(CCNode pTarget)
+	    {
+            throw new NotImplementedException();
 
+            // todo basegrid hasn't been implemented
+            //base.startWithTarget(pTarget);
+
+            //CCGridBase pGrid = m_pTarget.getGrid();
+            //if (pGrid != null && pGrid.isActive())
+            //{
+            //    pGrid.setActive(false);
+            //}
+	    }
+
+	   public static new CCStopGrid action()
+	    {
+		    CCStopGrid pAction = new CCStopGrid();
+
+		    return pAction;
+	    }
     }
 }
