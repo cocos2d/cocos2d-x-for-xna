@@ -30,6 +30,63 @@ namespace cocos2d
     */
     public class CCBlink : CCActionInterval
     {
+        public static CCBlink actionWithDuration(float duration, uint uBlinks)
+        {
+	        CCBlink pBlink = new CCBlink();
+	        pBlink.initWithDuration(duration, uBlinks);
 
+	        return pBlink;
+        }
+
+        public bool initWithDuration(float duration, uint uBlinks)
+        {
+	        if (base.initWithDuration(duration))
+	        {
+                m_nTimes = uBlinks;
+		        return true;
+	        }
+
+	        return false;
+        }
+
+        public override CCObject copyWithZone(CCZone pZone)
+        {
+	        CCZone pNewZone = null;
+	        CCBlink pCopy = null;
+	        if(pZone != null && pZone.m_pCopyObject != null) 
+	        {
+		        //in case of being called at sub class
+		        pCopy = (CCBlink)(pZone.m_pCopyObject);
+	        }
+	        else
+	        {
+		        pCopy = new CCBlink();
+		        pZone = pNewZone = new CCZone(pCopy);
+	        }
+
+	        base.copyWithZone(pZone);
+
+	        pCopy.initWithDuration(m_fDuration, m_nTimes);
+	
+	        return pCopy;
+        }
+
+        public override void update(float time)
+        {
+	        if (m_pTarget != null && ! isDone())
+	        {
+		        float slice = 1.0f / m_nTimes;
+		        // float m = fmodf(time, slice);
+                float m = time % slice;
+		        m_pTarget.visible = m > slice / 2 ? true : false;
+	        }
+        }
+
+        public override CCFiniteTimeAction reverse()
+        {
+	        return CCBlink.actionWithDuration(m_fDuration, m_nTimes);
+        }
+
+        protected uint m_nTimes;
     }
 }
