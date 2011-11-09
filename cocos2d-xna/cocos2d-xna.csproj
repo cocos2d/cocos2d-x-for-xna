@@ -94,6 +94,7 @@
     <Compile Include="actions\action_intervals\CCFadeIn.cs" />
     <Compile Include="actions\action_intervals\CCFadeOut.cs" />
     <Compile Include="actions\action_intervals\CCFadeTo.cs" />
+    <Compile Include="actions\action_intervals\CCMoveBy.cs" />
     <Compile Include="actions\action_intervals\CCMoveTo.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
