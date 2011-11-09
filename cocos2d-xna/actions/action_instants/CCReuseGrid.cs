@@ -29,6 +29,38 @@ namespace cocos2d
     /** @brief CCReuseGrid action */
     public class CCReuseGrid : CCActionInstant
     {
+        public static CCReuseGrid actionWithTimes(int times)
+	    {
+		    CCReuseGrid pAction = new CCReuseGrid();
+		    if (pAction != null)
+		    {
+			    pAction.initWithTimes(times);
+		    }
+
+		    return pAction;
+	    }
+
+	    public bool initWithTimes(int times)
+	    {
+		    m_nTimes = times;
+
+		    return true;
+	    }
+
+	    public override void startWithTarget(CCNode pTarget)
+	    {
+            throw new NotImplementedException();
+
+            // todo basegrid hasn't been implemented
+            //base.startWithTarget(pTarget);
+
+            //if (m_pTarget.getGrid() && m_pTarget.getGrid().isActive())
+            //{
+            //    m_pTarget.getGrid().setReuseGrid(m_pTarget.getGrid().getReuseGrid() + m_nTimes);
+            //}
+	    }
+
+        int m_nTimes;
 
     }
 }
