@@ -26,6 +26,10 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** 
+    @brief Calls a 'callback' with the node as the first argument and the 2nd argument is data
+    * ND means: Node and Data. Data is void *, so it could be anything.
+    */
     public class CCCallFuncND : CCCallFuncN
     {
          public static CCCallFuncND actionWithTarget(SelectorProtocol pSelectorTarget,

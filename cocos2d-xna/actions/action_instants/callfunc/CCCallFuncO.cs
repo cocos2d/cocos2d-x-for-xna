@@ -26,6 +26,11 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /**
+    @brief Calls a 'callback' with an object as the first argument.
+    O means Object.
+    @since v0.99.5
+    */
     public class CCCallFuncO : CCCallFunc
     {
 

@@ -26,6 +26,10 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** 
+    @brief Flips the sprite horizontally
+    @since v0.99.0
+    */
     public class CCFlipX : CCActionInstant
     {
         public CCFlipX()

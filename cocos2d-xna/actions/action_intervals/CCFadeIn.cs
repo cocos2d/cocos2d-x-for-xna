@@ -26,6 +26,9 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** @brief Fades In an object that implements the CCRGBAProtocol protocol. It modifies the opacity from 0 to 255.
+     The "reverse" of this action is FadeOut
+     */
     public class CCFadeIn : CCActionInterval
     {        
         public static CCFadeIn actionWithDuration(float d)

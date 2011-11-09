@@ -26,6 +26,8 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** @brief Places the node in a certain position
+    */
     public class CCPlace : CCActionInstant
     {
         public CCPlace()

@@ -26,6 +26,8 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** @brief Calls a 'callback'
+    */
     public class CCCallFunc : CCActionInstant
     {
         public CCCallFunc()

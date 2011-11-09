@@ -26,6 +26,9 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** 
+    @brief Hide the node
+    */
     public class CCHide : CCActionInstant
     {
         public CCHide()

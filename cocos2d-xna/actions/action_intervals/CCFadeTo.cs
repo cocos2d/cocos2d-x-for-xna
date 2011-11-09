@@ -26,6 +26,9 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** @brief Fades an object that implements the CCRGBAProtocol protocol. It modifies the opacity from the current value to a custom one.
+    @warning This action doesn't support "reverse"
+    */
     public class CCFadeTo : CCActionInterval
     {
         public bool initWithDuration(float duration, byte opacity)

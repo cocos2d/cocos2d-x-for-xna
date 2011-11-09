@@ -26,6 +26,10 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** 
+    @brief Calls a 'callback' with the node as the first argument
+    N means Node
+    */
     public class CCCallFuncN : CCCallFunc
     {
 

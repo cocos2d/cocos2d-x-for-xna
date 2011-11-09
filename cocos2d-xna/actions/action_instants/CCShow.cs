@@ -26,6 +26,8 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+    /** @brief Show the node
+    */
     public class CCShow : CCActionInstant
     {
         public CCShow()

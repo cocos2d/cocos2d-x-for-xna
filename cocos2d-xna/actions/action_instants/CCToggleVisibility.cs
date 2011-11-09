@@ -26,6 +26,9 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
+
+    /** @brief Toggles the visibility of a node
+    */
     public class CCToggleVisibility : CCActionInstant
     {
         public CCToggleVisibility()
