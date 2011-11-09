@@ -91,6 +91,7 @@
     <Compile Include="actions\action_intervals\action_ease\CCEaseSineIn.cs" />
     <Compile Include="actions\action_intervals\action_ease\CCEaseSineInOut.cs" />
     <Compile Include="actions\action_intervals\action_ease\CCEaseSineOut.cs" />
+    <Compile Include="actions\action_intervals\CCBlink.cs" />
     <Compile Include="actions\action_intervals\CCDelayTime.cs" />
     <Compile Include="actions\action_intervals\CCFadeIn.cs" />
     <Compile Include="actions\action_intervals\CCFadeOut.cs" />
