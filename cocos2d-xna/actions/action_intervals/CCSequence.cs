@@ -165,7 +165,7 @@ namespace cocos2d
         {
             CCFiniteTimeAction prev = actions[0];
 
-            for (int i = 0; i < actions.Length; i++)
+            for (int i = 1; i < actions.Length; i++)
             {
                 prev = actionOneTwo(prev, actions[i]);
             }
