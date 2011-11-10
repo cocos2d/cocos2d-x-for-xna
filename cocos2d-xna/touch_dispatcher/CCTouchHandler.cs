@@ -49,9 +49,9 @@ namespace cocos2d
         /// </summary>
         public int Priority { get; set; }
 
-       /// <summary>
+        /// <summary>
         /// enabled selectors 
-       /// </summary>
+        /// </summary>
         public int getEnabledSelectors { get; set; }
 
         /// <summary>
@@ -59,7 +59,14 @@ namespace cocos2d
         /// </summary>
         public virtual bool initWithDelegate(CCTouchDelegate pDelegate, int nPriority)
         {
-            throw new NotImplementedException();
+            //assert(pDelegate != NULL);
+
+            m_pDelegate = pDelegate;
+            pDelegate.keep();
+            m_nPriority = nPriority;
+            m_nEnabledSelectors = 0;
+
+            return true;
         }
 
         /// <summary>
@@ -67,7 +74,18 @@ namespace cocos2d
         /// </summary>
         public static CCTouchHandler handlerWithDelegate(CCTouchDelegate pDelegate, int nPriority)
         {
-            throw new NotImplementedException();
+            CCTouchHandler pHandler = new CCTouchHandler();
+
+            if (pHandler.initWithDelegate(pDelegate, nPriority))
+            {
+                pHandler = null;
+            }
+            else
+            {
+                pHandler = null;
+            }
+
+            return pHandler;
         }
 
         protected CCTouchDelegate m_pDelegate;

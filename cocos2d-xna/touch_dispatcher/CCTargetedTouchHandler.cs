@@ -5,7 +5,7 @@ using System.Text;
 
 namespace cocos2d
 {
-    public class CCTargetedTouchHandler
+    public class CCTargetedTouchHandler : CCTouchHandler
     {
         /// <summary>
         /// whether or not the touches are swallowed
@@ -15,9 +15,12 @@ namespace cocos2d
         /// <summary>
         /// MutableSet that contains the claimed touches 
         /// </summary>
-        public List<CCTouch> getClaimedTouches()
+        public List<CCTouch> ClaimedTouches
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace cocos2d
         /// <summary>
         /// allocates a TargetedTouchHandler with a delegate, a priority and whether or not it swallows touches or not 
         /// </summary>
-        public static CCTargetedTouchHandler handlerWithDelegate(CCTouchDelegate pDelegate, int nPriority, bool bSwallow) 
+        public static CCTargetedTouchHandler handlerWithDelegate(CCTouchDelegate pDelegate, int nPriority, bool bSwallow)
         {
             throw new NotImplementedException();
         }

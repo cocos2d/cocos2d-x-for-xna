@@ -102,6 +102,7 @@ namespace HelloCocos2d
 
             return ret;
         }
+
         /// <summary>
         /// a selector callback
         /// </summary>
@@ -109,6 +110,13 @@ namespace HelloCocos2d
         public virtual void menuCloseCallback(CCObject pSender)
         {
             CCDirector.sharedDirector().end();
+        }
+
+        public override void registerWithTouchDispatcher()
+        {
+            //CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(
+
+            base.registerWithTouchDispatcher();
         }
     }
 }

@@ -33,26 +33,11 @@ using System.Text;
 
 namespace cocos2d
 {
-    public class EGLTouchDelegate
+    public interface EGLTouchDelegate
     {
-        public virtual void touchesBegan(List<CCTouch> touches, CCEvent pEvent)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void touchesMoved(List<CCTouch> touches, CCEvent pEvent)
-        {
-            throw new NotImplementedException();        
-        }
-
-        public virtual void touchesEnded(List<CCTouch> touches, CCEvent pEvent)
-        {
-            throw new NotImplementedException();        
-        }
-
-        public virtual void touchesCancelled(List<CCTouch> touches, CCEvent pEvent)
-        { 
-            throw new NotImplementedException();        
-        }
+        void touchesBegan(List<CCTouch> touches, CCEvent pEvent);
+        void touchesMoved(List<CCTouch> touches, CCEvent pEvent);
+        void touchesEnded(List<CCTouch> touches, CCEvent pEvent);
+        void touchesCancelled(List<CCTouch> touches, CCEvent pEvent);
     }
 }
