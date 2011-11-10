@@ -102,6 +102,7 @@
     <Compile Include="actions\action_intervals\CCJumpTo.cs" />
     <Compile Include="actions\action_intervals\CCMoveBy.cs" />
     <Compile Include="actions\action_intervals\CCMoveTo.cs" />
+    <Compile Include="actions\action_intervals\CCRepeat.cs" />
     <Compile Include="actions\action_intervals\CCSequence.cs" />
     <Compile Include="actions\action_intervals\CCSpawn.cs" />
     <Compile Include="actions\CCAction.cs" />
