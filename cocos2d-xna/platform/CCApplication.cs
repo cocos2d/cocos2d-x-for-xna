@@ -84,7 +84,7 @@ namespace cocos2d
             m_fScreenScaleFactor = 1.0f;
 
               #warning "set height and width as Graphics.Device.Viewport"
-            m_rcViewPort = new Rectangle(0,0, 800, 480);
+            m_rcViewPort = new Rectangle(0, 0, 800, 480); //graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
         }
 
         #endregion

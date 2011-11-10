@@ -127,9 +127,12 @@
     <Compile Include="layers_scenes_transitions_nodes\CCScene.cs" />
     <Compile Include="menu_nodes\CCMenu.cs" />
     <Compile Include="menu_nodes\CCMenuItem.cs" />
+    <Compile Include="menu_nodes\CCMenuItemAtlasFont.cs" />
+    <Compile Include="menu_nodes\CCMenuItemFont.cs" />
     <Compile Include="menu_nodes\CCMenuItemImage.cs" />
     <Compile Include="menu_nodes\CCMenuItemLabel.cs" />
     <Compile Include="menu_nodes\CCMenuItemSprite.cs" />
+    <Compile Include="menu_nodes\CCMenuItemToggle.cs" />
     <Compile Include="platform\CCApplication.cs" />
     <Compile Include="predefine\ccConfig.cs" />
     <Compile Include="predefine\ccMacros.cs" />

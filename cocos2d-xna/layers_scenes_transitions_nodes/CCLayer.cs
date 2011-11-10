@@ -194,7 +194,7 @@ namespace cocos2d
         public virtual void registerWithTouchDispatcher()
         {
             ///@todo
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         // Properties
