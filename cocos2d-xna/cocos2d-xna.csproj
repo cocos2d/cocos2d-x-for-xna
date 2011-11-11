@@ -111,6 +111,7 @@
     <Compile Include="actions\action_intervals\CCRotateTo.cs" />
     <Compile Include="actions\action_intervals\CCSequence.cs" />
     <Compile Include="actions\action_intervals\CCSpawn.cs" />
+    <Compile Include="actions\action_intervals\CCTintTo.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
     <Compile Include="actions\action_intervals\CCActionInterval.cs" />
