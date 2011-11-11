@@ -26,17 +26,16 @@ THE SOFTWARE.
 
 namespace cocos2d
 {
-    /** @brief Tints a CCNode that implements the CCNodeRGB protocol from current tint to a custom one.
-     @warning This action doesn't support "reverse"
-     @since v0.7.2
-    */
-    public class CCTintTo : CCActionInterval
+    public class CCTintBy : CCActionInterval
     {
-        public bool initWithDuration(float duration, byte red, byte green, byte blue)
+        public bool initWithDuration(float duration, short deltaRed, short deltaGreen, short deltaBlue)
         {
             if (base.initWithDuration(duration))
             {
-                m_to = new ccColor3B(red, green, blue);
+                m_deltaR = deltaRed;
+                m_deltaG = deltaGreen;
+                m_deltaB = deltaBlue;
+
                 return true;
             }
 
@@ -46,11 +45,11 @@ namespace cocos2d
         public override CCObject copyWithZone(CCZone zone)
         {
             CCZone tmpZone = zone;
-            CCTintTo ret = null;
+            CCTintBy ret = null;
 
             if (tmpZone != null && tmpZone.m_pCopyObject != null)
             {
-                ret = tmpZone.m_pCopyObject as CCTintTo;
+                ret = tmpZone.m_pCopyObject as CCTintBy;
                 if (ret == null)
                 {
                     return null;
@@ -58,13 +57,13 @@ namespace cocos2d
             }
             else
             {
-                ret = new CCTintTo();
+                ret = new CCTintBy();
                 tmpZone = new CCZone(ret);
             }
 
             base.copyWithZone(tmpZone);
 
-            ret.initWithDuration(m_fDuration, m_to.r, m_to.g, m_to.b);
+            ret.initWithDuration(m_fDuration, m_deltaR, m_deltaG, m_deltaB);
 
             return ret;
         }
@@ -72,10 +71,14 @@ namespace cocos2d
         public override void startWithTarget(CCNode target)
         {
             base.startWithTarget(target);
-            CCRGBAProtocol protocol = m_pTarget as CCRGBAProtocol;
+
+            CCRGBAProtocol protocol = target as CCRGBAProtocol;
             if (protocol != null)
             {
-                m_from = protocol.Color;
+                ccColor3B color = protocol.Color;
+                m_fromR = color.r;
+                m_fromG = color.g;
+                m_fromB = color.b;
             }
         }
 
@@ -84,21 +87,31 @@ namespace cocos2d
             CCRGBAProtocol protocol = m_pTarget as CCRGBAProtocol;
             if (protocol != null)
             {
-                protocol.Color =  new ccColor3B((byte)(m_from.r + (m_to.r - m_from.r) * dt),
-                    (byte)(m_from.g + (m_to.g - m_from.g) * dt),
-                    (byte)(m_from.b + (m_to.b - m_from.b) * dt));
+                protocol.Color = new ccColor3B((byte)(m_fromR + m_deltaR * dt),
+                                               (byte)(m_fromG + m_deltaG * dt),
+                                               (byte)(m_fromB + m_deltaB * dt));
             }
         }
 
-        public static CCTintTo actionWithDuration(float duration, byte red, byte green, byte blue)
+        public override CCFiniteTimeAction reverse()
         {
-            CCTintTo ret = new CCTintTo();
-            ret.initWithDuration(duration, red, green, blue);
+            return CCTintBy.actionWithDuration(m_fDuration, (short)-m_deltaR, (short)-m_deltaG, (short)-m_deltaB) as CCFiniteTimeAction;
+        }
+
+        public static CCTintBy actionWithDuration(float duration, short deltaRed, short deltaGreen, short deltaBlue)
+        {
+            CCTintBy ret = new CCTintBy();
+            ret.initWithDuration(duration, deltaRed, deltaGreen, deltaBlue);
 
             return ret;
         }
 
-        protected ccColor3B m_to;
-        protected ccColor3B m_from;
+        protected short m_deltaR;
+        protected short m_deltaG;
+        protected short m_deltaB;
+
+        protected short m_fromR;
+        protected short m_fromG;
+        protected short m_fromB;
     }
 }
