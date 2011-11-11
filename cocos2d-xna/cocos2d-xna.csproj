@@ -107,6 +107,7 @@
     <Compile Include="actions\action_intervals\CCRepeat.cs" />
     <Compile Include="actions\action_intervals\CCRepeatForever.cs" />
     <Compile Include="actions\action_intervals\CCReverseTime.cs" />
+    <Compile Include="actions\action_intervals\CCRotateBy.cs" />
     <Compile Include="actions\action_intervals\CCRotateTo.cs" />
     <Compile Include="actions\action_intervals\CCSequence.cs" />
     <Compile Include="actions\action_intervals\CCSpawn.cs" />
