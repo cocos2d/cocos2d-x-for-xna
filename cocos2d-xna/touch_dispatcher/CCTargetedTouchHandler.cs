@@ -37,16 +37,6 @@ namespace cocos2d
                 m_pClaimedTouches = new List<CCTouch>();
                 m_bSwallowsTouches = bSwallow;
 
-                /*
-                if( [aDelegate respondsToSelector:@selector(ccTouchBegan:withEvent:)] )
-                    enabledSelectors_ |= ccTouchSelectorBeganBit;
-                if( [aDelegate respondsToSelector:@selector(ccTouchMoved:withEvent:)] )
-                    enabledSelectors_ |= ccTouchSelectorMovedBit;
-                if( [aDelegate respondsToSelector:@selector(ccTouchEnded:withEvent:)] )
-                    enabledSelectors_ |= ccTouchSelectorEndedBit;
-                if( [aDelegate respondsToSelector:@selector(ccTouchCancelled:withEvent:)] )
-                    enabledSelectors_ |= ccTouchSelectorCancelledBit;
-                */
                 return true;
             }
 
@@ -59,16 +49,7 @@ namespace cocos2d
         public static CCTargetedTouchHandler handlerWithDelegate(CCTouchDelegate pDelegate, int nPriority, bool bSwallow)
         {
             CCTargetedTouchHandler pHandler = new CCTargetedTouchHandler();
-
-            if (pHandler.initWithDelegate(pDelegate, nPriority, bSwallow))
-            {
-                pHandler = null;
-            }
-            else
-            {
-                pHandler = null;
-            }
-
+            pHandler.initWithDelegate(pDelegate, nPriority, bSwallow);
             return pHandler;
         }
 

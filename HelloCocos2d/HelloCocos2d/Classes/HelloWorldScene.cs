@@ -20,6 +20,8 @@ namespace HelloCocos2d
                 return false;
             }
 
+            this.m_bIsTouchEnabled = true;
+
             /////////////////////////////
             // 2. add a menu item with "X" image, which is clicked to quit the program
             //    you may modify it.
@@ -54,7 +56,7 @@ namespace HelloCocos2d
             //this->addChild(pLabel, 1);
 
             // add "HelloWorld" splash screen"
-            CCSprite pSprite = CCSprite.spriteWithFile("HelloWorld");
+            pSprite = CCSprite.spriteWithFile("HelloWorld");
 
             // position the sprite on the center of the screen
             pSprite.position = new CCPoint(size.width / 2, size.height / 2);
@@ -65,11 +67,11 @@ namespace HelloCocos2d
             ///@test action test
             CCSize s = CCDirector.sharedDirector().getWinSize();
             CCActionInterval actionTo = CCMoveTo.actionWithDuration(3, new CCPoint(s.width - 40, s.height - 40));
-            pSprite.runAction(actionTo);             
+            pSprite.runAction(actionTo);
 
             return true;
         }
-
+        CCSprite pSprite;
         /// <summary>
         /// there's no 'id' in cpp, so we recommand to return the exactly class pointer
         /// </summary>
@@ -112,11 +114,11 @@ namespace HelloCocos2d
             CCDirector.sharedDirector().end();
         }
 
-        public override void registerWithTouchDispatcher()
+        public override void ccTouchesBegan(List<CCTouch> touches, CCEvent event_)
         {
-            //CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(
-
-            base.registerWithTouchDispatcher();
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+            CCActionInterval actionTo = CCMoveTo.actionWithDuration(3, new CCPoint(-s.width, -s.height));
+            pSprite.runAction(actionTo);
         }
     }
 }

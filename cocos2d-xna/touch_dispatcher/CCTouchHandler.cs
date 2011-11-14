@@ -45,21 +45,7 @@ namespace cocos2d
         public ICCTouchDelegate Delegate
         {
             get { return m_pDelegate; }
-            set
-            {
-                if (value != null)
-                {
-
-                    //value.keep();
-                }
-
-                if (m_pDelegate != null)
-                {
-                   // m_pDelegate.destroy();
-                }
-
-                m_pDelegate = value;
-            }
+            set { m_pDelegate = value; }
         }
 
         /// <summary>
@@ -77,10 +63,7 @@ namespace cocos2d
         /// </summary>
         public virtual bool initWithDelegate(ICCTouchDelegate pDelegate, int nPriority)
         {
-            //assert(pDelegate != NULL);
-
             m_pDelegate = pDelegate;
-            //pDelegate.keep();
             m_nPriority = nPriority;
             m_nEnabledSelectors = 0;
 

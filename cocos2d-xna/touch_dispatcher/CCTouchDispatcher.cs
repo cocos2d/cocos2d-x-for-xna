@@ -385,8 +385,6 @@ namespace cocos2d
             }
         }
 
-
-
         public CCTouchHandler findHandler(CCTouchDelegate pDelegate)
         {
             foreach (CCTargetedTouchHandler handler in m_pTargetedHandlers)

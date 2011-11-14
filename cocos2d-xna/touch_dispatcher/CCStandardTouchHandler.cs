@@ -15,24 +15,7 @@ namespace cocos2d
         /// </summary>
         public virtual bool initWithDelegate(ICCTouchDelegate pDelegate, int nPriority)
         {
-            if (base.initWithDelegate(pDelegate, nPriority))
-            {
-                /*
-                 * we can not do this in c++
-                if( [del respondsToSelector:@selector(ccTouchesBegan:withEvent:)] )
-                    enabledSelectors_ |= ccTouchSelectorBeganBit;
-                if( [del respondsToSelector:@selector(ccTouchesMoved:withEvent:)] )
-                    enabledSelectors_ |= ccTouchSelectorMovedBit;
-                if( [del respondsToSelector:@selector(ccTouchesEnded:withEvent:)] )
-                    enabledSelectors_ |= ccTouchSelectorEndedBit;
-                if( [del respondsToSelector:@selector(ccTouchesCancelled:withEvent:)] )
-                    enabledSelectors_ |= ccTouchSelectorCancelledBit;
-                */
-
-                return true;
-            }
-
-            return false;
+            return base.initWithDelegate(pDelegate, nPriority);
         }
 
         /// <summary>
@@ -41,16 +24,7 @@ namespace cocos2d
         public static CCStandardTouchHandler handlerWithDelegate(ICCTouchDelegate pDelegate, int nPriority)
         {
             CCStandardTouchHandler pHandler = new CCStandardTouchHandler();
-
-            if (pHandler.initWithDelegate(pDelegate, nPriority))
-            {
-                pHandler = null;
-            }
-            else
-            {
-                pHandler = null;
-            }
-
+            pHandler.initWithDelegate(pDelegate, nPriority);
             return pHandler;
         }
     }
