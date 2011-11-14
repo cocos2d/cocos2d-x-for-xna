@@ -13,17 +13,45 @@ namespace cocos2d
         /// <summary>
         ///  initializes a TouchHandler with a delegate and a priority
         /// </summary>
-        public virtual bool initWithDelegate(CCTouchDelegate pDelegate, int nPriority)
+        public virtual bool initWithDelegate(ICCTouchDelegate pDelegate, int nPriority)
         {
-            throw new NotImplementedException();
+            if (base.initWithDelegate(pDelegate, nPriority))
+            {
+                /*
+                 * we can not do this in c++
+                if( [del respondsToSelector:@selector(ccTouchesBegan:withEvent:)] )
+                    enabledSelectors_ |= ccTouchSelectorBeganBit;
+                if( [del respondsToSelector:@selector(ccTouchesMoved:withEvent:)] )
+                    enabledSelectors_ |= ccTouchSelectorMovedBit;
+                if( [del respondsToSelector:@selector(ccTouchesEnded:withEvent:)] )
+                    enabledSelectors_ |= ccTouchSelectorEndedBit;
+                if( [del respondsToSelector:@selector(ccTouchesCancelled:withEvent:)] )
+                    enabledSelectors_ |= ccTouchSelectorCancelledBit;
+                */
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
         /// allocates a TouchHandler with a delegate and a priority
         /// </summary>
-        public static CCStandardTouchHandler handlerWithDelegate(CCTouchDelegate pDelegate, int nPriority) 
+        public static CCStandardTouchHandler handlerWithDelegate(ICCTouchDelegate pDelegate, int nPriority)
         {
-            throw new NotImplementedException();
+            CCStandardTouchHandler pHandler = new CCStandardTouchHandler();
+
+            if (pHandler.initWithDelegate(pDelegate, nPriority))
+            {
+                pHandler = null;
+            }
+            else
+            {
+                pHandler = null;
+            }
+
+            return pHandler;
         }
     }
 }

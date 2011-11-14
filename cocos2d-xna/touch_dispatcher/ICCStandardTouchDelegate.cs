@@ -10,7 +10,7 @@ namespace cocos2d
  @since v0.8
  */
     public interface ICCStandardTouchDelegate
-    {       
+    {
         // optional
         void ccTouchesBegan(List<CCTouch> pTouches, CCEvent pEvent);
         void ccTouchesMoved(List<CCTouch> pTouches, CCEvent pEvent);

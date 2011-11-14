@@ -42,7 +42,25 @@ namespace cocos2d
         /// <summary>
         /// delegate
         /// </summary>
-        public CCTouchDelegate Delegate { get; set; }
+        public ICCTouchDelegate Delegate
+        {
+            get { return m_pDelegate; }
+            set
+            {
+                if (value != null)
+                {
+
+                    //value.keep();
+                }
+
+                if (m_pDelegate != null)
+                {
+                   // m_pDelegate.destroy();
+                }
+
+                m_pDelegate = value;
+            }
+        }
 
         /// <summary>
         /// priority
@@ -57,12 +75,12 @@ namespace cocos2d
         /// <summary>
         /// initializes a TouchHandler with a delegate and a priority 
         /// </summary>
-        public virtual bool initWithDelegate(CCTouchDelegate pDelegate, int nPriority)
+        public virtual bool initWithDelegate(ICCTouchDelegate pDelegate, int nPriority)
         {
             //assert(pDelegate != NULL);
 
             m_pDelegate = pDelegate;
-            pDelegate.keep();
+            //pDelegate.keep();
             m_nPriority = nPriority;
             m_nEnabledSelectors = 0;
 
@@ -88,7 +106,7 @@ namespace cocos2d
             return pHandler;
         }
 
-        protected CCTouchDelegate m_pDelegate;
+        protected ICCTouchDelegate m_pDelegate;
         protected int m_nPriority;
         protected int m_nEnabledSelectors;
     }

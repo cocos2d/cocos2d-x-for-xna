@@ -173,6 +173,7 @@
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="misc_nodes\" />
     <Folder Include="particle_nodes\" />
+    <Folder Include="tileMap_parallax_nodes\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

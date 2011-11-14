@@ -35,6 +35,7 @@ namespace HelloCocos2d
         {
             //initialize director
             CCDirector pDirector = CCDirector.sharedDirector();
+            pDirector.setOpenGLView();
 
             //turn on display FPS
             pDirector.setDisplayFPS(true);

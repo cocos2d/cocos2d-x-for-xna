@@ -670,7 +670,12 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-
+        public void setOpenGLView()
+        {
+            CCTouchDispatcher pTouchDispatcher = CCTouchDispatcher.sharedDispatcher();
+            CCApplication.sharedApplication().TouchDelegate = pTouchDispatcher;
+            pTouchDispatcher.IsDispatchEvents = true;
+        }
 
         // Profiler
         public void showProfilers()

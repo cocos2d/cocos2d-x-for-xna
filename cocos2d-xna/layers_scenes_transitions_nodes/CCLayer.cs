@@ -38,7 +38,7 @@ namespace cocos2d
     - It can receive iPhone Touches
     - It can receive Accelerometer input
     */
-    public class CCLayer : CCNode, ICCTargetedTouchDelegate, ICCStandardTouchDelegate
+    public class CCLayer : CCNode, ICCTargetedTouchDelegate, ICCStandardTouchDelegate, ICCTouchDelegate
     {
         public CCLayer()
         {
@@ -46,7 +46,7 @@ namespace cocos2d
             isRelativeAnchorPoint = false;
         }
 
-        ~CCLayer(){ }
+        ~CCLayer() { }
 
         public static new CCLayer node()
         {
@@ -97,7 +97,7 @@ namespace cocos2d
             base.onEnter();
 
             // add this layer to concern the Accelerometer Sensor
-            
+
             if (m_bIsAccelerometerEnabled)
             {
 
@@ -194,7 +194,7 @@ namespace cocos2d
         public virtual void registerWithTouchDispatcher()
         {
             ///@todo
-            //throw new NotImplementedException();
+            CCTouchDispatcher.sharedDispatcher().addStandardDelegate(this, 0);
         }
 
         // Properties
@@ -259,7 +259,7 @@ namespace cocos2d
                         {
                             ///@todo
                             throw new NotImplementedException();
-                        } 
+                        }
                     }
                 }
             }
@@ -292,7 +292,7 @@ namespace cocos2d
                         {
                             ///@todo
                             throw new NotImplementedException();
-                        }                       
+                        }
                     }
                 }
             }

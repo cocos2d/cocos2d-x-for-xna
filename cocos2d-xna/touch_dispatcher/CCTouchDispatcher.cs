@@ -52,6 +52,30 @@ namespace cocos2d
  */
     public class CCTouchDispatcher : EGLTouchDelegate
     {
+        #region singleton
+
+        static CCTouchDispatcher pSharedDispatcher;
+
+        /// <summary>
+        /// singleton of the CCTouchDispatcher
+        /// </summary>
+        public static CCTouchDispatcher sharedDispatcher()
+        {
+            // synchronized ??
+            if (pSharedDispatcher == null)
+            {
+                pSharedDispatcher = new CCTouchDispatcher();
+                pSharedDispatcher.init();
+            }
+
+            return pSharedDispatcher;
+        }
+
+        #endregion
+
+        private CCTouchDispatcher()
+        { }
+
         public bool init()
         {
             m_bDispatchEvents = true;
@@ -66,16 +90,8 @@ namespace cocos2d
             m_bToQuit = false;
             m_bLocked = false;
 
-            //m_sHandlerHelperData[CCTOUCHBEGAN].m_type = CCTOUCHBEGAN;
-            //m_sHandlerHelperData[CCTOUCHMOVED].m_type = CCTOUCHMOVED;
-            //m_sHandlerHelperData[CCTOUCHENDED].m_type = CCTOUCHENDED;
-            //m_sHandlerHelperData[CCTOUCHCANCELLED].m_type = CCTOUCHCANCELLED;
-
             return true;
         }
-
-        private CCTouchDispatcher()
-        { }
 
         /// <summary>
         /// Whether or not the events are going to be dispatched. Default: true
@@ -91,7 +107,7 @@ namespace cocos2d
         /// See StandardTouchDelegate description.
         /// IMPORTANT: The delegate will be retained.
         /// </summary>
-        public void addStandardDelegate(CCTouchDelegate pDelegate, int nPriority)
+        public void addStandardDelegate(ICCTouchDelegate pDelegate, int nPriority)
         {
             CCTouchHandler pHandler = CCStandardTouchHandler.handlerWithDelegate(pDelegate, nPriority);
             if (!m_bLocked)
@@ -209,10 +225,12 @@ namespace cocos2d
                             break;
                         }
 
+                        ICCTargetedTouchDelegate pDelegate=(ICCTargetedTouchDelegate)(pHandler.Delegate);
+
                         bool bClaimed = false;
                         if (sHelper == CCTouchType.CCTOUCHBEGAN)
                         {
-                            bClaimed = pHandler.Delegate.ccTouchBegan(pTouch, pEvent);
+                            bClaimed = pDelegate.ccTouchBegan(pTouch, pEvent);
 
                             if (bClaimed)
                             {
@@ -228,14 +246,14 @@ namespace cocos2d
                                 switch (sHelper)
                                 {
                                     case CCTouchType.CCTOUCHMOVED:
-                                        pHandler.Delegate.ccTouchMoved(pTouch, pEvent);
+                                        pDelegate.ccTouchMoved(pTouch, pEvent);
                                         break;
                                     case CCTouchType.CCTOUCHENDED:
-                                        pHandler.Delegate.ccTouchEnded(pTouch, pEvent);
+                                        pDelegate.ccTouchEnded(pTouch, pEvent);
                                         pHandler.ClaimedTouches.Remove(pTouch);
                                         break;
                                     case CCTouchType.CCTOUCHCANCELLED:
-                                        pHandler.Delegate.ccTouchCancelled(pTouch, pEvent);
+                                        pDelegate.ccTouchCancelled(pTouch, pEvent);
                                         pHandler.ClaimedTouches.Remove(pTouch);
                                         break;
                                 }
@@ -268,20 +286,20 @@ namespace cocos2d
                     {
                         break;
                     }
-
+                    ICCStandardTouchDelegate pDelegate = (ICCStandardTouchDelegate)pHandler.Delegate;
                     switch (sHelper)
                     {
                         case CCTouchType.CCTOUCHBEGAN:
-                            pHandler.Delegate.ccTouchesBegan(pMutableTouches, pEvent);
+                            pDelegate.ccTouchesBegan(pMutableTouches, pEvent);
                             break;
                         case CCTouchType.CCTOUCHMOVED:
-                            pHandler.Delegate.ccTouchesMoved(pMutableTouches, pEvent);
+                            pDelegate.ccTouchesMoved(pMutableTouches, pEvent);
                             break;
                         case CCTouchType.CCTOUCHENDED:
-                            pHandler.Delegate.ccTouchesEnded(pMutableTouches, pEvent);
+                            pDelegate.ccTouchesEnded(pMutableTouches, pEvent);
                             break;
                         case CCTouchType.CCTOUCHCANCELLED:
-                            pHandler.Delegate.ccTouchesCancelled(pMutableTouches, pEvent);
+                            pDelegate.ccTouchesCancelled(pMutableTouches, pEvent);
                             break;
                     }
                 }
@@ -367,22 +385,7 @@ namespace cocos2d
             }
         }
 
-        static CCTouchDispatcher pSharedDispatcher;
 
-        /// <summary>
-        /// singleton of the CCTouchDispatcher
-        /// </summary>
-        public static CCTouchDispatcher sharedDispatcher()
-        {
-            // synchronized ??
-            if (pSharedDispatcher == null)
-            {
-                pSharedDispatcher = new CCTouchDispatcher();
-                pSharedDispatcher.init();
-            }
-
-            return pSharedDispatcher;
-        }
 
         public CCTouchHandler findHandler(CCTouchDelegate pDelegate)
         {

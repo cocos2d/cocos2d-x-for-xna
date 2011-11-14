@@ -42,7 +42,7 @@ namespace cocos2d
         /// <summary>
         /// ! call the release() in child(layer or menu)
         /// </summary>
-        public virtual void destroy() 
+        public virtual void destroy()
         {
         }
 
@@ -51,35 +51,6 @@ namespace cocos2d
         /// </summary>
         public virtual void keep()
         { }
-
-        public virtual bool ccTouchBegan(CCTouch pTouch, CCEvent pEvent)
-        {
-            return false;
-        }
-        public virtual void ccTouchMoved(CCTouch pTouch, CCEvent pEvent)
-        {
-
-        }
-        public virtual void ccTouchEnded(CCTouch pTouch, CCEvent pEvent)
-        {
-        }
-        public virtual void ccTouchCancelled(CCTouch pTouch, CCEvent pEvent)
-        {
-        }
-
-        // optional
-        public virtual void ccTouchesBegan(List<CCTouch> pTouches, CCEvent pEvent)
-        {
-
-        }
-        public virtual void ccTouchesMoved(List<CCTouch> pTouches, CCEvent pEvent)
-        { }
-        public virtual void ccTouchesEnded(List<CCTouch> pTouches, CCEvent pEvent)
-        {
-        }
-        public virtual void ccTouchesCancelled(List<CCTouch> pTouches, CCEvent pEvent)
-        {
-        }
 
         /// <summary>
         /// functions for script call back
