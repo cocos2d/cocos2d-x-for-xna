@@ -88,6 +88,7 @@
     <Compile Include="classes\AppDelegate.cs" />
     <Compile Include="classes\controller.cs" />
     <Compile Include="classes\test.cs" />
+    <Compile Include="classes\testBasic.cs" />
     <Compile Include="classes\testResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
