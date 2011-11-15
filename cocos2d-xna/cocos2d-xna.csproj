@@ -180,6 +180,9 @@
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="misc_nodes\" />
     <Folder Include="particle_nodes\" />
+    <Folder Include="support\data_support\" />
+    <Folder Include="support\image_support\" />
+    <Folder Include="support\zip_support\" />
     <Folder Include="tileMap_parallax_nodes\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

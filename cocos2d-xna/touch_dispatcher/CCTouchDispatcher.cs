@@ -194,25 +194,31 @@ namespace cocos2d
 
         public void touches(List<CCTouch> pTouches, CCEvent pEvent, int uIndex)
         {
-            //assert(uIndex >= 0 && uIndex < 4);
-
             List<CCTouch> pMutableTouches;
             m_bLocked = true;
 
             // optimization to prevent a mutable copy when it is not necessary
             int uTargetedHandlersCount = m_pTargetedHandlers.Count;
             int uStandardHandlersCount = m_pStandardHandlers.Count;
-            bool bNeedsMutableSet = (uTargetedHandlersCount != null && uStandardHandlersCount > 0);
+            bool bNeedsMutableSet = (uTargetedHandlersCount > 0 && uStandardHandlersCount > 0);
 
-            //pMutableTouches = (bNeedsMutableSet ? pTouches->mutableCopy() : pTouches);
             pMutableTouches = (bNeedsMutableSet ? pTouches : pTouches);
+            if (bNeedsMutableSet)
+            {
+                CCTouch[] tempArray = pTouches.ToArray();
+                pMutableTouches = tempArray.ToList();
+            }
+            else
+            {
+                pMutableTouches = pTouches;
+            }
 
             CCTouchType sHelper = (CCTouchType)(uIndex);
 
             // process the target handlers 1st
             if (uTargetedHandlersCount > 0)
             {
-                #region
+                #region CCTargetedTouchHandler
 
                 foreach (CCTouch pTouch in pTouches)
                 {
@@ -225,7 +231,7 @@ namespace cocos2d
                             break;
                         }
 
-                        ICCTargetedTouchDelegate pDelegate=(ICCTargetedTouchDelegate)(pHandler.Delegate);
+                        ICCTargetedTouchDelegate pDelegate = (ICCTargetedTouchDelegate)(pHandler.Delegate);
 
                         bool bClaimed = false;
                         if (sHelper == CCTouchType.CCTOUCHBEGAN)
@@ -277,7 +283,7 @@ namespace cocos2d
             // process standard handlers 2nd
             if (uStandardHandlersCount > 0 && pMutableTouches.Count > 0)
             {
-                #region
+                #region CCStandardTouchHandler
                 foreach (CCTouchHandler toucherHalder in m_pStandardHandlers)
                 {
                     CCStandardTouchHandler pHandler = (CCStandardTouchHandler)(toucherHalder);
