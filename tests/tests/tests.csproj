@@ -65,6 +65,11 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\AppDelegate.cs" />
+    <Compile Include="classes\controller.cs" />
+    <Compile Include="classes\test.cs" />
+    <Compile Include="classes\testBasic.cs" />
+    <Compile Include="classes\testResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -77,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
+    <Content Include="GameThumbnail.png" />
     <Content Include="PhoneGameThumb.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
@@ -85,6 +91,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\cocos2d-xna\cocos2d-xna.csproj">
+      <Project>{47EE6CE6-493D-4967-944A-5E55B71AA9FD}</Project>
+      <Name>cocos2d-xna</Name>
+    </ProjectReference>
     <ProjectReference Include="..\testsContent\testsContent.contentproj">
       <Name>testsContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
