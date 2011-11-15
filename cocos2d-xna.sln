@@ -3,9 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloCocos2d", "HelloCocos2d\HelloCocos2d\HelloCocos2d.csproj", "{2076D138-759C-465F-BC67-5BE580C54216}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "HelloCocos2dContent", "HelloCocos2d\HelloCocos2dContent\HelloCocos2dContent.contentproj", "{567D3909-77EC-4AE3-93E8-E63CDBE1BC22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloCocos2dContent", "HelloCocos2d\HelloCocos2dContent\HelloCocos2dContent.contentproj", "{567D3909-77EC-4AE3-93E8-E63CDBE1BC22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cocos2d-xna", "cocos2d-xna\cocos2d-xna.csproj", "{47EE6CE6-493D-4967-944A-5E55B71AA9FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests\tests.csproj", "{9F66B844-692D-403B-8634-C531E1EC802F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47EE6CE6-493D-4967-944A-5E55B71AA9FD} = {47EE6CE6-493D-4967-944A-5E55B71AA9FD}
+	EndProjectSection
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "testsContent", "tests\testsContent\testsContent.contentproj", "{63DAB359-8C68-4F65-9453-5C4D274AD956}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +32,14 @@ Global
 		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
 		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
 		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{9F66B844-692D-403B-8634-C531E1EC802F}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{9F66B844-692D-403B-8634-C531E1EC802F}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{9F66B844-692D-403B-8634-C531E1EC802F}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{9F66B844-692D-403B-8634-C531E1EC802F}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{9F66B844-692D-403B-8634-C531E1EC802F}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{9F66B844-692D-403B-8634-C531E1EC802F}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{63DAB359-8C68-4F65-9453-5C4D274AD956}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{63DAB359-8C68-4F65-9453-5C4D274AD956}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
