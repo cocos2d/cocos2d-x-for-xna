@@ -126,7 +126,7 @@ namespace cocos2d
         /// See TargetedTouchDelegate description.
         /// IMPORTANT: The delegate will be retained.
         /// </summary>
-        public void addTargetedDelegate(CCTouchDelegate pDelegate, int nPriority, bool bSwallowsTouches)
+        public void addTargetedDelegate(ICCTouchDelegate pDelegate, int nPriority, bool bSwallowsTouches)
         {
             CCTouchHandler pHandler = CCTargetedTouchHandler.handlerWithDelegate(pDelegate, nPriority, bSwallowsTouches);
             if (!m_bLocked)
@@ -144,7 +144,7 @@ namespace cocos2d
         /// Removes a touch delegate.
         /// The delegate will be released
         /// </summary>
-        public void removeDelegate(CCTouchDelegate pDelegate)
+        public void removeDelegate(ICCTouchDelegate pDelegate)
         {
             if (pDelegate == null)
             {
@@ -181,7 +181,7 @@ namespace cocos2d
         /// Changes the priority of a previously added delegate. 
         /// The lower the number, the higher the priority
         /// </summary>
-        public void setPriority(int nPriority, CCTouchDelegate pDelegate)
+        public void setPriority(int nPriority, ICCTouchDelegate pDelegate)
         {
             CCTouchHandler handler = null;
 
@@ -202,7 +202,6 @@ namespace cocos2d
             int uStandardHandlersCount = m_pStandardHandlers.Count;
             bool bNeedsMutableSet = (uTargetedHandlersCount > 0 && uStandardHandlersCount > 0);
 
-            pMutableTouches = (bNeedsMutableSet ? pTouches : pTouches);
             if (bNeedsMutableSet)
             {
                 CCTouch[] tempArray = pTouches.ToArray();
@@ -222,15 +221,8 @@ namespace cocos2d
 
                 foreach (CCTouch pTouch in pTouches)
                 {
-                    foreach (CCTouchHandler toucherHandler in m_pTargetedHandlers)
+                    foreach (CCTargetedTouchHandler pHandler in m_pTargetedHandlers)
                     {
-                        CCTargetedTouchHandler pHandler = toucherHandler as CCTargetedTouchHandler;
-
-                        if (pHandler == null)
-                        {
-                            break;
-                        }
-
                         ICCTargetedTouchDelegate pDelegate = (ICCTargetedTouchDelegate)(pHandler.Delegate);
 
                         bool bClaimed = false;
@@ -244,6 +236,7 @@ namespace cocos2d
                             }
                         }
                         else
+                        {
                             if (pHandler.ClaimedTouches.Contains(pTouch))
                             {
                                 // moved ended cancelled
@@ -264,6 +257,7 @@ namespace cocos2d
                                         break;
                                 }
                             }
+                        }
 
                         if (bClaimed && pHandler.IsSwallowsTouches)
                         {
@@ -284,14 +278,8 @@ namespace cocos2d
             if (uStandardHandlersCount > 0 && pMutableTouches.Count > 0)
             {
                 #region CCStandardTouchHandler
-                foreach (CCTouchHandler toucherHalder in m_pStandardHandlers)
+                foreach (CCStandardTouchHandler pHandler in m_pStandardHandlers)
                 {
-                    CCStandardTouchHandler pHandler = (CCStandardTouchHandler)(toucherHalder);
-
-                    if (pHandler == null)
-                    {
-                        break;
-                    }
                     ICCStandardTouchDelegate pDelegate = (ICCStandardTouchDelegate)pHandler.Delegate;
                     switch (sHelper)
                     {
@@ -391,7 +379,7 @@ namespace cocos2d
             }
         }
 
-        public CCTouchHandler findHandler(CCTouchDelegate pDelegate)
+        public CCTouchHandler findHandler(ICCTouchDelegate pDelegate)
         {
             foreach (CCTargetedTouchHandler handler in m_pTargetedHandlers)
             {
@@ -412,7 +400,7 @@ namespace cocos2d
             return null;
         }
 
-        protected void forceRemoveDelegate(CCTouchDelegate pDelegate)
+        protected void forceRemoveDelegate(ICCTouchDelegate pDelegate)
         {
             // XXX: remove it from both handlers ???
             // remove handler from m_pStandardHandlers

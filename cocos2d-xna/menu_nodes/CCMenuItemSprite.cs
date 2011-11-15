@@ -36,14 +36,14 @@ namespace cocos2d
     public class CCMenuItemSprite : CCMenuItem, CCRGBAProtocol
     {
         CCNode m_pNormalImage;
-		CCNode m_pSelectedImage;
+        CCNode m_pSelectedImage;
         CCNode m_pDisabledImage;
 
         public CCMenuItemSprite()
-        { 
-            m_pNormalImage      = null;
-			m_pSelectedImage    = null;
-            m_pDisabledImage    = null;
+        {
+            m_pNormalImage = null;
+            m_pSelectedImage = null;
+            m_pDisabledImage = null;
         }
 
         /// <summary>
@@ -53,8 +53,8 @@ namespace cocos2d
         /// <param name="selectedSprite"></param>
         /// <returns></returns>
         public static CCMenuItemSprite itemFromNormalSprite(CCNode normalSprite, CCNode selectedSprite)
-        { 
-            throw new NotImplementedException();        
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -65,10 +65,10 @@ namespace cocos2d
         /// <param name="target"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public static CCMenuItemSprite itemFromNormalSprite(CCNode normalSprite, CCNode selectedSprite, 
+        public static CCMenuItemSprite itemFromNormalSprite(CCNode normalSprite, CCNode selectedSprite,
                                                         SelectorProtocol target, SEL_MenuHandler selector)
-        { 
-            throw new NotImplementedException();           
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -82,10 +82,10 @@ namespace cocos2d
         /// <returns></returns>
         public static CCMenuItemSprite itemFromNormalSprite(CCNode normalSprite, CCNode selectedSprite, CCNode disabledSprite,
                                                         SelectorProtocol target, SEL_MenuHandler selector)
-        { 
-            throw new NotImplementedException();              
+        {
+            throw new NotImplementedException();
         }
-        
+
         /// <summary>
         /// initializes a menu item with a normal, selected  and disabled image with target/selector
         /// </summary>
@@ -95,15 +95,15 @@ namespace cocos2d
         /// <param name="target"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public bool initFromNormalSprite(CCNode normalSprite, CCNode selectedSprite, CCNode disabledSprite, 
+        public bool initFromNormalSprite(CCNode normalSprite, CCNode selectedSprite, CCNode disabledSprite,
                                     SelectorProtocol target, SEL_MenuHandler selector)
         {
             if (normalSprite == null)
-	        {
+            {
                 throw new NullReferenceException();
-	        }
+            }
 
-            CCMenuItem.itemWithTarget(target, selector);            
+            initWithTarget(target, selector);
 
             setNormalImage(normalSprite);
             setSelectedImage(selectedSprite);
@@ -111,16 +111,16 @@ namespace cocos2d
 
             contentSize = m_pNormalImage.contentSize;
 
-		    return true;
+            return true;
         }
 
         CCNode getNormalImage()
-	    {
-		    return m_pNormalImage;
-	    }
+        {
+            return m_pNormalImage;
+        }
 
-	    void setNormalImage(CCNode var)
-	    {
+        void setNormalImage(CCNode var)
+        {
             if (var != null)
             {
                 addChild(var);
@@ -134,15 +134,15 @@ namespace cocos2d
             }
 
             m_pNormalImage = var;
-	    }
+        }
 
-	    CCNode getSelectedImage()
-	    {
-		    return m_pSelectedImage;
-	    }
+        CCNode getSelectedImage()
+        {
+            return m_pSelectedImage;
+        }
 
-	    void setSelectedImage(CCNode var)
-	    {
+        void setSelectedImage(CCNode var)
+        {
             if (var != null)
             {
                 addChild(var);
@@ -156,15 +156,15 @@ namespace cocos2d
             }
 
             m_pSelectedImage = var;
-	    }
+        }
 
-	    CCNode getDisabledImage()
-	    {
-		    return m_pDisabledImage;
-	    }
+        CCNode getDisabledImage()
+        {
+            return m_pDisabledImage;
+        }
 
-	    void setDisabledImage(CCNode var)
-	    {
+        void setDisabledImage(CCNode var)
+        {
             if (var != null)
             {
                 addChild(var);
@@ -178,8 +178,8 @@ namespace cocos2d
             }
 
             m_pDisabledImage = var;
-	    }
-        
+        }
+
         //// super methods
         public ccColor3B Color { get; set; }
 
@@ -193,19 +193,46 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        public virtual void unselected() 
+        public virtual void unselected()
         {
             throw new NotImplementedException();
         }
 
         public virtual void setIsEnabled(bool bEnabled)
         {
-            throw new NotImplementedException();
+            base.Enabled = bEnabled;
+
+            //if (m_pSelectedImage)
+            //{
+            //    m_pSelectedImage->setIsVisible(false);
+            //}
+
+            //if (bEnabled)
+            //{
+            //    m_pNormalImage->setIsVisible(true);
+
+            //    if (m_pDisabledImage)
+            //    {
+            //        m_pDisabledImage->setIsVisible(false);
+            //    }
+            //}
+            //else
+            //{
+            //    if (m_pDisabledImage)
+            //    {
+            //        m_pDisabledImage->setIsVisible(true);
+            //        m_pNormalImage->setIsVisible(false);
+            //    }
+            //    else
+            //    {
+            //        m_pNormalImage->setIsVisible(true);
+            //    }
+            //}
         }
 
-        public virtual CCRGBAProtocol convertToRGBAProtocol() 
-        { 
-            return (this as CCRGBAProtocol); 
+        public virtual CCRGBAProtocol convertToRGBAProtocol()
+        {
+            return (this as CCRGBAProtocol);
         }
 
 

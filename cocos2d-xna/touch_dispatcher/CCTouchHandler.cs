@@ -73,7 +73,7 @@ namespace cocos2d
         /// <summary>
         /// allocates a TouchHandler with a delegate and a priority 
         /// </summary>
-        public static CCTouchHandler handlerWithDelegate(CCTouchDelegate pDelegate, int nPriority)
+        public static CCTouchHandler handlerWithDelegate(ICCTouchDelegate pDelegate, int nPriority)
         {
             CCTouchHandler pHandler = new CCTouchHandler();
 

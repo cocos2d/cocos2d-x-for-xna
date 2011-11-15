@@ -38,16 +38,16 @@ namespace cocos2d
         bool m_bIsSelected;
         bool m_bIsEnabled;
 
-        protected SelectorProtocol	m_pListener;
-		protected SEL_MenuHandler	m_pfnSelector;
-		protected string m_functionName;
+        protected SelectorProtocol m_pListener;
+        protected SEL_MenuHandler m_pfnSelector;
+        protected string m_functionName;
 
         public CCMenuItem()
-		{
-			m_bIsSelected = false;
-            m_bIsEnabled = false;      
+        {
+            m_bIsSelected = false;
+            m_bIsEnabled = false;
             m_pListener = null;
-			m_pfnSelector = null;            
+            m_pfnSelector = null;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace cocos2d
         {
             CCMenuItem pRet = new CCMenuItem();
             pRet.initWithTarget(rec, selector);
-            
+
             return pRet;
         }
 
@@ -84,7 +84,7 @@ namespace cocos2d
         /// Returns the outside box
         /// </summary>
         /// <returns></returns>
-        public CCRect rect() 
+        public CCRect rect()
         {
             return new CCRect(m_tPosition.x - m_tContentSize.width * m_tAnchorPoint.x,
                 m_tPosition.y - m_tContentSize.height * m_tAnchorPoint.y,
@@ -97,18 +97,18 @@ namespace cocos2d
         public virtual void activate()
         {
             if (m_bIsEnabled)
-		    {
-			    if (m_pListener != null)
-			    {
-				    //(m_pListener.m_pfnSelector)(this);
+            {
+                if (m_pListener != null)
+                {
+                    //(m_pListener.m_pfnSelector)(this);
                 }
-
-                  #warning "Need Support CCScriptEngineManager"
+                m_pfnSelector(this);
+#warning "Need Support CCScriptEngineManager"
                 //if (m_functionName.size() && CCScriptEngineManager.sharedScriptEngineManager().getScriptEngine())
                 //{
-                //    CCScriptEngineManager.sharedScriptEngineManager().getScriptEngine().executeCallFuncN(m_functionName.c_str(), this);
+                //CCScriptEngineManager.sharedScriptEngineManager().getScriptEngine().executeCallFuncN(m_functionName.c_str(), this);
                 //}
-		    }
+            }
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace cocos2d
         /// <summary>
         /// The item was unselected
         /// </summary>
-        public virtual void unselected() 
+        public virtual void unselected()
         {
             m_bIsSelected = false;
         }
@@ -148,13 +148,13 @@ namespace cocos2d
             m_pfnSelector = selector;
         }
 
-        public virtual bool Enabled 
+        public virtual bool Enabled
         {
             get { return m_bIsEnabled; }
-            set { m_bIsEnabled = value;}
+            set { m_bIsEnabled = value; }
         }
 
-        public virtual bool Selected 
+        public virtual bool Selected
         {
             get { return m_bIsSelected; }
         }

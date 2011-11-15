@@ -57,7 +57,7 @@ namespace cocos2d
         /// <summary>
         ///  initializes a TargetedTouchHandler with a delegate, a priority and whether or not it swallows touches or not
         /// </summary>
-        public bool initWithDelegate(CCTouchDelegate pDelegate, int nPriority, bool bSwallow)
+        public bool initWithDelegate(ICCTouchDelegate pDelegate, int nPriority, bool bSwallow)
         {
             if (base.initWithDelegate(pDelegate, nPriority))
             {
@@ -73,7 +73,7 @@ namespace cocos2d
         /// <summary>
         /// allocates a TargetedTouchHandler with a delegate, a priority and whether or not it swallows touches or not 
         /// </summary>
-        public static CCTargetedTouchHandler handlerWithDelegate(CCTouchDelegate pDelegate, int nPriority, bool bSwallow)
+        public static CCTargetedTouchHandler handlerWithDelegate(ICCTouchDelegate pDelegate, int nPriority, bool bSwallow)
         {
             CCTargetedTouchHandler pHandler = new CCTargetedTouchHandler();
             pHandler.initWithDelegate(pDelegate, nPriority, bSwallow);

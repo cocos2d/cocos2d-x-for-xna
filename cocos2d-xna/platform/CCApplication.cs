@@ -84,7 +84,7 @@ namespace cocos2d
 
             m_fScreenScaleFactor = 1.0f;
 
-              #warning "set height and width as Graphics.Device.Viewport"
+#warning "set height and width as Graphics.Device.Viewport"
             m_rcViewPort = new Rectangle(0, 0, 800, 480); //graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
         }
 
@@ -128,12 +128,12 @@ namespace cocos2d
             base.LoadContent();
         }
 
-         #endregion
+        #endregion
 
         #region Touch Methods
 
-        public EGLTouchDelegate TouchDelegate 
-        { 
+        public EGLTouchDelegate TouchDelegate
+        {
             set { m_pDelegate = value; }
         }
 
@@ -171,7 +171,7 @@ namespace cocos2d
                 {
                     if (m_bCaptured)
                     {
-                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor, 
+                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
                                             touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
                         m_pDelegate.touchesEnded(m_pSet, null);
                         m_pSet.Remove(m_pTouch);
@@ -319,5 +319,37 @@ namespace cocos2d
             get;
             private set;
         }
+
+        #region CCEGLView
+
+        bool m_bOrientationReverted;
+        Point m_tSizeInPoints;
+
+        public bool canSetContentScaleFactor
+        {
+            get { return true; }
+        }
+
+        public void setContentScaleFactor(float contentScaleFactor)
+        {
+            m_fScreenScaleFactor = contentScaleFactor;
+            if (m_bOrientationReverted)
+            {
+                //resize((int)(m_tSizeInPoints.cy * contentScaleFactor), (int)(m_tSizeInPoints.cx * contentScaleFactor));
+            }
+            else
+            {
+                //resize((int)(m_tSizeInPoints.cx * contentScaleFactor), (int)(m_tSizeInPoints.cy * contentScaleFactor));
+            }
+            centerWindow();
+        }
+
+        void resize(int width, int height)
+        { }
+
+        void centerWindow()
+        {}
+
+        #endregion
     }
 }

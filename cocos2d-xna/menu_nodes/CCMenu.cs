@@ -35,22 +35,23 @@ using System.Diagnostics;
 namespace cocos2d
 {
     public enum tCCMenuState
-	{
+    {
         kCCMenuStateWaiting,
         kCCMenuStateTrackingTouch
     };
 
-    public class CCMenu : CCLayer, CCRGBAProtocol
+    public class CCMenu : CCLayer, CCRGBAProtocol, ICCTouchDelegate
     {
-        const float kDefaultPadding =  5;
+        const float kDefaultPadding = 5;
+        const int kCCMenuTouchPriority = -128;
 
-		protected tCCMenuState m_eState;
-		protected CCMenuItem m_pSelectedItem;		
+        protected tCCMenuState m_eState;
+        protected CCMenuItem m_pSelectedItem;
 
         public CCMenu()
-		{
+        {
             m_cOpacity = 0;
-			m_pSelectedItem = null;
+            m_pSelectedItem = null;
         }
 
         /** creates an empty CCMenu */
@@ -58,7 +59,7 @@ namespace cocos2d
         {
             CCMenu menu = new CCMenu();
 
-            if (menu != null && menu.init()) 
+            if (menu != null && menu.init())
             {
                 return menu;
             }
@@ -69,21 +70,21 @@ namespace cocos2d
         ///** creates a CCMenu with it's items */
         public static CCMenu menuWithItems(params CCMenuItem[] item)
         {
-		    CCMenu pRet = new CCMenu();
+            CCMenu pRet = new CCMenu();
 
-		    if (pRet != null && pRet.initWithItems(item))
-		    {
-			    return pRet;
-		    }
+            if (pRet != null && pRet.initWithItems(item))
+            {
+                return pRet;
+            }
 
-		    return null;
+            return null;
         }
 
-		/** creates a CCMenu with it's item, then use addChild() to add 
-		  * other items. It is used for script, it can't init with undetermined
-		  * number of variables.
-		*/
-		public static CCMenu menuWithItem(CCMenuItem item)
+        /** creates a CCMenu with it's item, then use addChild() to add 
+          * other items. It is used for script, it can't init with undetermined
+          * number of variables.
+        */
+        public static CCMenu menuWithItem(CCMenuItem item)
         {
             return menuWithItems(item, null);
         }
@@ -96,71 +97,71 @@ namespace cocos2d
 
         ///** initializes a CCMenu with it's items */
         bool initWithItems(params CCMenuItem[] item)
-        { 
+        {
             if (base.init())
-		    {
-			    this.m_bIsTouchEnabled = true;
+            {
+                this.m_bIsTouchEnabled = true;
 
-			    // menu in the center of the screen
-			    CCSize s = CCDirector.sharedDirector().getWinSize();
+                // menu in the center of the screen
+                CCSize s = CCDirector.sharedDirector().getWinSize();
 
-			    this.m_bIsRelativeAnchorPoint = false;
-			    anchorPoint = new CCPoint(0.5f, 0.5f);
-			    this.contentSize = s;
+                this.m_bIsRelativeAnchorPoint = false;
+                anchorPoint = new CCPoint(0.5f, 0.5f);
+                this.contentSize = s;
 
-			    // XXX: in v0.7, winSize should return the visible size
-			    // XXX: so the bar calculation should be done there
-			    CCRect r;
+                // XXX: in v0.7, winSize should return the visible size
+                // XXX: so the bar calculation should be done there
+                CCRect r;
                 CCApplication.sharedApplication().statusBarFrame(out r);
 
-			    ccDeviceOrientation orientation = CCDirector.sharedDirector().deviceOrientation;
-			    if (orientation == ccDeviceOrientation.CCDeviceOrientationLandscapeLeft 
-                    || 
+                ccDeviceOrientation orientation = CCDirector.sharedDirector().deviceOrientation;
+                if (orientation == ccDeviceOrientation.CCDeviceOrientationLandscapeLeft
+                    ||
                     orientation == ccDeviceOrientation.CCDeviceOrientationLandscapeRight)
-			    {
-				    s.height -= r.size.width;
-			    }
-			    else
-			    {
-				    s.height -= r.size.height;
-			    }
-			    
-                position = new CCPoint(s.width/2, s.height/2);
+                {
+                    s.height -= r.size.width;
+                }
+                else
+                {
+                    s.height -= r.size.height;
+                }
 
-			    int z=0;
+                position = new CCPoint(s.width / 2, s.height / 2);
 
-			    if (item != null)
-			    {
+                int z = 0;
+
+                if (item != null)
+                {
                     foreach (var menuItem in item)
                     {
                         this.addChild(menuItem);
                     }
-			    }
-			    //	[self alignItemsVertically];
+                }
+                //	[self alignItemsVertically];
 
-			    m_pSelectedItem = null;
+                m_pSelectedItem = null;
                 m_eState = tCCMenuState.kCCMenuStateWaiting;
-			    return true;
-		    }
+                return true;
+            }
 
-		    return false;
+            return false;
         }
 
-		/** align items vertically */
-		public void alignItemsVertically()
+        /** align items vertically */
+        public void alignItemsVertically()
         {
             this.alignItemsVerticallyWithPadding(kDefaultPadding);
         }
 
-		/** align items vertically with padding
-		@since v0.7.2
-		*/
-		public void alignItemsVerticallyWithPadding(float padding)
+        /** align items vertically with padding
+        @since v0.7.2
+        */
+        public void alignItemsVerticallyWithPadding(float padding)
         {
             float height = -padding;
 
-		    if (m_pChildren != null && m_pChildren.Count > 0)
-		    {
+            if (m_pChildren != null && m_pChildren.Count > 0)
+            {
                 foreach (var pChild in m_pChildren)
                 {
                     if (pChild != null)
@@ -168,11 +169,11 @@ namespace cocos2d
                         height += pChild.contentSize.height * pChild.scaleY + padding;
                     }
                 }
-		    }
+            }
 
-		    float y = height / 2.0f;
-		    if (m_pChildren != null && m_pChildren.Count > 0)
-		    {
+            float y = height / 2.0f;
+            if (m_pChildren != null && m_pChildren.Count > 0)
+            {
                 foreach (var pChild in m_pChildren)
                 {
                     if (pChild != null)
@@ -181,24 +182,24 @@ namespace cocos2d
                         y -= pChild.contentSize.height * pChild.scaleY + padding;
                     }
                 }
-		    }
+            }
         }
 
-		/** align items horizontally */
-		public void alignItemsHorizontally()
+        /** align items horizontally */
+        public void alignItemsHorizontally()
         {
             this.alignItemsHorizontallyWithPadding(kDefaultPadding);
         }
 
-		/** align items horizontally with padding
-		@since v0.7.2
-		*/
-		public void alignItemsHorizontallyWithPadding(float padding)
+        /** align items horizontally with padding
+        @since v0.7.2
+        */
+        public void alignItemsHorizontallyWithPadding(float padding)
         {
             float width = -padding;
 
-		    if (m_pChildren != null && m_pChildren.Count > 0)
-		    {
+            if (m_pChildren != null && m_pChildren.Count > 0)
+            {
                 foreach (var pChild in m_pChildren)
                 {
                     if (pChild != null)
@@ -206,81 +207,67 @@ namespace cocos2d
                         width += pChild.contentSize.width * pChild.scaleX + padding;
                     }
                 }
-		    }
+            }
 
-		    float x = -width / 2.0f;
-		    if (m_pChildren != null && m_pChildren.Count > 0)
-		    {
+            float x = -width / 2.0f;
+            if (m_pChildren != null && m_pChildren.Count > 0)
+            {
                 foreach (var pChild in m_pChildren)
                 {
                     if (pChild != null)
                     {
                         pChild.position = new CCPoint(x + pChild.contentSize.width * pChild.scaleX / 2.0f, 0);
-     				    x += pChild.contentSize.width * pChild.scaleX + padding;
+                        x += pChild.contentSize.width * pChild.scaleX + padding;
                     }
                 }
-		    }
+            }
         }
 
-		/** align items in rows of columns */
+        /** align items in rows of columns */
         //void alignItemsInColumns(unsigned int columns, ...);
         //void alignItemsInColumns(unsigned int columns, va_list args);
 
-		/** align items in columns of rows */
+        /** align items in columns of rows */
         //void alignItemsInRows(unsigned int rows, ...);
         //void alignItemsInRows(unsigned int rows, va_list args);
 
-		//super methods
-		public virtual void addChild(CCNode child, int zOrder)
+        public override void registerWithTouchDispatcher()
         {
-            base.addChild(child, zOrder);
-        }
-
-		public virtual void addChild(CCNode child, int zOrder, int tag)
-        {
-            base.addChild(child, zOrder, tag);
-        }
-
-		public virtual void registerWithTouchDispatcher()
-        {
-            throw new NotImplementedException();
-
-              #warning "Wait for CCTouchDispatcher"
-            // CCTouchDispatcher::sharedDispatcher()->addTargetedDelegate(this, kCCMenuTouchPriority, true);
+            CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(this, kCCMenuTouchPriority, true);
         }
 
         /**
         @brief For phone event handle functions
         */
-        public virtual bool ccTouchBegan(CCTouch touch, CCEvent ccevent)
+        public override bool ccTouchBegan(CCTouch touch, CCEvent ccevent)
         {
             if (m_eState != tCCMenuState.kCCMenuStateWaiting || !m_bIsVisible)
-		    {
-			    return false;
-		    }
+            {
+                return false;
+            }
 
-		    for (CCNode c = this.m_pParent; c != null; c = c.parent)
-		    {
-			    if (c.visible == false)
-			    {
-				    return false;
-			    }
-		    }
+            for (CCNode c = this.m_pParent; c != null; c = c.parent)
+            {
+                if (c.visible == false)
+                {
+                    return false;
+                }
+            }
 
-		    m_pSelectedItem = this.itemForTouch(touch);
+            m_pSelectedItem = this.itemForTouch(touch);
 
-		    if (m_pSelectedItem != null)
-		    {
+            if (m_pSelectedItem != null)
+            {
                 m_eState = tCCMenuState.kCCMenuStateTrackingTouch;
-			    m_pSelectedItem.selected();
+                m_pSelectedItem.selected();
 
-			    return true;
-		    }
+                return true;
+            }
 
-		    return false;
+            return false;
         }
 
-        public virtual void ccTouchEnded(CCTouch touch, CCEvent ccevent)
+        public override void ccTouchEnded(CCTouch touch, CCEvent ccevent)
         {
             Debug.Assert(m_eState == tCCMenuState.kCCMenuStateTrackingTouch, "[Menu ccTouchEnded] -- invalid state");
 
@@ -293,7 +280,7 @@ namespace cocos2d
             m_eState = tCCMenuState.kCCMenuStateWaiting;
         }
 
-        public virtual void ccTouchCancelled(CCTouch touch, CCEvent ccevent)
+        public override void ccTouchCancelled(CCTouch touch, CCEvent ccevent)
         {
             Debug.Assert(m_eState == tCCMenuState.kCCMenuStateTrackingTouch, "[Menu ccTouchCancelled] -- invalid state");
 
@@ -305,7 +292,7 @@ namespace cocos2d
             m_eState = tCCMenuState.kCCMenuStateWaiting;
         }
 
-        public virtual void ccTouchMoved(CCTouch touch, CCEvent ccevent)
+        public override void ccTouchMoved(CCTouch touch, CCEvent ccevent)
         {
             Debug.Assert(m_eState == tCCMenuState.kCCMenuStateTrackingTouch, "[Menu ccTouchMoved] -- invalid state");
 
@@ -327,12 +314,12 @@ namespace cocos2d
             }
         }
 
-		public virtual void destroy()
+        public virtual void destroy()
         {
             //release();            
         }
 
-		public virtual void keep()
+        public virtual void keep()
         {
             //throw new NotImplementedException();
         }
@@ -341,7 +328,7 @@ namespace cocos2d
         @since v0.99.5
         override onExit
         */
-        public virtual void onExit()
+        public override void onExit()
         {
             if (m_eState == tCCMenuState.kCCMenuStateTrackingTouch)
             {
@@ -353,36 +340,35 @@ namespace cocos2d
             base.onExit();
         }
 
-		public virtual CCRGBAProtocol convertToRGBAProtocol() 
-        { 
-            return (CCRGBAProtocol)this; 
+        public virtual CCRGBAProtocol convertToRGBAProtocol()
+        {
+            return (CCRGBAProtocol)this;
         }
 
         protected CCMenuItem itemForTouch(CCTouch touch)
         {
             CCPoint touchLocation = touch.locationInView(touch.view());
-		    touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
+            touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
 
             if (m_pChildren != null && m_pChildren.Count > 0)
-		    {
+            {
                 foreach (var pChild in m_pChildren)
                 {
                     if (pChild != null && pChild.visible && ((CCMenuItem)pChild).Enabled)
                     {
                         CCPoint local = pChild.convertToNodeSpace(touchLocation);
-					    CCRect r = ((CCMenuItem)pChild).rect();
+                        CCRect r = ((CCMenuItem)pChild).rect();
                         r.origin = CCPoint.Zero;
 
-					    if (CCRect.CCRectContainsPoint(r, local))
-					    {
-						    return (CCMenuItem)pChild;
-					    }
+                        if (CCRect.CCRectContainsPoint(r, local))
+                        {
+                            return (CCMenuItem)pChild;
+                        }
                     }
                 }
-			
-		    }
+            }
 
-		    return null;
+            return null;
         }
 
         #region CCRGBAProtocol Interface

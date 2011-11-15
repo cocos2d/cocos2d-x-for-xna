@@ -34,9 +34,10 @@ namespace HelloCocos2d
                                                 new SEL_MenuHandler(menuCloseCallback));
 
             pCloseItem.position = new CCPoint(CCDirector.sharedDirector().getWinSize().width - 20, 20);
-
+            pCloseItem.setIsEnabled(true);
             // create menu, it's an autorelease object
             CCMenu pMenu = CCMenu.menuWithItems(pCloseItem);
+            pMenu.isTouchEnabled = true;
             pMenu.position = new CCPoint(0, 0);
             this.addChild(pMenu, 1);
 
@@ -112,6 +113,7 @@ namespace HelloCocos2d
         public virtual void menuCloseCallback(CCObject pSender)
         {
             CCDirector.sharedDirector().end();
+            CCApplication.sharedApplication().Game.Exit();
         }
 
         public override void ccTouchesBegan(List<CCTouch> touches, CCEvent event_)

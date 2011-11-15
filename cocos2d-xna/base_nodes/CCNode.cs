@@ -3,8 +3,10 @@ Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2009      Valentin Milea
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
+http://www.openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -142,7 +144,7 @@ namespace cocos2d
                 if (node != null)
                 {
                     node.onEnter();
-                }              
+                }
             }
 
             resumeSchedulerAndActions();
@@ -161,7 +163,7 @@ namespace cocos2d
                 if (node != null)
                 {
                     node.onEnterTransitionDidFinish();
-                }               
+                }
             }
         }
 
@@ -180,7 +182,7 @@ namespace cocos2d
                 if (node != null)
                 {
                     node.onExit();
-                }                
+                }
             }
         }
 
@@ -309,7 +311,7 @@ namespace cocos2d
 
                     // set parent nil at the end
                     node.parent = null;
-                }               
+                }
             }
 
             m_pChildren.Clear();
@@ -363,7 +365,7 @@ namespace cocos2d
                 if (node != null)
                 {
                     node.cleanup();
-                }              
+                }
             }
         }
 
@@ -443,7 +445,7 @@ namespace cocos2d
                     if (node != null)
                     {
                         node.visit();
-                    }                   
+                    }
                 }
             }
 
@@ -548,7 +550,7 @@ namespace cocos2d
 		@since v0.7.1
 		@return the Action the with the given tag
 		*/
-		/*CCAction* getActionByTag(int tag);
+        /*CCAction* getActionByTag(int tag);
          */
 
         /** Returns the numbers of actions that are running plus the ones that are schedule to run (actions in actionsToAdd and actions arrays). 
@@ -685,13 +687,29 @@ namespace cocos2d
 		*/
         // CCAffineTransform worldToNodeTransform(void);
 
-        /** Converts a Point to node (local) space coordinates. The result is in Points.
-		@since v0.7.1
-		*/
+        /// <summary>
+        /// Converts a Point to node (local) space coordinates. The result is in Points.
+        /// @since v0.7.1
+        /// </summary>
+        /// <param name="worldPoint"></param>
+        /// <returns></returns>
         public CCPoint convertToNodeSpace(CCPoint worldPoint)
         {
-            ///@todo
-            throw new NotImplementedException();
+            return worldPoint;
+
+            //CCPoint ret;
+            //if (CCDirector.sharedDirector().ContentScaleFactor == 1)
+            //{
+            //    ret = CCPointApplyAffineTransform(worldPoint, worldToNodeTransform());
+            //}
+            //else
+            //{
+            //    //ret = ccpMult(worldPoint, CC_CONTENT_SCALE_FACTOR());
+            //    //ret = CCPointApplyAffineTransform(ret, worldToNodeTransform());
+            //    //ret = ccpMult(ret, 1 / CC_CONTENT_SCALE_FACTOR());
+            //}
+
+            //return ret;
         }
 
         /** Converts a Point to world space coordinates. The result is in Points.
@@ -737,7 +755,7 @@ namespace cocos2d
 
         // helper that reorder a child
         private void insertChild(CCNode child, int z)
-        {            
+        {
             // Get last member
             CCNode a = m_pChildren.Count > 0 ? m_pChildren[m_pChildren.Count - 1] : null;
 
@@ -802,13 +820,13 @@ namespace cocos2d
 
         // The z order of the node relative to it's "brothers": children of the same parent
         protected int m_nZOrder;
-        public int zOrder 
-        { 
+        public int zOrder
+        {
             // read only
-            get 
+            get
             {
                 return m_nZOrder;
-            } 
+            }
         }
 
         /** The real openGL Z vertex.
@@ -963,7 +981,7 @@ namespace cocos2d
 
 
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-	            m_bIsTransformGLDirty = true;
+                m_bIsTransformGLDirty = true;
 #endif
 
             }
@@ -992,7 +1010,7 @@ namespace cocos2d
 
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
 
-#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX  
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
                 m_bIsTransformGLDirty = true;
 #endif // CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
             }
@@ -1049,16 +1067,16 @@ namespace cocos2d
             }
             set
             {
-                if (! CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint))
+                if (!CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint))
                 {
                     m_tAnchorPoint = value;
-                    m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x, 
+                    m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x,
                         m_tContentSizeInPixels.height * m_tAnchorPoint.y);
                     m_bIsTransformDirty = m_bIsInverseDirty = true;
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-		            m_bIsTransformGLDirty = true;
+                    m_bIsTransformGLDirty = true;
 #endif
-                    
+
                 }
             }
         }
@@ -1090,7 +1108,7 @@ namespace cocos2d
             }
             set
             {
-                if (! CCSize.CCSizeEqualToSize(value, m_tContentSize))
+                if (!CCSize.CCSizeEqualToSize(value, m_tContentSize))
                 {
                     m_tContentSize = value;
 
@@ -1128,7 +1146,7 @@ namespace cocos2d
             }
             set
             {
-                if (! CCSize.CCSizeEqualToSize(value, m_tContentSizeInPixels))
+                if (!CCSize.CCSizeEqualToSize(value, m_tContentSizeInPixels))
                 {
                     m_tContentSizeInPixels = value;
 
@@ -1194,7 +1212,7 @@ namespace cocos2d
                 m_bIsRelativeAnchorPoint = value;
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-	            m_bIsTransformGLDirty = true;
+                m_bIsTransformGLDirty = true;
 #endif
             }
         }
@@ -1242,11 +1260,11 @@ namespace cocos2d
         // @todo
         // float[]	transformGL;
 #endif
-          
+
 #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
         protected bool m_bIsTransformGLDirty;
 #endif
-        
+
 
     }
 }

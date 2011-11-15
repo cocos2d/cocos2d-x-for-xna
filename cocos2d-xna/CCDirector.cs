@@ -116,7 +116,7 @@ namespace cocos2d
             m_obWinSizeInPixels = m_obWinSizeInPoints = new CCSize(0, 0);
 
             // portrait mode default
-            m_eDeviceOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
+            m_eDeviceOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
 
             m_bRetinaDisplay = false;
             m_fContentScaleFactor = 1;
@@ -264,10 +264,17 @@ namespace cocos2d
 
         protected void updateContentScaleFactor()
         {
-            throw new NotImplementedException();
+            // [openGLView responseToSelector:@selector(setContentScaleFactor)]
+            if (CCApplication.sharedApplication().canSetContentScaleFactor)
+            {
+                CCApplication.sharedApplication().setContentScaleFactor(m_fContentScaleFactor);
+                m_bIsContentScaleSupported = true;
+            }
+            else
+            {
+                //CCLOG("cocos2d: setContentScaleFactor:'is not supported on this device");
+            }
         }
-
-
 
 #if CC_DIRECTOR_FAST_FPS
         /** shows the FPS in the screen */
@@ -330,7 +337,7 @@ namespace cocos2d
         CCSize m_obWinSizeInPixels;
 
         /* content scale factor */
-        float m_fContentScaleFactor;
+        float m_fContentScaleFactor = 1;
 
         /* store the fps string */
         string m_pszFPS;
@@ -426,10 +433,57 @@ namespace cocos2d
         ///@since v0.8.2
         /// </summary>
         /// <returns></returns>
-        public ccDirectorProjection projection
+        public ccDirectorProjection Projection
         {
-            get;
-            set;
+            set
+            {
+                //CCSize size = m_obWinSizeInPixels;
+                //float zeye = this->getZEye();
+                //switch (kProjection)
+                //{
+                //    case kCCDirectorProjection2D:
+                //        if (m_pobOpenGLView)
+                //        {
+                //            m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
+                //        }
+                //        glMatrixMode(GL_PROJECTION);
+                //        glLoadIdentity();
+                //        ccglOrtho(0, size.width, 0, size.height, -1024 * CC_CONTENT_SCALE_FACTOR(),
+                //            1024 * CC_CONTENT_SCALE_FACTOR());
+                //        glMatrixMode(GL_MODELVIEW);
+                //        glLoadIdentity();
+                //        break;
+
+                //    case kCCDirectorProjection3D:
+                //        if (m_pobOpenGLView)
+                //        {
+                //            m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
+                //        }
+                //        glMatrixMode(GL_PROJECTION);
+                //        glLoadIdentity();
+                //        gluPerspective(60, (GLfloat)size.width / size.height, 0.5f, 1500.0f);
+
+                //        glMatrixMode(GL_MODELVIEW);
+                //        glLoadIdentity();
+                //        gluLookAt(size.width / 2, size.height / 2, zeye,
+                //                 size.width / 2, size.height / 2, 0,
+                //                 0.0f, 1.0f, 0.0f);
+                //        break;
+
+                //    case kCCDirectorProjectionCustom:
+                //        if (m_pProjectionDelegate)
+                //        {
+                //            m_pProjectionDelegate->updateProjection();
+                //        }
+                //        break;
+
+                //    default:
+                //        CCLOG("cocos2d: Director: unrecognized projecgtion");
+                //        break;
+                //}
+
+                m_eProjection = value;
+            }
         }
 
         /** How many frames were called since the director started */
@@ -503,7 +557,30 @@ namespace cocos2d
         /// <returns></returns>
         public CCPoint convertToGL(CCPoint obPoint)
         {
-            throw new NotImplementedException();
+            CCSize s = m_obWinSizeInPoints;
+            float newY = s.height - obPoint.y;
+            float newX = s.width - obPoint.x;
+
+            CCPoint ret = new CCPoint(0, 0);
+            switch (m_eDeviceOrientation)
+            {
+                case ccDeviceOrientation.CCDeviceOrientationPortrait:
+                    ret = new CCPoint(obPoint.x, newY);
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown:
+                    ret = new CCPoint(newX, obPoint.y);
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationLandscapeLeft:
+                    ret.x = obPoint.y;
+                    ret.y = obPoint.x;
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationLandscapeRight:
+                    ret.x = newY;
+                    ret.y = newX;
+                    break;
+            }
+
+            return ret;
         }
 
         /// <summary>
@@ -593,7 +670,7 @@ namespace cocos2d
 
         public void end()
         {
-            throw new NotImplementedException();
+            m_bPurgeDirecotorInNextLoop = true;
         }
 
         /// <summary>
@@ -628,8 +705,6 @@ namespace cocos2d
         /// warning Don't call this function to start the main loop. To run the main loop call runWithScene
         /// </summary>
         public abstract void startAnimation();
-
-
 
         // Memory Helper
 
@@ -672,6 +747,16 @@ namespace cocos2d
 
         public void setOpenGLView()
         {
+            // set size
+            m_obWinSizeInPoints = getWinSize();
+            m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * m_fContentScaleFactor, m_obWinSizeInPoints.height * m_fContentScaleFactor);
+            //setGLDefaultValues();
+
+            if (m_fContentScaleFactor != 1)
+            {
+                updateContentScaleFactor();
+            }
+
             CCTouchDispatcher pTouchDispatcher = CCTouchDispatcher.sharedDispatcher();
             CCApplication.sharedApplication().TouchDelegate = pTouchDispatcher;
             pTouchDispatcher.IsDispatchEvents = true;
@@ -736,7 +821,23 @@ namespace cocos2d
         /// Only available when compiled using SDK >= 4.0.
         /// @since v0.99.4
         /// </summary>
-        public float contentScaleFactor { get; set; }
+        public float ContentScaleFactor
+        {
+            get { return m_fContentScaleFactor; }
+            set
+            {
+                if (value != m_fContentScaleFactor)
+                {
+                    m_fContentScaleFactor = value;
+                    m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * value, m_obWinSizeInPoints.height * value);
+
+                    updateContentScaleFactor();
+
+                    // update projection
+                    Projection = m_eProjection;
+                }
+            }
+        }
 
         /** Will enable Retina Display on devices that supports it.
         It will enable Retina Display on iPhone4 and iPod Touch 4.
