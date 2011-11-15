@@ -129,9 +129,13 @@
     <Compile Include="cocoa\CCGeometry.cs" />
     <Compile Include="cocoa\CCObject.cs" />
     <Compile Include="cocoa\CCZone.cs" />
+    <Compile Include="label_nodes\CCBMFontConfiguration.cs" />
+    <Compile Include="label_nodes\ccBMFontDef.cs" />
+    <Compile Include="label_nodes\ccBMFontPadding.cs" />
     <Compile Include="label_nodes\CCLabelAtlas.cs" />
     <Compile Include="label_nodes\CCLabelBMFont.cs" />
     <Compile Include="label_nodes\CCLabelTTF.cs" />
+    <Compile Include="label_nodes\tKerningHashElement.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayer.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCScene.cs" />
     <Compile Include="menu_nodes\CCMenu.cs" />
@@ -154,8 +158,11 @@
     <Compile Include="script_support\CCScriptEngineManager.cs" />
     <Compile Include="script_support\CCScriptEngineProtocol.cs" />
     <Compile Include="sprite_nodes\CCSprite.cs" />
+    <Compile Include="sprite_nodes\CCSpriteBatchNode.cs" />
+    <Compile Include="textures\CCTextureAtlas.cs" />
     <Compile Include="textures\CCTextureCache.cs" />
     <Compile Include="textures\CCTexture2D.cs" />
+    <Compile Include="textures\CCTexturePVR.cs" />
     <Compile Include="touch_dispatcher\CCStandardTouchHandler.cs" />
     <Compile Include="touch_dispatcher\CCTargetedTouchHandler.cs" />
     <Compile Include="touch_dispatcher\CCTouchDelegate.cs" />
