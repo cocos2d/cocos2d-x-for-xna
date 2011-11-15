@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloCocos2dContent", "Hell
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cocos2d-xna", "cocos2d-xna\cocos2d-xna.csproj", "{47EE6CE6-493D-4967-944A-5E55B71AA9FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests\tests.csproj", "{B7642AB5-22DD-4A5F-BF4C-68F8A3BA8525}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "testsContent", "tests\testsContent\testsContent.contentproj", "{2CE0B38F-5C9C-4088-8FEC-D3B58EE48E35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Windows Phone = Debug|Windows Phone
@@ -25,6 +29,14 @@ Global
 		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
 		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
 		{47EE6CE6-493D-4967-944A-5E55B71AA9FD}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{B7642AB5-22DD-4A5F-BF4C-68F8A3BA8525}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{B7642AB5-22DD-4A5F-BF4C-68F8A3BA8525}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{B7642AB5-22DD-4A5F-BF4C-68F8A3BA8525}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{B7642AB5-22DD-4A5F-BF4C-68F8A3BA8525}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{B7642AB5-22DD-4A5F-BF4C-68F8A3BA8525}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{B7642AB5-22DD-4A5F-BF4C-68F8A3BA8525}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{2CE0B38F-5C9C-4088-8FEC-D3B58EE48E35}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{2CE0B38F-5C9C-4088-8FEC-D3B58EE48E35}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
