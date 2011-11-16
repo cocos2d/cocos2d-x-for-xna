@@ -126,15 +126,15 @@ namespace cocos2d
             Debug.Assert(theString != null);
             //CC_SAFE_RELEASE(m_pConfiguration);// allow re-init
             m_pConfiguration = FNTConfigLoadFile(fntFile);
-            //m_pConfiguration.retain();
-            Debug.Assert(m_pConfiguration != null, "Error creating config for LabelBMFont");
 
-            if (CCSpriteBatchNode.initWithFile(m_pConfiguration.m_sAtlasName, (uint)(theString.Length)))
+            Debug.Assert(m_pConfiguration != null, "Error creating config for LabelBMFont");
+            CCSpriteBatchNode ccspriteBatchNode = new CCSpriteBatchNode();
+            if (ccspriteBatchNode.initWithFile(m_pConfiguration.m_sAtlasName, (uint)(theString.Length)))
             {
                 m_cOpacity = 255;
                 m_tColor = new ccColor3B(255, 255, 255);
                 m_tContentSize = new CCSize(0, 0);
-                //m_bIsOpacityModifyRGB = m_pobTextureAtlas.getTexture().getHasPremultipliedAlpha();
+                m_bIsOpacityModifyRGB = m_pobTextureAtlas.getTexture().getHasPremultipliedAlpha();
                 setAnchorPoint(new CCPoint(0.5f, 0.5f));
                 this.setString(theString);
                 return true;

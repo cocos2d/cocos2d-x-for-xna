@@ -280,6 +280,9 @@ namespace cocos2d
             m_sBlendFunc = value;
         }
 
+        protected CCTextureAtlas m_pobTextureAtlas;
+        protected CCSpriteBatchNode m_pobBatchNode;
+
         public override void draw()
         {
             if (null == m_pobTexture)
@@ -953,7 +956,12 @@ namespace cocos2d
         /** tell the sprite to use batch node render.
 	     @since v0.99.0
 	     */
-        //void useBatchNode(CCSpriteBatchNode* batchNode);
+        public void useBatchNode(CCSpriteBatchNode batchNode)
+        {
+            m_bUseBatchNode = true;
+            m_pobTextureAtlas = batchNode.TextureAtlas; // weak ref
+            m_pobBatchNode = batchNode;
+        }
 
         // Frames
 

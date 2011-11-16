@@ -368,5 +368,10 @@ namespace cocos2d
 	    /** whether or not the texture has their Alpha premultiplied */
         private bool m_bHasPremultipliedAlpha { get; set; }
 
+        public bool getHasPremultipliedAlpha()
+        {
+            return m_bHasPremultipliedAlpha;
+        }
+
     }
 }
