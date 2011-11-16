@@ -216,7 +216,7 @@ namespace cocos2d
 
         /** whether or not the Sprite is rendered using a CCSpriteBatchNode */
         private bool m_bUseBatchNode;
-        public bool useBatchNode
+        public bool IsUseBatchNode
         {
             get
             {
