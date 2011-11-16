@@ -180,6 +180,7 @@ namespace tests
         public void closeCallback(CCObject pSender)
         {
             CCDirector.sharedDirector().end();
+            CCApplication.sharedApplication().Game.Exit();
         }
 
         public override void ccTouchesBegan(List<CCTouch> pTouches, CCEvent pEvent)

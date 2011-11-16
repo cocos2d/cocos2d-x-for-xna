@@ -181,40 +181,7 @@ namespace cocos2d
 	    /** Initializes a texture from a string with dimensions, alignment, font name and font size */
 	    public bool initWithString(string text, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
         {
-            if (dimensions.width < 0 || dimensions.height < 0)
-            {
-                return false;
-            }
-
-            if (CCSize.CCSizeEqualToSize(dimensions, new CCSize()))
-            {
-                dimensions = CCDirector.sharedDirector().getWinSize();
-            }
-
-            float scale = 1.0f;//need refer fontSize;
-            SpriteFont font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
-
-            //*  for render to texture
-            RenderTarget2D renderTarget = new RenderTarget2D(CCApplication.sharedApplication().GraphicsDevice, (int)dimensions.width, (int)dimensions.height);
-            CCApplication.sharedApplication().GraphicsDevice.SetRenderTarget(renderTarget);
-
-            CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.DrawString(font, text, new Vector2(0, 0), Color.YellowGreen, 0.0f, new Vector2(0.0f, 0.0f), scale, SpriteEffects.None, 0.0f);
-            CCApplication.sharedApplication().spriteBatch.End();
-
-            CCApplication.sharedApplication().GraphicsDevice.SetRenderTarget(null);
-
-            // to copy the rendered target data to a plain texture(to the memory)
-            Color[] colors1D = new Color[renderTarget.Width * renderTarget.Height];
-            renderTarget.GetData(colors1D);
-            texture2D.SetData(colors1D);
-
-            m_tContentSize.width = texture2D.Width;
-            m_tContentSize.height = texture2D.Height;
-           
-            return true;
-
-            // throw new NotImplementedException();
+             throw new NotImplementedException();
         }
 	    /** Initializes a texture from a string with font name and font size */
 	    public bool initWithString(string text, string fontName, float fontSize)
