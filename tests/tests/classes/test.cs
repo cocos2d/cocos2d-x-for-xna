@@ -53,7 +53,7 @@ namespace cocos2d
 
     public class Tests
     {
-        public string[] g_aTestNames = {
+        public static string[] g_aTestNames = {
             "ActionsTest",
             "TransitionsTest",
             "ProgressActionsTest",

@@ -70,6 +70,7 @@
     <Compile Include="classes\test.cs" />
     <Compile Include="classes\testBasic.cs" />
     <Compile Include="classes\testResource.cs" />
+    <Compile Include="classes\tests\ActionsTest\ActionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -100,6 +101,7 @@
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
