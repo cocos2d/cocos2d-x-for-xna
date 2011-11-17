@@ -72,40 +72,38 @@ namespace tests
 
         public override void ccTouchesBegan(List<CCTouch> pTouches, CCEvent pEvent)
         {
-            //CCSetIterator it = pTouches->begin();
-            //CCTouch* touch = (CCTouch*)(*it);
+            CCTouch touch = pTouches.FirstOrDefault();
 
-            //m_tBeginPos = touch->locationInView( touch->view() );	
-            //m_tBeginPos = CCDirector::sharedDirector()->convertToGL( m_tBeginPos );
+            m_tBeginPos = touch.locationInView( touch.view() );	
+            m_tBeginPos = CCDirector.sharedDirector().convertToGL( m_tBeginPos );
         }
 
         public override void ccTouchesMoved(List<CCTouch> pTouches, CCEvent pEvent)
         {
-            //CCSetIterator it = pTouches->begin();
-            //CCTouch* touch = (CCTouch*)(*it);
+            CCTouch touch = pTouches.FirstOrDefault();
 
-            //CCPoint touchLocation = touch->locationInView( touch->view() );	
-            //touchLocation = CCDirector::sharedDirector()->convertToGL( touchLocation );
-            //float nMoveY = touchLocation.y - m_tBeginPos.y;
+            CCPoint touchLocation = touch.locationInView(touch.view());	
+            touchLocation = CCDirector.sharedDirector().convertToGL( touchLocation );
+            float nMoveY = touchLocation.y - m_tBeginPos.y;
 
-            //CCPoint curPos  = m_pItmeMenu->getPosition();
-            //CCPoint nextPos = ccp(curPos.x, curPos.y + nMoveY);
-            //CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-            //if (nextPos.y < 0.0f)
-            //{
-            //    m_pItmeMenu->setPosition(CCPointZero);
-            //    return;
-            //}
+            CCPoint curPos  = m_pItmeMenu.position;
+            CCPoint nextPos = new CCPoint(curPos.x, curPos.y + nMoveY);
+            CCSize winSize = CCDirector.sharedDirector().getWinSize();
+            if (nextPos.y < 0.0f)
+            {
+                m_pItmeMenu.position = new CCPoint(0, 0);
+                return;
+            }
 
-            //if (nextPos.y > ((TESTS_COUNT + 1)* LINE_SPACE - winSize.height))
-            //{
-            //    m_pItmeMenu->setPosition(ccp(0, ((TESTS_COUNT + 1)* LINE_SPACE - winSize.height)));
-            //    return;
-            //}
+            if (nextPos.y > (((int)TestCases.TESTS_COUNT + 1) * LINE_SPACE - winSize.height))
+            {
+                m_pItmeMenu.position = (new CCPoint(0, (((int)TestCases.TESTS_COUNT + 1) * LINE_SPACE - winSize.height)));
+                return;
+            }
 
-            //m_pItmeMenu->setPosition(nextPos);
-            //m_tBeginPos = touchLocation;
-            //s_tCurPos   = nextPos;
+            m_pItmeMenu.position = nextPos;
+            m_tBeginPos = touchLocation;
+            s_tCurPos   = nextPos;
         }
 
         public static TestScene CreateTestScene(int nIdx)
