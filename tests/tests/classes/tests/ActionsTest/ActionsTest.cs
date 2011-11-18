@@ -54,8 +54,8 @@ namespace tests
             {
             //case (int)ActionTest.ACTION_MANUAL_LAYER:
             //    pLayer = new ActionManual(); break;
-            //case (int)ActionTest.ACTION_MOVE_LAYER:
-            //    pLayer = new ActionMove(); break;
+            case (int)ActionTest.ACTION_MOVE_LAYER:
+                pLayer = new ActionMove(); break;
             //case (int)ActionTest.ACTION_SCALE_LAYER:
             //    pLayer = new ActionScale(); break;
             //case (int)ActionTest.ACTION_ROTATE_LAYER:
@@ -300,12 +300,32 @@ namespace tests
     //    virtual std::string subtitle();
     //};
 
-    //class ActionMove : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+    public class ActionMove : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(3);
+
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+
+            CCActionInterval actionTo = CCMoveTo.actionWithDuration(2, new CCPoint(s.width-40, s.height-40));
+            CCActionInterval actionBy = CCMoveBy.actionWithDuration(2, new CCPoint(80,80));
+
+            // source code: CCActionInterval* actionByBack = actionBy->reverse();
+            CCFiniteTimeAction actionByBack = actionBy.reverse();
+
+            m_tamara.runAction( actionTo);
+            m_grossini.runAction( CCSequence.actions(actionBy, actionByBack, null));
+            m_kathia.runAction(CCMoveTo.actionWithDuration(1, new CCPoint(40,40)));
+        }
+
+        public override string subtitle()
+        {
+            return "MoveTo / MoveBy";
+        }
+    }
 
     //class ActionScale : public ActionsDemo
     //{
