@@ -31,6 +31,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
@@ -48,7 +49,8 @@ namespace cocos2d
 
         public string description()
         {
-            throw new NotImplementedException();
+            string ret = string.Format("<CCLabelTTF | FontName = {0}, FontSize = {1}>", m_pFontName, m_fFontSize);
+            return ret;
         }
 
         /// <summary>
@@ -81,11 +83,9 @@ namespace cocos2d
             return null;
         }
 
-        #region initializes the CCLabelTTF with a font name, alignment, dimension and font size
         /// <summary>
         /// initializes the CCLabelTTF with a font name, alignment, dimension and font size
         /// </summary>
-        #endregion
         private bool initWithString(string label, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
         {
             Debug.Assert(label != null);
@@ -102,18 +102,16 @@ namespace cocos2d
                 m_pFontName = fontName;
 
                 //m_fFontSize = fontSize * CC_CONTENT_SCALE_FACTOR();
-                m_fFontSize = fontSize * CCDirector.sharedDirector().getFrames();
+                m_fFontSize = fontSize * CCDirector.sharedDirector().ContentScaleFactor;
                 this.setString(label);
                 return true;
             }
             return false;
         }
 
-        #region initializes the CCLabelTTF with a font name and font size
         /// <summary>
         /// initializes the CCLabelTTF with a font name and font size
         /// </summary>
-        #endregion
         private bool initWithString(string label, string fontName, float fontSize)
         {
             Debug.Assert(label != null);
@@ -148,22 +146,24 @@ namespace cocos2d
             }
             m_pString = label;
 
-            CCTexture2D texture;
-            if (CCSize.CCSizeEqualToSize(m_tDimensions, new CCSize(0, 0)))
-            {
-                texture = new CCTexture2D();
-                texture.initWithString(label, m_pFontName.ToString(), m_fFontSize);
-            }
-            else
-            {
-                texture = new CCTexture2D();
-                texture.initWithString(label, m_tDimensions, m_eAlignment, m_pFontName.ToString(), m_fFontSize);
-            }
-            this.setTexture(texture);
+            //CCTexture2D texture;
+            //if (CCSize.CCSizeEqualToSize(m_tDimensions, new CCSize(0, 0)))
+            //{
+            //    texture = new CCTexture2D();
+            //    texture.initWithString(label, m_pFontName.ToString(), m_fFontSize);
+            //}
+            //else
+            //{
+            //    texture = new CCTexture2D();
+            //    texture.initWithString(label, m_tDimensions, m_eAlignment, m_pFontName.ToString(), m_fFontSize);
+            //}
+            //this.setTexture(texture);
             //texture->release();
 
+            spriteFont = CCApplication.sharedApplication().content.Load<SpriteFont>("SpriteFont1");
+
             CCRect rect = new CCRect(0, 0, 0, 0);
-            rect.size = m_pobTexture.getContentSize();
+            // rect.size = m_pobTexture.getContentSize();
             this.setTextureRect(rect);
         }
 
@@ -175,7 +175,9 @@ namespace cocos2d
 
         public override void draw()
         {
-            base.draw();
+            CCApplication.sharedApplication().spriteBatch.Begin();
+            CCApplication.sharedApplication().spriteBatch.DrawString(spriteFont, m_pString, new Vector2(position.x - anchorPointInPixels.x, position.y - anchorPointInPixels.y), Microsoft.Xna.Framework.Color.White);
+            CCApplication.sharedApplication().spriteBatch.End();
         }
 
         //public virtual string gsString
