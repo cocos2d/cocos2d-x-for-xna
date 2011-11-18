@@ -40,48 +40,48 @@ namespace cocos2d
 {
     public enum CCTexture2DPixelFormat
     {
-	    kCCTexture2DPixelFormat_Automatic = 0,
-	    //! 32-bit texture: RGBA8888
-	    kCCTexture2DPixelFormat_RGBA8888,
-	    //! 24-bit texture: RGBA888
-	    kCCTexture2DPixelFormat_RGB888,
-	    //! 16-bit texture without Alpha channel
-	    kCCTexture2DPixelFormat_RGB565,
-	    //! 8-bit textures used as masks
-	    kCCTexture2DPixelFormat_A8,
-	    //! 8-bit intensity texture
-	    kCCTexture2DPixelFormat_I8,
-	    //! 16-bit textures used as masks
-	    kCCTexture2DPixelFormat_AI88,
-	    //! 16-bit textures: RGBA4444
-	    kCCTexture2DPixelFormat_RGBA4444,
-	    //! 16-bit textures: RGB5A1
-	    kCCTexture2DPixelFormat_RGB5A1,	
-	    //! 4-bit PVRTC-compressed texture: PVRTC4
-	    kCCTexture2DPixelFormat_PVRTC4,
-	    //! 2-bit PVRTC-compressed texture: PVRTC2
-	    kCCTexture2DPixelFormat_PVRTC2,
+        kCCTexture2DPixelFormat_Automatic = 0,
+        //! 32-bit texture: RGBA8888
+        kCCTexture2DPixelFormat_RGBA8888,
+        //! 24-bit texture: RGBA888
+        kCCTexture2DPixelFormat_RGB888,
+        //! 16-bit texture without Alpha channel
+        kCCTexture2DPixelFormat_RGB565,
+        //! 8-bit textures used as masks
+        kCCTexture2DPixelFormat_A8,
+        //! 8-bit intensity texture
+        kCCTexture2DPixelFormat_I8,
+        //! 16-bit textures used as masks
+        kCCTexture2DPixelFormat_AI88,
+        //! 16-bit textures: RGBA4444
+        kCCTexture2DPixelFormat_RGBA4444,
+        //! 16-bit textures: RGB5A1
+        kCCTexture2DPixelFormat_RGB5A1,
+        //! 4-bit PVRTC-compressed texture: PVRTC4
+        kCCTexture2DPixelFormat_PVRTC4,
+        //! 2-bit PVRTC-compressed texture: PVRTC2
+        kCCTexture2DPixelFormat_PVRTC2,
 
-	    //! Default texture format: RGBA8888
-	    kCCTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_RGBA8888,
+        //! Default texture format: RGBA8888
+        kCCTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_RGBA8888,
 
-	    // backward compatibility stuff
-	    kTexture2DPixelFormat_Automatic = kCCTexture2DPixelFormat_Automatic,
-	    kTexture2DPixelFormat_RGBA8888 = kCCTexture2DPixelFormat_RGBA8888,
-	    kTexture2DPixelFormat_RGB888 = kCCTexture2DPixelFormat_RGB888,
-	    kTexture2DPixelFormat_RGB565 = kCCTexture2DPixelFormat_RGB565,
-	    kTexture2DPixelFormat_A8 = kCCTexture2DPixelFormat_A8,
-	    kTexture2DPixelFormat_RGBA4444 = kCCTexture2DPixelFormat_RGBA4444,
-	    kTexture2DPixelFormat_RGB5A1 = kCCTexture2DPixelFormat_RGB5A1,
-	    kTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_Default
+        // backward compatibility stuff
+        kTexture2DPixelFormat_Automatic = kCCTexture2DPixelFormat_Automatic,
+        kTexture2DPixelFormat_RGBA8888 = kCCTexture2DPixelFormat_RGBA8888,
+        kTexture2DPixelFormat_RGB888 = kCCTexture2DPixelFormat_RGB888,
+        kTexture2DPixelFormat_RGB565 = kCCTexture2DPixelFormat_RGB565,
+        kTexture2DPixelFormat_A8 = kCCTexture2DPixelFormat_A8,
+        kTexture2DPixelFormat_RGBA4444 = kCCTexture2DPixelFormat_RGBA4444,
+        kTexture2DPixelFormat_RGB5A1 = kCCTexture2DPixelFormat_RGB5A1,
+        kTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_Default
     } ;
 
     /**
     Extension to set the Min / Mag filter
     */
-    public struct ccTexParams 
+    public struct ccTexParams
     {
-	    uint minFilter;
+        uint minFilter;
         uint magFilter;
         uint wrapS;
         uint wrapT;
@@ -106,14 +106,14 @@ namespace cocos2d
             m_tContentSize = new CCSize();
         }
 
-	    ~CCTexture2D()
+        ~CCTexture2D()
         {
 #if CC_ENABLE_CACHE_TEXTTURE_DATA
             VolatileTexture::removeTexture(this);
 #endif
         }
 
-	    public string description()
+        public string description()
         {
             string ret = "<CCTexture2D | Dimensions = " + m_uPixelsWide + " x " + m_uPixelsHigh + " | Coordinates = (" + m_fMaxS + ", " + m_fMaxT + ")>";
             return ret;
@@ -135,12 +135,12 @@ namespace cocos2d
         //    throw new NotImplementedException();
         //}
 
-	    /**
-	    Drawing extensions to make it easy to draw basic quads using a CCTexture2D object.
-	    These functions require GL_TEXTURE_2D and both GL_VERTEX_ARRAY and GL_TEXTURE_COORD_ARRAY client states to be enabled.
-	    */
-	    /** draws a texture at a given point */
-	    public void drawAtPoint(CCPoint point)
+        /**
+        Drawing extensions to make it easy to draw basic quads using a CCTexture2D object.
+        These functions require GL_TEXTURE_2D and both GL_VERTEX_ARRAY and GL_TEXTURE_COORD_ARRAY client states to be enabled.
+        */
+        /** draws a texture at a given point */
+        public void drawAtPoint(CCPoint point)
         {
             if (null == texture2D)
             {
@@ -151,8 +151,8 @@ namespace cocos2d
             CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(point.x, point.y), Color.White);
             CCApplication.sharedApplication().spriteBatch.End();
         }
-	    /** draws a texture inside a rect */
-	    public void drawInRect(CCRect rect)
+        /** draws a texture inside a rect */
+        public void drawInRect(CCRect rect)
         {
             if (null == texture2D)
             {
@@ -174,28 +174,66 @@ namespace cocos2d
         //    throw new NotImplementedException();
         //}
 
-	    /**
-	    Extensions to make it easy to create a CCTexture2D object from a string of text.
-	    Note that the generated textures are of type A8 - use the blending mode (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA).
-	    */
-	    /** Initializes a texture from a string with dimensions, alignment, font name and font size */
-	    public bool initWithString(string text, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
+        /**
+        Extensions to make it easy to create a CCTexture2D object from a string of text.
+        Note that the generated textures are of type A8 - use the blending mode (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA).
+        */
+        ///<summary>
+        /// Initializes a texture from a string with dimensions, alignment, font name and font size
+        /// </summary>
+        public bool initWithString(string text, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
         {
-             throw new NotImplementedException();
+            if (dimensions.width < 0 || dimensions.height < 0)
+            {
+                return false;
+            }
+
+            if (CCSize.CCSizeEqualToSize(dimensions, new CCSize()))
+            {
+                dimensions = CCDirector.sharedDirector().getWinSize();
+            }
+
+            float scale = 1.0f;//need refer fontSize;
+            SpriteFont font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
+
+            CCApplication app = CCApplication.sharedApplication();
+
+            //*  for render to texture
+            RenderTarget2D renderTarget = new RenderTarget2D(app.graphics.GraphicsDevice, (int)dimensions.width, (int)dimensions.height);
+            app.graphics.GraphicsDevice.SetRenderTarget(renderTarget);
+
+            app.spriteBatch.Begin();
+            app.spriteBatch.DrawString(font, text, new Vector2(0, 0), Color.YellowGreen, 0.0f, new Vector2(0.0f, 0.0f), scale, SpriteEffects.None, 0.0f);
+            app.spriteBatch.End();
+
+            app.graphics.GraphicsDevice.SetRenderTarget(null);
+
+            // to copy the rendered target data to a plain texture(to the memory)
+            Color[] colors1D = new Color[renderTarget.Width * renderTarget.Height];
+            renderTarget.GetData(colors1D);
+            texture2D = new Texture2D(app.GraphicsDevice, renderTarget.Width, renderTarget.Height);
+            texture2D.SetData(colors1D);
+
+            m_tContentSize.width = texture2D.Width;
+            m_tContentSize.height = texture2D.Height;
+
+            return true;
+
+            // throw new NotImplementedException();
         }
-	    /** Initializes a texture from a string with font name and font size */
-	    public bool initWithString(string text, string fontName, float fontSize)
+        /** Initializes a texture from a string with font name and font size */
+        public bool initWithString(string text, string fontName, float fontSize)
         {
             return initWithString(text, new CCSize(0, 0), CCTextAlignment.CCTextAlignmentCenter, fontName, fontSize);
         }
 
         public CCSize getContentSizeInPixels()
         {
-	        return m_tContentSize;
+            return m_tContentSize;
         }
 
-	    /** returns the content size of the texture in points */
-	    public CCSize getContentSize()
+        /** returns the content size of the texture in points */
+        public CCSize getContentSize()
         {
             CCSize ret = new CCSize();
             ret.width = m_tContentSize.width / ccMacros.CC_CONTENT_SCALE_FACTOR();
@@ -217,7 +255,7 @@ namespace cocos2d
 #endif // CC_SUPPORT_PVRTC
 
         /** Initializes a texture from a PVR file */
-	    public bool initWithPVRFile(string file)
+        public bool initWithPVRFile(string file)
         {
             throw new NotImplementedException();
         }
@@ -253,50 +291,50 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-	    /** sets the min filter, mag filter, wrap s and wrap t texture parameters.
-	    If the texture size is NPOT (non power of 2), then in can only use GL_CLAMP_TO_EDGE in GL_TEXTURE_WRAP_{S,T}.
-	    @since v0.8
-	    */
-	    public void setTexParameters(ccTexParams texParams)
+        /** sets the min filter, mag filter, wrap s and wrap t texture parameters.
+        If the texture size is NPOT (non power of 2), then in can only use GL_CLAMP_TO_EDGE in GL_TEXTURE_WRAP_{S,T}.
+        @since v0.8
+        */
+        public void setTexParameters(ccTexParams texParams)
         {
             throw new NotImplementedException();
         }
 
-	    /** sets antialias texture parameters:
-	    - GL_TEXTURE_MIN_FILTER = GL_LINEAR
-	    - GL_TEXTURE_MAG_FILTER = GL_LINEAR
+        /** sets antialias texture parameters:
+        - GL_TEXTURE_MIN_FILTER = GL_LINEAR
+        - GL_TEXTURE_MAG_FILTER = GL_LINEAR
 
-	    @since v0.8
-	    */
-	    public void setAntiAliasTexParameters()
+        @since v0.8
+        */
+        public void setAntiAliasTexParameters()
         {
             throw new NotImplementedException();
         }
 
-	    /** sets alias texture parameters:
-	    - GL_TEXTURE_MIN_FILTER = GL_NEAREST
-	    - GL_TEXTURE_MAG_FILTER = GL_NEAREST
+        /** sets alias texture parameters:
+        - GL_TEXTURE_MIN_FILTER = GL_NEAREST
+        - GL_TEXTURE_MAG_FILTER = GL_NEAREST
 
-	    @since v0.8
-	    */
-	    public void setAliasTexParameters()
+        @since v0.8
+        */
+        public void setAliasTexParameters()
         {
             throw new NotImplementedException();
         }
 
 
-	    /** Generates mipmap images for the texture.
-	    It only works if the texture size is POT (power of 2).
-	    @since v0.99.0
-	    */
-	    public void generateMipmap()
+        /** Generates mipmap images for the texture.
+        It only works if the texture size is POT (power of 2).
+        @since v0.99.0
+        */
+        public void generateMipmap()
         {
             throw new NotImplementedException();
         }
 
-	    /** returns the bits-per-pixel of the in-memory OpenGL texture
-	    @since v1.0
-	    */
+        /** returns the bits-per-pixel of the in-memory OpenGL texture
+        @since v1.0
+        */
         public uint bitsPerPixelForFormat()
         {
             throw new NotImplementedException();
@@ -306,31 +344,31 @@ namespace cocos2d
         {
             throw new NotImplementedException();
         }
-    
-	    /** sets the default pixel format for UIImages that contains alpha channel.
-	    If the UIImage contains alpha channel, then the options are:
-	    - generate 32-bit textures: kCCTexture2DPixelFormat_RGBA8888 (default one)
-	    - generate 24-bit textures: kCCTexture2DPixelFormat_RGB888
-	    - generate 16-bit textures: kCCTexture2DPixelFormat_RGBA4444
-	    - generate 16-bit textures: kCCTexture2DPixelFormat_RGB5A1
-	    - generate 16-bit textures: kCCTexture2DPixelFormat_RGB565
-	    - generate 8-bit textures: kCCTexture2DPixelFormat_A8 (only use it if you use just 1 color)
 
-	    How does it work ?
-	    - If the image is an RGBA (with Alpha) then the default pixel format will be used (it can be a 8-bit, 16-bit or 32-bit texture)
-	    - If the image is an RGB (without Alpha) then an RGB565 or RGB888 texture will be used (16-bit texture)
+        /** sets the default pixel format for UIImages that contains alpha channel.
+        If the UIImage contains alpha channel, then the options are:
+        - generate 32-bit textures: kCCTexture2DPixelFormat_RGBA8888 (default one)
+        - generate 24-bit textures: kCCTexture2DPixelFormat_RGB888
+        - generate 16-bit textures: kCCTexture2DPixelFormat_RGBA4444
+        - generate 16-bit textures: kCCTexture2DPixelFormat_RGB5A1
+        - generate 16-bit textures: kCCTexture2DPixelFormat_RGB565
+        - generate 8-bit textures: kCCTexture2DPixelFormat_A8 (only use it if you use just 1 color)
 
-	    @since v0.8
-	    */
-	    static public void setDefaultAlphaPixelFormat(CCTexture2DPixelFormat format)
+        How does it work ?
+        - If the image is an RGBA (with Alpha) then the default pixel format will be used (it can be a 8-bit, 16-bit or 32-bit texture)
+        - If the image is an RGB (without Alpha) then an RGB565 or RGB888 texture will be used (16-bit texture)
+
+        @since v0.8
+        */
+        static public void setDefaultAlphaPixelFormat(CCTexture2DPixelFormat format)
         {
             throw new NotImplementedException();
         }
 
-	    /** returns the alpha pixel format
-	    @since v0.8
-	    */
-	    static public CCTexture2DPixelFormat defaultAlphaPixelFormat()
+        /** returns the alpha pixel format
+        @since v0.8
+        */
+        static public CCTexture2DPixelFormat defaultAlphaPixelFormat()
         {
             throw new NotImplementedException();
         }
@@ -342,30 +380,30 @@ namespace cocos2d
 
         private Texture2D texture2D;
         public Texture2D getTexture2D()
-        { 
-            return texture2D; 
+        {
+            return texture2D;
         }
-    
+
         // By default PVR images are treated as if they don't have the alpha channel premultiplied
         private bool m_PVRHaveAlphaPremultiplied;
 
         /** pixel format of the texture */
         private CCTexture2DPixelFormat m_ePixelFormat { get; set; }
-	    /** width in pixels */
+        /** width in pixels */
         private uint m_uPixelsWide { get; set; }
-	    /** hight in pixels */
+        /** hight in pixels */
         private uint m_uPixelsHigh { get; set; }
 
-	    /** texture name */
+        /** texture name */
         private uint m_uName { get; set; }
 
-	    /** content size */
+        /** content size */
         private CCSize m_tContentSize { get; set; }
-	    /** texture max S */
-	    private float m_fMaxS { get; set;}
-	    /** texture max T */
-	    private float m_fMaxT { get; set;}
-	    /** whether or not the texture has their Alpha premultiplied */
+        /** texture max S */
+        private float m_fMaxS { get; set; }
+        /** texture max T */
+        private float m_fMaxT { get; set; }
+        /** whether or not the texture has their Alpha premultiplied */
         private bool m_bHasPremultipliedAlpha { get; set; }
 
         public bool getHasPremultipliedAlpha()

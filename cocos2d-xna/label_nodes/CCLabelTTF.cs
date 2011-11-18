@@ -146,21 +146,21 @@ namespace cocos2d
             }
             m_pString = label;
 
-            //CCTexture2D texture;
-            //if (CCSize.CCSizeEqualToSize(m_tDimensions, new CCSize(0, 0)))
-            //{
-            //    texture = new CCTexture2D();
-            //    texture.initWithString(label, m_pFontName.ToString(), m_fFontSize);
-            //}
-            //else
-            //{
-            //    texture = new CCTexture2D();
-            //    texture.initWithString(label, m_tDimensions, m_eAlignment, m_pFontName.ToString(), m_fFontSize);
-            //}
-            //this.setTexture(texture);
+            CCTexture2D texture;
+            if (CCSize.CCSizeEqualToSize(m_tDimensions, new CCSize(0, 0)))
+            {
+                texture = new CCTexture2D();
+                texture.initWithString(label, m_pFontName.ToString(), m_fFontSize);
+            }
+            else
+            {
+                texture = new CCTexture2D();
+                texture.initWithString(label, m_tDimensions, m_eAlignment, m_pFontName.ToString(), m_fFontSize);
+            }
+            this.setTexture(texture);
             //texture->release();
 
-            spriteFont = CCApplication.sharedApplication().content.Load<SpriteFont>("SpriteFont1");
+            //spriteFont = CCApplication.sharedApplication().content.Load<SpriteFont>("SpriteFont1");
 
             CCRect rect = new CCRect(0, 0, 0, 0);
             // rect.size = m_pobTexture.getContentSize();
@@ -173,12 +173,12 @@ namespace cocos2d
             return m_pString.ToString();
         }
 
-        public override void draw()
-        {
-            CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.DrawString(spriteFont, m_pString, new Vector2(position.x - anchorPointInPixels.x, position.y - anchorPointInPixels.y), Microsoft.Xna.Framework.Color.White);
-            CCApplication.sharedApplication().spriteBatch.End();
-        }
+        //public override void draw()
+        //{
+        //    CCApplication.sharedApplication().spriteBatch.Begin();
+        //    CCApplication.sharedApplication().spriteBatch.DrawString(spriteFont, m_pString, new Vector2(position.x - anchorPointInPixels.x, position.y - anchorPointInPixels.y), Microsoft.Xna.Framework.Color.White);
+        //    CCApplication.sharedApplication().spriteBatch.End();
+        //}
 
         //public virtual string gsString
         //{

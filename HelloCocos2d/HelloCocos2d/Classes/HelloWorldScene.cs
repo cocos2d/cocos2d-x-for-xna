@@ -65,7 +65,7 @@ namespace HelloCocos2d
             // add the sprite as a child to this layer
             this.addChild(pSprite, 0);
 
-            CCLabelTTF label = CCLabelTTF.labelWithString("Hello", "Segoe UI Mono", 30);
+            CCLabelTTF label = CCLabelTTF.labelWithString("Hello", "SpriteFont1", 30);
             label.position = new CCPoint(size.width / 2, size.height / 2);
 
             this.addChild(label);

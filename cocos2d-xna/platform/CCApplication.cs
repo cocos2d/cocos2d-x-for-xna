@@ -98,7 +98,6 @@ namespace cocos2d
             PVRFrameEnableControlWindow(false);
 
             initInstance();
-            applicationDidFinishLaunching();
 
             base.Initialize();
         }
@@ -126,6 +125,8 @@ namespace cocos2d
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             base.LoadContent();
+
+            applicationDidFinishLaunching();
         }
 
         #endregion
@@ -291,7 +292,6 @@ namespace cocos2d
             // throw new NotImplementedException();
         }
 
-
         /// <summary>
         /// Get status bar rectangle in EGLView window.
         /// </summary>
@@ -352,7 +352,7 @@ namespace cocos2d
         { }
 
         void centerWindow()
-        {}
+        { }
 
         #endregion
     }
