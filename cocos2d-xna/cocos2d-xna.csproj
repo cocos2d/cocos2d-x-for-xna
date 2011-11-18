@@ -109,8 +109,11 @@
     <Compile Include="actions\action_intervals\CCReverseTime.cs" />
     <Compile Include="actions\action_intervals\CCRotateBy.cs" />
     <Compile Include="actions\action_intervals\CCRotateTo.cs" />
+    <Compile Include="actions\action_intervals\CCScaleBy.cs" />
     <Compile Include="actions\action_intervals\CCScaleTo.cs" />
     <Compile Include="actions\action_intervals\CCSequence.cs" />
+    <Compile Include="actions\action_intervals\CCSkewBy.cs" />
+    <Compile Include="actions\action_intervals\CCSkewTo.cs" />
     <Compile Include="actions\action_intervals\CCSpawn.cs" />
     <Compile Include="actions\action_intervals\CCTintBy.cs" />
     <Compile Include="actions\action_intervals\CCTintTo.cs" />
