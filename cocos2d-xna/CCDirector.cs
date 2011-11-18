@@ -127,6 +127,8 @@ namespace cocos2d
 
         public abstract void mainLoop(GameTime gameTime);
 
+        #region sceneManagement
+
         /// <summary>
         /// Draw the scene.
         /// This method is called every frame. Don't call it manually.
@@ -213,6 +215,95 @@ namespace cocos2d
             }
         }
 
+        /// <summary>
+        /// Enters the Director's main loop with the given Scene. 
+        /// Call it to run only your FIRST scene.
+        /// Don't call it if there is already a running scene.
+        /// </summary>
+        /// <param name="pScene"></param>
+        public void runWithScene(CCScene pScene)
+        {
+            Debug.Assert(pScene != null, "pScene cannot be null");
+            Debug.Assert(m_pRunningScene == null, "m_pRunningScene cannot be null");
+
+            pushScene(pScene);
+            startAnimation();
+        }
+
+        /// <summary>
+        /// Suspends the execution of the running scene, pushing it on the stack of suspended scenes.
+        /// The new scene will be executed.
+        /// Try to avoid big stacks of pushed scenes to reduce memory allocation. 
+        /// ONLY call it if there is a running scene.
+        /// </summary>
+        /// <param name="pScene"></param>
+        public void pushScene(CCScene pScene)
+        {
+            Debug.Assert(pScene != null, "pScene cannot be null");
+
+            m_bSendCleanupToScene = false;
+
+            m_pobScenesStack.Add(pScene);
+            m_pNextScene = pScene;
+        }
+
+        /// <summary>
+        /// Pops out a scene from the queue.
+        /// This scene will replace the running one.
+        /// The running scene will be deleted. If there are no more scenes in the stack the execution is terminated.
+        /// ONLY call it if there is a running scene.
+        /// </summary>
+        public void popScene()
+        {
+            Debug.Assert(m_pRunningScene != null, "m_pRunningScene cannot be null");
+
+            if (m_pobScenesStack.Count > 0)
+            {
+                m_pobScenesStack.RemoveAt(m_pobScenesStack.Count - 1);
+            }
+            int c = m_pobScenesStack.Count;
+
+            if (c == 0)
+            {
+                end();
+            }
+            else
+            {
+                m_bSendCleanupToScene = true;
+                m_pNextScene = m_pobScenesStack[c - 1];
+            }
+        }
+
+        /// <summary>
+        /// Replaces the running scene with a new one. The running scene is terminated.
+        /// ONLY call it if there is a running scene.
+        /// </summary>
+        /// <param name="pScene"></param>
+        public void replaceScene(CCScene pScene)
+        {
+            Debug.Assert(pScene != null, "pScene cannot be null");
+
+            int index = m_pobScenesStack.Count;
+
+            m_bSendCleanupToScene = true;
+            m_pobScenesStack[index - 1] = pScene;
+
+            m_pNextScene = pScene;
+        }
+
+        ///<summary>
+        /// Whether or not the replaced scene will receive the cleanup message.
+        /// If the new scene is pushed, then the old scene won't receive the "cleanup" message.
+        /// If the new scene replaces the old one, the it will receive the "cleanup" message.
+        /// @since v0.99.0
+        /// </summary>
+        public bool isSendCleanupToScene()
+        {
+            return m_bSendCleanupToScene;
+        }
+
+        #endregion
+
         #region Protected
 
         protected void purgeDirector()
@@ -280,7 +371,20 @@ namespace cocos2d
         /** shows the FPS in the screen */
         protected void showFPS()
         {
-            throw new NotImplementedException();
+            //m_uFrames++;
+            //m_fAccumDt += m_fDeltaTime;
+
+            //if (m_fAccumDt > CC_DIRECTOR_FPS_INTERVAL)
+            //{
+            //    m_fFrameRate = m_uFrames / m_fAccumDt;
+            //    m_uFrames = 0;
+            //    m_fAccumDt = 0;
+
+            //    sprintf(m_pszFPS, "%.1f", m_fFrameRate);
+            //    m_pFPSLabel->setString(m_pszFPS);
+            //}
+
+            //m_pFPSLabel->draw();
         }
 #else
         protected void showFPS()
@@ -326,7 +430,6 @@ namespace cocos2d
         /// </summary>
         List<CCScene> m_pobScenesStack = new List<CCScene>();
 
-
         /* projection used */
         ccDirectorProjection m_eProjection;
 
@@ -357,18 +460,16 @@ namespace cocos2d
 
         #endregion
 
-
-
-        // attribute
+        #region attribute
 
         /// <summary>
         ///  Get current running Scene. Director can only run one Scene at the time 
         /// </summary>
-        CCScene runningScene
+        public CCScene runningScene
         {
             get
             {
-                throw new NotImplementedException();
+                return m_pRunningScene;
             }
         }
 
@@ -377,55 +478,34 @@ namespace cocos2d
         /// </summary>
         public virtual double animationInterval
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set { throw new NotImplementedException(); }
+            get { return m_dAnimationInterval; }
+            set { }
         }
 
         /// <summary>
         /// Whether or not to display the FPS on the bottom-left corner 
         /// </summary>
         /// <returns></returns>
-        public bool isDisplayFPS()
+        public bool DisplayFPS
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Display the FPS on the bottom-left corner
-        /// </summary>
-        /// <param name="bDisplayFPS"></param>
-        public void setDisplayFPS(bool bDisplayFPS)
-        {
-            //throw new NotImplementedException();
-        }
-
-        public bool isNextDeltaTimeZero()
-        {
-            throw new NotImplementedException();
-        }
-        public void setNextDeltaTimeZero(bool bNextDeltaTimeZero)
-        {
-            throw new NotImplementedException();
+            get { return m_bDisplayFPS; }
+            set { m_bDisplayFPS = value; }
         }
 
         /// <summary>
         /// Whether or not the Director is paused
         /// </summary>
-        public static bool isPaused()
+        public bool isPaused
         {
-            throw new NotImplementedException();
+            get { return m_bPaused; }
         }
 
         /// <summary>
         /// How many frames were called since the director started
         /// </summary>
-        /// <returns></returns>
         public uint getFrames()
         {
-            throw new NotImplementedException();
+            return m_uFrames;
         }
 
         /// <summary>
@@ -486,21 +566,10 @@ namespace cocos2d
             }
         }
 
-        /** How many frames were called since the director started */
+        #endregion
 
+        #region  window size
 
-        /** Whether or not the replaced scene will receive the cleanup message.
-         If the new scene is pushed, then the old scene won't receive the "cleanup" message.
-         If the new scene replaces the old one, the it will receive the "cleanup" message.
-         @since v0.99.0
-         */
-        public bool isSendCleanupToScene()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        // window size
         /// <summary>
         /// returns the size of the OpenGL view in points.
         /// It takes into account any possible rotation (device orientation) of the window
@@ -508,7 +577,16 @@ namespace cocos2d
         /// <returns></returns>
         public CCSize getWinSize()
         {
-            CCSize s = new CCSize(800, 480);
+            CCSize s = m_obWinSizeInPoints;
+
+            if (m_eDeviceOrientation == ccDeviceOrientation.CCDeviceOrientationLandscapeLeft
+                || m_eDeviceOrientation == ccDeviceOrientation.CCDeviceOrientationLandscapeRight)
+            {
+                // swap x,y in landspace mode
+                CCSize tmp = s;
+                s.width = tmp.height;
+                s.height = tmp.width;
+            }
 
             return s;
         }
@@ -518,12 +596,16 @@ namespace cocos2d
         /// It takes into account any possible rotation (device orientation) of the window.
         /// On Mac winSize and winSizeInPixels return the same value.
         /// </summary>
-        /// <returns></returns>
         public CCSize winSizeInPixels
         {
             get
             {
-                throw new NotImplementedException();
+                CCSize s = getWinSize();
+
+                s.width *= CCDirector.sharedDirector().ContentScaleFactor;
+                s.height *= CCDirector.sharedDirector().ContentScaleFactor;
+
+                return s;
             }
         }
 
@@ -536,9 +618,11 @@ namespace cocos2d
         {
             get
             {
-                throw new NotImplementedException();
+                return m_obWinSizeInPixels;
             }
         }
+
+        #endregion
 
         /// <summary>
         /// changes the projection size
@@ -546,15 +630,18 @@ namespace cocos2d
         /// <param name="newWindowSize"></param>
         public void reshapeProjection(CCSize newWindowSize)
         {
-            throw new NotImplementedException();
+            // CC_UNUSED_PARAM(newWindowSize);
+            m_obWinSizeInPoints = CCApplication.sharedApplication().getSize();
+            m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * m_fContentScaleFactor,
+                                             m_obWinSizeInPoints.height * m_fContentScaleFactor);
+
+            Projection = m_eProjection;
         }
 
         /// <summary>
         /// converts a UIKit coordinate to an OpenGL coordinate
         /// Useful to convert (multi) touches coordinates to the current layout (portrait or landscape)
         /// </summary>
-        /// <param name="obPoint"></param>
-        /// <returns></returns>
         public CCPoint convertToGL(CCPoint obPoint)
         {
             CCSize s = m_obWinSizeInPoints;
@@ -591,7 +678,29 @@ namespace cocos2d
         /// <returns></returns>
         public CCPoint convertToUI(CCPoint obPoint)
         {
-            throw new NotImplementedException();
+            CCSize winSize = m_obWinSizeInPoints;
+            float oppositeX = winSize.width - obPoint.x;
+            float oppositeY = winSize.height - obPoint.y;
+            CCPoint uiPoint = new CCPoint();
+
+            switch (m_eDeviceOrientation)
+            {
+                case ccDeviceOrientation.CCDeviceOrientationPortrait:
+                    uiPoint = new CCPoint(obPoint.x, oppositeY);
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown:
+                    uiPoint = new CCPoint(oppositeX, obPoint.y);
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationLandscapeLeft:
+                    uiPoint = new CCPoint(obPoint.y, obPoint.x);
+                    break;
+                case ccDeviceOrientation.CCDeviceOrientationLandscapeRight:
+                    // Can't use oppositeX/Y because x/y are flipped
+                    uiPoint = new CCPoint(winSize.width - obPoint.y, winSize.height - obPoint.x);
+                    break;
+            }
+
+            return uiPoint;
         }
 
         /// XXX: missing description 
@@ -599,63 +708,8 @@ namespace cocos2d
         {
             get
             {
-                throw new NotImplementedException();
+                return (m_obWinSizeInPixels.height / 1.1566f);
             }
-        }
-
-        // Scene Management
-
-        /// <summary>
-        /// Enters the Director's main loop with the given Scene. 
-        /// Call it to run only your FIRST scene.
-        /// Don't call it if there is already a running scene.
-        /// </summary>
-        /// <param name="pScene"></param>
-        public void runWithScene(CCScene pScene)
-        {
-            Debug.Assert(pScene != null, "pScene cannot be null");
-            Debug.Assert(m_pRunningScene == null, "m_pRunningScene cannot be null");
-
-            pushScene(pScene);
-            startAnimation();
-        }
-
-        /// <summary>
-        /// Suspends the execution of the running scene, pushing it on the stack of suspended scenes.
-        /// The new scene will be executed.
-        /// Try to avoid big stacks of pushed scenes to reduce memory allocation. 
-        /// ONLY call it if there is a running scene.
-        /// </summary>
-        /// <param name="pScene"></param>
-        public void pushScene(CCScene pScene)
-        {
-            Debug.Assert(pScene != null, "pScene cannot be null");
-
-            m_bSendCleanupToScene = false;
-
-            m_pobScenesStack.Add(pScene);
-            m_pNextScene = pScene;
-        }
-
-        /// <summary>
-        /// Pops out a scene from the queue.
-        /// This scene will replace the running one.
-        /// The running scene will be deleted. If there are no more scenes in the stack the execution is terminated.
-        /// ONLY call it if there is a running scene.
-        /// </summary>
-        public void popScene()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Replaces the running scene with a new one. The running scene is terminated.
-        /// ONLY call it if there is a running scene.
-        /// </summary>
-        /// <param name="pScene"></param>
-        public void replaceScene(CCScene pScene)
-        {
-            throw new NotImplementedException();
         }
 
         /** Ends the execution, releases the running scene.
@@ -665,7 +719,7 @@ namespace cocos2d
         /* end is key word of lua, use other name to export to lua. */
         public void endToLua()
         {
-            throw new NotImplementedException();
+            end();
         }
 
         public void end()
@@ -680,7 +734,16 @@ namespace cocos2d
         /// </summary>
         public void pause()
         {
-            throw new NotImplementedException();
+            if (m_bPaused)
+            {
+                return;
+            }
+
+            m_dOldAnimationInterval = m_dAnimationInterval;
+
+            // when paused, don't consume CPU
+            animationInterval = 1 / 4.0;
+            m_bPaused = true;
         }
 
         /// <summary>
@@ -690,7 +753,19 @@ namespace cocos2d
         /// </summary>
         public void resume()
         {
-            throw new NotImplementedException();
+            if (!m_bPaused)
+            {
+                return;
+            }
+
+            animationInterval = m_dOldAnimationInterval;
+
+            //if (CCTime.gettimeofdayCocos2d(m_pLastUpdate, NULL) != 0)
+            //{
+            //    //CCLOG("cocos2d: Director: Error in gettimeofday");
+            //}
+
+            m_bPaused = false;
         }
 
         /// <summary>
@@ -715,17 +790,18 @@ namespace cocos2d
         /// </summary>
         public void purgeCachedData()
         {
-            throw new NotImplementedException();
+            //CCLabelBMFont::purgeCachedData();
+            //CCTextureCache::sharedTextureCache()->removeUnusedTextures();
         }
 
-        // OpenGL Helper
+        #region OpenGL Helper
 
         /// <summary>
         /// sets the OpenGL default values
         /// </summary>
         public void setGLDefaultValues()
         {
-            throw new NotImplementedException();
+
         }
         /// <summary>
         /// enables/disables OpenGL alpha blending 
@@ -733,7 +809,15 @@ namespace cocos2d
         /// <param name="bOn"></param>
         public void setAlphaBlending(bool bOn)
         {
-            throw new NotImplementedException();
+            //if (bOn)
+            //{
+            //    glEnable(GL_BLEND);
+            //    glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+            //}
+            //else
+            //{
+            //    glDisable(GL_BLEND);
+            //}
         }
 
         /// <summary>
@@ -742,13 +826,23 @@ namespace cocos2d
         /// <param name="bOn"></param>
         public void setDepthTest(bool bOn)
         {
-            throw new NotImplementedException();
+            //if (bOn)
+            //{
+            //    ccglClearDepth(1.0f);
+            //    glEnable(GL_DEPTH_TEST);
+            //    glDepthFunc(GL_LEQUAL);
+            //    //		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+            //}
+            //else
+            //{
+            //    glDisable(GL_DEPTH_TEST);
+            //}
         }
 
         public void setOpenGLView()
         {
             // set size
-            m_obWinSizeInPoints = getWinSize();
+            m_obWinSizeInPoints = new CCSize(480, 800);
             m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * m_fContentScaleFactor, m_obWinSizeInPoints.height * m_fContentScaleFactor);
             //setGLDefaultValues();
 
@@ -762,10 +856,12 @@ namespace cocos2d
             pTouchDispatcher.IsDispatchEvents = true;
         }
 
+        #endregion
+
         // Profiler
         public void showProfilers()
         {
-            throw new NotImplementedException();
+
         }
 
         /// <summary>
@@ -839,20 +935,62 @@ namespace cocos2d
             }
         }
 
-        /** Will enable Retina Display on devices that supports it.
-        It will enable Retina Display on iPhone4 and iPod Touch 4.
-        It will return YES, if it could enabled it, otherwise it will return NO.
-
-        This is the recommened way to enable Retina Display.
-        @since v0.99.5
-        */
+        /// <summary>
+        /// Will enable Retina Display on devices that supports it.
+        /// It will enable Retina Display on iPhone4 and iPod Touch 4.
+        /// It will return YES, if it could enabled it, otherwise it will return NO.
+        /// This is the recommened way to enable Retina Display.
+        /// @since v0.99.5
+        /// </summary>
         public bool enableRetinaDisplay(bool enabled)
         {
-            throw new NotImplementedException();
+            // Already enabled?
+            if (enabled && m_fContentScaleFactor == 2)
+            {
+                return true;
+            }
+
+            // Already diabled?
+            if (!enabled && m_fContentScaleFactor == 1)
+            {
+                return false;
+            }
+
+            // setContentScaleFactor is not supported
+            if (!CCApplication.sharedApplication().canSetContentScaleFactor)
+            {
+                return false;
+            }
+
+            float newScale = (float)(enabled ? 2 : 1);
+            CCApplication.sharedApplication().setContentScaleFactor(newScale);
+
+            // release cached texture
+            //CCTextureCache::purgeSharedTextureCache();
+
+#if CC_DIRECTOR_FAST_FPS
+            //if (m_pFPSLabel)
+            //{
+            //    CC_SAFE_RELEASE_NULL(m_pFPSLabel);
+            //    m_pFPSLabel = CCLabelTTF::labelWithString("00.0", "Arial", 24);
+            //    m_pFPSLabel->retain();
+            //}
+#endif
+
+            if (m_fContentScaleFactor == 2)
+            {
+                m_bRetinaDisplay = true;
+            }
+            else
+            {
+                m_bRetinaDisplay = false;
+            }
+
+            return true;
         }
         public bool isRetinaDisplay()
         {
-            throw new NotImplementedException();
+            return m_bRetinaDisplay;
         }
     }
 

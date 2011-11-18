@@ -35,8 +35,11 @@ namespace cocos2d.menu_nodes
 {
     public class CCMenuItemLabel : CCMenuItem, CCRGBAProtocol
     {
-        protected ccColor3B	m_tColorBackup;
-		protected float		m_fOriginalScale;
+        const uint kCurrentItem = 0xc0c05001;
+        const uint kZoomActionTag = 0xc0c05002;
+
+        protected ccColor3B m_tColorBackup;
+        protected float m_fOriginalScale;
 
         public ccColor3B DisabledColor
         {
@@ -44,7 +47,7 @@ namespace cocos2d.menu_nodes
             set;
         }
 
-        CCNode m_pLabel;
+       protected CCNode m_pLabel;
 
         public CCNode Label
         {
@@ -85,7 +88,7 @@ namespace cocos2d.menu_nodes
             return pRet;
         }
 
-		/** creates a CCMenuItemLabel with a Label. Target and selector will be nill */
+        /** creates a CCMenuItemLabel with a Label. Target and selector will be nill */
         public static CCMenuItemLabel itemWithLabel(CCNode label)
         {
             CCMenuItemLabel pRet = new CCMenuItemLabel();
@@ -94,19 +97,19 @@ namespace cocos2d.menu_nodes
             return pRet;
         }
 
-		/** initializes a CCMenuItemLabel with a Label, target and selector */
+        /** initializes a CCMenuItemLabel with a Label, target and selector */
         public bool initWithLabel(CCNode label, SelectorProtocol target, SEL_MenuHandler selector)
-        { 
+        {
             base.initWithTarget(target, selector);
 
-		    m_fOriginalScale = 1.0f;
+            m_fOriginalScale = 1.0f;
             m_tColorBackup = new ccColor3B(Microsoft.Xna.Framework.Color.White); // ccWHITE;
-		    DisabledColor = new ccColor3B(126,126,126);
-		    this.Label = label;
+            DisabledColor = new ccColor3B(126, 126, 126);
+            this.Label = label;
 
-            return true;        
+            return true;
         }
-		
+
         /** sets a new string to the inner label */
         public void setString(string label)
         {
@@ -114,80 +117,85 @@ namespace cocos2d.menu_nodes
             this.contentSize = m_pLabel.contentSize;
         }
 
-		// super methods
+        // super methods
         public override void activate()
-        { 
-        	if(this.Enabled)
-		    {
-			    this.stopAllActions();
-			    this.scale = m_fOriginalScale;
-			    base.activate();
-		    }
+        {
+            if (this.Enabled)
+            {
+                this.stopAllActions();
+                this.scale = m_fOriginalScale;
+                base.activate();
+            }
         }
 
         public override void selected()
-        { 
-        	// subclass to change the default action
-		    if(this.Enabled)
-		    {
-			    base.selected();
+        {
+            // subclass to change the default action
+            if (this.Enabled)
+            {
+                base.selected();
 
-                throw new NotImplementedException();
+                CCAction action = getActionByTag(kZoomActionTag);
+                if (action != null)
+                {
+                    this.stopAction(action);
+                }
+                else
+                {
+                    m_fOriginalScale = this.scale;
+                }
 
-                //CCAction action = getActionByTag(kZoomActionTag);
-                //if (action != null)
-                //{
-                //    this.stopAction(action);
-                //}
-                //else
-                //{
-                //    m_fOriginalScale = this.scale;
-                //}
-			
-                //CCAction zoomAction = CCScaleTo.actionWithDuration(0.1f, m_fOriginalScale * 1.2f);
-                //zoomAction.setTag(kZoomActionTag);
-                //this.runAction(zoomAction);
-		    }
+                CCAction zoomAction = CCScaleTo.actionWithDuration(0.1f, m_fOriginalScale * 1.2f);
+                //zoomAction.tag = (int)kZoomActionTag;
+                this.runAction(zoomAction);
+            }
         }
 
         public override void unselected()
         {
-            throw new NotImplementedException();
+            // subclass to change the default action
+            if (m_bIsEnabled)
+            {
+                base.unselected();
+                //this.stopActionByTag((int)kZoomActionTag);
+                CCAction zoomAction = CCScaleTo.actionWithDuration(0.1f, m_fOriginalScale);
+                //zoomAction.tag=kZoomActionTag;
+                this.runAction(zoomAction);
+            }
         }
-		
+
         /** Enable or disabled the CCMenuItemFont
-		@warning setIsEnabled changes the RGB color of the font
-		*/
+        @warning setIsEnabled changes the RGB color of the font
+        */
         public override bool Enabled
         {
-            set 
-            { 
-                throw new NotImplementedException();
-                //if( m_bIsEnabled != enabled ) 
-                //{
-                //    if(enabled == false)
-                //    {
-                //        m_tColorBackup = m_pLabel->convertToRGBAProtocol()->getColor();
-                //        m_pLabel->convertToRGBAProtocol()->setColor(m_tDisabledColor);
-                //    }
-                //    else
-                //    {
-                //        m_pLabel->convertToRGBAProtocol()->setColor(m_tColorBackup);
-                //    }
-                //}
-                //CCMenuItem::setIsEnabled(enabled);
+            set
+            {
+                if (m_bIsEnabled != value)
+                {
+                    if (!value)
+                    {
+                        //m_tColorBackup = m_pLabel.convertToRGBAProtocol().getColor();
+                        //m_pLabel->convertToRGBAProtocol()->setColor(m_tDisabledColor);
+                    }
+                    else
+                    {
+                        //m_pLabel->convertToRGBAProtocol()->setColor(m_tColorBackup);
+                    }
+                }
+                base.Enabled = value;
             }
 
-            get 
-            { 
-                return base.Enabled; 
+            get
+            {
+                return base.Enabled;
             }
         }
 
 
-		public virtual CCRGBAProtocol convertToRGBAProtocol() 
-        { 
-            return (CCRGBAProtocol)this; 
+        public virtual CCRGBAProtocol convertToRGBAProtocol()
+        {
+            return (CCRGBAProtocol)this;
         }
 
 

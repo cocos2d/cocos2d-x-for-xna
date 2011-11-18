@@ -116,7 +116,7 @@ namespace cocos2d
             {
                 return;
             }
-            
+
             if (m_pTargets.ContainsKey(target))
             {
                 tHashElement element = m_pTargets[target];
@@ -152,7 +152,7 @@ namespace cocos2d
             }
 
             CCObject target = action.originalTarget;
-            
+
             if (m_pTargets.ContainsKey(target))
             {
                 tHashElement element = m_pTargets[target];
@@ -170,11 +170,11 @@ namespace cocos2d
         }
 
         /** Removes an action given its tag and the target */
-        public void removeActionByTag(uint tag, CCObject target)
+        public void removeActionByTag(int tag, CCObject target)
         {
-            Debug.Assert((int)tag != (int)ActionTag.kCCActionTagInvalid);
+            Debug.Assert((tag != (int)ActionTag.kCCActionTagInvalid));
             Debug.Assert(target != null);
-           
+
             if (m_pTargets.ContainsKey(target))
             {
                 tHashElement element = m_pTargets[target];
@@ -236,7 +236,7 @@ namespace cocos2d
 	     * - If you are running 7 Sequences of 2 actions, it will return 7.
 	     */
         public uint numberOfRunningActionsInTarget(CCObject target)
-        {            
+        {
             if (m_pTargets.ContainsKey(target))
             {
                 tHashElement element = m_pTargets[target];

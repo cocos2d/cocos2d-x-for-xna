@@ -33,12 +33,12 @@ namespace HelloCocos2d
                                                 this,
                                                 new SEL_MenuHandler(menuCloseCallback));
 
-            pCloseItem.position = new CCPoint(CCDirector.sharedDirector().getWinSize().width - 20, 20);
+            //pCloseItem.position = new CCPoint(CCDirector.sharedDirector().getWinSize().width - 20, 20);
             pCloseItem.setIsEnabled(true);
             // create menu, it's an autorelease object
             CCMenu pMenu = CCMenu.menuWithItems(pCloseItem);
             pMenu.isTouchEnabled = true;
-            pMenu.position = new CCPoint(0, 0);
+            pMenu.position = new CCPoint(100, 100);
             this.addChild(pMenu, 1);
 
             /////////////////////////////

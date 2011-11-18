@@ -35,5 +35,103 @@ namespace cocos2d.menu_nodes
 {
     public class CCMenuItemFont : CCMenuItemLabel
     {
+        public CCMenuItemFont()
+            : base()
+        { }
+        /// <summary>
+        /// default font size 
+        /// </summary>
+        public static uint FontSize
+        {
+            get { return CCMenuItem._fontSize; }
+            set { CCMenuItem._fontSize = value; }
+        }
+
+        /// <summary>
+        /// default font name
+        /// </summary>
+        public static string FontName
+        {
+            get { return CCMenuItem._fontName; }
+            set { CCMenuItem._fontName = value; }
+        }
+
+        /// <summary>
+        /// creates a menu item from a string without target/selector. To be used with CCMenuItemToggle
+        /// </summary>
+        public static CCMenuItemFont itemFromString(string value)
+        {
+            CCMenuItemFont pRet = new CCMenuItemFont();
+            pRet.initFromString(value, null, null);
+            //pRet->autorelease();
+            return pRet;
+        }
+        /// <summary>
+        /// creates a menu item from a string with a target/selector
+        /// </summary>
+        public static CCMenuItemFont itemFromString(string value, SelectorProtocol target, SEL_MenuHandler selector)
+        {
+            CCMenuItemFont pRet = new CCMenuItemFont();
+            pRet.initFromString(value, target, selector);
+            //pRet->autorelease();
+            return pRet;
+        }
+        /** initializes a menu item from a string with a target/selector */
+        public bool initFromString(string value, SelectorProtocol target, SEL_MenuHandler selector)
+        {
+            //CCAssert( value != NULL && strlen(value) != 0, "Value length must be greater than 0");
+
+            m_strFontName = _fontName;
+            m_uFontSize = _fontSize;
+
+            CCLabelTTF label = CCLabelTTF.labelWithString(value, m_strFontName, (float)m_uFontSize);
+            //if (CCMenuItemLabel.initWithLabel(label, target, selector))
+            //{
+            //    // do something ?
+            //}
+            return true;
+        }
+
+        /** set font size
+          * c++ can not overload static and non-static member functions with the same parameter types
+          * so change the name to setFontSizeObj
+          */
+        public uint FontSizeObj
+        {
+            set
+            {
+                m_uFontSize = value;
+                recreateLabel();
+            }
+            get { return m_uFontSize; }
+        }
+
+
+        /** set the font name 
+         * c++ can not overload static and non-static member functions with the same parameter types
+         * so change the name to setFontNameObj
+         */
+        public string FontNameObj
+        {
+            set
+            {
+                m_strFontName = value;
+                recreateLabel();
+            }
+            get
+            {
+                return m_strFontName;
+            }
+        }
+
+        protected void recreateLabel()
+        {
+            //    CCLabelTTF label = CCLabelTTF.labelWithString(m_pLabel.convertToLabelProtocol().getString(),
+            //        m_strFontName, (float)m_uFontSize);
+            //    this.Label = label;
+        }
+
+        protected uint m_uFontSize;
+        protected string m_strFontName;
     }
 }

@@ -82,13 +82,12 @@ namespace cocos2d
         /// <summary>
         /// Opacity: conforms to CCRGBAProtocol protocol
         /// </summary>
-        public byte Opacity 
+        public byte Opacity
         {
             get
-            { 
+            {
                 return m_nOpacity;
             }
-
             set
             {
                 m_nOpacity = value;
@@ -99,7 +98,7 @@ namespace cocos2d
                     Color = m_sColorUnmodified;
                 }
 
-                updateColor();            
+                updateColor();
             }
         }
 
@@ -108,7 +107,7 @@ namespace cocos2d
         /// <summary>
         /// Color: conforms with CCRGBAProtocol protocol
         /// </summary>
-        public ccColor3B Color 
+        public ccColor3B Color
         {
             get
             {
@@ -119,7 +118,6 @@ namespace cocos2d
 
                 return m_sColor;
             }
-
             set
             {
                 m_sColor = m_sColorUnmodified = value;
@@ -144,7 +142,6 @@ namespace cocos2d
             {
                 return m_bOpacityModifyRGB;
             }
-
             set
             {
                 ccColor3B oldColor = m_sColor;
@@ -153,8 +150,10 @@ namespace cocos2d
             }
         }
 
-        /** whether or not the Sprite needs to be updated in the Atlas */
         private bool m_bDirty;
+        /// <summary>
+        /// whether or not the Sprite needs to be updated in the Atlas
+        /// </summary>
         public bool dirty
         {
             get
@@ -167,8 +166,10 @@ namespace cocos2d
             }
         }
 
-        /** get the quad (tex coords, vertex coords and color) information */
         private ccV3F_C4B_T2F_Quad m_sQuad;
+        /// <summary>
+        /// get the quad (tex coords, vertex coords and color) information
+        /// </summary>
         public ccV3F_C4B_T2F_Quad quad
         {
             // read only
@@ -189,8 +190,10 @@ namespace cocos2d
             }
         }
 
-        /** The index used on the TextureAtlas. Don't modify this value unless you know what you are doing */
         private uint m_uAtlasIndex;
+        /// <summary>
+        /// The index used on the TextureAtlas. Don't modify this value unless you know what you are doing
+        /// </summary>
         public uint atlasIndex
         {
             get
@@ -203,8 +206,10 @@ namespace cocos2d
             }
         }
 
-        /** returns the rect of the CCSprite in points */
         private CCRect m_obTextureRect;
+        /// <summary>
+        /// returns the rect of the CCSprite in points
+        /// </summary>
         public CCRect textureRect
         {
             // read only
@@ -214,7 +219,9 @@ namespace cocos2d
             }
         }
 
-        /** whether or not the Sprite is rendered using a CCSpriteBatchNode */
+        /// <summary>
+        /// whether or not the Sprite is rendered using a CCSpriteBatchNode
+        /// </summary>
         private bool m_bUseBatchNode;
         public bool IsUseBatchNode
         {
@@ -236,12 +243,13 @@ namespace cocos2d
         ///@todo add m_pobBatchNode
         ///
 
-        /** whether or not to transform according to its parent transfomrations.
-         Useful for health bars. eg: Don't rotate the health bar, even if the parent rotates.
-         IMPORTANT: Only valid if it is rendered using an CCSpriteBatchNode.
-         @since v0.99.0
-         */
         private ccHonorParentTransform m_eHonorParentTransform;
+        /// <summary>
+        /// whether or not to transform according to its parent transfomrations.
+        /// Useful for health bars. eg: Don't rotate the health bar, even if the parent rotates.
+        /// IMPORTANT: Only valid if it is rendered using an CCSpriteBatchNode.
+        /// @since v0.99.0
+        /// </summary>
         public ccHonorParentTransform honorParentTransform
         {
             get
@@ -254,9 +262,10 @@ namespace cocos2d
             }
         }
 
-        /** offset position in pixels of the sprite in points. Calculated automatically by editors like Zwoptex.
-             @since v0.99.0
-             */
+        /// <summary>
+        /// offset position in pixels of the sprite in points. Calculated automatically by editors like Zwoptex.
+        /// @since v0.99.0
+        /// </summary>
         private CCPoint m_obOffsetPositionInPixels;
         public CCPoint offsetPositionInPixels
         {
@@ -293,10 +302,11 @@ namespace cocos2d
             m_pobTexture.drawAtPoint(new CCPoint(position.x - anchorPointInPixels.x, position.y - anchorPointInPixels.y));
         }
 
-        /** Creates an sprite with a texture.
-	     The rect used will be the size of the texture.
-	     The offset will be (0,0).
-	     */
+        /// <summary>
+        /// Creates an sprite with a texture.
+        /// The rect used will be the size of the texture.
+        /// The offset will be (0,0).
+        /// </summary>
         public static CCSprite spriteWithTexture(CCTexture2D texture)
         {
             CCSprite sprite = new CCSprite();
@@ -309,9 +319,10 @@ namespace cocos2d
             return null;
         }
 
-        /** Creates an sprite with a texture and a rect.
-	     The offset will be (0,0).
-	     */
+        /// <summary>
+        /// Creates an sprite with a texture and a rect.
+        /// The offset will be (0,0).
+        /// </summary>
         public static CCSprite spriteWithTexture(CCTexture2D texture, CCRect rect)
         {
             CCSprite sprite = new CCSprite();
@@ -324,7 +335,9 @@ namespace cocos2d
             return null;
         }
 
-        /** Creates an sprite with a texture, a rect and offset. */
+        /// <summary>
+        /// Creates an sprite with a texture, a rect and offset. 
+        /// </summary>
         public static CCSprite spriteWithTexture(CCTexture2D texture, CCRect rect, CCPoint offset)
         {
             // not implement
@@ -343,10 +356,11 @@ namespace cocos2d
          */
         //static CCSprite* spriteWithSpriteFrameName(const char *pszSpriteFrameName);
 
-        /** Creates an sprite with an image filename.
-	     The rect used will be the size of the image.
-	     The offset will be (0,0).
-	     */
+        /// <summary>
+        /// Creates an sprite with an image filename.
+        /// The rect used will be the size of the image.
+        /// The offset will be (0,0).
+        /// </summary>
         public static CCSprite spriteWithFile(string fileName)
         {
             CCSprite sprite = new CCSprite();
@@ -359,9 +373,10 @@ namespace cocos2d
             return sprite;
         }
 
-        /** Creates an sprite with an image filename and a rect.
-	     The offset will be (0,0).
-	     */
+        /// <summary>
+        /// Creates an sprite with an image filename and a rect.
+        /// The offset will be (0,0).
+        /// </summary>
         public static CCSprite spriteWithFile(string fileName, CCRect rect)
         {
             CCSprite sprite = new CCSprite();
@@ -433,8 +448,8 @@ namespace cocos2d
             return true;
         }
 
-        public CCSprite() 
-        { 
+        public CCSprite()
+        {
             m_obOffsetPositionInPixels = new CCPoint();
             m_obRectInPixels = new CCRect();
             m_obUnflippedOffsetPositionFromCenter = new CCPoint();
@@ -445,8 +460,7 @@ namespace cocos2d
         {
             if (m_bUseBatchNode)
             {
-                ///@todo
-                throw new NotImplementedException();
+                m_pobBatchNode.removeSpriteFromAtlas((CCSprite)(child));
             }
 
             base.removeChild(child, cleanup);
@@ -458,8 +472,7 @@ namespace cocos2d
             {
                 foreach (CCNode node in m_pChildren)
                 {
-                    ///@todo
-                    throw new NotImplementedException();
+                    m_pobBatchNode.removeSpriteFromAtlas((CCSprite)(node));
                 }
             }
 
@@ -782,10 +795,11 @@ namespace cocos2d
             return m_pobTexture;
         }
 
-        /** Initializes an sprite with a texture.
-	     The rect used will be the size of the texture.
-	     The offset will be (0,0).
-	     */
+        /// <summary>
+        /// Initializes an sprite with a texture.
+        /// The rect used will be the size of the texture.
+        /// The offset will be (0,0).
+        /// </summary>
         public bool initWithTexture(CCTexture2D texture)
         {
             Debug.Assert(texture != null);
@@ -796,9 +810,10 @@ namespace cocos2d
             return initWithTexture(texture, rect);
         }
 
-        /** Initializes an sprite with a texture and a rect.
-	     The offset will be (0,0).
-	     */
+        /// <summary>
+        /// Initializes an sprite with a texture and a rect.
+        /// The offset will be (0,0).
+        /// </summary>
         public bool initWithTexture(CCTexture2D texture, CCRect rect)
         {
             Debug.Assert(texture != null);
@@ -823,10 +838,11 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        /** Initializes an sprite with an image filename.
-	     The rect used will be the size of the image.
-	     The offset will be (0,0).
-	     */
+        /// <summary>
+        /// Initializes an sprite with an image filename.
+        /// The rect used will be the size of the image.
+        /// The offset will be (0,0).
+        /// </summary>
         public bool initWithFile(string fileName)
         {
             Debug.Assert(null != fileName, "fileName is null");
@@ -845,9 +861,10 @@ namespace cocos2d
             return false;
         }
 
-        /** Initializes an sprite with an image filename, and a rect.
-	     The offset will be (0,0).
-	     */
+        /// <summary>
+        /// Initializes an sprite with an image filename, and a rect.
+        /// The offset will be (0,0).
+        /// </summary>
         public bool initWithFile(string fileName, CCRect rect)
         {
             throw new NotImplementedException();
@@ -865,15 +882,156 @@ namespace cocos2d
 
         // BatchNode methods
 
-        /** updates the quad according the the rotation, position, scale values. */
+        /// <summary>
+        /// updates the quad according the the rotation, position, scale values. 
+        /// </summary>
         public void updateTransform()
         {
-            throw new NotImplementedException();
+            //assert(m_bUsesBatchNode);
+
+            // optimization. Quick return if not dirty
+            if (!m_bDirty)
+            {
+                return;
+            }
+
+            CCAffineTransform matrix;
+
+            // Optimization: if it is not visible, then do nothing
+            if (!m_bIsVisible)
+            {
+                m_sQuad.br.vertices = m_sQuad.tl.vertices = m_sQuad.tr.vertices = m_sQuad.bl.vertices = new ccVertex3F(0, 0, 0);
+                m_pobTextureAtlas.updateQuad(m_sQuad, m_uAtlasIndex);
+                //m_bDirty = m_bRecursiveDirty = false;
+                return;
+            }
+
+            // Optimization: If parent is batchnode, or parent is nil
+            // build Affine transform manually
+            if (m_pParent == null || m_pParent == m_pobBatchNode)
+            {
+                float radians = -ccMacros.CC_DEGREES_TO_RADIANS(m_fRotation);
+                float c = (float)Math.Cos(radians);
+                float s = (float)Math.Sin(radians);
+
+                matrix = CCAffineTransform.CCAffineTransformMake(c * m_fScaleX, s * m_fScaleX,
+                    -s * m_fScaleY, c * m_fScaleY,
+                    m_tPositionInPixels.x, m_tPositionInPixels.y);
+                if (m_fSkewX > 0 || m_fSkewY > 0)
+                {
+                    CCAffineTransform skewMatrix = CCAffineTransform.CCAffineTransformMake(1.0f, (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewY)),
+                        (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewX)), 1.0f,
+                        0.0f, 0.0f);
+                    matrix = CCAffineTransform.CCAffineTransformConcat(skewMatrix, matrix);
+                }
+                matrix = CCAffineTransform.CCAffineTransformTranslate(matrix, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
+            }
+            else // parent_ != batchNode_ 
+            {
+                // else do affine transformation according to the HonorParentTransform
+                matrix = CCAffineTransform.CCAffineTransformMakeIdentity();
+                ccHonorParentTransform prevHonor = ccHonorParentTransform.CC_HONOR_PARENT_TRANSFORM_ALL;
+
+                CCNode p = this;
+                while (p != null && p != m_pobBatchNode)
+                {
+                    // Might happen. Issue #1053
+                    // how to implement, we can not use dynamic
+                    // CCAssert( [p isKindOfClass:[CCSprite class]], @"CCSprite should be a CCSprite subclass. Probably you initialized an sprite with a batchnode, but you didn't add it to the batch node." );
+                    transformValues_ tv = new transformValues_();
+                    ((CCSprite)p).getTransformValues(tv);
+
+                    // If any of the parents are not visible, then don't draw this node
+                    if (!tv.visible)
+                    {
+                        m_sQuad.br.vertices = m_sQuad.tl.vertices = m_sQuad.tr.vertices = m_sQuad.bl.vertices = new ccVertex3F(0, 0, 0);
+                        m_pobTextureAtlas.updateQuad(m_sQuad, m_uAtlasIndex);
+                        m_bDirty = m_bRecursiveDirty = false;
+
+                        return;
+                    }
+
+                    CCAffineTransform newMatrix = CCAffineTransform.CCAffineTransformMakeIdentity();
+
+                    // 2nd: Translate, Skew, Rotate, Scale
+                    if ((int)prevHonor != 0 & (int)ccHonorParentTransform.CC_HONOR_PARENT_TRANSFORM_TRANSLATE != 0)
+                    {
+                        newMatrix = CCAffineTransform.CCAffineTransformTranslate(newMatrix, tv.pos.x, tv.pos.y);
+                    }
+
+                    if ((int)prevHonor != 0 & (int)ccHonorParentTransform.CC_HONOR_PARENT_TRANSFORM_ROTATE != 0)
+                    {
+                        newMatrix = CCAffineTransform.CCAffineTransformRotate(newMatrix, -ccMacros.CC_DEGREES_TO_RADIANS(tv.rotation));
+                    }
+
+                    if ((int)prevHonor != 0 & (int)ccHonorParentTransform.CC_HONOR_PARENT_TRANSFORM_SKEW != 0)
+                    {
+                        CCAffineTransform skew = CCAffineTransform.CCAffineTransformMake(1.0f,
+                            (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(tv.skew.y)),
+                            (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(tv.skew.x)), 1.0f, 0.0f, 0.0f);
+                        // apply the skew to the transform
+                        newMatrix = CCAffineTransform.CCAffineTransformConcat(skew, newMatrix);
+                    }
+
+                    if ((int)prevHonor != 0 & (int)ccHonorParentTransform.CC_HONOR_PARENT_TRANSFORM_SCALE != 0)
+                    {
+                        newMatrix = CCAffineTransform.CCAffineTransformScale(newMatrix, tv.scale.x, tv.scale.y);
+                    }
+
+                    // 3rd: Translate anchor point
+                    newMatrix = CCAffineTransform.CCAffineTransformTranslate(newMatrix, -tv.ap.x, -tv.ap.y);
+
+                    // 4th: Matrix multiplication
+                    matrix = CCAffineTransform.CCAffineTransformConcat(matrix, newMatrix);
+
+                    prevHonor = ((CCSprite)p).honorParentTransform;
+
+                    p = p.parent;
+                }
+            }
+
+            //
+            // calculate the Quad based on the Affine Matrix
+            //
+            CCSize size = m_obRectInPixels.size;
+
+            float x1 = m_obOffsetPositionInPixels.x;
+            float y1 = m_obOffsetPositionInPixels.y;
+
+            float x2 = x1 + size.width;
+            float y2 = y1 + size.height;
+            float x = matrix.tx;
+            float y = matrix.ty;
+
+            float cr = matrix.a;
+            float sr = matrix.b;
+            float cr2 = matrix.d;
+            float sr2 = -matrix.c;
+            float ax = x1 * cr - y1 * sr2 + x;
+            float ay = x1 * sr + y1 * cr2 + y;
+
+            float bx = x2 * cr - y1 * sr2 + x;
+            float by = x2 * sr + y1 * cr2 + y;
+
+            float cx = x2 * cr - y2 * sr2 + x;
+            float cy = x2 * sr + y2 * cr2 + y;
+
+            float dx = x1 * cr - y2 * sr2 + x;
+            float dy = x1 * sr + y2 * cr2 + y;
+
+            //m_sQuad.bl.vertices = new  ccVertex3F((float)RENDER_IN_SUBPIXEL(ax), (float)RENDER_IN_SUBPIXEL(ay), m_fVertexZ);
+            //m_sQuad.br.vertices = vertex3((float)RENDER_IN_SUBPIXEL(bx), (float)RENDER_IN_SUBPIXEL(by), m_fVertexZ);
+            //m_sQuad.tl.vertices = vertex3((float)RENDER_IN_SUBPIXEL(dx), (float)RENDER_IN_SUBPIXEL(dy), m_fVertexZ);
+            //m_sQuad.tr.vertices = vertex3((float)RENDER_IN_SUBPIXEL(cx), (float)RENDER_IN_SUBPIXEL(cy), m_fVertexZ);
+
+            m_pobTextureAtlas.updateQuad(m_sQuad, m_uAtlasIndex);
+            m_bDirty = m_bRecursiveDirty = false;
         }
 
-        /** tell the sprite to use self-render.
-	     @since v0.99.0
-	     */
+        /// <summary>
+        /// tell the sprite to use self-render.
+        /// @since v0.99.0
+        /// </summary>
         public void useSelfRender()
         {
             m_uAtlasIndex = ccMacros.CCSpriteIndexNotInitialized;
@@ -897,14 +1055,18 @@ namespace cocos2d
             m_sQuad.tr.vertices = ccTypes.vertex3(x2, y2, 0);
         }
 
-        /** updates the texture rect of the CCSprite in points. */
+        /// <summary>
+        /// updates the texture rect of the CCSprite in points.
+        /// </summary>
         public void setTextureRect(CCRect rect)
         {
             CCRect rectInPixels = ccMacros.CC_RECT_POINTS_TO_PIXELS(rect);
             setTextureRectInPixels(rectInPixels, false, rectInPixels.size);
         }
 
-        /** updates the texture rect, rectRotated and untrimmed size of the CCSprite in pixels */
+        /// <summary>
+        /// updates the texture rect, rectRotated and untrimmed size of the CCSprite in pixels
+        /// </summary>
         public void setTextureRectInPixels(CCRect rect, bool rotated, CCSize size)
         {
             m_obRectInPixels = rect;
@@ -952,10 +1114,10 @@ namespace cocos2d
             }
         }
 
-        ///@todo
-        /** tell the sprite to use batch node render.
-	     @since v0.99.0
-	     */
+        /// <summary>
+        /// tell the sprite to use batch node render.
+        /// @since v0.99.0
+        /// </summary>
         public void useBatchNode(CCSpriteBatchNode batchNode)
         {
             m_bUseBatchNode = true;
@@ -1000,7 +1162,14 @@ namespace cocos2d
 
         protected void getTransformValues(transformValues_ tv)
         {
-            throw new NotImplementedException();
+            tv.pos = m_tPositionInPixels;
+            tv.scale.x = m_fScaleX;
+            tv.scale.y = m_fScaleY;
+            tv.rotation = m_fRotation;
+            tv.skew.x = m_fSkewX;
+            tv.skew.y = m_fSkewY;
+            tv.ap = m_tAnchorPointInPixels;
+            tv.visible = m_bIsVisible;
         }
 
         // Subchildren needs to be updated
@@ -1030,13 +1199,13 @@ namespace cocos2d
         protected bool m_bFlipY;
     }
 
-    public struct transformValues_
+    public class transformValues_
     {
-        CCPoint pos;    // position  x and y
-        CCPoint scale;  // scale x and y
-        float rotation;
-        CCPoint skew;   // skew x and y
-        CCPoint ap;     // anchor point in pixels
-        bool visible;
+        public CCPoint pos;  // position  x and y
+        public CCPoint scale;  // scale x and y
+        public float rotation;
+        public CCPoint skew;   // skew x and y
+        public CCPoint ap;     // anchor point in pixels
+        public bool visible;
     }
 }

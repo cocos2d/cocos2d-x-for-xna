@@ -329,6 +329,10 @@ namespace cocos2d
         {
             get { return true; }
         }
+        public CCSize getSize()
+        {
+            return new CCSize(480, 800);
+        }
 
         public void setContentScaleFactor(float contentScaleFactor)
         {

@@ -54,7 +54,9 @@ namespace cocos2d
             m_pSelectedItem = null;
         }
 
-        /** creates an empty CCMenu */
+        /// <summary>
+        /// creates an empty CCMenu
+        /// </summary>
         public static CCMenu node()
         {
             CCMenu menu = new CCMenu();
@@ -67,7 +69,9 @@ namespace cocos2d
             return null;
         }
 
-        ///** creates a CCMenu with it's items */
+        /// <summary>
+        /// creates a CCMenu with it's items
+        /// </summary>
         public static CCMenu menuWithItems(params CCMenuItem[] item)
         {
             CCMenu pRet = new CCMenu();
@@ -80,22 +84,27 @@ namespace cocos2d
             return null;
         }
 
-        /** creates a CCMenu with it's item, then use addChild() to add 
-          * other items. It is used for script, it can't init with undetermined
-          * number of variables.
-        */
+        /// <summary>
+        /// creates a CCMenu with it's item, then use addChild() to add 
+        /// other items. It is used for script, it can't init with undetermined
+        /// number of variables.
+        /// </summary>
         public static CCMenu menuWithItem(CCMenuItem item)
         {
             return menuWithItems(item, null);
         }
 
-        /** initializes an empty CCMenu */
+        /// <summary>
+        /// initializes an empty CCMenu
+        /// </summary>
         public bool init()
         {
             return initWithItems(null);
         }
 
-        ///** initializes a CCMenu with it's items */
+        /// <summary>
+        /// initializes a CCMenu with it's items 
+        /// </summary>
         bool initWithItems(params CCMenuItem[] item)
         {
             if (base.init())
@@ -147,15 +156,18 @@ namespace cocos2d
             return false;
         }
 
-        /** align items vertically */
+        /// <summary>
+        /// align items vertically
+        /// </summary>
         public void alignItemsVertically()
         {
             this.alignItemsVerticallyWithPadding(kDefaultPadding);
         }
 
-        /** align items vertically with padding
-        @since v0.7.2
-        */
+        /// <summary>
+        /// align items vertically with padding
+        /// @since v0.7.2
+        /// </summary>
         public void alignItemsVerticallyWithPadding(float padding)
         {
             float height = -padding;
@@ -185,15 +197,18 @@ namespace cocos2d
             }
         }
 
-        /** align items horizontally */
+        /// <summary>
+        /// align items horizontally
+        /// </summary>
         public void alignItemsHorizontally()
         {
             this.alignItemsHorizontallyWithPadding(kDefaultPadding);
         }
 
-        /** align items horizontally with padding
-        @since v0.7.2
-        */
+        /// <summary>
+        /// align items horizontally with padding
+        /// @since v0.7.2
+        /// </summary>
         public void alignItemsHorizontallyWithPadding(float padding)
         {
             float width = -padding;
@@ -236,9 +251,9 @@ namespace cocos2d
             CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(this, kCCMenuTouchPriority, true);
         }
 
-        /**
-        @brief For phone event handle functions
-        */
+        /// <summary>
+        /// For phone event handle functions
+        /// </summary>
         public override bool ccTouchBegan(CCTouch touch, CCEvent ccevent)
         {
             if (m_eState != tCCMenuState.kCCMenuStateWaiting || !m_bIsVisible)
@@ -324,10 +339,6 @@ namespace cocos2d
             //throw new NotImplementedException();
         }
 
-        /**
-        @since v0.99.5
-        override onExit
-        */
         public override void onExit()
         {
             if (m_eState == tCCMenuState.kCCMenuStateTrackingTouch)

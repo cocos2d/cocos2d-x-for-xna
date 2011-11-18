@@ -54,7 +54,7 @@ namespace cocos2d
         /// <returns></returns>
         public static CCMenuItemSprite itemFromNormalSprite(CCNode normalSprite, CCNode selectedSprite)
         {
-            throw new NotImplementedException();
+            return itemFromNormalSprite(normalSprite, selectedSprite, null, null, null);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace cocos2d
         public static CCMenuItemSprite itemFromNormalSprite(CCNode normalSprite, CCNode selectedSprite,
                                                         SelectorProtocol target, SEL_MenuHandler selector)
         {
-            throw new NotImplementedException();
+            return itemFromNormalSprite(normalSprite, selectedSprite, null, target, selector);
         }
 
         /// <summary>
@@ -83,7 +83,10 @@ namespace cocos2d
         public static CCMenuItemSprite itemFromNormalSprite(CCNode normalSprite, CCNode selectedSprite, CCNode disabledSprite,
                                                         SelectorProtocol target, SEL_MenuHandler selector)
         {
-            throw new NotImplementedException();
+            CCMenuItemSprite pRet = new CCMenuItemSprite();
+            pRet.initFromNormalSprite(normalSprite, selectedSprite, disabledSprite, target, selector);
+            //pRet->autorelease();
+            return pRet;
         }
 
         /// <summary>
@@ -190,52 +193,77 @@ namespace cocos2d
         //*/
         public virtual void selected()
         {
-            throw new NotImplementedException();
+            base.selected();
+
+            if (m_pDisabledImage != null)
+            {
+                m_pDisabledImage.visible = false;
+            }
+
+            if (m_pSelectedImage != null)
+            {
+                m_pNormalImage.visible = false;
+                m_pSelectedImage.visible = true;
+            }
+            else
+            {
+                m_pNormalImage.visible = true;
+            }
         }
 
         public virtual void unselected()
         {
-            throw new NotImplementedException();
+            base.unselected();
+
+            m_pNormalImage.visible = true;
+
+            if (m_pSelectedImage != null)
+            {
+                m_pSelectedImage.visible = false;
+            }
+
+            if (m_pDisabledImage != null)
+            {
+                m_pDisabledImage.visible = false;
+            }
         }
 
         public virtual void setIsEnabled(bool bEnabled)
         {
             base.Enabled = bEnabled;
 
-            //if (m_pSelectedImage)
-            //{
-            //    m_pSelectedImage->setIsVisible(false);
-            //}
+            if (m_pSelectedImage != null)
+            {
+                m_pSelectedImage.visible = false;
+            }
 
-            //if (bEnabled)
-            //{
-            //    m_pNormalImage->setIsVisible(true);
+            if (bEnabled)
+            {
+                m_pNormalImage.visible = true;
 
-            //    if (m_pDisabledImage)
-            //    {
-            //        m_pDisabledImage->setIsVisible(false);
-            //    }
-            //}
-            //else
-            //{
-            //    if (m_pDisabledImage)
-            //    {
-            //        m_pDisabledImage->setIsVisible(true);
-            //        m_pNormalImage->setIsVisible(false);
-            //    }
-            //    else
-            //    {
-            //        m_pNormalImage->setIsVisible(true);
-            //    }
-            //}
+                if (m_pDisabledImage != null)
+                {
+                    m_pDisabledImage.visible = false;
+                }
+            }
+            else
+            {
+                if (m_pDisabledImage != null)
+                {
+                    m_pDisabledImage.visible = true;
+                    m_pNormalImage.visible = false;
+                }
+                else
+                {
+                    m_pNormalImage.visible = true;
+                }
+            }
         }
 
         public virtual CCRGBAProtocol convertToRGBAProtocol()
         {
             return (this as CCRGBAProtocol);
         }
-
-
 
         #region Interface CCRGBAProtocol
 

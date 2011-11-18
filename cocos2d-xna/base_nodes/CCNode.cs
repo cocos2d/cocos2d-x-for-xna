@@ -123,20 +123,22 @@ namespace cocos2d
             }
         }
 
-        /** allocates and initializes a node.
-		The node will be created as "autorelease".
-		*/
+        /// <summary>
+        /// allocates and initializes a node.
+        /// The node will be created as "autorelease".
+        /// </summary>
         public static CCNode node()
         {
             return new CCNode();
         }
 
-        //scene managment
+        #region scene managment
 
-        /** callback that is called every time the CCNode enters the 'stage'.
-		If the CCNode enters the 'stage' with a transition, this callback is called when the transition starts.
-		During onEnter you can't a "sister/brother" node.
-		*/
+        /// <summary>
+        /// callback that is called every time the CCNode enters the 'stage'.
+        /// If the CCNode enters the 'stage' with a transition, this callback is called when the transition starts.
+        /// During onEnter you can't a "sister/brother" node.
+        /// </summary>
         public virtual void onEnter()
         {
             foreach (CCNode node in m_pChildren)
@@ -152,10 +154,11 @@ namespace cocos2d
             m_bIsRunning = true;
         }
 
-        /** callback that is called when the CCNode enters in the 'stage'.
-		If the CCNode enters the 'stage' with a transition, this callback is called when the transition finishes.
-		@since v0.8
-		*/
+        /// <summary>
+        /// callback that is called when the CCNode enters in the 'stage'.
+        /// If the CCNode enters the 'stage' with a transition, this callback is called when the transition finishes.
+        /// @since v0.8
+        /// </summary>
         public virtual void onEnterTransitionDidFinish()
         {
             foreach (CCNode node in m_pChildren)
@@ -167,10 +170,11 @@ namespace cocos2d
             }
         }
 
-        /** callback that is called every time the CCNode leaves the 'stage'.
-		If the CCNode leaves the 'stage' with a transition, this callback is called when the transition finishes.
-		During onExit you can't access a sibling node.
-		*/
+        /// <summary>
+        ///  callback that is called every time the CCNode leaves the 'stage'.
+        ///  If the CCNode leaves the 'stage' with a transition, this callback is called when the transition finishes.
+        ///  During onExit you can't access a sibling node.
+        /// </summary>
         public virtual void onExit()
         {
             pauseSchedulerAndActions();
@@ -186,35 +190,51 @@ namespace cocos2d
             }
         }
 
-        // The update function
-        public virtual void update(float dt) { }
+        #endregion
 
-        // composition: ADD
+        #region composition: children
 
-        /** Adds a child to the container with z-order as 0.
-		If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
-		@since v0.7.1
-		*/
+        protected List<CCNode> m_pChildren;
+        /// <summary>
+        /// Array of childrens
+        /// </summary>
+        public List<CCNode> children
+        {
+            // read only
+            get
+            {
+                return m_pChildren;
+            }
+        }
+
+        /// <summary>
+        /// Adds a child to the container with z-order as 0.
+        /// If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
+        /// @since v0.7.1
+        /// </summary>
+        /// <param name="child"></param>
         public virtual void addChild(CCNode child)
         {
             Debug.Assert(child != null, "Argument must be no-null");
             addChild(child, child.zOrder, child.tag);
         }
 
-        /** Adds a child to the container with a z-order
-		If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
-		@since v0.7.1
-		*/
+        /// <summary>
+        /// Adds a child to the container with a z-order
+        /// If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
+        /// @since v0.7.1
+        /// </summary>
         public virtual void addChild(CCNode child, int zOrder)
         {
             Debug.Assert(child != null, "Argument must be no-null");
             addChild(child, zOrder, child.tag);
         }
 
-        /** Adds a child to the container with z order and tag
-		If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
-		@since v0.7.1
-		*/
+        /// <summary>
+        /// Adds a child to the container with z order and tag
+        /// If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
+        /// @since v0.7.1
+        /// </summary>
         public virtual void addChild(CCNode child, int zOrder, int tag)
         {
             Debug.Assert(child != null, "Argument must be non-null");
@@ -233,25 +253,80 @@ namespace cocos2d
             }
         }
 
-        // composition: REMOVE
+        /// <summary>
+        /// helper that reorder a child
+        /// </summary>
+        private void insertChild(CCNode child, int z)
+        {
+            // Get last member
+            CCNode a = m_pChildren.Count > 0 ? m_pChildren[m_pChildren.Count - 1] : null;
 
-        /** Remove itself from its parent node. If cleanup is true, then also remove all actions and callbacks.
-		If the node orphan, then nothing happens.
-		@since v0.99.3
-		*/
+            if (a == null || a.zOrder <= z)
+            {
+                m_pChildren.Add(child);
+            }
+            else
+            {
+                int index = 0;
+                foreach (CCNode node in m_pChildren)
+                {
+                    if (node != null && node.m_nZOrder > z)
+                    {
+                        m_pChildren.Insert(index, child);
+                        break;
+                    }
+
+                    ++index;
+                }
+            }
+
+            child.zOrder = z;
+        }
+
+        private void detachChild(CCNode child, bool doCleanup)
+        {
+            // IMPORTANT:
+            //  -1st do onExit
+            //  -2nd cleanup
+            if (m_bIsRunning)
+            {
+                child.onExit();
+            }
+
+            // If you don't do cleanup, the child's actions will not get removed and the
+            // its scheduledSelectors_ dict will not get released!
+            if (doCleanup)
+            {
+                child.cleanup();
+            }
+
+            // set parent nil at the end
+            child.parent = null;
+
+            m_pChildren.Remove(child);
+        }
+
+        #endregion
+
+        #region composition: REMOVE
+
+        /// <summary>
+        /// Remove itself from its parent node. If cleanup is true, then also remove all actions and callbacks.
+        /// If the node orphan, then nothing happens.
+        /// @since v0.99.3
+        /// </summary>
         public void removeFromParentAndCleanup(bool cleanup)
         {
             m_pParent.removeChild(this, cleanup);
         }
 
-        /** Removes a child from the container. It will also cleanup all running actions depending on the cleanup parameter.
-		
-         * "remove" logic MUST only be on this method
-         * If a class want's to extend the 'removeChild' behavior it only needs
-         * to override this method
-         * 
-         * @since v0.7.1
-       */
+        /// <summary>
+        /// Removes a child from the container. It will also cleanup all running actions depending on the cleanup parameter.
+        /// "remove" logic MUST only be on this method
+        /// If a class want's to extend the 'removeChild' behavior it only needs
+        /// to override this method
+        /// @since v0.7.1
+        /// </summary>
         public virtual void removeChild(CCNode child, bool cleanup)
         {
             // explicit nil handling
@@ -266,9 +341,10 @@ namespace cocos2d
             }
         }
 
-        /** Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter
-		@since v0.7.1
-		*/
+        /// <summary>
+        /// Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter
+        /// @since v0.7.1
+        /// </summary>
         public void removeChildByTag(int tag, bool cleanup)
         {
             Debug.Assert(tag != (int)NodeTag.kCCNodeTagInvalid, "Invalid tag");
@@ -285,9 +361,10 @@ namespace cocos2d
             }
         }
 
-        /** Removes all children from the container and do a cleanup all running actions depending on the cleanup parameter.
-		@since v0.7.1
-		*/
+        /// <summary>
+        /// Removes all children from the container and do a cleanup all running actions depending on the cleanup parameter.
+        /// @since v0.7.1
+        /// </summary>
         public virtual void removeAllChildrenWithCleanup(bool cleanup)
         {
             // not using detachChild improves speed here
@@ -317,7 +394,9 @@ namespace cocos2d
             m_pChildren.Clear();
         }
 
-        // composition: GET
+        #endregion
+
+        #region composition: GET
 
         /** Gets a child from the container given its tag
         @return returns a CCNode object
@@ -369,19 +448,18 @@ namespace cocos2d
             }
         }
 
-        // draw
+        #endregion
 
-        /** Override this method to draw your own node.
-		The following GL states will be enabled by default:
-		- glEnableClientState(GL_VERTEX_ARRAY);
-		- glEnableClientState(GL_COLOR_ARRAY);
-		- glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		- glEnable(GL_TEXTURE_2D);
-
-		AND YOU SHOULD NOT DISABLE THEM AFTER DRAWING YOUR NODE
-
-		But if you enable any other GL state, you should disable it after drawing your node.
-		*/
+        /// <summary>
+        /// Override this method to draw your own node.
+        ///	The following GL states will be enabled by default:
+        ///- glEnableClientState(GL_VERTEX_ARRAY);
+        ///- glEnableClientState(GL_COLOR_ARRAY);
+        ///	- glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        ///	- glEnable(GL_TEXTURE_2D);
+        ///AND YOU SHOULD NOT DISABLE THEM AFTER DRAWING YOUR NODE
+        ///But if you enable any other GL state, you should disable it after drawing your node.
+        /// </summary>
         public virtual void draw()
         {
             // override me
@@ -389,7 +467,9 @@ namespace cocos2d
             // DON'T draw your stuff outside this method
         }
 
-        // recursive method that visit its children and draw them
+        /// <summary>
+        /// recursive method that visit its children and draw them
+        /// </summary>
         public virtual void visit()
         {
             // quick return if not visible
@@ -460,57 +540,152 @@ namespace cocos2d
              */
         }
 
-        // transformations
-
-        // performs OpenGL view-matrix transformation based on position, scale, rotation and other attributes.
-        public void transform()
+        /// <summary>
+        /// The update function
+        /// </summary>
+        public virtual void update(float dt)
         {
-            ///@todo
-            //throw new NotImplementedException();
+
         }
 
-        /** performs OpenGL view-matrix transformation of it's ancestors.
-		Generally the ancestors are already transformed, but in certain cases (eg: attaching a FBO)
-		it's necessary to transform the ancestors again.
-		@since v0.7.2
-		*/
+        #region transformations
+
+        /// <summary>
+        /// performs OpenGL view-matrix transformation based on position, scale, rotation and other attributes.
+        /// </summary>
+        public void transform()
+        {
+            //            // transformations
+
+            //#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+            //            // BEGIN alternative -- using cached transform
+            //            //
+            //            if (m_bIsTransformGLDirty)
+            //            {
+            //                CCAffineTransform t = this.nodeToParentTransform();
+            //                CGAffineToGL(&t, m_pTransformGL);
+            //                m_bIsTransformGLDirty = false;
+            //            }
+
+            //            glMultMatrixf(m_pTransformGL);
+            //            if (m_fVertexZ)
+            //            {
+            //                glTranslatef(0, 0, m_fVertexZ);
+            //            }
+
+            //            // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
+            //            if (m_pCamera && !(m_pGrid && m_pGrid->isActive()))
+            //            {
+            //                bool translate = (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f);
+
+            //                if (translate)
+            //                {
+            //                    ccglTranslate(RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.y), 0);
+            //                }
+
+            //                m_pCamera->locate();
+
+            //                if (translate)
+            //                {
+            //                    ccglTranslate(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+            //                }
+            //            }
+
+
+            //            // END alternative
+
+            //#else
+            //    // BEGIN original implementation
+            //    // 
+            //    // translate
+            //    if ( m_bIsRelativeAnchorPoint && (m_tAnchorPointInPixels.x != 0 || m_tAnchorPointInPixels.y != 0 ) )
+            //        glTranslatef( RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+
+            //    if (m_tAnchorPointInPixels.x != 0 || m_tAnchorPointInPixels.y != 0)
+            //        glTranslatef( RENDER_IN_SUBPIXEL(m_tPositionInPixels.x + m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tPositionInPixels.y + m_tAnchorPointInPixels.y), m_fVertexZ);
+            //    else if ( m_tPositionInPixels.x !=0 || m_tPositionInPixels.y !=0 || m_fVertexZ != 0)
+            //        glTranslatef( RENDER_IN_SUBPIXEL(m_tPositionInPixels.x), RENDER_IN_SUBPIXEL(m_tPositionInPixels.y), m_fVertexZ );
+
+            //    // rotate
+            //    if (m_fRotation != 0.0f )
+            //        glRotatef( -m_fRotation, 0.0f, 0.0f, 1.0f );
+
+            //    // skew
+            //    if ( (skewX_ != 0.0f) || (skewY_ != 0.0f) ) 
+            //    {
+            //        CCAffineTransform skewMatrix = CCAffineTransformMake( 1.0f, tanf(CC_DEGREES_TO_RADIANS(skewY_)), tanf(CC_DEGREES_TO_RADIANS(skewX_)), 1.0f, 0.0f, 0.0f );
+            //        GLfloat	glMatrix[16];
+            //        CCAffineToGL(&skewMatrix, glMatrix);															 
+            //        glMultMatrixf(glMatrix);
+            //    }
+
+            //    // scale
+            //    if (m_fScaleX != 1.0f || m_fScaleY != 1.0f)
+            //        glScalef( m_fScaleX, m_fScaleY, 1.0f );
+
+            //    if ( m_pCamera  && !(m_pGrid && m_pGrid->isActive()) )
+            //        m_pCamera->locate();
+
+            //    // restore and re-position point
+            //    if (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f)
+            //        glTranslatef(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+
+            //    //
+            //    // END original implementation
+            //#endif
+        }
+
+        /// <summary>
+        /// performs OpenGL view-matrix transformation of it's ancestors.
+        /// Generally the ancestors are already transformed, but in certain cases (eg: attaching a FBO)
+        /// it's necessary to transform the ancestors again.
+        /// @since v0.7.2
+        /// </summary>
         public void transformAncestors()
         {
             ///@todo
             throw new NotImplementedException();
         }
 
-        /** returns a "local" axis aligned bounding box of the node.
-		The returned box is relative only to its parent.
+        #endregion
 
-		@since v0.8.2
-		*/
+        #region boundingBox
+
+        /// <summary>
+        /// returns a "local" axis aligned bounding box of the node.
+        /// The returned box is relative only to its parent.
+        /// @since v0.8.2
+        /// </summary>
         public CCRect boundingBox()
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCRect ret = boundingBoxInPixels();
+            return ccMacros.CC_RECT_PIXELS_TO_POINTS(ret);
         }
 
-        /** returns a "local" axis aligned bounding box of the node in pixels.
-		The returned box is relative only to its parent.
-		The returned box is in Points.
-
-		@since v0.99.5
-		*/
+        /// <summary>
+        /// returns a "local" axis aligned bounding box of the node in pixels.
+        /// The returned box is relative only to its parent.
+        /// The returned box is in Points.
+        /// @since v0.99.5
+        /// </summary>
         public CCRect boundingBoxInPixels()
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCRect rect = new CCRect(0, 0, m_tContentSizeInPixels.width, m_tContentSizeInPixels.height);
+            return CCAffineTransform.CCRectApplyAffineTransform(rect, nodeToParentTransform());
         }
 
-        // actions
+        #endregion
 
-        /** Executes an action, and returns the action that is executed.
-		The node becomes the action's target.
-		@warning Starting from v0.8 actions don't retain their target anymore.
-		@since v0.7.1
-		@return An Action pointer
-		*/
+        #region actions
+
+        /// <summary>
+        /// Executes an action, and returns the action that is executed.
+        /// The node becomes the action's target.
+        /// @warning Starting from v0.8 actions don't retain their target anymore.
+        /// @since v0.7.1
+        /// @return 
+        /// </summary>
+        /// <returns>An Action pointer</returns>
         public CCAction runAction(CCAction action)
         {
             Debug.Assert(action != null, "Argument must be non-nil");
@@ -518,446 +693,385 @@ namespace cocos2d
             return action;
         }
 
-        // Removes all actions from the running action list
+        /// <summary>
+        /// Removes all actions from the running action list
+        /// </summary>
         public void stopAllActions()
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCActionManager.sharedManager().removeAllActionsFromTarget(this);
         }
 
         /// <summary>
-        /// @todo
+        /// Removes an action from the running action list
         /// </summary>
-        // Removes an action from the running action list
-        /*
         public void stopAction(CCAction action)
         {
+            CCActionManager.sharedManager().removeAction(action);
         }
-         * */
 
-        /** Removes an action from the running action list given its tag
-		@since v0.7.1
-		*/
+        /// <summary>
+        /// Removes an action from the running action list given its tag
+        /// @since v0.7.1
+        /// </summary>
         public void stopActionByTag(int tag)
         {
-            ///@todo
-            throw new NotImplementedException();
+            Debug.Assert(tag != (int)NodeTag.kCCNodeTagInvalid, "Invalid tag");
+            CCActionManager.sharedManager().removeActionByTag(tag, this);
         }
 
-        ///@todo
+        /// <summary>
+        /// Gets an action from the running action list given its tag
+        /// @since v0.7.1
+        /// @return
+        /// </summary>
+        /// <returns>the Action the with the given tag</returns>
+        public CCAction getActionByTag(uint tag)
+        {
+            Debug.Assert((int)tag != (int)NodeTag.kCCNodeTagInvalid, "Invalid tag");
+            return CCActionManager.sharedManager().getActionByTag(tag, this);
+        }
 
-        /** Gets an action from the running action list given its tag
-		@since v0.7.1
-		@return the Action the with the given tag
-		*/
-        /*CCAction* getActionByTag(int tag);
-         */
-
-        /** Returns the numbers of actions that are running plus the ones that are schedule to run (actions in actionsToAdd and actions arrays). 
-		* Composable actions are counted as 1 action. Example:
-		*    If you are running 1 Sequence of 7 actions, it will return 1.
-		*    If you are running 7 Sequences of 2 actions, it will return 7.
-		*/
+        /// <summary>
+        /// Returns the numbers of actions that are running plus the ones that are schedule to run (actions in actionsToAdd and actions arrays). 
+        /// Composable actions are counted as 1 action. Example:
+        /// If you are running 1 Sequence of 7 actions, it will return 1.
+        /// If you are running 7 Sequences of 2 actions, it will return 7.
+        /// </summary>
         public uint numberOfRunningActions()
         {
-            ///@todo
-            throw new NotImplementedException();
+            return CCActionManager.sharedManager().numberOfRunningActionsInTarget(this);
         }
 
-        // timers
+        #endregion
+
+        #region timers/Schedule
 
         ///@todo
         //check whether a selector is scheduled
         // bool isScheduled(SEL_SCHEDULE selector);
 
-        /** schedules the "update" method. It will use the order number 0. This method will be called every frame.
-		Scheduled methods with a lower order value will be called before the ones that have a higher order value.
-		Only one "update" method could be scheduled per node.
-
-		@since v0.99.3
-		*/
+        /// <summary>
+        /// schedules the "update" method. It will use the order number 0. This method will be called every frame.
+        /// Scheduled methods with a lower order value will be called before the ones that have a higher order value.
+        /// Only one "update" method could be scheduled per node.
+        /// @since v0.99.3
+        /// </summary>
         public void sheduleUpdate()
         {
-            ///@todo
-            throw new NotImplementedException();
+            scheduleUpdateWithPriority(0);
         }
 
-        /** schedules the "update" selector with a custom priority. This selector will be called every frame.
-		Scheduled selectors with a lower priority will be called before the ones that have a higher value.
-		Only one "update" selector could be scheduled per node (You can't have 2 'update' selectors).
-
-		@since v0.99.3
-		*/
+        /// <summary>
+        /// schedules the "update" selector with a custom priority. This selector will be called every frame.
+        /// Scheduled selectors with a lower priority will be called before the ones that have a higher value.
+        /// Only one "update" selector could be scheduled per node (You can't have 2 'update' selectors).
+        /// @since v0.99.3
+        /// </summary>
+        /// <param name="priority"></param>
         public void scheduleUpdateWithPriority(int priority)
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCScheduler.sharedScheduler().scheduleUpdateForTarget(this, priority, !m_bIsRunning);
         }
 
-        /* unschedules the "update" method.
-
-		@since v0.99.3
-		*/
+        /// <summary>
+        ///  unschedules the "update" method.
+        /// @since v0.99.3
+        /// </summary>
         public void unscheduleUpdate()
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCScheduler.sharedScheduler().unscheduleUpdateForTarget(this);
         }
 
-        ///@todo
-        /** schedules a selector.
-		The scheduled selector will be ticked every frame
-		*/
-        // void schedule(SEL_SCHEDULE selector);
+        /// <summary>
+        /// schedules a selector.
+        /// The scheduled selector will be ticked every frame
+        /// </summary>
+        /// <param name="selector"></param>
+        void schedule(SEL_SCHEDULE selector)
+        {
+            this.schedule(selector, 0);
+        }
 
-        ///@todo
-        /** schedules a custom selector with an interval time in seconds.
-		If time is 0 it will be ticked every frame.
-		If time is 0, it is recommended to use 'scheduleUpdate' instead.
-		If the selector is already scheduled, then the interval parameter 
-		will be updated without scheduling it again.
-		*/
-        // void schedule(SEL_SCHEDULE selector, ccTime interval);
+        /// <summary>
+        /// schedules a custom selector with an interval time in seconds.
+        ///If time is 0 it will be ticked every frame.
+        ///If time is 0, it is recommended to use 'scheduleUpdate' instead.
+        ///If the selector is already scheduled, then the interval parameter 
+        ///will be updated without scheduling it again.
+        /// </summary>
+        void schedule(SEL_SCHEDULE selector, float interval)
+        {
+            CCScheduler.sharedScheduler().scheduleSelector(selector, this, interval, !m_bIsRunning);
+        }
 
-        ///@todo
-        /** unschedules a custom selector.*/
-        // void unschedule(SEL_SCHEDULE selector);
+        /// <summary>
+        /// unschedules a custom selector.
+        /// </summary>
+        void unschedule(SEL_SCHEDULE selector)
+        {
+            // explicit nil handling
+            if (selector != null)
+            {
+                CCScheduler.sharedScheduler().unscheduleSelector(selector, this);
+            }
+        }
 
-        /** unschedule all scheduled selectors: custom selectors, and the 'update' selector.
-		Actions are not affected by this method.
-		@since v0.99.3
-		*/
+        /// <summary>
+        /// unschedule all scheduled selectors: custom selectors, and the 'update' selector.
+        /// Actions are not affected by this method.
+        /// @since v0.99.3
+        /// </summary>
         public void unsheduleAllSelectors()
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCScheduler.sharedScheduler().unscheduleAllSelectorsForTarget(this);
         }
 
-        /** resumes all scheduled selectors and actions.
-		Called internally by onEnter
-		*/
+        /// <summary>
+        /// resumes all scheduled selectors and actions.
+        /// Called internally by onEnter
+        /// </summary>
         public void resumeSchedulerAndActions()
         {
             CCScheduler.sharedScheduler().resumeTarget(this);
             CCActionManager.sharedManager().resumeTarget(this);
         }
 
-        /** pauses all scheduled selectors and actions.
-		Called internally by onExit
-		*/
+        /// <summary>
+        /// pauses all scheduled selectors and actions.
+        /// Called internally by onExit
+        /// </summary>
         public void pauseSchedulerAndActions()
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCScheduler.sharedScheduler().pauseTarget(this);
+            CCActionManager.sharedManager().pauseTarget(this);
         }
 
-        /*
-         * These functions are not needed. They are designed for no RTTI.
-         * 
-        virtual void selectorProtocolRetain(void);
-		virtual void selectorProtocolRelease(void);
+        #endregion
 
-		virtual CCRGBAProtocol* convertToRGBAProtocol(void) { return NULL; }
-		virtual CCLabelProtocol* convertToLabelProtocol(void) { return NULL; }
-         */
+        #region transformation methods
 
-        // transformation methods
-        ///@todo
+        /// <summary>
+        /// Returns the matrix that transform the node's (local) space coordinates into the parent's space coordinates.
+        /// The matrix is in Pixels.
+        /// @since v0.7.1
+        /// </summary>
+        public CCAffineTransform nodeToParentTransform()
+        {
+            if (m_bIsTransformDirty)
+            {
 
-        /** Returns the matrix that transform the node's (local) space coordinates into the parent's space coordinates.
-        The matrix is in Pixels.
-        @since v0.7.1
-        */
-        // CCAffineTransform nodeToParentTransform(void);
+                m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
 
-        /** Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
-		The matrix is in Pixels.
-		@since v0.7.1
-		*/
-        // 
-        // CCAffineTransform parentToNodeTransform(void);
+                if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y);
+                }
 
-        /** Retrusn the world affine transform matrix. The matrix is in Pixels.
-		@since v0.7.1
-		*/
-        // CCAffineTransform nodeToWorldTransform(void);
+                if (!CCPoint.CCPointEqualToPoint(m_tPositionInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tPositionInPixels.x, m_tPositionInPixels.y);
+                }
 
-        /** Returns the inverse world affine transform matrix. The matrix is in Pixels.
-		@since v0.7.1
-		*/
-        // CCAffineTransform worldToNodeTransform(void);
+                if (m_fRotation != 0)
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformRotate(m_tTransform, -ccMacros.CC_DEGREES_TO_RADIANS(m_fRotation));
+                }
+
+                if (m_fSkewX != 0 || m_fSkewY != 0)
+                {
+                    // create a skewed coordinate system
+                    CCAffineTransform skew = CCAffineTransform.CCAffineTransformMake(1.0f,
+                        (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewY)),
+                          (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewX)), 1.0f, 0.0f, 0.0f);
+                    // apply the skew to the transform
+                    m_tTransform = CCAffineTransform.CCAffineTransformConcat(skew, m_tTransform);
+                }
+
+                if (!(m_fScaleX == 1 && m_fScaleY == 1))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformScale(m_tTransform, m_fScaleX, m_fScaleY);
+                }
+
+                if (!CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
+                }
+
+                m_bIsTransformDirty = false;
+            }
+
+            return m_tTransform;
+        }
+
+        /// <summary>
+        /// Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
+        /// The matrix is in Pixels.
+        /// @since v0.7.1
+        /// </summary>
+        public CCAffineTransform parentToNodeTransform()
+        {
+            if (m_bIsInverseDirty)
+            {
+                m_tInverse = CCAffineTransform.CCAffineTransformInvert(this.nodeToParentTransform());
+                m_bIsInverseDirty = false;
+            }
+
+            return m_tInverse;
+        }
+
+        /// <summary>
+        /// Retrusn the world affine transform matrix. The matrix is in Pixels.
+        /// @since v0.7.1
+        /// </summary>
+        public CCAffineTransform nodeToWorldTransform()
+        {
+            CCAffineTransform t = this.nodeToParentTransform();
+
+            CCNode p = m_pParent;
+            while (p != null)
+            {
+                t = CCAffineTransform.CCAffineTransformConcat(t, p.nodeToParentTransform());
+                p = p.parent;
+            }
+
+            return t;
+        }
+
+        /// <summary>
+        /// Returns the inverse world affine transform matrix. The matrix is in Pixels.
+        ///@since v0.7.1
+        /// </summary>
+        public CCAffineTransform worldToNodeTransform()
+        {
+            return CCAffineTransform.CCAffineTransformInvert(this.nodeToWorldTransform());
+        }
+
+        #endregion
+
+        #region convertToSpace
 
         /// <summary>
         /// Converts a Point to node (local) space coordinates. The result is in Points.
         /// @since v0.7.1
         /// </summary>
-        /// <param name="worldPoint"></param>
-        /// <returns></returns>
         public CCPoint convertToNodeSpace(CCPoint worldPoint)
         {
             return worldPoint;
 
-            //CCPoint ret;
-            //if (CCDirector.sharedDirector().ContentScaleFactor == 1)
-            //{
-            //    ret = CCPointApplyAffineTransform(worldPoint, worldToNodeTransform());
-            //}
-            //else
-            //{
-            //    //ret = ccpMult(worldPoint, CC_CONTENT_SCALE_FACTOR());
-            //    //ret = CCPointApplyAffineTransform(ret, worldToNodeTransform());
-            //    //ret = ccpMult(ret, 1 / CC_CONTENT_SCALE_FACTOR());
-            //}
-
-            //return ret;
-        }
-
-        /** Converts a Point to world space coordinates. The result is in Points.
-		@since v0.7.1
-		*/
-        public CCPoint convertToWorldSpace(CCPoint nodePoint)
-        {
-            ///@todo
-            throw new NotImplementedException();
-        }
-
-        /** Converts a Point to node (local) space coordinates. The result is in Points.
-		treating the returned/received node point as anchor relative.
-		@since v0.7.1
-		*/
-        public CCPoint convertToNodeSpaceAR(CCPoint worldPoint)
-        {
-            ///@todo
-            throw new NotImplementedException();
-        }
-
-        /** Converts a local Point to world space coordinates.The result is in Points.
-		treating the returned/received node point as anchor relative.
-		@since v0.7.1
-		*/
-        public CCPoint convertToWorldSpaceAR(CCPoint nodePoint)
-        {
-            ///@todo
-            throw new NotImplementedException();
-        }
-
-        ///@todo
-        /** convenience methods which take a CCTouch instead of CCPoint
-		@since v0.7.1
-		*/
-        // public CCPoint convertTouchToNodeSpace(CCTouch touch);
-
-        ///@todo
-        /** converts a CCTouch (world coordinates) into a local coordiante. This method is AR (Anchor Relative).
-		@since v0.7.1
-		*/
-        // CCPoint convertTouchToNodeSpaceAR(CCTouch* touch);
-
-        // helper that reorder a child
-        private void insertChild(CCNode child, int z)
-        {
-            // Get last member
-            CCNode a = m_pChildren.Count > 0 ? m_pChildren[m_pChildren.Count - 1] : null;
-
-            if (a == null || a.zOrder <= z)
+            CCPoint ret;
+            if (CCDirector.sharedDirector().ContentScaleFactor == 1)
             {
-                m_pChildren.Add(child);
+                ret = CCAffineTransform.CCPointApplyAffineTransform(worldPoint, worldToNodeTransform());
             }
             else
             {
-                int index = 0;
-                foreach (CCNode node in m_pChildren)
-                {
-                    if (node != null && node.m_nZOrder > z)
-                    {
-                        m_pChildren.Insert(index, child);
-                        break;
-                    }
-
-                    ++index;
-                }
+                ret = CCPointExtension.ccpMult(worldPoint, CCDirector.sharedDirector().ContentScaleFactor);
+                ret = CCAffineTransform.CCPointApplyAffineTransform(ret, worldToNodeTransform());
+                ret = CCPointExtension.ccpMult(ret, 1 / CCDirector.sharedDirector().ContentScaleFactor);
             }
 
-            child.setZOrder(z);
+            return ret;
         }
 
-        // used internally to alter the zOrder variable. DON'T call this method manually
-        private void setZOrder(int z)
+        /// <summary>
+        /// Converts a Point to world space coordinates. The result is in Points.
+        /// @since v0.7.1
+        /// </summary>
+        public CCPoint convertToWorldSpace(CCPoint nodePoint)
         {
-            m_nZOrder = z;
+            CCPoint ret;
+            if (CCDirector.sharedDirector().ContentScaleFactor == 1)
+            {
+                ret = CCAffineTransform.CCPointApplyAffineTransform(nodePoint, nodeToWorldTransform());
+            }
+            else
+            {
+                ret = CCPointExtension.ccpMult(nodePoint, CCDirector.sharedDirector().ContentScaleFactor);
+                ret = CCAffineTransform.CCPointApplyAffineTransform(ret, nodeToWorldTransform());
+                ret = CCPointExtension.ccpMult(ret, 1 / CCDirector.sharedDirector().ContentScaleFactor);
+            }
+
+            return ret;
         }
 
-        private void detachChild(CCNode child, bool doCleanup)
+        /// <summary>
+        /// Converts a Point to node (local) space coordinates. The result is in Points.
+        /// treating the returned/received node point as anchor relative.
+        /// @since v0.7.1
+        /// </summary>
+        public CCPoint convertToNodeSpaceAR(CCPoint worldPoint)
         {
-            // IMPORTANT:
-            //  -1st do onExit
-            //  -2nd cleanup
-            if (m_bIsRunning)
+            CCPoint nodePoint = convertToNodeSpace(worldPoint);
+            CCPoint anchorInPoints;
+            if (CCDirector.sharedDirector().ContentScaleFactor == 1)
             {
-                child.onExit();
+                anchorInPoints = m_tAnchorPointInPixels;
+            }
+            else
+            {
+                anchorInPoints = CCPointExtension.ccpMult(m_tAnchorPointInPixels, 1 / CCDirector.sharedDirector().ContentScaleFactor);
             }
 
-            // If you don't do cleanup, the child's actions will not get removed and the
-            // its scheduledSelectors_ dict will not get released!
-            if (doCleanup)
+            return CCPointExtension.ccpSub(nodePoint, anchorInPoints);
+        }
+
+        /// <summary>
+        /// Converts a local Point to world space coordinates.The result is in Points.
+        /// treating the returned/received node point as anchor relative.
+        /// @since v0.7.1
+        /// </summary>
+        public CCPoint convertToWorldSpaceAR(CCPoint nodePoint)
+        {
+            CCPoint anchorInPoints;
+            if (CCDirector.sharedDirector().ContentScaleFactor == 1)
             {
-                child.cleanup();
+                anchorInPoints = m_tAnchorPointInPixels;
+            }
+            else
+            {
+                anchorInPoints = CCPointExtension.ccpMult(m_tAnchorPointInPixels, 1 / CCDirector.sharedDirector().ContentScaleFactor);
             }
 
-            // set parent nil at the end
-            child.parent = null;
+            CCPoint pt = CCPointExtension.ccpAdd(nodePoint, anchorInPoints);
+            return convertToWorldSpace(pt);
+        }
 
-            m_pChildren.Remove(child);
+        /// <summary>
+        /// convenience methods which take a CCTouch instead of CCPoint
+        ///@since v0.7.1
+        /// </summary>
+        public CCPoint convertTouchToNodeSpace(CCTouch touch)
+        {
+            CCPoint point = touch.locationInView(touch.view());
+            point = CCDirector.sharedDirector().convertToGL(point);
+            return this.convertToNodeSpace(point);
+        }
+
+        /// <summary>
+        /// converts a CCTouch (world coordinates) into a local coordiante. This method is AR (Anchor Relative).
+        /// @since v0.7.1
+        /// </summary>
+        CCPoint convertTouchToNodeSpaceAR(CCTouch touch)
+        {
+            CCPoint point = touch.locationInView(touch.view());
+            point = CCDirector.sharedDirector().convertToGL(point);
+            return this.convertToNodeSpaceAR(point);
         }
 
         private CCPoint convertToWindowSpace(CCPoint nodePoint)
         {
-            ///@todo
-            throw new NotImplementedException();
+            CCPoint worldPoint = this.convertToWorldSpace(nodePoint);
+            return CCDirector.sharedDirector().convertToUI(worldPoint);
         }
 
-        // Properties
+        #endregion
 
-        // The z order of the node relative to it's "brothers": children of the same parent
-        protected int m_nZOrder;
-        public int zOrder
-        {
-            // read only
-            get
-            {
-                return m_nZOrder;
-            }
-        }
+        #region Properties: The main features of a CCNode
 
-        /** The real openGL Z vertex.
-			Differences between openGL Z vertex and cocos2d Z order:
-			- OpenGL Z modifies the Z vertex, and not the Z order in the relation between parent-children
-			- OpenGL Z might require to set 2D projection
-			- cocos2d Z order works OK if all the nodes uses the same openGL Z vertex. eg: vertexZ = 0
-			@warning: Use it at your own risk since it might break the cocos2d parent-children z order
-			@since v0.8
-			*/
-        protected float m_fVertexZ;
-        public virtual float vertexZ
-        {
-            get
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-            set
-            {
-                /// @todo
-                throw new NotImplementedException();
-            }
-        }
-
-        // The rotation (angle) of the node in degrees. 0 is the default rotation angle. Positive values rotate node CW
-        protected float m_fRotation;
-        public virtual float rotation
-        {
-            get
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-                /// @todo
-            }
-        }
-
-        /** The X skew angle of the node in degrees.
-            This angle describes the shear distortion in the X direction.
-            Thus, it is the angle between the Y axis and the left edge of the shape
-            The default skewX angle is 0. Positive values distort the node in a CW direction.
-        */
-        protected float m_fSkewX;
-        public virtual float skewX
-        {
-            get
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-            set
-            {
-                /// @todo
-                throw new NotImplementedException();
-            }
-        }
-
-        /** The Y skew angle of the node in degrees.
-            This angle describes the shear distortion in the Y direction.
-            Thus, it is the angle between the X axis and the bottom edge of the shape
-            The default skewY angle is 0. Positive values distort the node in a CCW direction.
-        */
-        protected float m_fSkewY;
-        public virtual float skewY
-        {
-            get
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-            set
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-        }
-
-        // The scale factor of the node. 1.0 is the default scale factor. It modifies the X and Y scale at the same time.
-        protected float m_fScale;
-        public virtual float scale
-        {
-            get
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-            set
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-        }
-
-        // The scale factor of the node. 1.0 is the default scale factor. It only modifies the X scale factor.
-        protected float m_fScaleX;
-        public virtual float scaleX
-        {
-            get
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-            set
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-        }
-
-        // The scale factor of the node. 1.0 is the default scale factor. It only modifies the Y scale factor.
-        protected float m_fScaleY;
-        public virtual float scaleY
-        {
-            get
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-            set
-            {
-                ///@todo
-                throw new NotImplementedException();
-            }
-        }
-
-        // Position (x,y) of the node in points. (0,0) is the left-bottom corner.
         protected CCPoint m_tPosition;
+        /// <summary>
+        /// Position (x,y) of the node in points. (0,0) is the left-bottom corner.
+        /// </summary>
         public virtual CCPoint position
         {
             get
@@ -987,8 +1101,10 @@ namespace cocos2d
             }
         }
 
-        // Position (x,y) of the node in pixels. (0,0) is the left-bottom corner.
         protected CCPoint m_tPositionInPixels;
+        /// <summary>
+        /// Position (x,y) of the node in pixels. (0,0) is the left-bottom corner.
+        /// </summary>
         public virtual CCPoint positionInPixels
         {
             get
@@ -1016,49 +1132,95 @@ namespace cocos2d
             }
         }
 
-        ///@todo add CCCamera
-        /** A CCCamera object that lets you move the node using a gluLookAt
-           
-       @property(nonatomic,readonly) CCCamera* camera;
-         */
-
-        // Array of children
-        protected List<CCNode> m_pChildren;
-        public List<CCNode> children
-        {
-            // read only
-            get
-            {
-                return m_pChildren;
-            }
-        }
-
-        ///@todo
-        /** A CCGrid object that is used when applying effects */
-        /// @property(nonatomic,readwrite,retain) CCGridBase* grid;
-
-        // Whether of not the node is visible. Default is YES
-        protected bool m_bIsVisible;
-        public virtual bool visible
+        protected float m_fScale;
+        /// <summary>
+        /// The scale factor of the node. 1.0 is the default scale factor. It modifies the X and Y scale at the same time.
+        /// </summary>
+        public virtual float scale
         {
             get
             {
-                return m_bIsVisible;
+                return m_fScale;
             }
             set
             {
-                m_bIsVisible = value;
+                m_fScaleX = m_fScaleY = value;
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+                //#ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                //    m_bIsTransformGLDirty = true;
+                //#endif
             }
         }
 
-        /** anchorPoint is the point around which all transformations and positioning manipulations take place.
-            It's like a pin in the node where it is "attached" to its parent.
-            The anchorPoint is normalized, like a percentage. (0,0) means the bottom-left corner and (1,1) means the top-right corner.
-            But you can use values higher than (1,1) and lower than (0,0) too.
-            The default anchorPoint is (0,0). It starts in the bottom-left corner. CCSprite and other subclasses have a different default anchorPoint.
-            @since v0.8
-        */
+        protected float m_fScaleX;
+        /// <summary>
+        /// The scale factor of the node. 1.0 is the default scale factor. It only modifies the X scale factor.
+        /// </summary>
+        public virtual float scaleX
+        {
+            get
+            {
+                return m_fScaleX;
+            }
+            set
+            {
+                m_fScaleX = value;
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+                //#ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                //    m_bIsTransformGLDirty = true;
+                //#endif
+            }
+        }
+
+        protected float m_fScaleY;
+        /// <summary>
+        /// The scale factor of the node. 1.0 is the default scale factor. It only modifies the Y scale factor.
+        /// </summary>
+        public virtual float scaleY
+        {
+            get
+            {
+                return m_fScaleY;
+            }
+            set
+            {
+                m_fScaleY = value;
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+                //#ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                //    m_bIsTransformGLDirty = true;
+                //#endif
+            }
+        }
+
+        protected float m_fRotation;
+        /// <summary>
+        /// The rotation (angle) of the node in degrees. 0 is the default rotation angle. Positive values rotate node CW
+        /// </summary>
+        public virtual float rotation
+        {
+            get
+            {
+                return m_fRotation;
+            }
+            set
+            {
+                m_fRotation = value;
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+                //#ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                //    m_bIsTransformGLDirty = true;
+                //#endif
+            }
+        }
+
         protected CCPoint m_tAnchorPoint;
+        /// <summary>
+        /// anchorPoint is the point around which all transformations and positioning manipulations take place.
+        /// It's like a pin in the node where it is "attached" to its parent.
+        /// The anchorPoint is normalized, like a percentage. (0,0) means the bottom-left corner and (1,1) means the top-right corner.
+        /// But you can use values higher than (1,1) and lower than (0,0) too.
+        /// The default anchorPoint is (0,0). It starts in the bottom-left corner. CCSprite and other subclasses have a different default anchorPoint.
+        /// @since v0.8
+        /// </summary>
         public virtual CCPoint anchorPoint
         {
             get
@@ -1073,18 +1235,18 @@ namespace cocos2d
                     m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x,
                         m_tContentSizeInPixels.height * m_tAnchorPoint.y);
                     m_bIsTransformDirty = m_bIsInverseDirty = true;
-#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                    m_bIsTransformGLDirty = true;
-#endif
-
+                    //#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                    //                    m_bIsTransformGLDirty = true;
+                    //#endif
                 }
             }
         }
 
-        /** The anchorPoint in absolute pixels.
-            Since v0.8 you can only read it. If you wish to modify it, use anchorPoint instead
-        */
         protected CCPoint m_tAnchorPointInPixels;
+        /// <summary>
+        /// The anchorPoint in absolute pixels.
+        /// Since v0.8 you can only read it. If you wish to modify it, use anchorPoint instead
+        /// </summary>
         public CCPoint anchorPointInPixels
         {
             // read only
@@ -1094,12 +1256,13 @@ namespace cocos2d
             }
         }
 
-        /** The untransformed size of the node in Points
-            The contentSize remains the same no matter the node is scaled or rotated.
-            All nodes has a size. Layer and Scene has the same size of the screen.
-            @since v0.8
-        */
         protected CCSize m_tContentSize;
+        /// <summary>
+        /// The untransformed size of the node in Points
+        /// The contentSize remains the same no matter the node is scaled or rotated.
+        /// All nodes has a size. Layer and Scene has the same size of the screen.
+        /// @since v0.8
+        /// </summary>
         public CCSize contentSize
         {
             get
@@ -1132,12 +1295,13 @@ namespace cocos2d
             }
         }
 
-        /** The untransformed size of the node in Pixels
-            The contentSize remains the same no matter the node is scaled or rotated.
-            All nodes has a size. Layer and Scene has the same size of the screen.
-            @since v0.8
-        */
         protected CCSize m_tContentSizeInPixels;
+        /// <summary>
+        /// The untransformed size of the node in Pixels
+        /// The contentSize remains the same no matter the node is scaled or rotated.
+        /// All nodes has a size. Layer and Scene has the same size of the screen.
+        /// @since v0.8
+        /// </summary>
         public CCSize contentSizeInPixels
         {
             get
@@ -1171,8 +1335,125 @@ namespace cocos2d
             }
         }
 
-        // whether or not the node is running
+        protected bool m_bIsVisible;
+        /// <summary>
+        /// Whether of not the node is visible. Default is YES
+        /// </summary>
+        public virtual bool visible
+        {
+            get
+            {
+                return m_bIsVisible;
+            }
+            set
+            {
+                m_bIsVisible = value;
+            }
+        }
+
+        protected int m_nZOrder;
+        /// <summary>
+        /// The z order of the node relative to it's "brothers": children of the same parent
+        /// </summary>
+        public int zOrder
+        {
+            get
+            {
+                return m_nZOrder;
+            }
+            private set
+            {
+                //used internally to alter the zOrder variable. DON'T call this method manually
+                m_nZOrder = value;
+            }
+        }
+
+        protected float m_fVertexZ;
+        /// <summary>
+        /// The real openGL Z vertex.
+        /// Differences between openGL Z vertex and cocos2d Z order:
+        /// OpenGL Z modifies the Z vertex, and not the Z order in the relation between parent-children
+        /// OpenGL Z might require to set 2D projection
+        /// cocos2d Z order works OK if all the nodes uses the same openGL Z vertex. eg: vertexZ = 0
+        /// @warning: Use it at your own risk since it might break the cocos2d parent-children z order
+        /// @since v0.8
+        /// </summary>
+        public virtual float vertexZ
+        {
+            get
+            {
+                return m_fVertexZ / CCDirector.sharedDirector().ContentScaleFactor;
+            }
+            set
+            {
+                m_fVertexZ = value * CCDirector.sharedDirector().ContentScaleFactor;
+            }
+        }
+
+        protected float m_fSkewX;
+        /// <summary>
+        /// The X skew angle of the node in degrees.
+        /// This angle describes the shear distortion in the X direction.
+        /// Thus, it is the angle between the Y axis and the left edge of the shape
+        /// The default skewX angle is 0. Positive values distort the node in a CW direction.
+        /// </summary>
+        public virtual float skewX
+        {
+            get
+            {
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+                return m_fSkewX;
+                //#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                //                m_bIsTransformGLDirty = true;
+                //#endif
+            }
+            set
+            {
+                m_fSkewX = value;
+            }
+        }
+
+        protected float m_fSkewY;
+        /// <summary>
+        /// The Y skew angle of the node in degrees.
+        /// This angle describes the shear distortion in the Y direction.
+        /// Thus, it is the angle between the X axis and the bottom edge of the shape
+        /// The default skewY angle is 0. Positive values distort the node in a CCW direction.
+        /// </summary>
+        public virtual float skewY
+        {
+            get
+            {
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+                return m_fSkewY;
+
+                //#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                //                m_bIsTransformGLDirty = true;
+                //#endif
+            }
+            set
+            {
+                m_fSkewY = value;
+            }
+        }
+
+        #endregion
+
+        ///@todo add CCCamera
+        /** A CCCamera object that lets you move the node using a gluLookAt
+           
+       @property(nonatomic,readonly) CCCamera* camera;
+         */
+
+
+        ///@todo
+        /** A CCGrid object that is used when applying effects */
+        /// @property(nonatomic,readwrite,retain) CCGridBase* grid;
+
         protected bool m_bIsRunning;
+        /// <summary>
+        /// whether or not the node is running
+        /// </summary>
         public bool isRunning
         {
             // read only
@@ -1182,8 +1463,10 @@ namespace cocos2d
             }
         }
 
-        // A weak reference to the parent
         protected CCNode m_pParent;
+        /// <summary>
+        /// A weak reference to the parent
+        /// </summary>
         public CCNode parent
         {
             get
@@ -1196,11 +1479,12 @@ namespace cocos2d
             }
         }
 
-        /** If YES the transformtions will be relative to it's anchor point.
-          * Sprites, Labels and any other sizeble object use it have it enabled by default.
-          * Scenes, Layers and other "whole screen" object don't use it, have it disabled by default.
-          */
         protected bool m_bIsRelativeAnchorPoint;
+        /// <summary>
+        /// If YES the transformtions will be relative to it's anchor point.
+        /// Sprites, Labels and any other sizeble object use it have it enabled by default.
+        /// Scenes, Layers and other "whole screen" object don't use it, have it disabled by default.
+        /// </summary>
         public virtual bool isRelativeAnchorPoint
         {
             get
@@ -1217,8 +1501,10 @@ namespace cocos2d
             }
         }
 
-        // A tag used to identify the node easily
         protected int m_nTag;
+        /// <summary>
+        /// A tag used to identify the node easily
+        /// </summary>
         public int tag
         {
             get
@@ -1231,8 +1517,10 @@ namespace cocos2d
             }
         }
 
-        // A custom user data pointer
         protected object m_pUserData;
+        /// <summary>
+        /// A custom user data pointer
+        /// </summary>
         public object userData
         {
             get
@@ -1247,11 +1535,12 @@ namespace cocos2d
 
         // internal member variables
 
+        // transform
+        CCAffineTransform m_tTransform, m_tInverse;
 
         // To reduce memory, place bools that are not properties here:
         protected bool m_bIsTransformDirty;
         protected bool m_bIsInverseDirty;
-
 
         /*
          * CCAffineTransform m_tTransform, m_tInverse;
@@ -1264,7 +1553,5 @@ namespace cocos2d
 #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
         protected bool m_bIsTransformGLDirty;
 #endif
-
-
     }
 }

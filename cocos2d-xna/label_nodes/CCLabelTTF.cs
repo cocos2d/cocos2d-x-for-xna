@@ -30,16 +30,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace cocos2d
 {
-    #region CCLabelTTF is a subclass of CCTextureNode that knows how to render text labels
     /// <summary>
     /// CCLabelTTF is a subclass of CCTextureNode that knows how to render text labels
     /// All features from CCTextureNode are valid in CCLabelTTF
     /// CCLabelTTF objects are slow. Consider using CCLabelAtlas or CCLabelBMFont instead.
     /// </summary>
-    #endregion
     public class CCLabelTTF : CCSprite, CCLabelProtocol
     {
         public CCLabelTTF()
@@ -52,11 +51,9 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        #region creates a CCLabelTTF from a fontname, alignment, dimension and font size
         /// <summary>
         /// creates a CCLabelTTF from a fontname, alignment, dimension and font size
         /// </summary>
-        #endregion
         public static CCLabelTTF labelWithString(string label, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
         {
             CCLabelTTF pRet = new CCLabelTTF();
@@ -69,11 +66,9 @@ namespace cocos2d
             return null;
         }
 
-        #region creates a CCLabelTTF from a fontname and font size
         /// <summary>
         /// creates a CCLabelTTF from a fontname and font size
         /// </summary>
-        #endregion
         public static CCLabelTTF labelWithString(string label, string fontName, float fontSize)
         {
             CCLabelTTF pRet = new CCLabelTTF();
@@ -91,7 +86,7 @@ namespace cocos2d
         /// initializes the CCLabelTTF with a font name, alignment, dimension and font size
         /// </summary>
         #endregion
-        public bool initWithString(string label, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
+        private bool initWithString(string label, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
         {
             Debug.Assert(label != null);
             if (init())
@@ -119,7 +114,7 @@ namespace cocos2d
         /// initializes the CCLabelTTF with a font name and font size
         /// </summary>
         #endregion
-        public bool initWithString(string label, string fontName, float fontSize)
+        private bool initWithString(string label, string fontName, float fontSize)
         {
             Debug.Assert(label != null);
             if (init())
@@ -133,19 +128,17 @@ namespace cocos2d
                 }
                 m_pFontName = fontName;
 
-                m_fFontSize = fontSize * CCDirector.sharedDirector().getFrames();
+                m_fFontSize = fontSize * CCDirector.sharedDirector().ContentScaleFactor;
                 this.setString(label);
                 return true;
             }
             return false;
         }
 
-        #region changes the string to render
         /// <summary>
         /// changes the string to render
         /// @warning Changing the string is as expensive as creating a new CCLabelTTF. To obtain better performance use CCLabelAtlas
         /// </summary>
-        #endregion
         public virtual void setString(string label)
         {
             if (m_pString != null)
@@ -178,6 +171,11 @@ namespace cocos2d
         {
             //return m_pString.c_str();
             return m_pString.ToString();
+        }
+
+        public override void draw()
+        {
+            base.draw();
         }
 
         //public virtual string gsString
@@ -220,6 +218,7 @@ namespace cocos2d
             return (CCLabelProtocol)this;
         }
 
+        protected SpriteFont spriteFont;
         protected CCSize m_tDimensions;
         protected CCTextAlignment m_eAlignment;
         protected string m_pFontName;

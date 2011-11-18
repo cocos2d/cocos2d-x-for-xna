@@ -38,7 +38,7 @@ namespace tests
             pDirector.setOpenGLView();
 
             //turn on display FPS
-            pDirector.setDisplayFPS(true);
+            pDirector.DisplayFPS=true;
 
             // pDirector->setDeviceOrientation(kCCDeviceOrientationLandscapeLeft);
 

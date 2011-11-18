@@ -35,5 +35,43 @@ namespace cocos2d.menu_nodes
 {
     public class CCMenuItemAtlasFont : CCMenuItemLabel
     {
+        public CCMenuItemAtlasFont()
+        { }
+
+        /// <summary>
+        /// creates a menu item from a string and atlas with a target/selector
+        /// </summary>
+        public static CCMenuItemAtlasFont itemFromString(string value, string charMapFile, int itemWidth, int itemHeight, char startCharMap)
+        {
+            return CCMenuItemAtlasFont.itemFromString(value, charMapFile, itemWidth, itemHeight, startCharMap, null, null);
+        }
+
+        /// <summary>
+        ///  creates a menu item from a string and atlas. Use it with MenuItemToggle
+        /// </summary>
+        public static CCMenuItemAtlasFont itemFromString(string value, string charMapFile, int itemWidth, int itemHeight, char startCharMap, SelectorProtocol target, SEL_MenuHandler selector)
+        {
+
+            CCMenuItemAtlasFont pRet = new CCMenuItemAtlasFont();
+            pRet.initFromString(value, charMapFile, itemWidth, itemHeight, startCharMap, target, selector);
+            //pRet->autorelease();
+            return pRet;
+        }
+
+        /// <summary>
+        /// initializes a menu item from a string and atlas with a target/selector
+        /// </summary>
+        public bool initFromString(string value, string charMapFile, int itemWidth, int itemHeight, char startCharMap, SelectorProtocol target, SEL_MenuHandler selector)
+        {
+            // CCAssert( value != NULL && strlen(value) != 0, "value length must be greater than 0");
+            CCLabelAtlas label = new CCLabelAtlas();
+            label.initWithString(value, charMapFile, (uint)itemWidth, (uint)itemHeight, startCharMap);
+            //label->autorelease();
+            if (base.initWithLabel(label, target, selector))
+            {
+                // do something ?
+            }
+            return true;
+        }
     }
 }

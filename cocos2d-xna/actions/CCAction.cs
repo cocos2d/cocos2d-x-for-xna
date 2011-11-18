@@ -104,7 +104,7 @@ namespace cocos2d
         /** Allocates and initializes the action */
         public static CCAction action()
         {
-            return new CCAction();            
+            return new CCAction();
         }
 
         // Properties

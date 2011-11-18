@@ -35,8 +35,15 @@ namespace cocos2d
 {
     public class CCMenuItem : CCNode
     {
-        bool m_bIsSelected;
-        bool m_bIsEnabled;
+        protected static uint _fontSize = 32;
+        protected static string _fontName = "Marker Felt";
+        protected static bool _fontNameRelease = false;
+
+        const uint kCurrentItem = 0xc0c05001;
+        const uint kZoomActionTag = 0xc0c05002;
+
+        protected bool m_bIsSelected;
+        protected bool m_bIsEnabled;
 
         protected SelectorProtocol m_pListener;
         protected SEL_MenuHandler m_pfnSelector;
