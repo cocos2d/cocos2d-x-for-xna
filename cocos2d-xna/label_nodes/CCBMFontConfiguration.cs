@@ -68,9 +68,11 @@ namespace cocos2d
             return ret.ToString();
         }
 
+        #region allocates a CCBMFontConfiguration with a FNT file
         /// <summary>
         /// allocates a CCBMFontConfiguration with a FNT file
         /// </summary>
+        #endregion
         public static CCBMFontConfiguration configurationWithFNTFile(string FNTfile)
         {
             CCBMFontConfiguration pRet = new CCBMFontConfiguration();
@@ -83,9 +85,11 @@ namespace cocos2d
             return null;
         }
 
+        #region initializes a BitmapFontConfiguration with a FNT file
         /// <summary>
         /// initializes a BitmapFontConfiguration with a FNT file
         /// </summary>
+        #endregion
         public bool initWithFNTfile(string FNTfile)
         {
             Debug.Assert(FNTfile != null && FNTfile.Length != 0);

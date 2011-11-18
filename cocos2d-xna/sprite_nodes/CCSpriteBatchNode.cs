@@ -34,6 +34,8 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
+
+    #region CCSpriteBatchNode is like a batch node: if it contains children, it will draw them in 1 single OpenGL call...
     /// <summary>
     /// CCSpriteBatchNode is like a batch node: if it contains children, it will draw them in 1 single OpenGL call
     /// (often known as "batch draw").
@@ -46,6 +48,7 @@ namespace cocos2d
     ///  - Either all its children are Aliased or Antialiased. It can't be a mix. This is because "alias" is a property of the texture, and all the sprites share the same texture.
     ///  @since v0.7.1
     /// </summary>
+    #endregion
     public class CCSpriteBatchNode : CCNode, CCTextureProtocol
     {
         const int defaultCapacity = 29;
@@ -78,10 +81,12 @@ namespace cocos2d
             return m_pobDescendants;
         }
 
+        #region creates a CCSpriteBatchNode with a texture2d and a default capacity of 29 children.
         /// <summary>
         /// creates a CCSpriteBatchNode with a texture2d and a default capacity of 29 children.
         /// The capacity will be increased in 33% in runtime if it run out of space.
         /// </summary>
+        #endregion
         public static CCSpriteBatchNode batchNodeWithTexture(CCTexture2D tex)
         {
             CCSpriteBatchNode batchNode = new CCSpriteBatchNode();
@@ -90,10 +95,12 @@ namespace cocos2d
             return batchNode;
         }
 
+        #region creates a CCSpriteBatchNode with a texture2d and capacity of children.
         /// <summary>
         /// creates a CCSpriteBatchNode with a texture2d and capacity of children.
         /// The capacity will be increased in 33% in runtime if it run out of space.
         /// </summary>
+        #endregion
         public static CCSpriteBatchNode batchNodeWithTexture(CCTexture2D tex, uint capacity)
         {
             CCSpriteBatchNode batchNode = new CCSpriteBatchNode();
@@ -102,11 +109,13 @@ namespace cocos2d
             return batchNode;
         }
 
+        #region creates a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) with a default capacity of 29 children.
         /// <summary>
         ///  creates a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) with a default capacity of 29 children.
         ///  The capacity will be increased in 33% in runtime if it run out of space.
         ///  The file will be loaded using the TextureMgr.
         /// </summary>
+        #endregion
         public static CCSpriteBatchNode batchNodeWithFile(string fileImage)
         {
             CCSpriteBatchNode batchNode = new CCSpriteBatchNode();
@@ -115,11 +124,13 @@ namespace cocos2d
             return batchNode;
         }
 
+        #region creates a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and capacity of children.
         /// <summary>
         /// creates a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and capacity of children.
         /// The capacity will be increased in 33% in runtime if it run out of space.
         /// The file will be loaded using the TextureMgr.
         /// </summary>
+        #endregion
         public static CCSpriteBatchNode batchNodeWithFile(string fileImage, uint capacity)
         {
             CCSpriteBatchNode batchNode = new CCSpriteBatchNode();
@@ -128,6 +139,7 @@ namespace cocos2d
             return batchNode;
         }
 
+        #region initializes a CCSpriteBatchNode with a texture2d and capacity of children.
         /// <summary>
         ///  initializes a CCSpriteBatchNode with a texture2d and capacity of children.
         ///  The capacity will be increased in 33% in runtime if it run out of space.
@@ -135,6 +147,7 @@ namespace cocos2d
         /// <param name="tex"></param>
         /// <param name="capacity"></param>
         /// <returns></returns>
+        #endregion
         public bool initWithTexture(CCTexture2D tex, uint capacity)
         {
             m_blendFunc.src = 1; // CC_BLEND_SRC = 1
@@ -152,6 +165,7 @@ namespace cocos2d
             return true;
         }
 
+        #region initializes a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and a capacity of children.
         /// <summary>
         /// initializes a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and a capacity of children.
         /// The capacity will be increased in 33% in runtime if it run out of space.
@@ -160,6 +174,7 @@ namespace cocos2d
         /// <param name="fileImage"></param>
         /// <param name="capacity"></param>
         /// <returns></returns>
+        #endregion
         public bool initWithFile(string fileImage, uint capacity)
         {
             CCTexture2D pTexture2D = CCTextureCache.sharedTextureCache().addImage(fileImage);
@@ -190,12 +205,14 @@ namespace cocos2d
             }
         }
 
+        #region removes a child given a certain index. It will also cleanup the running actions depending on the cleanup parameter.
         /// <summary>
         /// removes a child given a certain index. It will also cleanup the running actions depending on the cleanup parameter.
         /// @warning Removing a child from a CCSpriteBatchNode is very slow
         /// </summary>
         /// <param name="index"></param>
         /// <param name="doCleanup"></param>
+        #endregion
         public void removeChildAtIndex( int index , bool doCleanup)
         {
             if ( index >= 0 && index < m_pChildren.Count)
@@ -709,6 +726,7 @@ namespace cocos2d
             }
         }
 
+        #region This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
         /// <summary>
         /// IMPORTANT XXX IMPORTNAT:
         /// These 2 methods can't be part of CCTMXLayer since they call [super add...], and CCSpriteSheet#add SHALL not be called
@@ -718,6 +736,7 @@ namespace cocos2d
         /// </summary>
         /// <param name="sprite"></param>
         /// <param name="index"></param>
+        #endregion
         protected void addQuadFromSprite(CCSprite sprite, uint index)
         {
             Debug.Assert(sprite != null, "Argument must be non-nil");
@@ -742,6 +761,7 @@ namespace cocos2d
             sprite.updateTransform();
         }
 
+        #region This is the opposite of "addQuadFromSprite.
         /// <summary>
         /// This is the opposite of "addQuadFromSprite.
         /// It add the sprite to the children and descendants array, but it doesn't update add it to the texture atlas
@@ -750,6 +770,7 @@ namespace cocos2d
         /// <param name="z"></param>
         /// <param name="aTag"></param>
         /// <returns></returns>
+        #endregion
         protected CCSpriteBatchNode addSpriteWithoutQuad(CCSprite child, uint z, int aTag)
         {
             Debug.Assert(child != null, "Argument must be non-nil");

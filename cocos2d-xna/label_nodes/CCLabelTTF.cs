@@ -33,11 +33,13 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
+    #region CCLabelTTF is a subclass of CCTextureNode that knows how to render text labels
     /// <summary>
     /// CCLabelTTF is a subclass of CCTextureNode that knows how to render text labels
     /// All features from CCTextureNode are valid in CCLabelTTF
     /// CCLabelTTF objects are slow. Consider using CCLabelAtlas or CCLabelBMFont instead.
     /// </summary>
+    #endregion
     public class CCLabelTTF : CCSprite, CCLabelProtocol
     {
         public CCLabelTTF()
@@ -50,9 +52,11 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
+        #region creates a CCLabelTTF from a fontname, alignment, dimension and font size
         /// <summary>
         /// creates a CCLabelTTF from a fontname, alignment, dimension and font size
         /// </summary>
+        #endregion
         public static CCLabelTTF labelWithString(string label, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
         {
             CCLabelTTF pRet = new CCLabelTTF();
@@ -65,9 +69,11 @@ namespace cocos2d
             return null;
         }
 
+        #region creates a CCLabelTTF from a fontname and font size
         /// <summary>
         /// creates a CCLabelTTF from a fontname and font size
         /// </summary>
+        #endregion
         public static CCLabelTTF labelWithString(string label, string fontName, float fontSize)
         {
             CCLabelTTF pRet = new CCLabelTTF();
@@ -80,35 +86,39 @@ namespace cocos2d
             return null;
         }
 
+        #region initializes the CCLabelTTF with a font name, alignment, dimension and font size
         /// <summary>
         /// initializes the CCLabelTTF with a font name, alignment, dimension and font size
         /// </summary>
+        #endregion
         public bool initWithString(string label, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
         {
             Debug.Assert(label != null);
-		if (init())
-		{
-			m_tDimensions =new CCSize( dimensions.width * CCDirector.sharedDirector().getFrames(), dimensions.height * CCDirector.sharedDirector().getFrames() );
-			m_eAlignment = alignment;
-
-            if (m_pFontName!=null)
+            if (init())
             {
-                //delete m_pFontName;
-                m_pFontName = null;
-            }
-            m_pFontName =fontName;
+                m_tDimensions = new CCSize(dimensions.width * CCDirector.sharedDirector().getFrames(), dimensions.height * CCDirector.sharedDirector().getFrames());
+                m_eAlignment = alignment;
 
-			//m_fFontSize = fontSize * CC_CONTENT_SCALE_FACTOR();
-            m_fFontSize = fontSize * CCDirector.sharedDirector().getFrames();
-			this.setString(label);
-			return true;
-		}
-		return false;
+                if (m_pFontName != null)
+                {
+                    //delete m_pFontName;
+                    m_pFontName = null;
+                }
+                m_pFontName = fontName;
+
+                //m_fFontSize = fontSize * CC_CONTENT_SCALE_FACTOR();
+                m_fFontSize = fontSize * CCDirector.sharedDirector().getFrames();
+                this.setString(label);
+                return true;
+            }
+            return false;
         }
 
+        #region initializes the CCLabelTTF with a font name and font size
         /// <summary>
         /// initializes the CCLabelTTF with a font name and font size
         /// </summary>
+        #endregion
         public bool initWithString(string label, string fontName, float fontSize)
         {
             Debug.Assert(label != null);
@@ -130,10 +140,12 @@ namespace cocos2d
             return false;
         }
 
+        #region changes the string to render
         /// <summary>
         /// changes the string to render
         /// @warning Changing the string is as expensive as creating a new CCLabelTTF. To obtain better performance use CCLabelAtlas
         /// </summary>
+        #endregion
         public virtual void setString(string label)
         {
             if (m_pString != null)

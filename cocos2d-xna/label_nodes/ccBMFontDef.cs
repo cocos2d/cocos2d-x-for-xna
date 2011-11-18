@@ -33,10 +33,12 @@ using System.Text;
 
 namespace cocos2d
 {
+
+    #region BMFont definition
     /// <summary>
-    /// @struct ccBMFontDef
     /// BMFont definition
     /// </summary>
+    #endregion
     public class ccBMFontDef
     {
         // ID of the character

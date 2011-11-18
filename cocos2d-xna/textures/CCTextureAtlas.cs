@@ -42,9 +42,11 @@ namespace cocos2d
         //bool				m_bDirty; //indicates whether or not the array buffer of the VBO needs to be updated
         //#endif // CC_USES_VBO
 
+        #region quantity of quads that are going to be drawn
         /// <summary>
         /// quantity of quads that are going to be drawn
         /// </summary>
+        #endregion
         protected uint m_uTotalQuads;
         public uint TotalQuads
         {
@@ -58,9 +60,11 @@ namespace cocos2d
             }
         }
 
+        #region quantity of quads that can be stored with the current texture atlas size
         /// <summary>
         /// quantity of quads that can be stored with the current texture atlas size
         /// </summary>
+        #endregion
         protected uint m_uCapacity;
         public uint Capacity
         {
@@ -74,9 +78,11 @@ namespace cocos2d
             }
         }
 
+        #region Texture of the texture atlas
         /// <summary>
         /// Texture of the texture atlas
         /// </summary>
+        #endregion
         protected CCTexture2D m_pTexture;
         public CCTexture2D Texture
         {
@@ -90,9 +96,11 @@ namespace cocos2d
             }
         }
 
+        #region Quads that are going to be rendered
         /// <summary>
         /// Quads that are going to be rendered
         /// </summary>
+        #endregion
         protected ccV3F_C4B_T2F_Quad m_pQuads;
         public ccV3F_C4B_T2F_Quad Quads
         {
@@ -118,10 +126,12 @@ namespace cocos2d
             return ret.ToString();
         }
 
+        #region creates a TextureAtlas with an filename and with an initial capacity for Quads.
         /// <summary>
         /// creates a TextureAtlas with an filename and with an initial capacity for Quads.
         /// The TextureAtlas capacity can be increased in runtime.
         /// </summary>
+        #endregion
         public static CCTextureAtlas textureAtlasWithFile(string file, uint capacity)
         {
             CCTextureAtlas pTextureAtlas = new CCTextureAtlas();
@@ -134,11 +144,13 @@ namespace cocos2d
             return null;
         }
 
+        #region initializes a TextureAtlas with a filename and with a certain capacity for Quads.
         /// <summary>
         /// initializes a TextureAtlas with a filename and with a certain capacity for Quads.
         /// The TextureAtlas capacity can be increased in runtime.
         /// WARNING: Do not reinitialize the TextureAtlas because it will leak memory (issue #706)
         /// </summary>
+        #endregion
         public bool initWithFile(string file, uint capacity)
         {
             // retained in property
@@ -157,11 +169,13 @@ namespace cocos2d
             }
         }
 
+        #region creates a TextureAtlas with a previously initialized Texture2D object...
         /// <summary>
         /// creates a TextureAtlas with a previously initialized Texture2D object, and
         /// with an initial capacity for n Quads. 
         /// The TextureAtlas capacity can be increased in runtime.
         /// </summary>
+        #endregion
         public static CCTextureAtlas textureAtlasWithTexture(CCTexture2D texture, uint capacity)
         {
             CCTextureAtlas pTextureAtlas = new CCTextureAtlas();
@@ -174,12 +188,14 @@ namespace cocos2d
             return null;
         }
 
+        #region initializes a TextureAtlas with a previously initialized Texture2D object...
         /// <summary>
         /// initializes a TextureAtlas with a previously initialized Texture2D object, and
         /// with an initial capacity for Quads. 
         /// The TextureAtlas capacity can be increased in runtime.
         /// WARNING: Do not reinitialize the TextureAtlas because it will leak memory (issue #706)
         /// </summary>
+        #endregion
         public bool initWithTexture(CCTexture2D texture, uint capacity)
         {
             //    assert(texture != NULL);
@@ -219,11 +235,13 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
+        #region updates a Quad (texture, vertex and color) at a certain index
         /// <summary>
         /// updates a Quad (texture, vertex and color) at a certain index
         /// index must be between 0 and the atlas capacity - 1
         /// @since v0.8
         /// </summary>
+        #endregion
         public void updateQuad(ccV3F_C4B_T2F_Quad quad, uint index)
         {
             Debug.Assert(index >= 0 && index < m_uCapacity, "updateQuadWithTexture: Invalid index");
@@ -236,11 +254,13 @@ namespace cocos2d
             //#endif
         }
 
+        #region Inserts a Quad (texture, vertex and color) at a certain index
         /// <summary>
         /// Inserts a Quad (texture, vertex and color) at a certain index
         /// index must be between 0 and the atlas capacity - 1
         /// @since v0.8
         /// </summary>
+        #endregion
         public void insertQuad(ccV3F_C4B_T2F_Quad quad, uint index)
         {
             //Debug.Assert( index < m_uCapacity, "insertQuadWithTexture: Invalid index");
@@ -266,11 +286,13 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
+        #region Removes the quad that is located at a certain index and inserts it at a new index
         /// <summary>
         /// Removes the quad that is located at a certain index and inserts it at a new index
         /// This operation is faster than removing and inserting in a quad in 2 different steps
         /// @since v0.7.2
         /// </summary>
+        #endregion
         public void insertQuadFromIndex(uint oldIndex, uint newIndex)
         {
             //Debug.Assert(newIndex >= 0 && newIndex < m_uTotalQuads, "insertQuadFromIndex:atIndex: Invalid index");
@@ -302,11 +324,13 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
+        #region removes a quad at a given index number.
         /// <summary>
         /// removes a quad at a given index number.
         /// The capacity remains the same, but the total number of quads to be drawn is reduced in 1
         /// @since v0.7.2
         /// </summary>
+        #endregion
         public void removeQuadAtIndex(uint index)
         {
             // Debug.Assert( index < m_uTotalQuads, "removeQuadAtIndex: Invalid index");
@@ -328,23 +352,27 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
+        #region removes all Quads.
         /// <summary>
         /// removes all Quads.
         /// The TextureAtlas capacity remains untouched. No memory is freed.
         /// The total number of quads to be drawn will be 0
         /// @since v0.7.2
         /// </summary>
+        #endregion
         public void removeAllQuads()
         {
             m_uTotalQuads = 0;
         }
 
+        #region resize the capacity of the CCTextureAtlas.
         /// <summary>
         /// resize the capacity of the CCTextureAtlas.
         /// The new capacity can be lower or higher than the current one
         /// It returns YES if the resize was successful.
         ///  If it fails to resize the capacity it will return NO with a new capacity of 0.
         /// </summary>
+        #endregion
         public bool resizeCapacity(uint newCapacity)
         {
             //    if( newCapacity == m_uCapacity )
@@ -388,29 +416,35 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
+        #region draws n quads
         /// <summary>
         /// draws n quads
         ///  can't be greater than the capacity of the Atlas
         ///  n
         /// </summary>
+        #endregion
         public void drawNumberOfQuads(uint n)
         {
             this.drawNumberOfQuads(n, 0);
         }
 
+        #region draws n quads from an index (offset).
         /// <summary>
         /// draws n quads from an index (offset).
         /// n + start can't be greater than the capacity of the atlas
         /// @since v1.0
         /// </summary>
+        #endregion
         public void drawNumberOfQuads(uint n, uint start)
         {
             //glBindTexture(GL_TEXTURE_2D, m_pTexture.getName());
         }
 
+        #region draws all the Atlas's Quads
         /// <summary>
         /// draws all the Atlas's Quads
         /// </summary>
+        #endregion
         public void drawQuads()
         {
             this.drawNumberOfQuads(m_uTotalQuads, 0);

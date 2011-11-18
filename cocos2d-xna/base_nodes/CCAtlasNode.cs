@@ -60,8 +60,8 @@ namespace cocos2d
                 m_pTextureAtlas = value;
             }
         }
-        // protocol variables
 
+        // protocol variables
         protected bool m_bIsOpacityModifyRGB;
         public bool IsOpacityModifyRGB
         {
@@ -134,6 +134,7 @@ namespace cocos2d
 
         }
 
+        #region creates a CCAtlasNode  with an Atlas file the width and height of each item and the quantity of items to render
         /// <summary>
         /// creates a CCAtlasNode  with an Atlas file the width and height of each item and the quantity of items to render
         /// </summary>
@@ -142,6 +143,7 @@ namespace cocos2d
         /// <param name="tileHeight"></param>
         /// <param name="itemsToRender"></param>
         /// <returns></returns>
+        #endregion
         public static CCAtlasNode atlasWithTileFile(string tile, uint tileWidth, uint tileHeight, uint itemsToRender)
         {
             CCAtlasNode pRet = new CCAtlasNode();
@@ -169,11 +171,11 @@ namespace cocos2d
             m_uItemHeight = (uint)(tileHeight);
 
             m_cOpacity = 255;
-            //m_tColor = m_tColorUnmodified = ccWHITE;
+            m_tColor = m_tColorUnmodified = new ccColor3B(255, 255, 255); //ccWHITE=static const ccColor3B ccWHITE={255,255,255};
             m_bIsOpacityModifyRGB = true;
 
-            //m_tBlendFunc.src = CC_BLEND_SRC;
-            //m_tBlendFunc.dst = CC_BLEND_DST;
+            m_tBlendFunc.src = 1; //CC_BLEND_SRC=GL_ONE=1
+            m_tBlendFunc.dst = 0x0304; //CC_BLEND_DST=GL_ONE_MINUS_SRC_ALPHA=0x0304
 
             // double retain to avoid the autorelease pool
             // also, using: self.textureAtlas supports re-initialization without leaking
@@ -197,10 +199,12 @@ namespace cocos2d
             return true;
         }
 
+        #region updates the Atlas (indexed vertex array).
         /// <summary>
         ///  updates the Atlas (indexed vertex array).
         ///  Shall be overriden in subclasses
         /// </summary>
+        #endregion
         public virtual void updateAtlasValues()
         {
             Debug.Assert(false, "CCAtlasNode:Abstract updateAtlasValue not overriden");
@@ -246,19 +250,23 @@ namespace cocos2d
 
         // CC Texture protocol
 
+        #region returns the used texture
         /// <summary>
         /// returns the used texture
         /// </summary>
         /// <returns></returns>
+        #endregion
         public virtual CCTexture2D getTexture()
         {
             return m_pTextureAtlas.Texture;
         }
 
+        #region sets a new texture. it will be retained
         /// <summary>
         /// sets a new texture. it will be retained
         /// </summary>
         /// <param name="texture"></param>
+        #endregion
         public virtual void setTexture(CCTexture2D texture)
         {
             m_pTextureAtlas.Texture = texture;
@@ -297,9 +305,11 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
+        #region getColor,setColor->ccColor
         /// <summary>
         /// getColor,setColor->ccColor
         /// </summary>
+        #endregion
         public ccColor3B ccColor
         {
             get
@@ -323,9 +333,11 @@ namespace cocos2d
             }
         }
 
+        #region etOpacity setOpacity->ccOpacity
         /// <summary>
         /// getOpacity setOpacity->ccOpacity
         /// </summary>
+        #endregion 
         public byte ccOpacity
         {
             get
@@ -343,9 +355,11 @@ namespace cocos2d
             }
         }
 
+        #region setIsOpacityModifyRGB getIsOpacityModifyRGB->ccIsOpacityModifyRGB
         /// <summary>
         /// setIsOpacityModifyRGB getIsOpacityModifyRGB->ccIsOpacityModifyRGB
         /// </summary>
+        #endregion
         public bool ccIsOpacityModifyRGB
         {
             get

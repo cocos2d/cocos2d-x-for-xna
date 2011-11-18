@@ -35,8 +35,8 @@ using System.Diagnostics;
 namespace cocos2d
 {
 
+    #region It can be as a replacement of CCLabel since it is MUCH faster.
     /// <summary>
-    /// @brief CCLabelAtlas is a subclass of CCAtlasNode.
     /// It can be as a replacement of CCLabel since it is MUCH faster.
     ///CCLabelAtlas versus CCLabel:
     ///CCLabelAtlas is MUCH faster than CCLabel
@@ -44,6 +44,7 @@ namespace cocos2d
     ///CCLabelAtlas "characters" can be anything you want since they are taken from an image file
     /// A more flexible class is CCLabelBMFont. It supports variable width characters and it also has a nice editor.
     /// </summary>
+    #endregion
     public class CCLabelAtlas : CCAtlasNode, CCLabelProtocol
     {
         public CCLabelAtlas()
@@ -51,11 +52,13 @@ namespace cocos2d
             m_sString = "";
         }
 
+        #region creates the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas
         /// <summary>
         /// creates the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas
         /// </summary>
         /// <param name="?"></param>
         /// <returns></returns>
+        #endregion
         public static CCLabelAtlas labelWithString(string label, string charMapFile, uint itemWidth, uint itemHeight, char startCharMap)
         {
             CCLabelAtlas pRet = new CCLabelAtlas();
@@ -68,6 +71,7 @@ namespace cocos2d
             return null;
         }
 
+        #region initializes the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas
         /// <summary>
         /// initializes the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas
         /// </summary>
@@ -77,6 +81,7 @@ namespace cocos2d
         /// <param name="itemHeight"></param>
         /// <param name="startCharMap"></param>
         /// <returns></returns>
+        #endregion
         public bool initWithString(string label, string charMapFile, uint itemWidth, uint itemHeight, char startCharMap)
         {
             Debug.Assert(label != null);
@@ -143,9 +148,11 @@ namespace cocos2d
             }
         }
 
+        #region setString getString->StrString
         /// <summary>
         /// setString getString->StrString
         /// </summary>
+        #endregion
         public virtual string StrString
         {
             get

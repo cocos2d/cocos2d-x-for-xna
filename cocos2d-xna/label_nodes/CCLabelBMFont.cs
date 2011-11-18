@@ -93,19 +93,23 @@ namespace cocos2d
             //CC_SAFE_RELEASE(m_pConfiguration);
         }
 
+        #region Purges the cached data.
         /// <summary>
         /// Purges the cached data.
         /// Removes from memory the cached configurations and the atlas name dictionary.
         /// @since v0.99.3
         /// </summary>
+        #endregion
         public static void purgeCachedData()
         {
             FNTConfigRemoveCache();
         }
 
+        #region creates a bitmap font altas with an initial string and the FNT file
         /// <summary>
         /// creates a bitmap font altas with an initial string and the FNT file
         /// </summary>
+        #endregion
         public static CCLabelBMFont labelWithString(string str, string fntFile)
         {
             CCLabelBMFont pRet = new CCLabelBMFont();
@@ -118,9 +122,11 @@ namespace cocos2d
             return null;
         }
 
+        #region init a bitmap font altas with an initial string and the FNT file
         /// <summary>
         /// init a bitmap font altas with an initial string and the FNT file
         /// </summary>
+        #endregion
         public bool initWithString(string theString, string fntFile)
         {
             Debug.Assert(theString != null);
@@ -142,9 +148,11 @@ namespace cocos2d
             return false;
         }
 
+        #region updates the font chars based on the string to render
         /// <summary>
         /// updates the font chars based on the string to render
         /// </summary>
+        #endregion
         public void createFontChars()
         {
             int nextFontPositionX = 0;
@@ -249,7 +257,6 @@ namespace cocos2d
 
             //this.setContentSizeInPixels(tmpSize);
         }
-
 
         //public virtual string gsString
         //{
