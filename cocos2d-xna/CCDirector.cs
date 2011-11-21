@@ -584,8 +584,8 @@ namespace cocos2d
             {
                 // swap x,y in landspace mode
                 CCSize tmp = s;
-                s.width = tmp.height;
-                s.height = tmp.width;
+                s.width = tmp.width;
+                s.height = tmp.height;
             }
 
             return s;
@@ -644,6 +644,8 @@ namespace cocos2d
         /// </summary>
         public CCPoint convertToGL(CCPoint obPoint)
         {
+            return obPoint;
+
             CCSize s = m_obWinSizeInPoints;
             float newY = s.height - obPoint.y;
             float newX = s.width - obPoint.x;
@@ -842,7 +844,7 @@ namespace cocos2d
         public void setOpenGLView()
         {
             // set size
-            m_obWinSizeInPoints = new CCSize(480, 800);
+            m_obWinSizeInPoints = CCApplication.sharedApplication().getSize();
             m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * m_fContentScaleFactor, m_obWinSizeInPoints.height * m_fContentScaleFactor);
             //setGLDefaultValues();
 

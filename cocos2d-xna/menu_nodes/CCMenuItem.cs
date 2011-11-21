@@ -95,7 +95,8 @@ namespace cocos2d
         {
             return new CCRect(m_tPosition.x - m_tContentSize.width * m_tAnchorPoint.x,
                 m_tPosition.y - m_tContentSize.height * m_tAnchorPoint.y,
-                m_tContentSize.width, m_tContentSize.height);
+                m_tContentSize.width, 
+                m_tContentSize.height);
         }
 
         /// <summary>

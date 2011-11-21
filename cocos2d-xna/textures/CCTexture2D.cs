@@ -1,8 +1,10 @@
 /****************************************************************************
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (C) 2008      Apple Inc. All Rights Reserved.
+Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
+http://www.openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,11 +32,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-
-//#include <string>
-//#include "CCObject.h"
-//#include "CCGeometry.h"
-//#include "ccTypes.h"
 
 namespace cocos2d
 {
@@ -76,9 +73,9 @@ namespace cocos2d
         kTexture2DPixelFormat_Default = kCCTexture2DPixelFormat_Default
     } ;
 
-    /**
-    Extension to set the Min / Mag filter
-    */
+    /// <summary>
+    /// Extension to set the Min / Mag filter
+    /// </summary>
     public struct ccTexParams
     {
         uint minFilter;
@@ -87,12 +84,13 @@ namespace cocos2d
         uint wrapT;
     };
 
-    /** @brief CCTexture2D class.
-    * This class allows to easily create OpenGL 2D textures from images, text or raw data.
-    * The created CCTexture2D object will always have power-of-two dimensions. 
-    * Depending on how you create the CCTexture2D object, the actual image area of the texture might be smaller than the texture dimensions i.e. "contentSize" != (pixelsWide, pixelsHigh) and (maxS, maxT) != (1.0, 1.0).
-    * Be aware that the content of the generated textures will be upside-down!
-    */
+    /// <summary>
+    /// @brief CCTexture2D class.
+    /// This class allows to easily create OpenGL 2D textures from images, text or raw data.
+    /// The created CCTexture2D object will always have power-of-two dimensions. 
+    /// Depending on how you create the CCTexture2D object, the actual image area of the texture might be smaller than the texture dimensions i.e. "contentSize" != (pixelsWide, pixelsHigh) and (maxS, maxT) != (1.0, 1.0).
+    /// Be aware that the content of the generated textures will be upside-down!
+    /// </summary>
     public class CCTexture2D : CCObject
     {
         public CCTexture2D()
@@ -139,7 +137,10 @@ namespace cocos2d
         Drawing extensions to make it easy to draw basic quads using a CCTexture2D object.
         These functions require GL_TEXTURE_2D and both GL_VERTEX_ARRAY and GL_TEXTURE_COORD_ARRAY client states to be enabled.
         */
-        /** draws a texture at a given point */
+
+        ///<summary>
+        /// draws a texture at a given point 
+        ///</summary>
         public void drawAtPoint(CCPoint point)
         {
             if (null == texture2D)
@@ -147,11 +148,18 @@ namespace cocos2d
                 return;
             }
 
+            //CCDirector.sharedDirector().getWinSize().height 
+
+            //Vector2 temp = new Vector2();
+
             CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(point.x, point.y), Color.White);
+            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(point.x, point.y), Color.Yellow);
             CCApplication.sharedApplication().spriteBatch.End();
         }
-        /** draws a texture inside a rect */
+
+        /// <summary>
+        /// draws a texture inside a rect
+        /// </summary>
         public void drawInRect(CCRect rect)
         {
             if (null == texture2D)
@@ -178,6 +186,7 @@ namespace cocos2d
         Extensions to make it easy to create a CCTexture2D object from a string of text.
         Note that the generated textures are of type A8 - use the blending mode (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA).
         */
+
         ///<summary>
         /// Initializes a texture from a string with dimensions, alignment, font name and font size
         /// </summary>
@@ -188,14 +197,15 @@ namespace cocos2d
                 return false;
             }
 
+            SpriteFont font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
             if (CCSize.CCSizeEqualToSize(dimensions, new CCSize()))
             {
-                dimensions = CCDirector.sharedDirector().getWinSize();
+                Vector2 temp = font.MeasureString(text);
+                dimensions.width = temp.X;
+                dimensions.height = temp.Y;
             }
 
             float scale = 1.0f;//need refer fontSize;
-            SpriteFont font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
-
             CCApplication app = CCApplication.sharedApplication();
 
             //*  for render to texture
@@ -221,7 +231,10 @@ namespace cocos2d
 
             // throw new NotImplementedException();
         }
-        /** Initializes a texture from a string with font name and font size */
+
+        /// <summary>
+        ///  Initializes a texture from a string with font name and font size
+        /// </summary>
         public bool initWithString(string text, string fontName, float fontSize)
         {
             return initWithString(text, new CCSize(0, 0), CCTextAlignment.CCTextAlignmentCenter, fontName, fontSize);
@@ -232,7 +245,9 @@ namespace cocos2d
             return m_tContentSize;
         }
 
-        /** returns the content size of the texture in points */
+        /// <summary>
+        /// returns the content size of the texture in points
+        /// </summary>
         public CCSize getContentSize()
         {
             CCSize ret = new CCSize();
@@ -260,7 +275,9 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        /** Initializes a texture from a content file */
+        /// <summary>
+        /// Initializes a texture from a content file
+        /// </summary>
         public bool initWithTexture(Texture2D texture)
         {
             if (null == texture)
@@ -388,28 +405,30 @@ namespace cocos2d
         private bool m_PVRHaveAlphaPremultiplied;
 
         /** pixel format of the texture */
-        private CCTexture2DPixelFormat m_ePixelFormat { get; set; }
+        private CCTexture2DPixelFormat m_ePixelFormat;
         /** width in pixels */
-        private uint m_uPixelsWide { get; set; }
+        private uint m_uPixelsWide;
         /** hight in pixels */
-        private uint m_uPixelsHigh { get; set; }
+        private uint m_uPixelsHigh;
 
         /** texture name */
-        private uint m_uName { get; set; }
+        private uint m_uName;
 
         /** content size */
-        private CCSize m_tContentSize { get; set; }
+        private CCSize m_tContentSize;
         /** texture max S */
-        private float m_fMaxS { get; set; }
+        private float m_fMaxS;
         /** texture max T */
-        private float m_fMaxT { get; set; }
-        /** whether or not the texture has their Alpha premultiplied */
-        private bool m_bHasPremultipliedAlpha { get; set; }
+        private float m_fMaxT;
 
+
+        private bool m_bHasPremultipliedAlpha;
+        /// <summary>
+        /// whether or not the texture has their Alpha premultiplied
+        /// </summary>
         public bool getHasPremultipliedAlpha()
         {
             return m_bHasPremultipliedAlpha;
         }
-
     }
 }

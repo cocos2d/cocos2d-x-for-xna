@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace cocos2d.menu_nodes
+namespace cocos2d
 {
     public class CCMenuItemLabel : CCMenuItem, CCRGBAProtocol
     {
@@ -47,7 +47,7 @@ namespace cocos2d.menu_nodes
             set;
         }
 
-       protected CCNode m_pLabel;
+        protected CCNode m_pLabel;
 
         public CCNode Label
         {
@@ -76,10 +76,6 @@ namespace cocos2d.menu_nodes
         /// <summary>
         /// creates a CCMenuItemLabel with a Label, target and selector
         /// </summary>
-        /// <param name="label"></param>
-        /// <param name="target"></param>
-        /// <param name="selector"></param>
-        /// <returns></returns>
         public static CCMenuItemLabel itemWithLabel(CCNode label, SelectorProtocol target, SEL_MenuHandler selector)
         {
             CCMenuItemLabel pRet = new CCMenuItemLabel();
@@ -88,7 +84,9 @@ namespace cocos2d.menu_nodes
             return pRet;
         }
 
-        /** creates a CCMenuItemLabel with a Label. Target and selector will be nill */
+        /// <summary>
+        /// creates a CCMenuItemLabel with a Label. Target and selector will be nill 
+        /// </summary>
         public static CCMenuItemLabel itemWithLabel(CCNode label)
         {
             CCMenuItemLabel pRet = new CCMenuItemLabel();
@@ -97,8 +95,10 @@ namespace cocos2d.menu_nodes
             return pRet;
         }
 
-        /** initializes a CCMenuItemLabel with a Label, target and selector */
-        public bool initWithLabel(CCNode label, SelectorProtocol target, SEL_MenuHandler selector)
+        /// <summary>
+        /// initializes a CCMenuItemLabel with a Label, target and selector
+        /// </summary>
+        protected bool initWithLabel(CCNode label, SelectorProtocol target, SEL_MenuHandler selector)
         {
             base.initWithTarget(target, selector);
 

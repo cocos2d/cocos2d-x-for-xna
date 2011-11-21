@@ -160,10 +160,8 @@ namespace cocos2d
             this.setTexture(texture);
             //texture->release();
 
-            //spriteFont = CCApplication.sharedApplication().content.Load<SpriteFont>("SpriteFont1");
-
             CCRect rect = new CCRect(0, 0, 0, 0);
-            // rect.size = m_pobTexture.getContentSize();
+            rect.size = m_pobTexture.getContentSize();
             this.setTextureRect(rect);
         }
 

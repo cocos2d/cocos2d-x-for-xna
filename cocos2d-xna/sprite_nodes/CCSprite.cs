@@ -294,12 +294,16 @@ namespace cocos2d
 
         public override void draw()
         {
-            if (null == m_pobTexture)
+            base.draw();
+
+            if (m_pobTexture == null)
             {
                 return;
             }
+            // long offset = (long)m_sQuad;
 
-            m_pobTexture.drawAtPoint(new CCPoint(position.x - anchorPointInPixels.x, position.y - anchorPointInPixels.y));
+            m_pobTexture.drawAtPoint(new CCPoint(position.x - anchorPointInPixels.x,
+                 (position.y - anchorPointInPixels.y)));
         }
 
         /// <summary>

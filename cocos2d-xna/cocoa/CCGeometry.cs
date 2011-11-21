@@ -43,9 +43,9 @@ namespace cocos2d
             this.y = y;
         }
 
-        public static CCPoint Zero 
+        public static CCPoint Zero
         {
-            get { return new CCPoint(0, 0); } 
+            get { return new CCPoint(0, 0); }
         }
 
         public static bool CCPointEqualToPoint(CCPoint point1, CCPoint point2)
@@ -100,7 +100,8 @@ namespace cocos2d
         public CCPoint origin;
         public CCSize size;
 
-        public CCRect() : this(0,0,0,0)
+        public CCRect()
+            : this(0, 0, 0, 0)
         {
 
         }
@@ -186,7 +187,7 @@ namespace cocos2d
             {
                 return (CCPoint.CCPointEqualToPoint(rect1.origin, rect2.origin)
                 && (CCSize.CCSizeEqualToSize(rect1.size, rect2.size)));
-            }           
+            }
         }
 
         public static bool CCRectContainsPoint(CCRect rect, CCPoint point)
@@ -195,8 +196,13 @@ namespace cocos2d
 
             bool bRet = false;
 
-            if ((rect != null) && (point != null))
+            if (rect != null && point != null)
             {
+                float minx = CCRectGetMinX(rect);
+                float maxx = CCRectGetMaxX(rect);
+                float miny = CCRectGetMinY(rect);
+                float maxy= CCRectGetMaxY(rect);
+
                 if (point.x >= CCRectGetMinX(rect)
                     && point.x <= CCRectGetMaxX(rect)
                     && point.y >= CCRectGetMinY(rect)
