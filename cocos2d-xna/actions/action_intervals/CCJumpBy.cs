@@ -89,10 +89,10 @@ namespace cocos2d
 
         public override CCFiniteTimeAction reverse()
         {
-            return CCJumpBy.actionWithDuraion(m_fDuration, CCPointExtension.ccp(-m_delta.x, -m_delta.y), m_height, m_nJumps);
+            return CCJumpBy.actionWithDuration(m_fDuration, CCPointExtension.ccp(-m_delta.x, -m_delta.y), m_height, m_nJumps);
         }
 
-        public static CCJumpBy actionWithDuraion(float duration, CCPoint position, float height, uint jumps)
+        public static CCJumpBy actionWithDuration(float duration, CCPoint position, float height, uint jumps)
         {
             CCJumpBy ret = new CCJumpBy();
             ret.initWithDuration(duration, position, height, jumps);

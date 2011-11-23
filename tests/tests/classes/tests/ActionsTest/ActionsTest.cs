@@ -399,32 +399,159 @@ namespace tests
 
     };
 
-    //class ActionSkewRotateScale : public ActionsDemo
-    //{
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+    public class ActionSkewRotateScale : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            // todo: CCLayerColor hasn't been implemented
 
-    //class ActionRotate : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            //base.onEnter();
 
-    //class ActionJump : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            //m_tamara.removeFromParentAndCleanup(true);
+            //m_grossini.removeFromParentAndCleanup(true);
+            //m_kathia.removeFromParentAndCleanup(true);
 
-    //class ActionBezier : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            //CCSize boxSize = new CCSize(100.0f, 100.0f);
+
+            //CCLayerColor box = CCLayerColor.layerWithColor(new ccColor4B(255, 255, 0, 255));
+            //box.anchorPoint = new CCPoint(0, 0);
+            //box.position = new CCPoint(190, 110);
+            //box.contentSize = boxSize;
+
+            //static float markrside = 10.0f;
+            //CCLayerColor *uL = CCLayerColor::layerWithColor(ccc4(255, 0, 0, 255));
+            //box->addChild(uL);
+            //uL->setContentSize(CCSizeMake(markrside, markrside));
+            //uL->setPosition(ccp(0.f, boxSize.height - markrside));
+            //uL->setAnchorPoint(ccp(0, 0));
+
+            //CCLayerColor *uR = CCLayerColor::layerWithColor(ccc4(0, 0, 255, 255));
+            //box->addChild(uR);
+            //uR->setContentSize(CCSizeMake(markrside, markrside));
+            //uR->setPosition(ccp(boxSize.width - markrside, boxSize.height - markrside));
+            //uR->setAnchorPoint(ccp(0, 0));
+            //addChild(box);
+
+            //CCActionInterval *actionTo = CCSkewTo::actionWithDuration(2, 0.f, 2.f);
+            //CCActionInterval *rotateTo = CCRotateTo::actionWithDuration(2, 61.0f);
+            //CCActionInterval *actionScaleTo = CCScaleTo::actionWithDuration(2, -0.44f, 0.47f);
+
+            //CCActionInterval *actionScaleToBack = CCScaleTo::actionWithDuration(2, 1.0f, 1.0f);
+            //CCActionInterval *rotateToBack = CCRotateTo::actionWithDuration(2, 0);
+            //CCActionInterval *actionToBack = CCSkewTo::actionWithDuration(2, 0, 0);
+
+            //box->runAction(CCSequence::actions(actionTo, actionToBack, NULL));
+            //box->runAction(CCSequence::actions(rotateTo, rotateToBack, NULL));
+            //box->runAction(CCSequence::actions(actionScaleTo, actionScaleToBack, NULL));
+        }
+
+        public override string subtitle()
+        {
+	        return "Skew + Rotate + Scale";
+        }
+
+    };
+
+    public class ActionRotate : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(3);
+
+            CCActionInterval actionTo = CCRotateTo.actionWithDuration(2, 45);
+            CCActionInterval actionTo2 = CCRotateTo.actionWithDuration(2, -45);
+            CCActionInterval actionTo0 = CCRotateTo.actionWithDuration(2 , 0);
+            m_tamara.runAction(CCSequence.actions(actionTo, actionTo0, null));
+
+            CCActionInterval actionBy = CCRotateBy.actionWithDuration(2 , 360);
+            CCFiniteTimeAction actionByBack = actionBy.reverse();
+            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack, null));
+
+            // m_kathia->runAction( CCSequence::actions(actionTo2, actionTo0->copy()->autorelease(), NULL));
+            m_kathia.runAction(CCSequence.actions(actionTo2, actionTo0, null));
+        }
+
+        public override string subtitle()
+        {
+            return "RotateTo / RotateBy";
+        }
+    };
+
+    public class ActionJump : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(3);
+
+            CCActionInterval actionTo = CCJumpTo.actionWithDuration(2, new CCPoint(300,300), 50, 4);
+            CCActionInterval actionBy = CCJumpBy.actionWithDuration(2, new CCPoint(300, 0), 50, 4);
+            CCActionInterval actionUp = CCJumpBy.actionWithDuration(2, new CCPoint(0,0), 80, 4);
+            CCFiniteTimeAction actionByBack = actionBy.reverse();
+
+            m_tamara.runAction(actionTo);
+            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack, null));
+            m_kathia.runAction(CCRepeatForever.actionWithAction(actionUp));
+        }
+
+        public override string subtitle()
+        {
+            return "JumpTo / JumpBy";
+        }
+    };
+
+    public class ActionBezier : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+
+            //
+            // startPosition can be any coordinate, but since the movement
+            // is relative to the Bezier curve, make it (0,0)
+            //
+
+            centerSprites(3);
+
+            // sprite 1
+            ccBezierConfig bezier;
+            bezier.controlPoint_1 = new CCPoint(0, s.height/2);
+            bezier.controlPoint_2 = new CCPoint(300, -s.height/2);
+            bezier.endPosition = new CCPoint(300,100);
+
+            CCActionInterval bezierForward = CCBezierBy.actionWithDuration(3, bezier);
+            CCFiniteTimeAction bezierBack = bezierForward.reverse();	
+            CCAction rep = CCRepeatForever.actionWithAction((CCActionInterval)CCSequence.actions( bezierForward, bezierBack, null));
+
+
+            // sprite 2
+            m_tamara.position = new CCPoint(80,160);
+            ccBezierConfig bezier2;
+            bezier2.controlPoint_1 = new CCPoint(100, s.height/2);
+            bezier2.controlPoint_2 = new CCPoint(200, -s.height/2);
+            bezier2.endPosition = new CCPoint(240,160);
+
+            CCActionInterval bezierTo1 = CCBezierTo.actionWithDuration(2, bezier2);	
+
+            // sprite 3
+            m_kathia.position = new CCPoint(400,160);
+            CCActionInterval bezierTo2 = CCBezierTo.actionWithDuration(2, bezier2);
+
+            m_grossini.runAction(rep);
+            m_tamara.runAction(bezierTo1);
+            m_kathia.runAction(bezierTo2);
+        }
+
+        public override string subtitle()
+        {
+            return "BezierBy / BezierTo";
+        }
+    };
 
     //class ActionBlink : public ActionsDemo
     //{
