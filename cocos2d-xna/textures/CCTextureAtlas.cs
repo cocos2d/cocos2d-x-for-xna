@@ -198,41 +198,43 @@ namespace cocos2d
         #endregion
         public bool initWithTexture(CCTexture2D texture, uint capacity)
         {
-            //    assert(texture != NULL);
-            //    m_uCapacity = capacity;
-            //    m_uTotalQuads = 0;
+            Debug.Assert(texture != null);
+            m_uCapacity = capacity;
+            m_uTotalQuads = 0;
 
-            //    // retained in property
-            //    this->m_pTexture = texture;
-            //    CC_SAFE_RETAIN(m_pTexture);
+            // retained in property
+            this.m_pTexture = texture;
 
-            //    // Re-initialization is not allowed
-            //    assert(m_pQuads == NULL && m_pIndices == NULL);
+            // CC_SAFE_RETAIN(m_pTexture);
 
-            //    m_pQuads = (ccV3F_C4B_T2F_Quad*)calloc( sizeof(ccV3F_C4B_T2F_Quad) * m_uCapacity, 1 );
-            //    m_pIndices = (GLushort *)calloc( sizeof(GLushort) * m_uCapacity * 6, 1 );
+            // Re-initialization is not allowed
+            Debug.Assert(m_pIndices == null);
 
-            //    if( ! ( m_pQuads && m_pIndices) ) {
-            //        //CCLOG("cocos2d: CCTextureAtlas: not enough memory");
-            //        CC_SAFE_FREE(m_pQuads)
-            //        CC_SAFE_FREE(m_pIndices)
+            // m_pQuads = (ccV3F_C4B_T2F_Quad)calloc( sizeof(ccV3F_C4B_T2F_Quad) * m_uCapacity, 1 );
+            m_pQuads = new ccV3F_C4B_T2F_Quad();
 
-            //        // release texture, should set it to null, because the destruction will
-            //        // release it too. see cocos2d-x issue #484
-            //        CC_SAFE_RELEASE_NULL(m_pTexture);
-            //        return false;
-            //    }
+            //m_pIndices = (ushort)calloc( sizeof(ushort) * m_uCapacity * 6, 1 );            
+            m_pIndices = new ushort[m_uCapacity * 6];
+
+            // if( ! ( m_pQuads && m_pIndices) ) 
+            // {
+            //    //CCLOG("cocos2d: CCTextureAtlas: not enough memory");
+            //    CC_SAFE_FREE(m_pQuads)
+            //    CC_SAFE_FREE(m_pIndices)
+
+            //    // release texture, should set it to null, because the destruction will
+            //    // release it too. see cocos2d-x issue #484
+            //    CC_SAFE_RELEASE_NULL(m_pTexture);
+            //    return false;
+            //}
 
             //#if CC_USES_VBO
             //    // initial binding
             //    glGenBuffers(2, &m_pBuffersVBO[0]);	
             //    m_bDirty = true;
             //#endif // CC_USES_VBO
-
-            //    this->initIndices();
-
-            //return true;
-            throw new NotImplementedException();
+            this.initIndices();
+            return true;
         }
 
         #region updates a Quad (texture, vertex and color) at a certain index

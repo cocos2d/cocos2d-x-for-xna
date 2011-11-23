@@ -39,6 +39,8 @@ namespace cocos2d
         // how many characters are supported
         const uint kCCBMFontMaxChars = 2048;//256,
 
+        public static Dictionary<string, CCBMFontConfiguration> configurations;
+
         //** conforms to CCRGBAProtocol protocol */
         private byte m_cOpacity;
         public byte Opacity
@@ -351,7 +353,7 @@ namespace cocos2d
             int ret = 0;
             int key = (first << 16) | (second & 0xffff);
 
-            if (m_pConfiguration.m_pKerningDictionary!=null)
+            if (m_pConfiguration.m_pKerningDictionary != null)
             {
                 tKerningHashElement element = null;
                 //HASH_FIND_INT(m_pConfiguration.m_pKerningDictionary, key, element);		
@@ -363,7 +365,23 @@ namespace cocos2d
 
         private static CCBMFontConfiguration FNTConfigLoadFile(string file)
         {
-            throw new NotImplementedException();
+            CCBMFontConfiguration pRet = null;
+
+            if (configurations == null)
+            {
+                configurations = new Dictionary<string, CCBMFontConfiguration>();
+            }
+
+            string key = file;
+            pRet = configurations[key];
+
+            if (pRet == null)
+            {
+                pRet = CCBMFontConfiguration.configurationWithFNTFile(file);
+                configurations.Add(key, pRet);
+            }
+
+            return pRet;
         }
 
         public static void FNTConfigRemoveCache()
@@ -524,7 +542,7 @@ namespace cocos2d
             }
         }
 
-        public bool getIsOpacityModifyRGB() 
+        public bool getIsOpacityModifyRGB()
         {
             return m_bIsOpacityModifyRGB;
         }
