@@ -302,8 +302,10 @@ namespace cocos2d
             }
             // long offset = (long)m_sQuad;
 
-            m_pobTexture.drawAtPoint(new CCPoint(position.x - anchorPointInPixels.x,
+            CCPoint uiPoint = CCDirector.sharedDirector().convertToUI(new CCPoint(position.x - anchorPointInPixels.x,
                  (position.y - anchorPointInPixels.y)));
+
+            m_pobTexture.drawAtPoint(uiPoint);
         }
 
         /// <summary>

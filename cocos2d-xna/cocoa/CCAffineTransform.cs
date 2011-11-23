@@ -57,7 +57,7 @@ namespace cocos2d
         {
             CCPoint p = new CCPoint();
             p.x = (float)((double)t.a * point.x + (double)t.c * point.y + t.tx);
-            p.y = (float)((double)t.b * point.x + (double)t.d * point.y + t.ty);
+            p.y = (float)((double)t.b * point.x + (double)t.d * point.y + t.ty); 
             return p;
         }
 

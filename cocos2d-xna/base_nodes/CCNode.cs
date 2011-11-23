@@ -97,6 +97,8 @@ namespace cocos2d
         {
             // Only initialize the members that are not default value.
 
+            m_fScaleX = 1.0f;
+            m_fScaleY = 1.0f;
             m_tPosition = new CCPoint();
             m_tPositionInPixels = new CCPoint();
             m_bIsVisible = true;
@@ -859,7 +861,6 @@ namespace cocos2d
         {
             if (m_bIsTransformDirty)
             {
-
                 m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
 
                 if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
@@ -956,8 +957,6 @@ namespace cocos2d
         /// </summary>
         public CCPoint convertToNodeSpace(CCPoint worldPoint)
         {
-            return worldPoint;
-
             CCPoint ret;
             if (CCDirector.sharedDirector().ContentScaleFactor == 1)
             {
@@ -1253,6 +1252,19 @@ namespace cocos2d
             get
             {
                 return m_tAnchorPointInPixels;
+            }
+            set
+            {
+                if (!CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint))
+                {
+                    m_tAnchorPoint = value;
+                    m_tAnchorPointInPixels = new CCPoint(m_tContentSizeInPixels.width * m_tAnchorPoint.x, m_tContentSizeInPixels.height * m_tAnchorPoint.y);
+                    m_bIsTransformDirty = m_bIsInverseDirty = true;
+
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                    m_bIsTransformGLDirty = true;
+#endif
+                }
             }
         }
 

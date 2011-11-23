@@ -94,11 +94,6 @@ namespace cocos2d
                 m_tDimensions = new CCSize(dimensions.width * CCDirector.sharedDirector().getFrames(), dimensions.height * CCDirector.sharedDirector().getFrames());
                 m_eAlignment = alignment;
 
-                if (m_pFontName != null)
-                {
-                    //delete m_pFontName;
-                    m_pFontName = null;
-                }
                 m_pFontName = fontName;
 
                 //m_fFontSize = fontSize * CC_CONTENT_SCALE_FACTOR();

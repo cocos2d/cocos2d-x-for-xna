@@ -268,6 +268,7 @@ namespace cocos2d
                 case Orientation.kOrientationLandscapeLeft:
                     graphics.PreferredBackBufferWidth = 800;
                     graphics.PreferredBackBufferHeight = 480;
+                    _size = new CCSize(800, 480);
                     graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationLandscapeLeft;
@@ -275,6 +276,7 @@ namespace cocos2d
                 case Orientation.kOrientationLandscapeRight:
                     graphics.PreferredBackBufferWidth = 800;
                     graphics.PreferredBackBufferHeight = 480;
+                    _size = new CCSize(800, 480);
                     graphics.SupportedOrientations = DisplayOrientation.LandscapeRight;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationLandscapeRight;
@@ -282,6 +284,7 @@ namespace cocos2d
                 default:
                     graphics.PreferredBackBufferWidth = 480;
                     graphics.PreferredBackBufferHeight = 800;
+                    _size = new CCSize(480, 800);
                     graphics.SupportedOrientations = DisplayOrientation.Portrait;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationPortrait;
@@ -298,6 +301,7 @@ namespace cocos2d
         /// <param name="rect"></param>
         public void statusBarFrame(out CCRect rect)
         {
+            // Windows doesn't have status bar.
             rect = new CCRect(0, 0, 0, 0);
         }
 
@@ -329,9 +333,11 @@ namespace cocos2d
         {
             get { return true; }
         }
+
+        private CCSize _size=new CCSize(480,480);
         public CCSize getSize()
         {
-            return new CCSize(800, 480);
+            return _size;
         }
 
         public void setContentScaleFactor(float contentScaleFactor)

@@ -13,6 +13,8 @@ namespace HelloCocos2d
         /// </summary>
         public bool init()
         {
+            CCDirector.sharedDirector().deviceOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeRight;
+
             //////////////////////////////
             // 1. super init first
             if (!base.init())
@@ -21,59 +23,36 @@ namespace HelloCocos2d
             }
 
             this.m_bIsTouchEnabled = true;
+            CCSize size = CCDirector.sharedDirector().getWinSize();
 
-            /////////////////////////////
-            // 2. add a menu item with "X" image, which is clicked to quit the program
-            //    you may modify it.
-
-            // add a "close" icon to exit the progress. it's an autorelease object
             CCMenuItemImage pCloseItem = CCMenuItemImage.itemFromNormalImage(
                                                 "CloseNormal",
                                                 "CloseSelected",
                                                 this,
                                                 new SEL_MenuHandler(menuCloseCallback));
 
-            //pCloseItem.position = new CCPoint(CCDirector.sharedDirector().getWinSize().width - 20, 20);
-            pCloseItem.setIsEnabled(true);
-            // create menu, it's an autorelease object
-            CCMenu pMenu = CCMenu.menuWithItems(pCloseItem);
+            //pSprite = CCSprite.spriteWithFile("HelloWorld");
+            //pSprite.position = new CCPoint(600, size.height / 2);
+            //this.addChild(pSprite, 0);
+
+            CCLabelTTF label = CCLabelTTF.labelWithString("Hello Cocos2d", "SpriteFont1", 30);
+            label.position = new CCPoint(100, 100);
+            label.contentSize = new CCSize(300, 60);
+
+            CCMenuItemLabel labelMenu = CCMenuItemLabel.itemWithLabel(label, this, menuCloseCallback);
+            labelMenu.position = new CCPoint(400, 10);
+            labelMenu.contentSize = new CCSize(300, 60);
+
+            CCMenu pMenu = CCMenu.menuWithItems(labelMenu);
             pMenu.isTouchEnabled = true;
-            pMenu.position = new CCPoint(100, 100);
+            pMenu.position = new CCPoint(400, 10);
+            pMenu.contentSize = new CCSize(300, 60);
             this.addChild(pMenu, 1);
 
-            /////////////////////////////
-            // 3. add your codes below...
-
-            // add a label shows "Hello World"
-            // create and initialize a label
-            //CCLabelTTF* pLabel = CCLabelTTF::labelWithString("Hello World", "Arial", 24);
-            // ask director the window size
-            CCSize size = CCDirector.sharedDirector().getWinSize();
-
-            // position the label on the center of the screen
-            //pLabel->setPosition( ccp(size.width / 2, size.height - 50) );
-
-            // add the label as a child to this layer
-            //this->addChild(pLabel, 1);
-
-            // add "HelloWorld" splash screen"
-            pSprite = CCSprite.spriteWithFile("HelloWorld");
-
-            // position the sprite on the center of the screen
-            pSprite.position = new CCPoint(size.width / 2, size.height / 2);
-
-            // add the sprite as a child to this layer
-            this.addChild(pSprite, 0);
-
-            CCLabelTTF label = CCLabelTTF.labelWithString("Hello", "SpriteFont1", 30);
-            label.position = new CCPoint(size.width / 2, size.height / 2);
-
-            this.addChild(label);
-
             ///@test action test
-            CCSize s = CCDirector.sharedDirector().getWinSize();
-            CCActionInterval actionTo = CCMoveTo.actionWithDuration(3, new CCPoint(s.width - 40, s.height - 40));
-            pSprite.runAction(actionTo);
+            //CCSize s = CCDirector.sharedDirector().getWinSize();
+            //CCActionInterval actionTo = CCMoveTo.actionWithDuration(3, new CCPoint(s.width - 40, s.height - 40));
+            //pSprite.runAction(actionTo);
 
             return true;
         }
@@ -123,9 +102,9 @@ namespace HelloCocos2d
 
         public override void ccTouchesBegan(List<CCTouch> touches, CCEvent event_)
         {
-            CCSize s = CCDirector.sharedDirector().getWinSize();
-            CCActionInterval actionTo = CCMoveTo.actionWithDuration(3, new CCPoint(-s.width, -s.height));
-            pSprite.runAction(actionTo);
+            //CCSize s = CCDirector.sharedDirector().getWinSize();
+            //CCActionInterval actionTo = CCMoveTo.actionWithDuration(3, new CCPoint(-s.width, -s.height));
+            //pSprite.runAction(actionTo);
         }
     }
 }

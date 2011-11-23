@@ -116,7 +116,7 @@ namespace cocos2d
             m_obWinSizeInPixels = m_obWinSizeInPoints = new CCSize(0, 0);
 
             // portrait mode default
-            m_eDeviceOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
+            m_eDeviceOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
 
             m_bRetinaDisplay = false;
             m_fContentScaleFactor = 1;
@@ -579,14 +579,16 @@ namespace cocos2d
         {
             CCSize s = m_obWinSizeInPoints;
 
-            if (m_eDeviceOrientation == ccDeviceOrientation.CCDeviceOrientationLandscapeLeft
-                || m_eDeviceOrientation == ccDeviceOrientation.CCDeviceOrientationLandscapeRight)
-            {
-                // swap x,y in landspace mode
-                CCSize tmp = s;
-                s.width = tmp.width;
-                s.height = tmp.height;
-            }
+            //it's different from cocos2d-win32. 
+
+            //if (m_eDeviceOrientation == ccDeviceOrientation.CCDeviceOrientationLandscapeLeft
+            //    || m_eDeviceOrientation == ccDeviceOrientation.CCDeviceOrientationLandscapeRight)
+            //{
+            //    // swap x,y in landspace mode
+            //    CCSize tmp = s;
+            //    s.width = tmp.width;
+            //    s.height = tmp.height;
+            //}
 
             return s;
         }
@@ -644,32 +646,35 @@ namespace cocos2d
         /// </summary>
         public CCPoint convertToGL(CCPoint obPoint)
         {
-            return obPoint;
-
             CCSize s = m_obWinSizeInPoints;
-            float newY = s.height - obPoint.y;
-            float newX = s.width - obPoint.x;
 
-            CCPoint ret = new CCPoint(0, 0);
-            switch (m_eDeviceOrientation)
-            {
-                case ccDeviceOrientation.CCDeviceOrientationPortrait:
-                    ret = new CCPoint(obPoint.x, newY);
-                    break;
-                case ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown:
-                    ret = new CCPoint(newX, obPoint.y);
-                    break;
-                case ccDeviceOrientation.CCDeviceOrientationLandscapeLeft:
-                    ret.x = obPoint.y;
-                    ret.y = obPoint.x;
-                    break;
-                case ccDeviceOrientation.CCDeviceOrientationLandscapeRight:
-                    ret.x = newY;
-                    ret.y = newX;
-                    break;
-            }
+            //this is different from cocos2d-win32
+            return new CCPoint(obPoint.x, s.height - obPoint.y);
 
-            return ret;
+            //CCSize s = m_obWinSizeInPoints;
+            //float newY = s.height - obPoint.y;
+            //float newX = s.width - obPoint.x;
+
+            //CCPoint ret = new CCPoint(0, 0);
+            //switch (m_eDeviceOrientation)
+            //{
+            //    case ccDeviceOrientation.CCDeviceOrientationPortrait:
+            //        ret = new CCPoint(obPoint.x, newY);
+            //        break;
+            //    case ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown:
+            //        ret = new CCPoint(newX, obPoint.y);
+            //        break;
+            //    case ccDeviceOrientation.CCDeviceOrientationLandscapeLeft:
+            //        ret.x = obPoint.y;
+            //        ret.y = obPoint.x;
+            //        break;
+            //    case ccDeviceOrientation.CCDeviceOrientationLandscapeRight:
+            //        ret.x = newY;
+            //        ret.y = newX;
+            //        break;
+            //}
+
+            //return ret;
         }
 
         /// <summary>
@@ -681,28 +686,32 @@ namespace cocos2d
         public CCPoint convertToUI(CCPoint obPoint)
         {
             CCSize winSize = m_obWinSizeInPoints;
-            float oppositeX = winSize.width - obPoint.x;
-            float oppositeY = winSize.height - obPoint.y;
-            CCPoint uiPoint = new CCPoint();
 
-            switch (m_eDeviceOrientation)
-            {
-                case ccDeviceOrientation.CCDeviceOrientationPortrait:
-                    uiPoint = new CCPoint(obPoint.x, oppositeY);
-                    break;
-                case ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown:
-                    uiPoint = new CCPoint(oppositeX, obPoint.y);
-                    break;
-                case ccDeviceOrientation.CCDeviceOrientationLandscapeLeft:
-                    uiPoint = new CCPoint(obPoint.y, obPoint.x);
-                    break;
-                case ccDeviceOrientation.CCDeviceOrientationLandscapeRight:
-                    // Can't use oppositeX/Y because x/y are flipped
-                    uiPoint = new CCPoint(winSize.width - obPoint.y, winSize.height - obPoint.x);
-                    break;
-            }
+            //this is different from cocos2d-win32
+            return new CCPoint(obPoint.x, winSize.height - obPoint.y);
 
-            return uiPoint;
+            //float oppositeX = winSize.width - obPoint.x;
+            //float oppositeY = winSize.height - obPoint.y;
+            //CCPoint uiPoint = new CCPoint();
+
+            //switch (m_eDeviceOrientation)
+            //{
+            //    case ccDeviceOrientation.CCDeviceOrientationPortrait:
+            //        uiPoint = new CCPoint(obPoint.x, oppositeY);
+            //        break;
+            //    case ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown:
+            //        uiPoint = new CCPoint(oppositeX, obPoint.y);
+            //        break;
+            //    case ccDeviceOrientation.CCDeviceOrientationLandscapeLeft:
+            //        uiPoint = new CCPoint(obPoint.y, obPoint.x);
+            //        break;
+            //    case ccDeviceOrientation.CCDeviceOrientationLandscapeRight:
+            //        // Can't use oppositeX/Y because x/y are flipped
+            //        uiPoint = new CCPoint(winSize.width - obPoint.y, winSize.height - obPoint.x);
+            //        break;
+            //}
+
+            //return uiPoint;
         }
 
         /// XXX: missing description 
@@ -909,7 +918,26 @@ namespace cocos2d
             get { return m_eDeviceOrientation; }
             set
             {
-                m_eDeviceOrientation = value;
+                Orientation eNewOrientation = CCApplication.sharedApplication().setOrientation((Orientation)((int)value));
+                ccDeviceOrientation eNewDeviceOrientation = (ccDeviceOrientation)((int)eNewOrientation);
+
+                if (m_eDeviceOrientation != eNewDeviceOrientation)
+                {
+                    m_eDeviceOrientation = eNewDeviceOrientation;
+
+                    //added in cocos2d-xna
+                    m_obWinSizeInPoints = CCApplication.sharedApplication().getSize();
+                    m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * m_fContentScaleFactor, m_obWinSizeInPoints.height * m_fContentScaleFactor);
+                }
+                else
+                {
+                    // this logic is only run on win32 now
+                    // On win32,the return value of CCApplication::setDeviceOrientation is always kCCDeviceOrientationPortrait
+                    // So,we should calculate the Projection and window size again.
+                    m_obWinSizeInPoints = CCApplication.sharedApplication().getSize();
+                    m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * m_fContentScaleFactor, m_obWinSizeInPoints.height * m_fContentScaleFactor);
+                    Projection = m_eProjection;
+                }
             }
         }
 

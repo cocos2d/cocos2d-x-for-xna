@@ -137,8 +137,6 @@ namespace cocos2d
 
                 position = new CCPoint(s.width / 2, s.height / 2);
 
-                int z = 0;
-
                 if (item != null)
                 {
                     foreach (var menuItem in item)

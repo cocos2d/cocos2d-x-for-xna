@@ -198,10 +198,20 @@ namespace cocos2d
 
             if (rect != null && point != null)
             {
+                if (float.IsNaN(point.x))
+                {
+                    point.x = 0;
+                }
+
+                if (float.IsNaN(point.y))
+                {
+                    point.y = 0;
+                }
+
                 float minx = CCRectGetMinX(rect);
                 float maxx = CCRectGetMaxX(rect);
                 float miny = CCRectGetMinY(rect);
-                float maxy= CCRectGetMaxY(rect);
+                float maxy = CCRectGetMaxY(rect);
 
                 if (point.x >= CCRectGetMinX(rect)
                     && point.x <= CCRectGetMaxX(rect)
