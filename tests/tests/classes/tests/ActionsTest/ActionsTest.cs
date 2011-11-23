@@ -293,12 +293,32 @@ namespace tests
         protected CCSprite m_kathia;
     };
 
-    //class ActionManual : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+    public class ActionManual : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+
+            m_tamara.scaleX = 2.5f;
+            m_tamara.scaleY = -1.0f;
+            m_tamara.position = new CCPoint(100,70);
+            m_tamara.Opacity = 128;
+
+            m_grossini.rotation = 120;
+            m_grossini.position = new CCPoint(s.width/2, s.height/2);
+            m_grossini.Color = new ccColor3B(255,0,0);
+
+            m_kathia.position = new CCPoint(s.width-100, s.height/2);
+            m_kathia.Color = new ccColor3B(0, 0, 255);// ccTypes.ccBLUE
+        }
+
+        public override string subtitle()
+        {
+            return "Manual Transformation";
+        }
+    };
 
     public class ActionMove : ActionsDemo
     {
@@ -327,18 +347,57 @@ namespace tests
         }
     }
 
-    //class ActionScale : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+    public class ActionScale : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
 
-    //class ActionSkew : public ActionsDemo
-    //{
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            centerSprites(3);
+
+            CCActionInterval actionTo = CCScaleTo.actionWithDuration( 2, 0.5f);
+            CCActionInterval actionBy = CCScaleBy.actionWithDuration(2 ,  2);
+            CCActionInterval actionBy2 = CCScaleBy.actionWithDuration(2, 0.25f, 4.5f);
+            CCFiniteTimeAction actionByBack = actionBy.reverse();
+
+            m_tamara.runAction(actionTo);
+            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack, null));
+            m_kathia.runAction(CCSequence.actions(actionBy2, actionBy2.reverse(), null));
+        }
+
+        public override string subtitle()
+        {
+            return "ScaleTo / ScaleBy";
+        }
+    };
+
+    public class ActionSkew : ActionsDemo
+    {
+        public override void onEnter()
+        {
+	        base.onEnter();
+
+	        centerSprites(3);
+
+	        CCActionInterval actionTo = CCSkewTo.actionWithDuration(2, 37.2f, -37.2f);
+	        CCActionInterval actionToBack = CCSkewTo.actionWithDuration(2, 0, 0);
+	        CCActionInterval actionBy = CCSkewBy.actionWithDuration(2, 0.0f, -90.0f);
+	        CCActionInterval actionBy2 = CCSkewBy.actionWithDuration(2, 45.0f, 45.0f);
+	        CCFiniteTimeAction actionByBack = actionBy.reverse();
+
+	        m_tamara.runAction(CCSequence.actions(actionTo, actionToBack, null));
+	        m_grossini.runAction(CCSequence.actions(actionBy, actionByBack, null));
+
+	        m_kathia.runAction(CCSequence.actions(actionBy2, actionBy2.reverse(), null));
+        }
+
+        public override string subtitle()
+        {
+	        return "SkewTo / SkewBy";
+        }
+
+
+    };
 
     //class ActionSkewRotateScale : public ActionsDemo
     //{
