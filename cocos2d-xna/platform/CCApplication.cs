@@ -334,7 +334,7 @@ namespace cocos2d
             get { return true; }
         }
 
-        private CCSize _size=new CCSize(480,480);
+        private CCSize _size=new CCSize(480,800);
         public CCSize getSize()
         {
             return _size;

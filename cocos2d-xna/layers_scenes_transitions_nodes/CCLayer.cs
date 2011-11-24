@@ -63,7 +63,7 @@ namespace cocos2d
             return ret;
         }
 
-        public bool init()
+        public virtual bool init()
         {
             bool bRet = false;
             do

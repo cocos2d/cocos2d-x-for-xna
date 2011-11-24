@@ -133,6 +133,9 @@ namespace cocos2d
         //    throw new NotImplementedException();
         //}
 
+
+        #region Drawing extensions
+
         /**
         Drawing extensions to make it easy to draw basic quads using a CCTexture2D object.
         These functions require GL_TEXTURE_2D and both GL_VERTEX_ARRAY and GL_TEXTURE_COORD_ARRAY client states to be enabled.
@@ -148,12 +151,8 @@ namespace cocos2d
                 return;
             }
 
-            //CCDirector.sharedDirector().getWinSize().height 
-
-            //Vector2 temp = new Vector2();
-
             CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(point.x, point.y), Color.Yellow);
+            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(point.x, point.y - m_tContentSize.height), Color.Yellow);
             CCApplication.sharedApplication().spriteBatch.End();
         }
 
@@ -171,6 +170,8 @@ namespace cocos2d
             CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Rectangle((int)(rect.origin.x), (int)(rect.origin.y), (int)(rect.size.width), (int)(rect.size.height)), Color.White);
             CCApplication.sharedApplication().spriteBatch.End();
         }
+
+        #endregion
 
         ///**
         //Extensions to make it easy to create a CCTexture2D object from an image file.

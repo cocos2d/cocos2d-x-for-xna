@@ -300,10 +300,12 @@ namespace cocos2d
             {
                 return;
             }
-            // long offset = (long)m_sQuad;
 
-            CCPoint uiPoint = CCDirector.sharedDirector().convertToUI(new CCPoint(position.x - anchorPointInPixels.x,
-                 (position.y - anchorPointInPixels.y)));
+            //get the point of cocos2d
+            CCPoint uiPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x,
+                 position.y - contentSizeInPixels.height * anchorPoint.y);
+            //convert cocos2d point to XNA point
+            uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
 
             m_pobTexture.drawAtPoint(uiPoint);
         }

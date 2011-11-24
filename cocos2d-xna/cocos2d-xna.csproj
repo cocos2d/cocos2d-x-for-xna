@@ -163,6 +163,7 @@
     <Compile Include="script_support\CCScriptEngineProtocol.cs" />
     <Compile Include="sprite_nodes\CCSprite.cs" />
     <Compile Include="sprite_nodes\CCSpriteBatchNode.cs" />
+    <Compile Include="support\TransformUtils.cs" />
     <Compile Include="textures\CCTextureAtlas.cs" />
     <Compile Include="textures\CCTextureCache.cs" />
     <Compile Include="textures\CCTexture2D.cs" />

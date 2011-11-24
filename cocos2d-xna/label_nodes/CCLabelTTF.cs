@@ -110,7 +110,7 @@ namespace cocos2d
         private bool initWithString(string label, string fontName, float fontSize)
         {
             Debug.Assert(label != null);
-            if (init())
+            if (base.init())
             {
                 m_tDimensions = new CCSize(0, 0);
 

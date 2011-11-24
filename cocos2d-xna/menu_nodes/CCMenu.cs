@@ -115,7 +115,7 @@ namespace cocos2d
                 CCSize s = CCDirector.sharedDirector().getWinSize();
 
                 this.m_bIsRelativeAnchorPoint = false;
-                anchorPoint = new CCPoint(0.5f, 0.5f);
+                anchorPoint = new CCPoint(0.0f, 0.0f);
                 this.contentSize = s;
 
                 // XXX: in v0.7, winSize should return the visible size
@@ -356,7 +356,9 @@ namespace cocos2d
 
         protected CCMenuItem itemForTouch(CCTouch touch)
         {
+            //XNA point
             CCPoint touchLocation = touch.locationInView(touch.view());
+            //cocos2d point
             touchLocation = CCDirector.sharedDirector().convertToGL(touchLocation);
 
             if (m_pChildren != null && m_pChildren.Count > 0)

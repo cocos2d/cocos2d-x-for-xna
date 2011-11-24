@@ -557,84 +557,84 @@ namespace cocos2d
         /// </summary>
         public void transform()
         {
-            //            // transformations
+            // transformations
 
-            //#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-            //            // BEGIN alternative -- using cached transform
-            //            //
-            //            if (m_bIsTransformGLDirty)
-            //            {
-            //                CCAffineTransform t = this.nodeToParentTransform();
-            //                CGAffineToGL(&t, m_pTransformGL);
-            //                m_bIsTransformGLDirty = false;
-            //            }
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+            // BEGIN alternative -- using cached transform
+            //
+            if (m_bIsTransformGLDirty)
+            {
+                //CCAffineTransform t = this.nodeToParentTransform();
+                //TransformUtils.CGAffineToGL(t, m_pTransformGL);
+                //m_bIsTransformGLDirty = false;
+            }
 
-            //            glMultMatrixf(m_pTransformGL);
-            //            if (m_fVertexZ)
-            //            {
-            //                glTranslatef(0, 0, m_fVertexZ);
-            //            }
+            //glMultMatrixf(m_pTransformGL);
+            //if (m_fVertexZ)
+            //{
+            //    glTranslatef(0, 0, m_fVertexZ);
+            //}
 
-            //            // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
-            //            if (m_pCamera && !(m_pGrid && m_pGrid->isActive()))
-            //            {
-            //                bool translate = (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f);
+            // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
+            //if (m_pCamera && !(m_pGrid && m_pGrid->isActive()))
+            //{
+            //    bool translate = (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f);
 
-            //                if (translate)
-            //                {
-            //                    ccglTranslate(RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.y), 0);
-            //                }
-
-            //                m_pCamera->locate();
-
-            //                if (translate)
-            //                {
-            //                    ccglTranslate(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
-            //                }
-            //            }
-
-
-            //            // END alternative
-
-            //#else
-            //    // BEGIN original implementation
-            //    // 
-            //    // translate
-            //    if ( m_bIsRelativeAnchorPoint && (m_tAnchorPointInPixels.x != 0 || m_tAnchorPointInPixels.y != 0 ) )
-            //        glTranslatef( RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
-
-            //    if (m_tAnchorPointInPixels.x != 0 || m_tAnchorPointInPixels.y != 0)
-            //        glTranslatef( RENDER_IN_SUBPIXEL(m_tPositionInPixels.x + m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tPositionInPixels.y + m_tAnchorPointInPixels.y), m_fVertexZ);
-            //    else if ( m_tPositionInPixels.x !=0 || m_tPositionInPixels.y !=0 || m_fVertexZ != 0)
-            //        glTranslatef( RENDER_IN_SUBPIXEL(m_tPositionInPixels.x), RENDER_IN_SUBPIXEL(m_tPositionInPixels.y), m_fVertexZ );
-
-            //    // rotate
-            //    if (m_fRotation != 0.0f )
-            //        glRotatef( -m_fRotation, 0.0f, 0.0f, 1.0f );
-
-            //    // skew
-            //    if ( (skewX_ != 0.0f) || (skewY_ != 0.0f) ) 
+            //    if (translate)
             //    {
-            //        CCAffineTransform skewMatrix = CCAffineTransformMake( 1.0f, tanf(CC_DEGREES_TO_RADIANS(skewY_)), tanf(CC_DEGREES_TO_RADIANS(skewX_)), 1.0f, 0.0f, 0.0f );
-            //        GLfloat	glMatrix[16];
-            //        CCAffineToGL(&skewMatrix, glMatrix);															 
-            //        glMultMatrixf(glMatrix);
+            //        ccglTranslate(RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.y), 0);
             //    }
 
-            //    // scale
-            //    if (m_fScaleX != 1.0f || m_fScaleY != 1.0f)
-            //        glScalef( m_fScaleX, m_fScaleY, 1.0f );
+            //    m_pCamera->locate();
 
-            //    if ( m_pCamera  && !(m_pGrid && m_pGrid->isActive()) )
-            //        m_pCamera->locate();
+            //    if (translate)
+            //    {
+            //        ccglTranslate(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+            //    }
+            //}
 
-            //    // restore and re-position point
-            //    if (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f)
-            //        glTranslatef(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
 
-            //    //
-            //    // END original implementation
-            //#endif
+            // END alternative
+
+#else
+                // BEGIN original implementation
+                // 
+                // translate
+                if ( m_bIsRelativeAnchorPoint && (m_tAnchorPointInPixels.x != 0 || m_tAnchorPointInPixels.y != 0 ) )
+                    glTranslatef( RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+
+                if (m_tAnchorPointInPixels.x != 0 || m_tAnchorPointInPixels.y != 0)
+                    glTranslatef( RENDER_IN_SUBPIXEL(m_tPositionInPixels.x + m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tPositionInPixels.y + m_tAnchorPointInPixels.y), m_fVertexZ);
+                else if ( m_tPositionInPixels.x !=0 || m_tPositionInPixels.y !=0 || m_fVertexZ != 0)
+                    glTranslatef( RENDER_IN_SUBPIXEL(m_tPositionInPixels.x), RENDER_IN_SUBPIXEL(m_tPositionInPixels.y), m_fVertexZ );
+
+                // rotate
+                if (m_fRotation != 0.0f )
+                    glRotatef( -m_fRotation, 0.0f, 0.0f, 1.0f );
+
+                // skew
+                if ( (skewX_ != 0.0f) || (skewY_ != 0.0f) ) 
+                {
+                    CCAffineTransform skewMatrix = CCAffineTransformMake( 1.0f, tanf(CC_DEGREES_TO_RADIANS(skewY_)), tanf(CC_DEGREES_TO_RADIANS(skewX_)), 1.0f, 0.0f, 0.0f );
+                    GLfloat	glMatrix[16];
+                    CCAffineToGL(&skewMatrix, glMatrix);															 
+                    glMultMatrixf(glMatrix);
+                }
+
+                // scale
+                if (m_fScaleX != 1.0f || m_fScaleY != 1.0f)
+                    glScalef( m_fScaleX, m_fScaleY, 1.0f );
+
+                if ( m_pCamera  && !(m_pGrid && m_pGrid->isActive()) )
+                    m_pCamera->locate();
+
+                // restore and re-position point
+                if (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f)
+                    glTranslatef(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+
+                //
+                // END original implementation
+#endif
         }
 
         /// <summary>
@@ -1549,6 +1549,10 @@ namespace cocos2d
 
         // transform
         CCAffineTransform m_tTransform, m_tInverse;
+
+#if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+        float[] m_pTransformGL;
+#endif
 
         // To reduce memory, place bools that are not properties here:
         protected bool m_bIsTransformDirty;
