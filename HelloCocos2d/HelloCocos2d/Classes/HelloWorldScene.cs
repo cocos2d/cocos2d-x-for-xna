@@ -35,49 +35,52 @@ namespace HelloCocos2d
 
             //this.addChild(pCloseItem, 0);
 
-            pSprite = CCSprite.spriteWithFile("HelloWorld");
-            pSprite.position = new CCPoint(size.width / 2, size.height / 2);
-            pSprite.anchorPoint = new CCPoint(0f, 0f);
-            this.addChild(pSprite, 0);
+            //pSprite = CCSprite.spriteWithFile("HelloWorld");
+            //pSprite.position = new CCPoint(size.width / 2, 0);
+            //pSprite.anchorPoint = new CCPoint(1f, 0.8f);
+            //this.addChild(pSprite, 0);
 
-            CCLabelTTF label = CCLabelTTF.labelWithString("ActionsTest", "SpriteFont1", 30);
-            label.position = new CCPoint(10, size.height - 70);
-            CCMenuItemLabel labelMenu = CCMenuItemLabel.itemWithLabel(label, this, menuCloseCallback);
+            //CCLabelTTF label = CCLabelTTF.labelWithString("ActionsTest", "SpriteFont1", 30);
+            //label.position = new CCPoint(10, size.height - 70);
+            //CCMenuItemLabel labelMenu = CCMenuItemLabel.itemWithLabel(label, this, menuCloseCallback);
 
 
-            CCLabelTTF label1 = CCLabelTTF.labelWithString("TransitionsTest", "SpriteFont1", 30);
-            label1.position = new CCPoint(10, size.height - 140);
-            CCMenuItemLabel labelMenu1 = CCMenuItemLabel.itemWithLabel(label1, this, menuCloseCallback);
+            //CCLabelTTF label1 = CCLabelTTF.labelWithString("TransitionsTest", "SpriteFont1", 30);
+            //label1.position = new CCPoint(10, size.height - 140);
+            //CCMenuItemLabel labelMenu1 = CCMenuItemLabel.itemWithLabel(label1, this, menuCloseCallback);
 
-            CCLabelTTF ProgressActiionsTest = CCLabelTTF.labelWithString("ProgressActiionsTest", "SpriteFont1", 30);
-            ProgressActiionsTest.position = new CCPoint(10, size.height - 210);
-            CCMenuItemLabel ProgressActiionsTestMenu = CCMenuItemLabel.itemWithLabel(ProgressActiionsTest, this, menuCloseCallback);
+            //CCLabelTTF ProgressActiionsTest = CCLabelTTF.labelWithString("ProgressActiionsTest", "SpriteFont1", 30);
+            //ProgressActiionsTest.position = new CCPoint(10, size.height - 210);
+            //CCMenuItemLabel ProgressActiionsTestMenu = CCMenuItemLabel.itemWithLabel(ProgressActiionsTest, this, menuCloseCallback);
 
             CCLabelTTF EffectsTest = CCLabelTTF.labelWithString("EffectsTest", "SpriteFont1", 30);
-            EffectsTest.position = new CCPoint(10, size.height - 280);
-            //EffectsTest.position = new CCPoint(10, 100);
-            EffectsTest.anchorPoint = new CCPoint(0.0f, 0.0f);
+            //EffectsTest.position = new CCPoint(10, size.height - 280);
+            EffectsTest.position = new CCPoint(size.width / 2, size.height  / 2);
+            //EffectsTest.anchorPoint = new CCPoint(0.5f, 0.5f);
             CCMenuItemLabel EffectsTestMenu = CCMenuItemLabel.itemWithLabel(EffectsTest, this, menuCloseCallback);
+            EffectsTestMenu.position = new CCPoint(size.width / 2, size.height / 2);
+            EffectsTestMenu.anchorPoint = new CCPoint(0.5f, 0.5f);
 
-            CCLabelTTF ClickAndMoveTest = CCLabelTTF.labelWithString("ClickAndMoveTest", "SpriteFont1", 30);
-            ClickAndMoveTest.position = new CCPoint(10, size.height - 350);
-            CCMenuItemLabel ClickAndMoveTestMenu = CCMenuItemLabel.itemWithLabel(ClickAndMoveTest, this, menuCloseCallback);
-            ClickAndMoveTestMenu.position = new CCPoint(10, size.height - 350);
+            EffectsTest.anchorPoint = new CCPoint(0.5f, 0.5f);
 
-            CCLabelTTF RotateWorldTest = CCLabelTTF.labelWithString("RotateWorldTest", "SpriteFont1", 30);
-            RotateWorldTest.position = new CCPoint(10, size.height - 420);
-            CCMenuItemLabel RotateWorldTestMenu = CCMenuItemLabel.itemWithLabel(RotateWorldTest, this, menuCloseCallback);
+            //CCLabelTTF ClickAndMoveTest = CCLabelTTF.labelWithString("ClickAndMoveTest", "SpriteFont1", 30);
+            //ClickAndMoveTest.position = new CCPoint(10, size.height - 350);
+            //CCMenuItemLabel ClickAndMoveTestMenu = CCMenuItemLabel.itemWithLabel(ClickAndMoveTest, this, menuCloseCallback);
+            //ClickAndMoveTestMenu.position = new CCPoint(10, size.height - 350);
 
-            CCLabelTTF ParticleTest = CCLabelTTF.labelWithString("ParticleTest", "SpriteFont1", 30);
-            ParticleTest.position = new CCPoint(10, size.height - 500);
-            CCMenuItemLabel ParticleTestMenu = CCMenuItemLabel.itemWithLabel(ParticleTest, this, menuCloseCallback);
+            //CCLabelTTF RotateWorldTest = CCLabelTTF.labelWithString("RotateWorldTest", "SpriteFont1", 30);
+            //RotateWorldTest.position = new CCPoint(10, size.height - 420);
+            //CCMenuItemLabel RotateWorldTestMenu = CCMenuItemLabel.itemWithLabel(RotateWorldTest, this, menuCloseCallback);
 
-            CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { ParticleTestMenu, labelMenu, labelMenu1, ProgressActiionsTestMenu, EffectsTestMenu, ClickAndMoveTestMenu, RotateWorldTestMenu });
-            //CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { EffectsTestMenu });
+            //CCLabelTTF ParticleTest = CCLabelTTF.labelWithString("ParticleTest", "SpriteFont1", 30);
+            //ParticleTest.position = new CCPoint(10, size.height - 500);
+            //CCMenuItemLabel ParticleTestMenu = CCMenuItemLabel.itemWithLabel(ParticleTest, this, menuCloseCallback);
+
+            //CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { ParticleTestMenu, labelMenu, labelMenu1, ProgressActiionsTestMenu, EffectsTestMenu, ClickAndMoveTestMenu, RotateWorldTestMenu });
+            CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { EffectsTestMenu });
             pMenu.isTouchEnabled = true;
-            pMenu.position = new CCPoint(10, 50);
-            //pMenu.contentSize = new CCSize(300, 60);
-            //pMenu.anchorPoint = new CCPoint(0.5f, 0.5f);
+            pMenu.position = new CCPoint(size.width / 2, size.height / 2);
+            pMenu.anchorPoint = new CCPoint(0.5f, 0.5f);
             this.addChild(pMenu, 1);
 
             ///@test action test

@@ -73,6 +73,18 @@ namespace cocos2d
             }
         }
 
+        //public override CCPoint anchorPoint
+        //{
+        //    get
+        //    {
+        //        return m_pLabel.anchorPoint;
+        //    }
+        //    set
+        //    {
+        //        m_pLabel.anchorPoint = value;
+        //    }
+        //}
+
         /// <summary>
         /// creates a CCMenuItemLabel with a Label, target and selector
         /// </summary>

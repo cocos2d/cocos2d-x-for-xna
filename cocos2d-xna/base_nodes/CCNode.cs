@@ -931,7 +931,8 @@ namespace cocos2d
             CCNode p = m_pParent;
             while (p != null)
             {
-                t = CCAffineTransform.CCAffineTransformConcat(t, p.nodeToParentTransform());
+                var temp = p.nodeToParentTransform();
+                t = CCAffineTransform.CCAffineTransformConcat(t, temp);
                 p = p.parent;
             }
 

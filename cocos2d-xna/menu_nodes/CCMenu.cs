@@ -114,7 +114,7 @@ namespace cocos2d
                 // menu in the center of the screen
                 CCSize s = CCDirector.sharedDirector().getWinSize();
 
-                this.m_bIsRelativeAnchorPoint = false;
+                this.m_bIsRelativeAnchorPoint = true;
                 anchorPoint = new CCPoint(0.0f, 0.0f);
                 this.contentSize = s;
 
