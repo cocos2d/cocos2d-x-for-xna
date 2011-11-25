@@ -14,6 +14,8 @@ namespace tests
         
         public TestController()
         {
+            CCDirector.sharedDirector().deviceOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
+
             m_tBeginPos = new CCPoint(0.0f, 0.0f);
 
             // add close menu
@@ -22,10 +24,10 @@ namespace tests
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             pMenu.position = new CCPoint(0.0f, 0.0f);
-            pCloseItem.position = new CCPoint( s.width - 30, s.height - 30);
+            // pCloseItem.position = new CCPoint( s.width - 30, s.height - 30);
 
             // add menu items for tests
-            m_pItmeMenu = CCMenu.menuWithItems(null);
+            m_pItemMenu = CCMenu.menuWithItems(null);
             for (int i = 0; i < (int)(TestCases.TESTS_COUNT); ++i)
             {
                 // todo, CCMenuItemLabel hasn't been implemented, use CCMenuItemImage instead
@@ -33,13 +35,13 @@ namespace tests
                 // CCMenuItemLabel pMenuItem = CCMenuItemLabel.itemWithLabel(label, this, new SEL_MenuHandler(menuCallback));
                 CCMenuItemImage pMenuItem = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathGrossini, TestResource.s_pPathGrossini, this, new SEL_MenuHandler(menuCallback));
 
-                m_pItmeMenu.addChild(pMenuItem, i + 10000);
+                m_pItemMenu.addChild(pMenuItem, i + 10000);
                 pMenuItem.position = new CCPoint(s.width / 2, (s.height - (i + 1) * LINE_SPACE));
             }
 
-            m_pItmeMenu.contentSize = new CCSize(s.width, ((int)(TestCases.TESTS_COUNT) + 1) * LINE_SPACE);
-            m_pItmeMenu.position = (s_tCurPos);
-            addChild(m_pItmeMenu);
+            m_pItemMenu.contentSize = new CCSize(s.width, ((int)(TestCases.TESTS_COUNT) + 1) * LINE_SPACE);
+            m_pItemMenu.position = (s_tCurPos);
+            addChild(m_pItemMenu);
 
             isTouchEnabled = true;
 
@@ -86,22 +88,22 @@ namespace tests
             touchLocation = CCDirector.sharedDirector().convertToGL( touchLocation );
             float nMoveY = touchLocation.y - m_tBeginPos.y;
 
-            CCPoint curPos  = m_pItmeMenu.position;
+            CCPoint curPos = m_pItemMenu.position;
             CCPoint nextPos = new CCPoint(curPos.x, curPos.y + nMoveY);
             CCSize winSize = CCDirector.sharedDirector().getWinSize();
             if (nextPos.y < 0.0f)
             {
-                m_pItmeMenu.position = new CCPoint(0, 0);
+                m_pItemMenu.position = new CCPoint(0, 0);
                 return;
             }
 
             if (nextPos.y > (((int)TestCases.TESTS_COUNT + 1) * LINE_SPACE - winSize.height))
             {
-                m_pItmeMenu.position = (new CCPoint(0, (((int)TestCases.TESTS_COUNT + 1) * LINE_SPACE - winSize.height)));
+                m_pItemMenu.position = (new CCPoint(0, (((int)TestCases.TESTS_COUNT + 1) * LINE_SPACE - winSize.height)));
                 return;
             }
 
-            m_pItmeMenu.position = nextPos;
+            m_pItemMenu.position = nextPos;
             m_tBeginPos = touchLocation;
             s_tCurPos   = nextPos;
         }
@@ -222,6 +224,6 @@ namespace tests
         }
 
         private CCPoint m_tBeginPos;
-        private CCMenu m_pItmeMenu;
+        private CCMenu m_pItemMenu;
     }
 }
