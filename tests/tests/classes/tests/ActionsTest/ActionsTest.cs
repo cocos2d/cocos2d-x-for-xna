@@ -553,51 +553,184 @@ namespace tests
         }
     };
 
-    //class ActionBlink : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+    public class ActionBlink : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
 
-    //class ActionFade : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            centerSprites(2);
 
-    //class ActionTint : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            CCActionInterval action1 = CCBlink.actionWithDuration(2, 10);
+            CCActionInterval action2 = CCBlink.actionWithDuration(2, 5);
 
-    //class ActionAnimate : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            m_tamara.runAction(action1);
+            m_kathia.runAction(action2);
+        }
 
-    //class ActionSequence : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+        public override string subtitle()
+        {
+            return "Blink";
+        }
+    };
 
-    //class ActionSequence2 : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
+    public class ActionFade : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
 
-    //    void callback1();
-    //    void callback2(CCNode* sender);
-    //    void callback3(CCNode* sender, void* data);
-    //};
+            centerSprites(2);
+
+            m_tamara.Opacity = 0;
+            CCActionInterval action1 = CCFadeIn.actionWithDuration(1.0f);
+            CCFiniteTimeAction action1Back = action1.reverse();
+
+            CCActionInterval action2 = CCFadeOut.actionWithDuration(1.0f);
+            CCFiniteTimeAction action2Back = action2.reverse();
+
+            m_tamara.runAction( CCSequence.actions(action1, action1Back, null));
+            m_kathia.runAction( CCSequence.actions(action2, action2Back, null));
+        }
+
+        public override string subtitle()
+        {
+            return "FadeIn / FadeOut";
+        }
+
+    };
+
+    public class ActionTint : ActionsDemo
+    {
+
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(2);
+
+            CCActionInterval action1 = CCTintTo.actionWithDuration(2, 255, 0, 255);
+            CCActionInterval action2 = CCTintBy.actionWithDuration(2, -127, -255, -127);
+            CCFiniteTimeAction action2Back = action2.reverse();
+
+            m_tamara.runAction(action1);
+            m_kathia.runAction(CCSequence.actions( action2, action2Back, null));
+        }
+
+        public override string subtitle()
+        {
+            return "TintTo / TintBy";
+        }
+    };
+
+    public class ActionAnimate : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            // todo:CCAnimation hasn't been implemented 
+
+            //base.onEnter();
+
+            //centerSprites(1);
+
+            //CCAnimation animation = CCAnimation.animation();
+            //char frameName[100] = {0};
+            //for( int i=1;i<15;i++)
+            //{
+            //    sprintf(frameName, "Images/grossini_dance_%02d.png", i);
+            //    animation->addFrameWithFileName(frameName);
+            //}
+
+            //CCActionInterval*  action = CCAnimate::actionWithDuration(3, animation, false);
+            //CCActionInterval*  action_back = action->reverse();
+
+            //m_grossini->runAction( CCSequence::actions( action, action_back, NULL));
+        }
+
+        public override string subtitle()
+        {
+            return "Animation";
+        }
+    
+    };
+
+    public class ActionSequence : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            alignSpritesLeft(1);
+
+            CCFiniteTimeAction action = CCSequence.actions(
+                CCMoveBy.actionWithDuration( 2, new CCPoint(240,0)),
+                CCRotateBy.actionWithDuration(2,  540),
+                null);
+
+            m_grossini.runAction(action);
+        }
+
+        public override string subtitle()
+        {
+            return "Sequence: Move + Rotate";
+        }
+
+    };
+
+    public class ActionSequence2 : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            alignSpritesLeft(1);
+
+            m_grossini.visible = false;
+
+            CCFiniteTimeAction action = CCSequence.actions(
+                CCPlace.actionWithPosition(new CCPoint(200,200)),
+                CCShow.action(),
+                CCMoveBy.actionWithDuration(1, new CCPoint(100,0)),
+                CCCallFunc.actionWithTarget(this, new SEL_CallFunc(callback1)),
+                CCCallFuncN.actionWithTarget(this, new SEL_CallFuncN(callback2)),
+                CCCallFuncND.actionWithTarget(this, new SEL_CallFuncND(callback3), (object)0xbebabeba),
+                null);
+
+            m_grossini.runAction(action);
+        }
+
+        public void callback1()
+        {
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 1 called", "Marker Felt", 16);
+            label.position = new CCPoint( s.width/4*1,s.height/2);
+
+            addChild(label);
+        }
+
+        public void callback2(CCNode sender)
+        {
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 2 called", "Marker Felt", 16);
+            label.position = new CCPoint(s.width/4*2,s.height/2);
+
+            addChild(label);
+        }
+
+        public void callback3(CCNode sender, object data)
+        {
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 3 called", "Marker Felt", 16);
+            label.position = new CCPoint( s.width/4*3,s.height/2);
+
+            addChild(label);
+        }
+
+        public override string subtitle()
+        {
+            return "Sequence of InstantActions";
+        }    
+    };
 
     //class ActionSpawn : public ActionsDemo
     //{
