@@ -732,104 +732,398 @@ namespace tests
         }    
     };
 
-    //class ActionSpawn : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+    public class ActionCallFunc : ActionsDemo
+    {
+        public void onEnter()
+        {
+            base.onEnter();
 
-    //class ActionReverse : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            centerSprites(3);
 
-    //class ActionRepeat : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            CCFiniteTimeAction action = CCSequence.actions(
+                CCMoveBy.actionWithDuration(2, new CCPoint(200,0)),
+                CCCallFunc.actionWithTarget(this, new SEL_CallFunc(callback1)), 
+                null);
 
-    //class ActionDelayTime : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            CCFiniteTimeAction action2 = CCSequence.actions(
+                CCScaleBy.actionWithDuration(2, 2),
+                CCFadeOut.actionWithDuration(2),
+                CCCallFuncN.actionWithTarget(this, new SEL_CallFuncN(callback2)), 
+                null);
 
-    //class ActionReverseSequence : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            CCFiniteTimeAction action3 = CCSequence.actions(
+                CCRotateBy.actionWithDuration(3 , 360),
+                CCFadeOut.actionWithDuration(2),
+                CCCallFuncND.actionWithTarget(this, new SEL_CallFuncND(callback3), (object)0xbebabeba), 
+                null);
 
-    //class ActionReverseSequence2 : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
-
-    //class ActionOrbit : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
-
-    //class ActionRepeatForever : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-
-    //    void repeatForever(CCNode* pTarget);
-    //};
-
-    //class ActionRotateToRepeat : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
-
-    //class ActionRotateJerk : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
-
-    //class ActionCallFunc : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-
-    //    void callback1();
-    //    void callback2(CCNode* pTarget);
-    //    void callback3(CCNode* pTarget, void* data);
-    //};
-
-    //class ActionCallFuncND : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string title();
-    //    virtual std::string subtitle();
-    //};
-
-    //class ActionFollow : public ActionsDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string subtitle();
-    //};
+            m_grossini.runAction(action);
+            m_tamara.runAction(action2);
+            m_kathia.runAction(action3);
+        }
 
 
+        public void callback1()
+        {
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 1 called", "Marker Felt", 16);
+            label.position = new CCPoint(s.width/4*1,s.height/2);
+
+            addChild(label);
+        }
+
+        public void callback2(CCNode pSender)
+        {
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 2 called", "Marker Felt", 16);
+            label.position = new CCPoint(s.width/4*2,s.height/2);
+
+            addChild(label);
+        }
+
+        public void callback3(CCNode pTarget, object data)
+        {
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 3 called", "Marker Felt", 16);
+            label.position = new CCPoint(s.width/4*3,s.height/2);
+            addChild(label);
+        }
+
+        public override string subtitle()
+        {
+            return "Callbacks: CallFunc and friends";
+        }
+    };
+
+    public class ActionCallFuncND : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(1);
+
+            CCFiniteTimeAction action = CCSequence.actions(CCMoveBy.actionWithDuration(2.0f, new CCPoint(200,0)),
+                //CCCallFuncND::actionWithTarget(m_grossini, callfuncND_selector(ActionCallFuncND::removeFromParentAndCleanup), (void*)true),
+                null);
+
+            m_grossini.runAction(action);
+        }
+
+        public override string title()
+        {
+            return "CallFuncND + auto remove";
+        }
+
+        public override string subtitle()
+        {
+            return "CallFuncND + removeFromParentAndCleanup. Grossini dissapears in 2s";
+        }
+    };
+
+    public class ActionSpawn : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            alignSpritesLeft(1);
+
+            CCAction action = CCSpawn.actions(
+                CCJumpBy.actionWithDuration(2, new CCPoint(300,0), 50, 4),
+                CCRotateBy.actionWithDuration( 2,  720),
+                null);
+
+            m_grossini.runAction(action);
+        }
+
+        public override string subtitle()
+        {
+            return "Spawn: Jump + Rotate";
+        }
+    
+    };
+
+    public class ActionRepeatForever : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(1);
+
+            CCFiniteTimeAction action = CCSequence.actions(
+                CCDelayTime.actionWithDuration(1),
+                CCCallFuncN.actionWithTarget(this, new SEL_CallFuncN(repeatForever)), 
+                null);
+
+            m_grossini.runAction(action);
+        }
+
+        public void repeatForever(CCNode pSender)
+        {
+            CCRepeatForever repeat = CCRepeatForever.actionWithAction(CCRotateBy.actionWithDuration(1.0f, 360) );
+
+            pSender.runAction(repeat);
+        }
+
+        public override string subtitle()
+        {
+            return "CallFuncN + RepeatForever";
+        }
+
+    };
+
+    public class ActionRotateToRepeat : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(2);
+
+            CCActionInterval act1 = CCRotateTo.actionWithDuration(1, 90);
+            CCActionInterval act2 = CCRotateTo.actionWithDuration(1, 0);
+            CCActionInterval seq = (CCActionInterval)(CCSequence.actions(act1, act2, null));
+            CCAction rep1 = CCRepeatForever.actionWithAction(seq);
+            CCActionInterval rep2 = CCRepeat.actionWithAction((CCFiniteTimeAction)(seq.copy()), 10);
+
+            m_tamara.runAction(rep1);
+            m_kathia.runAction(rep2);
+        }
+
+        public override string subtitle()
+        {
+            return "Repeat/RepeatForever + RotateTo";
+        }
+    
+    };
+
+    public class ActionRotateJerk : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(2);
+
+            CCFiniteTimeAction seq = CCSequence.actions(
+                CCRotateTo.actionWithDuration(0.5f, -20),
+                CCRotateTo.actionWithDuration(0.5f, 20),
+                null);
+
+            CCActionInterval rep1 = CCRepeat.actionWithAction(seq, 10);
+            CCAction rep2 = CCRepeatForever.actionWithAction((CCActionInterval)(seq.copy()));
+
+            m_tamara.runAction(rep1);
+            m_kathia.runAction(rep2);
+        }
+
+        public override string subtitle()
+        {
+            return "RepeatForever / Repeat + Rotate";
+        }
+
+    };
+
+    public class ActionReverse : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            alignSpritesLeft(1);
+
+            CCActionInterval jump = CCJumpBy.actionWithDuration(2, new CCPoint(300,0), 50, 4);
+            CCFiniteTimeAction action = CCSequence.actions( jump, jump.reverse(), null);
+
+            m_grossini.runAction(action);
+        }
+
+        public override string subtitle()
+        {
+            return "Reverse an action";
+        }
+
+    };
+
+    public class ActionDelayTime : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            alignSpritesLeft(1);
+
+            CCActionInterval move = CCMoveBy.actionWithDuration(1, new CCPoint(150,0));
+            CCFiniteTimeAction action = CCSequence.actions( move, CCDelayTime.actionWithDuration(2), move, null);
+
+            m_grossini.runAction(action);
+        }
+
+        public override string subtitle()
+        {
+            return "DelayTime: m + delay + m";
+        }
+
+    };
+
+    public class ActionReverseSequence : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            alignSpritesLeft(1);
+
+            CCActionInterval move1 = CCMoveBy.actionWithDuration(1, new CCPoint(250,0));
+            CCActionInterval move2 = CCMoveBy.actionWithDuration(1, new CCPoint(0,50));
+            CCFiniteTimeAction seq = CCSequence.actions( move1, move2, move1.reverse(), null);
+            CCFiniteTimeAction action = CCSequence.actions( seq, seq.reverse(), null);
+
+            m_grossini.runAction(action);
+        }
+
+        public override string subtitle()
+        {
+            return "Reverse a sequence";
+        }
+    };
+
+    public class ActionReverseSequence2 : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            alignSpritesLeft(2);
+
+
+            // Test:
+            //   Sequence should work both with IntervalAction and InstantActions
+            CCActionInterval move1 = CCMoveBy.actionWithDuration(1, new CCPoint(250,0));
+            CCActionInterval move2 = CCMoveBy.actionWithDuration(1, new CCPoint(0,50));
+            CCToggleVisibility tog1 = new CCToggleVisibility();
+            CCToggleVisibility tog2 = new CCToggleVisibility();
+            CCFiniteTimeAction seq = CCSequence.actions( move1, tog1, move2, tog2, move1.reverse(), null);
+            CCActionInterval action = CCRepeat.actionWithAction((CCActionInterval)(CCSequence.actions(seq, seq.reverse(), null)), 3);
+
+            // Test:
+            //   Also test that the reverse of Hide is Show, and vice-versa
+            m_kathia.runAction(action);
+
+            CCActionInterval move_tamara = CCMoveBy.actionWithDuration(1, new CCPoint(100,0));
+            CCActionInterval move_tamara2 = CCMoveBy.actionWithDuration(1, new CCPoint(50,0));
+            CCActionInstant hide = new CCHide();
+            CCFiniteTimeAction seq_tamara = CCSequence.actions( move_tamara, hide, move_tamara2, null);
+            CCFiniteTimeAction seq_back = seq_tamara.reverse();
+            m_tamara.runAction( CCSequence.actions( seq_tamara, seq_back, null));
+        }
+        public override string subtitle()
+        {
+            return "Reverse sequence 2";
+        }
+
+    };
+
+    public class ActionRepeat : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            alignSpritesLeft(2);
+
+            CCActionInterval a1 = CCMoveBy.actionWithDuration(1, new CCPoint(150,0));
+            CCActionInterval action1 = CCRepeat.actionWithAction(
+                CCSequence.actions( CCPlace.actionWithPosition(new CCPoint(60,60)), a1, null) , 
+                3); 
+            CCAction action2 = CCRepeatForever.actionWithAction(
+                (CCActionInterval)(CCSequence.actions((CCActionInterval)(a1.copy()), a1.reverse(), null))
+                );
+
+            m_kathia.runAction(action1);
+            m_tamara.runAction(action2);
+        }
+
+        public override string subtitle()
+        {
+            return "Repeat / RepeatForever actions";
+        }
+    };
+
+    public class ActionOrbit : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            // todo : CCOrbitCamera hasn't been implement
+
+            //base.onEnter();
+
+            //centerSprites(3);
+
+            //CCActionInterval orbit1 = CCOrbitCamera.actionWithDuration(2,1, 0, 0, 180, 0, 0);
+            //CCFiniteTimeAction action1 = CCSequence.actions(
+            //    orbit1,
+            //    orbit1.reverse(),
+            //    null);
+
+            //CCActionInterval orbit2 = CCOrbitCamera.actionWithDuration(2,1, 0, 0, 180, -45, 0);
+            //CCFiniteTimeAction action2 = CCSequence.actions(
+            //    orbit2,
+            //    orbit2.reverse(),
+            //    null);
+
+            //CCActionInterval orbit3 = CCOrbitCamera.actionWithDuration(2,1, 0, 0, 180, 90, 0);
+            //CCFiniteTimeAction action3 = CCSequence.actions(
+            //    orbit3,
+            //    orbit3.reverse(),
+            //    null);
+
+            //m_kathia.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action1));
+            //m_tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action2));
+            //m_grossini.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action3));
+
+            //CCActionInterval move = CCMoveBy.actionWithDuration(3, new CCPoint(100,-100));
+            //CCFiniteTimeAction move_back = move.reverse();
+            //CCFiniteTimeAction seq = CCSequence.actions(move, move_back, null);
+            //CCAction rfe = CCRepeatForever.actionWithAction((CCActionInterval)seq);
+            //m_kathia.runAction(rfe);
+            //m_tamara.runAction((CCAction)(rfe.copy()));
+            //m_grossini.runAction((CCAction)(rfe.copy()));
+        }
+
+        public override string subtitle()
+        {
+            return "OrbitCamera action";
+        }
+
+    };
+
+    public class ActionFollow : ActionsDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            centerSprites(1);
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+
+            m_grossini.position = new CCPoint(-200, s.height / 2);
+            CCActionInterval move      = CCMoveBy.actionWithDuration(2, new CCPoint(s.width * 3, 0));
+            CCFiniteTimeAction move_back = move.reverse();
+            CCFiniteTimeAction seq     = CCSequence.actions(move, move_back, null);
+            CCAction rep               = CCRepeatForever.actionWithAction((CCActionInterval)seq);
+
+            m_grossini.runAction(rep);
+
+            this.runAction(CCFollow.actionWithTarget(m_grossini, new CCRect(0, 0, s.width * 2 - 100, s.height)));
+        }
+
+        public override string subtitle()
+        {
+            return "Follow action";
+        }
+    };
 
 }
