@@ -205,12 +205,25 @@ namespace cocos2d
 
         public void setString(string label)
         {
-            throw new NotImplementedException();
+            uint len = (uint)label.Length;
+            if (len > m_pTextureAtlas.getTotalQuads())
+            {
+                m_pTextureAtlas.resizeCapacity(len);
+            }
+            m_sString = "";
+            this.updateAtlasValues();
+
+            CCSize s = new CCSize();
+            s.width = (float)(len * m_uItemWidth);
+            s.height = (float)(m_uItemHeight);
+            //this.setContentSizeInPixels(s);
+
+            m_uQuadsToDraw = len;
         }
 
         public string getString()
         {
-            throw new NotImplementedException();
+            return m_sString;
         }
     }
 }
