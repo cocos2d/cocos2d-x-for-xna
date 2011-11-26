@@ -126,6 +126,7 @@
     <Compile Include="actions\CCSpeed.cs" />
     <Compile Include="base_nodes\CCAtlasNode.cs" />
     <Compile Include="base_nodes\CCNode.cs" />
+    <Compile Include="CCCamera.cs" />
     <Compile Include="CCDirector.cs" />
     <Compile Include="CCScheduler.cs" />
     <Compile Include="cocoa\CCAffineTransform.cs" />
@@ -151,6 +152,11 @@
     <Compile Include="menu_nodes\CCMenuItemSprite.cs" />
     <Compile Include="menu_nodes\CCMenuItemToggle.cs" />
     <Compile Include="platform\CCApplication.cs" />
+    <Compile Include="platform\CCDictMaker.cs" />
+    <Compile Include="platform\CCFileData.cs" />
+    <Compile Include="platform\CCFileUtils.cs" />
+    <Compile Include="platform\CCSAXParser.cs" />
+    <Compile Include="platform\ICCSAXDelegator.cs" />
     <Compile Include="predefine\ccConfig.cs" />
     <Compile Include="predefine\ccMacros.cs" />
     <Compile Include="predefine\CCPointExtension.cs" />
@@ -163,11 +169,24 @@
     <Compile Include="script_support\CCScriptEngineProtocol.cs" />
     <Compile Include="sprite_nodes\CCSprite.cs" />
     <Compile Include="sprite_nodes\CCSpriteBatchNode.cs" />
+    <Compile Include="support\image_support\TGAlib.cs" />
     <Compile Include="support\TransformUtils.cs" />
+    <Compile Include="support\zip_support\CCZHeader.cs" />
+    <Compile Include="support\zip_support\ZipUtils.cs" />
     <Compile Include="textures\CCTextureAtlas.cs" />
     <Compile Include="textures\CCTextureCache.cs" />
     <Compile Include="textures\CCTexture2D.cs" />
     <Compile Include="textures\CCTexturePVR.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCParallaxNode.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCPointObject.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCTileMapAtlas.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCTMXLayer.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCTMXLayerInfo.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCTMXMapInfo.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCTMXObjectGroup.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCTMXTiledMap.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCTMXTilesetInfo.cs" />
+    <Compile Include="tileMap_parallax_nodes\CCTMXXMLParser.cs" />
     <Compile Include="touch_dispatcher\CCStandardTouchHandler.cs" />
     <Compile Include="touch_dispatcher\CCTargetedTouchHandler.cs" />
     <Compile Include="touch_dispatcher\CCTouchDelegate.cs" />
@@ -186,9 +205,6 @@
     <Folder Include="misc_nodes\" />
     <Folder Include="particle_nodes\" />
     <Folder Include="support\data_support\" />
-    <Folder Include="support\image_support\" />
-    <Folder Include="support\zip_support\" />
-    <Folder Include="tileMap_parallax_nodes\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
