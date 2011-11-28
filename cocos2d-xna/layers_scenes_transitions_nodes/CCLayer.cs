@@ -113,8 +113,7 @@ namespace cocos2d
         {
             if (m_bIsTouchEnabled)
             {
-                ///@todo
-                throw new NotImplementedException();
+                CCTouchDispatcher.sharedDispatcher().removeDelegate(this);
             }
 
             // remove this layer from the delegates who concern Accelerometer Sensor

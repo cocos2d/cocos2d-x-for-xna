@@ -52,60 +52,60 @@ namespace tests
 
             switch (nIndex)
             {
-            //case (int)ActionTest.ACTION_MANUAL_LAYER:
-            //    pLayer = new ActionManual(); break;
-            case (int)ActionTest.ACTION_MOVE_LAYER:
-                pLayer = new ActionMove(); break;
-            //case (int)ActionTest.ACTION_SCALE_LAYER:
-            //    pLayer = new ActionScale(); break;
-            //case (int)ActionTest.ACTION_ROTATE_LAYER:
-            //    pLayer = new ActionRotate(); break;
-            //case (int)ActionTest.ACTION_SKEW_LAYER:
-            //    pLayer = new ActionSkew(); break;
-            //case (int)ActionTest.ACTION_SKEWROTATE_LAYER:
-            //    pLayer = new ActionSkewRotateScale(); break;
-            //case (int)ActionTest.ACTION_JUMP_LAYER:
-            //    pLayer = new ActionJump(); break;
-            //case (int)ActionTest.ACTION_BEZIER_LAYER:
-            //    pLayer = new ActionBezier(); break;
-            //case (int)ActionTest.ACTION_BLINK_LAYER:
-            //    pLayer = new ActionBlink(); break;
-            //case (int)ActionTest.ACTION_FADE_LAYER:
-            //    pLayer = new ActionFade(); break;
-            //case (int)ActionTest.ACTION_TINT_LAYER:
-            //    pLayer = new ActionTint(); break;
-            //case (int)ActionTest.ACTION_ANIMATE_LAYER:
-            //    pLayer = new ActionAnimate(); break;
-            //case (int)ActionTest.ACTION_SEQUENCE_LAYER:
-            //    pLayer = new ActionSequence(); break;
-            //case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
-            //    pLayer = new ActionSequence2(); break;
-            //case (int)ActionTest.ACTION_SPAWN_LAYER:
-            //    pLayer = new ActionSpawn(); break;
-            //case (int)ActionTest.ACTION_REVERSE:
-            //    pLayer = new ActionReverse(); break;
-            //case (int)ActionTest.ACTION_DELAYTIME_LAYER:
-            //    pLayer = new ActionDelayTime(); break;
-            //case (int)ActionTest.ACTION_REPEAT_LAYER:
-            //    pLayer = new ActionRepeat(); break;
-            //case (int)ActionTest.ACTION_REPEATEFOREVER_LAYER:
-            //    pLayer = new ActionRepeatForever(); break;
-            //case (int)ActionTest.ACTION_ROTATETOREPEATE_LAYER:
-            //    pLayer = new ActionRotateToRepeat(); break;
-            //case (int)ActionTest.ACTION_ROTATEJERK_LAYER:
-            //    pLayer = new ActionRotateJerk(); break;    
-            //case (int)ActionTest.ACTION_CALLFUNC_LAYER:
-            //    pLayer = new ActionCallFunc(); break;
-            //case (int)ActionTest.ACTION_CALLFUNCND_LAYER:
-            //    pLayer = new ActionCallFuncND(); break;
-            //case (int)ActionTest.ACTION_REVERSESEQUENCE_LAYER:
-            //    pLayer = new ActionReverseSequence(); break;
-            //case (int)ActionTest.ACTION_REVERSESEQUENCE2_LAYER:
-            //    pLayer = new ActionReverseSequence2(); break;
-            //case (int)ActionTest.ACTION_ORBIT_LAYER:
-            //    pLayer = new ActionOrbit(); break;
-            //case (int)ActionTest.ACTION_FLLOW_LAYER:
-            //    pLayer = new ActionFollow(); break;
+                case (int)ActionTest.ACTION_MANUAL_LAYER:
+                    pLayer = new ActionManual(); break;
+                case (int)ActionTest.ACTION_MOVE_LAYER:
+                    pLayer = new ActionMove(); break;
+                case (int)ActionTest.ACTION_SCALE_LAYER:
+                    pLayer = new ActionScale(); break;
+                case (int)ActionTest.ACTION_ROTATE_LAYER:
+                    pLayer = new ActionRotate(); break;
+                case (int)ActionTest.ACTION_SKEW_LAYER:
+                    pLayer = new ActionSkew(); break;
+                case (int)ActionTest.ACTION_SKEWROTATE_LAYER:
+                    pLayer = new ActionSkewRotateScale(); break;
+                case (int)ActionTest.ACTION_JUMP_LAYER:
+                    pLayer = new ActionJump(); break;
+                case (int)ActionTest.ACTION_BEZIER_LAYER:
+                    pLayer = new ActionBezier(); break;
+                case (int)ActionTest.ACTION_BLINK_LAYER:
+                    pLayer = new ActionBlink(); break;
+                case (int)ActionTest.ACTION_FADE_LAYER:
+                    pLayer = new ActionFade(); break;
+                case (int)ActionTest.ACTION_TINT_LAYER:
+                    pLayer = new ActionTint(); break;
+                case (int)ActionTest.ACTION_ANIMATE_LAYER:
+                    pLayer = new ActionAnimate(); break;
+                case (int)ActionTest.ACTION_SEQUENCE_LAYER:
+                    pLayer = new ActionSequence(); break;
+                case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
+                    pLayer = new ActionSequence2(); break;
+                case (int)ActionTest.ACTION_SPAWN_LAYER:
+                    pLayer = new ActionSpawn(); break;
+                case (int)ActionTest.ACTION_REVERSE:
+                    pLayer = new ActionReverse(); break;
+                case (int)ActionTest.ACTION_DELAYTIME_LAYER:
+                    pLayer = new ActionDelayTime(); break;
+                case (int)ActionTest.ACTION_REPEAT_LAYER:
+                    pLayer = new ActionRepeat(); break;
+                case (int)ActionTest.ACTION_REPEATEFOREVER_LAYER:
+                    pLayer = new ActionRepeatForever(); break;
+                case (int)ActionTest.ACTION_ROTATETOREPEATE_LAYER:
+                    pLayer = new ActionRotateToRepeat(); break;
+                case (int)ActionTest.ACTION_ROTATEJERK_LAYER:
+                    pLayer = new ActionRotateJerk(); break;
+                case (int)ActionTest.ACTION_CALLFUNC_LAYER:
+                    pLayer = new ActionCallFunc(); break;
+                case (int)ActionTest.ACTION_CALLFUNCND_LAYER:
+                    pLayer = new ActionCallFuncND(); break;
+                case (int)ActionTest.ACTION_REVERSESEQUENCE_LAYER:
+                    pLayer = new ActionReverseSequence(); break;
+                case (int)ActionTest.ACTION_REVERSESEQUENCE2_LAYER:
+                    pLayer = new ActionReverseSequence2(); break;
+                case (int)ActionTest.ACTION_ORBIT_LAYER:
+                    pLayer = new ActionOrbit(); break;
+                case (int)ActionTest.ACTION_FLLOW_LAYER:
+                    pLayer = new ActionFollow(); break;
             default:
                 break;
             }
@@ -194,7 +194,7 @@ namespace tests
             string strSubtitle = subtitle();
             if( ! strSubtitle.Equals("") ) 
             {
-                CCLabelTTF l = CCLabelTTF.labelWithString(strSubtitle, "Thonburi", 22);
+                CCLabelTTF l = CCLabelTTF.labelWithString(strSubtitle, "Arial", 22);
                 addChild(l, 1);
                 l.position = new CCPoint(s.width/2, s.height - 60);
             }	
@@ -337,7 +337,7 @@ namespace tests
             CCFiniteTimeAction actionByBack = actionBy.reverse();
 
             m_tamara.runAction( actionTo);
-            m_grossini.runAction( CCSequence.actions(actionBy, actionByBack, null));
+            m_grossini.runAction( CCSequence.actions(actionBy, actionByBack));
             m_kathia.runAction(CCMoveTo.actionWithDuration(1, new CCPoint(40,40)));
         }
 
@@ -361,8 +361,8 @@ namespace tests
             CCFiniteTimeAction actionByBack = actionBy.reverse();
 
             m_tamara.runAction(actionTo);
-            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack, null));
-            m_kathia.runAction(CCSequence.actions(actionBy2, actionBy2.reverse(), null));
+            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack));
+            m_kathia.runAction(CCSequence.actions(actionBy2, actionBy2.reverse()));
         }
 
         public override string subtitle()
@@ -385,10 +385,10 @@ namespace tests
 	        CCActionInterval actionBy2 = CCSkewBy.actionWithDuration(2, 45.0f, 45.0f);
 	        CCFiniteTimeAction actionByBack = actionBy.reverse();
 
-	        m_tamara.runAction(CCSequence.actions(actionTo, actionToBack, null));
-	        m_grossini.runAction(CCSequence.actions(actionBy, actionByBack, null));
+	        m_tamara.runAction(CCSequence.actions(actionTo, actionToBack));
+	        m_grossini.runAction(CCSequence.actions(actionBy, actionByBack));
 
-	        m_kathia.runAction(CCSequence.actions(actionBy2, actionBy2.reverse(), null));
+	        m_kathia.runAction(CCSequence.actions(actionBy2, actionBy2.reverse()));
         }
 
         public override string subtitle()
@@ -463,14 +463,14 @@ namespace tests
             CCActionInterval actionTo = CCRotateTo.actionWithDuration(2, 45);
             CCActionInterval actionTo2 = CCRotateTo.actionWithDuration(2, -45);
             CCActionInterval actionTo0 = CCRotateTo.actionWithDuration(2 , 0);
-            m_tamara.runAction(CCSequence.actions(actionTo, actionTo0, null));
+            m_tamara.runAction(CCSequence.actions(actionTo, actionTo0));
 
             CCActionInterval actionBy = CCRotateBy.actionWithDuration(2 , 360);
             CCFiniteTimeAction actionByBack = actionBy.reverse();
-            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack, null));
+            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack));
 
             // m_kathia->runAction( CCSequence::actions(actionTo2, actionTo0->copy()->autorelease(), NULL));
-            m_kathia.runAction(CCSequence.actions(actionTo2, actionTo0, null));
+            m_kathia.runAction(CCSequence.actions(actionTo2, actionTo0));
         }
 
         public override string subtitle()
@@ -493,7 +493,7 @@ namespace tests
             CCFiniteTimeAction actionByBack = actionBy.reverse();
 
             m_tamara.runAction(actionTo);
-            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack, null));
+            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack));
             m_kathia.runAction(CCRepeatForever.actionWithAction(actionUp));
         }
 
@@ -526,7 +526,7 @@ namespace tests
 
             CCActionInterval bezierForward = CCBezierBy.actionWithDuration(3, bezier);
             CCFiniteTimeAction bezierBack = bezierForward.reverse();	
-            CCAction rep = CCRepeatForever.actionWithAction((CCActionInterval)CCSequence.actions( bezierForward, bezierBack, null));
+            CCAction rep = CCRepeatForever.actionWithAction((CCActionInterval)CCSequence.actions( bezierForward, bezierBack));
 
 
             // sprite 2
@@ -589,8 +589,8 @@ namespace tests
             CCActionInterval action2 = CCFadeOut.actionWithDuration(1.0f);
             CCFiniteTimeAction action2Back = action2.reverse();
 
-            m_tamara.runAction( CCSequence.actions(action1, action1Back, null));
-            m_kathia.runAction( CCSequence.actions(action2, action2Back, null));
+            m_tamara.runAction( CCSequence.actions(action1, action1Back));
+            m_kathia.runAction( CCSequence.actions(action2, action2Back));
         }
 
         public override string subtitle()
@@ -614,7 +614,7 @@ namespace tests
             CCFiniteTimeAction action2Back = action2.reverse();
 
             m_tamara.runAction(action1);
-            m_kathia.runAction(CCSequence.actions( action2, action2Back, null));
+            m_kathia.runAction(CCSequence.actions( action2, action2Back));
         }
 
         public override string subtitle()
@@ -664,8 +664,7 @@ namespace tests
 
             CCFiniteTimeAction action = CCSequence.actions(
                 CCMoveBy.actionWithDuration( 2, new CCPoint(240,0)),
-                CCRotateBy.actionWithDuration(2,  540),
-                null);
+                CCRotateBy.actionWithDuration(2,  540));
 
             m_grossini.runAction(action);
         }
@@ -693,8 +692,7 @@ namespace tests
                 CCMoveBy.actionWithDuration(1, new CCPoint(100,0)),
                 CCCallFunc.actionWithTarget(this, new SEL_CallFunc(callback1)),
                 CCCallFuncN.actionWithTarget(this, new SEL_CallFuncN(callback2)),
-                CCCallFuncND.actionWithTarget(this, new SEL_CallFuncND(callback3), (object)0xbebabeba),
-                null);
+                CCCallFuncND.actionWithTarget(this, new SEL_CallFuncND(callback3), (object)0xbebabeba));
 
             m_grossini.runAction(action);
         }
@@ -702,7 +700,7 @@ namespace tests
         public void callback1()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
-            CCLabelTTF label = CCLabelTTF.labelWithString("callback 1 called", "Marker Felt", 16);
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 1 called", "Arial", 16);
             label.position = new CCPoint( s.width/4*1,s.height/2);
 
             addChild(label);
@@ -711,7 +709,7 @@ namespace tests
         public void callback2(CCNode sender)
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
-            CCLabelTTF label = CCLabelTTF.labelWithString("callback 2 called", "Marker Felt", 16);
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 2 called", "Arial", 16);
             label.position = new CCPoint(s.width/4*2,s.height/2);
 
             addChild(label);
@@ -720,7 +718,7 @@ namespace tests
         public void callback3(CCNode sender, object data)
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
-            CCLabelTTF label = CCLabelTTF.labelWithString("callback 3 called", "Marker Felt", 16);
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 3 called", "Arial", 16);
             label.position = new CCPoint( s.width/4*3,s.height/2);
 
             addChild(label);
@@ -742,20 +740,17 @@ namespace tests
 
             CCFiniteTimeAction action = CCSequence.actions(
                 CCMoveBy.actionWithDuration(2, new CCPoint(200,0)),
-                CCCallFunc.actionWithTarget(this, new SEL_CallFunc(callback1)), 
-                null);
+                CCCallFunc.actionWithTarget(this, new SEL_CallFunc(callback1)));
 
             CCFiniteTimeAction action2 = CCSequence.actions(
                 CCScaleBy.actionWithDuration(2, 2),
                 CCFadeOut.actionWithDuration(2),
-                CCCallFuncN.actionWithTarget(this, new SEL_CallFuncN(callback2)), 
-                null);
+                CCCallFuncN.actionWithTarget(this, new SEL_CallFuncN(callback2)));
 
             CCFiniteTimeAction action3 = CCSequence.actions(
                 CCRotateBy.actionWithDuration(3 , 360),
                 CCFadeOut.actionWithDuration(2),
-                CCCallFuncND.actionWithTarget(this, new SEL_CallFuncND(callback3), (object)0xbebabeba), 
-                null);
+                CCCallFuncND.actionWithTarget(this, new SEL_CallFuncND(callback3), (object)0xbebabeba));
 
             m_grossini.runAction(action);
             m_tamara.runAction(action2);
@@ -766,7 +761,7 @@ namespace tests
         public void callback1()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
-            CCLabelTTF label = CCLabelTTF.labelWithString("callback 1 called", "Marker Felt", 16);
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 1 called", "Arial", 16);
             label.position = new CCPoint(s.width/4*1,s.height/2);
 
             addChild(label);
@@ -775,7 +770,7 @@ namespace tests
         public void callback2(CCNode pSender)
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
-            CCLabelTTF label = CCLabelTTF.labelWithString("callback 2 called", "Marker Felt", 16);
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 2 called", "Arial", 16);
             label.position = new CCPoint(s.width/4*2,s.height/2);
 
             addChild(label);
@@ -784,7 +779,7 @@ namespace tests
         public void callback3(CCNode pTarget, object data)
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
-            CCLabelTTF label = CCLabelTTF.labelWithString("callback 3 called", "Marker Felt", 16);
+            CCLabelTTF label = CCLabelTTF.labelWithString("callback 3 called", "Arial", 16);
             label.position = new CCPoint(s.width/4*3,s.height/2);
             addChild(label);
         }
@@ -803,9 +798,8 @@ namespace tests
 
             centerSprites(1);
 
-            CCFiniteTimeAction action = CCSequence.actions(CCMoveBy.actionWithDuration(2.0f, new CCPoint(200,0)),
+            CCFiniteTimeAction action = CCSequence.actions(CCMoveBy.actionWithDuration(2.0f, new CCPoint(200, 0)));
                 //CCCallFuncND::actionWithTarget(m_grossini, callfuncND_selector(ActionCallFuncND::removeFromParentAndCleanup), (void*)true),
-                null);
 
             m_grossini.runAction(action);
         }
@@ -831,8 +825,7 @@ namespace tests
 
             CCAction action = CCSpawn.actions(
                 CCJumpBy.actionWithDuration(2, new CCPoint(300,0), 50, 4),
-                CCRotateBy.actionWithDuration( 2,  720),
-                null);
+                CCRotateBy.actionWithDuration( 2,  720));
 
             m_grossini.runAction(action);
         }
@@ -854,8 +847,7 @@ namespace tests
 
             CCFiniteTimeAction action = CCSequence.actions(
                 CCDelayTime.actionWithDuration(1),
-                CCCallFuncN.actionWithTarget(this, new SEL_CallFuncN(repeatForever)), 
-                null);
+                CCCallFuncN.actionWithTarget(this, new SEL_CallFuncN(repeatForever)));
 
             m_grossini.runAction(action);
         }
@@ -884,7 +876,7 @@ namespace tests
 
             CCActionInterval act1 = CCRotateTo.actionWithDuration(1, 90);
             CCActionInterval act2 = CCRotateTo.actionWithDuration(1, 0);
-            CCActionInterval seq = (CCActionInterval)(CCSequence.actions(act1, act2, null));
+            CCActionInterval seq = (CCActionInterval)(CCSequence.actions(act1, act2));
             CCAction rep1 = CCRepeatForever.actionWithAction(seq);
             CCActionInterval rep2 = CCRepeat.actionWithAction((CCFiniteTimeAction)(seq.copy()), 10);
 
@@ -909,8 +901,7 @@ namespace tests
 
             CCFiniteTimeAction seq = CCSequence.actions(
                 CCRotateTo.actionWithDuration(0.5f, -20),
-                CCRotateTo.actionWithDuration(0.5f, 20),
-                null);
+                CCRotateTo.actionWithDuration(0.5f, 20));
 
             CCActionInterval rep1 = CCRepeat.actionWithAction(seq, 10);
             CCAction rep2 = CCRepeatForever.actionWithAction((CCActionInterval)(seq.copy()));
@@ -935,7 +926,7 @@ namespace tests
             alignSpritesLeft(1);
 
             CCActionInterval jump = CCJumpBy.actionWithDuration(2, new CCPoint(300,0), 50, 4);
-            CCFiniteTimeAction action = CCSequence.actions( jump, jump.reverse(), null);
+            CCFiniteTimeAction action = CCSequence.actions( jump, jump.reverse());
 
             m_grossini.runAction(action);
         }
@@ -956,7 +947,7 @@ namespace tests
             alignSpritesLeft(1);
 
             CCActionInterval move = CCMoveBy.actionWithDuration(1, new CCPoint(150,0));
-            CCFiniteTimeAction action = CCSequence.actions( move, CCDelayTime.actionWithDuration(2), move, null);
+            CCFiniteTimeAction action = CCSequence.actions( move, CCDelayTime.actionWithDuration(2), move);
 
             m_grossini.runAction(action);
         }
@@ -978,8 +969,8 @@ namespace tests
 
             CCActionInterval move1 = CCMoveBy.actionWithDuration(1, new CCPoint(250,0));
             CCActionInterval move2 = CCMoveBy.actionWithDuration(1, new CCPoint(0,50));
-            CCFiniteTimeAction seq = CCSequence.actions( move1, move2, move1.reverse(), null);
-            CCFiniteTimeAction action = CCSequence.actions( seq, seq.reverse(), null);
+            CCFiniteTimeAction seq = CCSequence.actions( move1, move2, move1.reverse());
+            CCFiniteTimeAction action = CCSequence.actions( seq, seq.reverse());
 
             m_grossini.runAction(action);
         }
@@ -1005,8 +996,8 @@ namespace tests
             CCActionInterval move2 = CCMoveBy.actionWithDuration(1, new CCPoint(0,50));
             CCToggleVisibility tog1 = new CCToggleVisibility();
             CCToggleVisibility tog2 = new CCToggleVisibility();
-            CCFiniteTimeAction seq = CCSequence.actions( move1, tog1, move2, tog2, move1.reverse(), null);
-            CCActionInterval action = CCRepeat.actionWithAction((CCActionInterval)(CCSequence.actions(seq, seq.reverse(), null)), 3);
+            CCFiniteTimeAction seq = CCSequence.actions( move1, tog1, move2, tog2, move1.reverse());
+            CCActionInterval action = CCRepeat.actionWithAction((CCActionInterval)(CCSequence.actions(seq, seq.reverse())), 3);
 
             // Test:
             //   Also test that the reverse of Hide is Show, and vice-versa
@@ -1015,9 +1006,9 @@ namespace tests
             CCActionInterval move_tamara = CCMoveBy.actionWithDuration(1, new CCPoint(100,0));
             CCActionInterval move_tamara2 = CCMoveBy.actionWithDuration(1, new CCPoint(50,0));
             CCActionInstant hide = new CCHide();
-            CCFiniteTimeAction seq_tamara = CCSequence.actions( move_tamara, hide, move_tamara2, null);
+            CCFiniteTimeAction seq_tamara = CCSequence.actions( move_tamara, hide, move_tamara2);
             CCFiniteTimeAction seq_back = seq_tamara.reverse();
-            m_tamara.runAction( CCSequence.actions( seq_tamara, seq_back, null));
+            m_tamara.runAction( CCSequence.actions( seq_tamara, seq_back));
         }
         public override string subtitle()
         {
@@ -1036,10 +1027,10 @@ namespace tests
 
             CCActionInterval a1 = CCMoveBy.actionWithDuration(1, new CCPoint(150,0));
             CCActionInterval action1 = CCRepeat.actionWithAction(
-                CCSequence.actions( CCPlace.actionWithPosition(new CCPoint(60,60)), a1, null) , 
+                CCSequence.actions( CCPlace.actionWithPosition(new CCPoint(60,60)), a1) , 
                 3); 
             CCAction action2 = CCRepeatForever.actionWithAction(
-                (CCActionInterval)(CCSequence.actions((CCActionInterval)(a1.copy()), a1.reverse(), null))
+                (CCActionInterval)(CCSequence.actions((CCActionInterval)(a1.copy()), a1.reverse()))
                 );
 
             m_kathia.runAction(action1);
@@ -1112,7 +1103,7 @@ namespace tests
             m_grossini.position = new CCPoint(-200, s.height / 2);
             CCActionInterval move      = CCMoveBy.actionWithDuration(2, new CCPoint(s.width * 3, 0));
             CCFiniteTimeAction move_back = move.reverse();
-            CCFiniteTimeAction seq     = CCSequence.actions(move, move_back, null);
+            CCFiniteTimeAction seq     = CCSequence.actions(move, move_back);
             CCAction rep               = CCRepeatForever.actionWithAction((CCActionInterval)seq);
 
             m_grossini.runAction(rep);
