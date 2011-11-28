@@ -14,40 +14,57 @@ namespace HelloCocos2d
         public override bool init()
         {
             CCDirector.sharedDirector().deviceOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
+            
+            //////////////////////////////
+	        // 1. super init first
             if (!base.init())
             {
                 return false;
             }
 
             this.m_bIsTouchEnabled = true;
-            CCSize size = CCDirector.sharedDirector().getWinSize();
+	        /////////////////////////////
+	        // 2. add a menu item with "X" image, which is clicked to quit the program
+	        //    you may modify it.
 
-            CCMenuItemImage pCloseItem = CCMenuItemImage.itemFromNormalImage("CloseNormal", "CloseSelected", this, new SEL_MenuHandler(menuCloseCallback));
-            pCloseItem.position = new CCPoint(100, 150);
-            pCloseItem.anchorPoint = new CCPoint(0, 0);
+	        // add a "close" icon to exit the progress. it's an autorelease object
+	        CCMenuItemImage pCloseItem = CCMenuItemImage.itemFromNormalImage(
+										        "CloseNormal",
+										        "CloseSelected",
+										        this,
+										        new SEL_MenuHandler(menuCloseCallback) );
+	        pCloseItem.position = new CCPoint(CCDirector.sharedDirector().getWinSize().width - 20, 20);
 
-            CCLabelTTF EffectsTest = CCLabelTTF.labelWithString("EffectsTest", "SpriteFont1", 30);
-            //EffectsTest.position = new CCPoint(10, 10);
+	        // create menu, it's an autorelease object
+	        CCMenu pMenu = CCMenu.menuWithItems(pCloseItem);
+	        pMenu.position = new CCPoint(0, 0);
+	        this.addChild(pMenu, 1);
 
-            CCMenuItemLabel EffectsTestMenu = CCMenuItemLabel.itemWithLabel(EffectsTest, this, menuCloseCallback);
-            EffectsTestMenu.position = new CCPoint(100, 100);
-            //EffectsTestMenu.anchorPoint = new CCPoint(0.0f, 0.0f);
+	        /////////////////////////////
+	        // 3. add your codes below...
 
-            CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { EffectsTestMenu, pCloseItem });
-            pMenu.position = new CCPoint(100, 100);
-            this.addChild(pMenu, 1);
+	        // add a label shows "Hello World"
+	        // create and initialize a label
+            CCLabelTTF pLabel = CCLabelTTF.labelWithString("Hello World", "SpriteFont1", 24);
+	        // ask director the window size
+	        CCSize size = CCDirector.sharedDirector().getWinSize();
 
-            //pSprite = CCSprite.spriteWithFile("HelloWorld");
-            //pSprite.position = new CCPoint(size.width / 2, size.height / 2);
-            //pSprite.anchorPoint = new CCPoint(0f, 0f);
-            //this.addChild(pSprite, 0);
+	        // position the label on the center of the screen
+	        pLabel.position = new CCPoint(size.width / 2, size.height - 50);
 
-            ///@test action test
-            //CCSize s = CCDirector.sharedDirector().getWinSize();
-            //CCActionInterval actionTo = CCMoveTo.actionWithDuration(3, new CCPoint(s.width - 40, s.height - 40));
-            //pSprite.runAction(actionTo);
+	        // add the label as a child to this layer
+	        this.addChild(pLabel, 1);
 
-            return true;
+	        // add "HelloWorld" splash screen"
+	        CCSprite pSprite = CCSprite.spriteWithFile("HelloWorld");
+
+	        // position the sprite on the center of the screen
+	        pSprite.position = new CCPoint(size.width/2, size.height/2);
+
+	        // add the sprite as a child to this layer
+	        this.addChild(pSprite, 0);
+	
+	        return true;
         }
         CCSprite pSprite;
         /// <summary>
