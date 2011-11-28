@@ -33,6 +33,10 @@ using System.Text;
 
 namespace cocos2d.menu_nodes
 {
+    ///<summary>
+    /// A CCMenuItemAtlasFont
+    /// Helper class that creates a MenuItemLabel class with a LabelAtlas
+    ///</summary>
     public class CCMenuItemAtlasFont : CCMenuItemLabel
     {
         public CCMenuItemAtlasFont()

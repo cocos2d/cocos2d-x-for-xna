@@ -33,6 +33,14 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// An abstract class for "label" CCMenuItemLabel items 
+    /// Any CCNode that supports the CCLabelProtocol protocol can be added.
+    /// Supported nodes:
+    /// - CCBitmapFontAtlas
+    /// - CCLabelAtlas
+    /// - CCLabelTTF
+    /// </summary>
     public class CCMenuItemLabel : CCMenuItem, CCRGBAProtocol
     {
         const uint kCurrentItem = 0xc0c05001;

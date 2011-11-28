@@ -33,14 +33,19 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// CCMenuItemImage accepts images as items.
+    /// The images has 3 different states:
+    /// - unselected image
+    /// - selected image
+    /// - disabled image
+    /// For best results try that all images are of the same size
+    /// </summary>
     public class CCMenuItemImage : CCMenuItemSprite
     {
         /// <summary>
         /// creates a menu item with a normal and selected image
         /// </summary>
-        /// <param name="normalImage"></param>
-        /// <param name="selectedImage"></param>
-        /// <returns></returns>
         public static CCMenuItemImage itemFromNormalImage(string normalImage, string selectedImage)
         {
             return itemFromNormalImage(normalImage, selectedImage, null, null, null);
@@ -49,12 +54,7 @@ namespace cocos2d
         /// <summary>
         /// creates a menu item with a normal,selected  and disabled image
         /// </summary>
-        /// <param name="normalImage"></param>
-        /// <param name="selectedImage"></param>
-        /// <param name="target"></param>
-        /// <param name="selector"></param>
-        /// <returns></returns>
-        public static CCMenuItemImage itemFromNormalImage(string normalImage, string selectedImage,SelectorProtocol target, SEL_MenuHandler selector)
+        public static CCMenuItemImage itemFromNormalImage(string normalImage, string selectedImage, SelectorProtocol target, SEL_MenuHandler selector)
         {
             return itemFromNormalImage(normalImage, selectedImage, null, target, selector);
         }
@@ -62,12 +62,6 @@ namespace cocos2d
         /// <summary>
         /// creates a menu item with a normal and selected image with target/selector
         /// </summary>
-        /// <param name="normalImage"></param>
-        /// <param name="selectedImage"></param>
-        /// <param name="disabledImage"></param>
-        /// <param name="target"></param>
-        /// <param name="selector"></param>
-        /// <returns></returns>
         public static CCMenuItemImage itemFromNormalImage(string normalImage, string selectedImage, string disabledImage, SelectorProtocol target, SEL_MenuHandler selector)
         {
             CCMenuItemImage pRet = new CCMenuItemImage();
@@ -83,10 +77,6 @@ namespace cocos2d
         /// <summary>
         /// creates a menu item with a normal,selected  and disabled image with target/selector
         /// </summary>
-        /// <param name="normalImage"></param>
-        /// <param name="selectedImage"></param>
-        /// <param name="disabledImage"></param>
-        /// <returns></returns>
         public static CCMenuItemImage itemFromNormalImage(string normalImage, string selectedImage, string disabledImage)
         {
             CCMenuItemImage pRet = new CCMenuItemImage();
@@ -102,14 +92,8 @@ namespace cocos2d
         /// <summary>
         /// initializes a menu item with a normal, selected  and disabled image with target/selector
         /// </summary>
-        /// <param name="normalImage"></param>
-        /// <param name="selectedImage"></param>
-        /// <param name="disabledImage"></param>
-        /// <param name="target"></param>
-        /// <param name="selector"></param>
-        /// <returns></returns>
         bool initFromNormalImage(string normalImage, string selectedImage, string disabledImage, SelectorProtocol target, SEL_MenuHandler selector)
-	    {
+        {
             CCNode normalSprite = CCSprite.spriteWithFile(normalImage);
             CCNode selectedSprite = null;
             CCNode disabledSprite = null;
@@ -119,12 +103,12 @@ namespace cocos2d
                 selectedSprite = CCSprite.spriteWithFile(selectedImage);
             }
 
-            if(disabledImage != null && disabledImage.Trim() != "")
+            if (disabledImage != null && disabledImage.Trim() != "")
             {
                 disabledSprite = CCSprite.spriteWithFile(disabledImage);
             }
 
             return initFromNormalSprite(normalSprite, selectedSprite, disabledSprite, target, selector);
-	    }
+        }
     }
 }

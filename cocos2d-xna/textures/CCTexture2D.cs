@@ -1,6 +1,7 @@
 /****************************************************************************
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (C) 2008      Apple Inc. All Rights Reserved.
+Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
@@ -144,6 +145,7 @@ namespace cocos2d
         ///<summary>
         /// draws a texture at a given point 
         ///</summary>
+        ///<param name="point">openGL point</param>
         public void drawAtPoint(CCPoint point)
         {
             if (null == texture2D)
@@ -151,14 +153,18 @@ namespace cocos2d
                 return;
             }
 
+            //convert cocos2d point to XNA point
+            CCPoint uiPoint = CCDirector.sharedDirector().convertToUI(point);
+
             CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(point.x, point.y - m_tContentSize.height), Color.Yellow);
+            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(uiPoint.x, uiPoint.y - m_tContentSize.height), Color.Yellow);
             CCApplication.sharedApplication().spriteBatch.End();
         }
 
         /// <summary>
         /// draws a texture inside a rect
         /// </summary>
+        /// <param name="rect">openGL rect</param>
         public void drawInRect(CCRect rect)
         {
             if (null == texture2D)
@@ -167,7 +173,12 @@ namespace cocos2d
             }
 
             CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Rectangle((int)(rect.origin.x), (int)(rect.origin.y), (int)(rect.size.width), (int)(rect.size.height)), Color.White);
+            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, 
+                new Rectangle((int)(rect.origin.x), 
+                    (int)(rect.origin.y),
+                    (int)(rect.size.width),
+                    (int)(rect.size.height)),
+                    Color.White);
             CCApplication.sharedApplication().spriteBatch.End();
         }
 

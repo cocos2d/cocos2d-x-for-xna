@@ -1235,9 +1235,9 @@ namespace cocos2d
                     m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x,
                         m_tContentSizeInPixels.height * m_tAnchorPoint.y);
                     m_bIsTransformDirty = m_bIsInverseDirty = true;
-                    //#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                    //                    m_bIsTransformGLDirty = true;
-                    //#endif
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                    m_bIsTransformGLDirty = true;
+#endif
                 }
             }
         }
@@ -1253,19 +1253,6 @@ namespace cocos2d
             get
             {
                 return m_tAnchorPointInPixels;
-            }
-            set
-            {
-                if (!CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint))
-                {
-                    m_tAnchorPoint = value;
-                    m_tAnchorPointInPixels = new CCPoint(m_tContentSizeInPixels.width * m_tAnchorPoint.x, m_tContentSizeInPixels.height * m_tAnchorPoint.y);
-                    m_bIsTransformDirty = m_bIsInverseDirty = true;
-
-#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                    m_bIsTransformGLDirty = true;
-#endif
-                }
             }
         }
 
@@ -1450,19 +1437,6 @@ namespace cocos2d
             }
         }
 
-        #endregion
-
-        ///@todo add CCCamera
-        /** A CCCamera object that lets you move the node using a gluLookAt
-           
-       @property(nonatomic,readonly) CCCamera* camera;
-         */
-
-
-        ///@todo
-        /** A CCGrid object that is used when applying effects */
-        /// @property(nonatomic,readwrite,retain) CCGridBase* grid;
-
         protected bool m_bIsRunning;
         /// <summary>
         /// whether or not the node is running
@@ -1470,10 +1444,7 @@ namespace cocos2d
         public bool isRunning
         {
             // read only
-            get
-            {
-                return m_bIsRunning;
-            }
+            get { return m_bIsRunning; }
         }
 
         protected CCNode m_pParent;
@@ -1482,14 +1453,8 @@ namespace cocos2d
         /// </summary>
         public CCNode parent
         {
-            get
-            {
-                return m_pParent;
-            }
-            set
-            {
-                m_pParent = value;
-            }
+            get { return m_pParent; }
+            set { m_pParent = value; }
         }
 
         protected bool m_bIsRelativeAnchorPoint;
@@ -1536,15 +1501,23 @@ namespace cocos2d
         /// </summary>
         public object userData
         {
-            get
-            {
-                return m_pUserData;
-            }
-            set
-            {
-                m_pUserData = value;
-            }
+            get { return m_pUserData; }
+            set { m_pUserData = value; }
         }
+
+        #endregion
+
+        ///@todo add CCCamera
+        /** A CCCamera object that lets you move the node using a gluLookAt
+           
+       @property(nonatomic,readonly) CCCamera* camera;
+         */
+
+
+        ///@todo
+        /** A CCGrid object that is used when applying effects */
+        /// @property(nonatomic,readwrite,retain) CCGridBase* grid;
+
 
         // internal member variables
 

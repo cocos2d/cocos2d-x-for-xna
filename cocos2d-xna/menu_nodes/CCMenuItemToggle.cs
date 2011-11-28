@@ -33,6 +33,11 @@ using System.Text;
 
 namespace cocos2d.menu_nodes
 {
+    /// <summary>
+    /// A CCMenuItemToggle
+    /// A simple container class that "toggles" it's inner items
+    /// The inner itmes can be any MenuItem
+    /// </summary>
     public class CCMenuItemToggle : CCMenuItem, CCRGBAProtocol
     {
         #region CCRGBAProtocol

@@ -40,6 +40,12 @@ namespace cocos2d
         kCCMenuStateTrackingTouch
     };
 
+    /// <summary>
+    /// A CCMenu
+    /// Features and Limitation:
+    ///  You can add MenuItem objects in runtime using addChild:
+    ///  But the only accecpted children are MenuItem objects
+    /// </summary>
     public class CCMenu : CCLayer, CCRGBAProtocol, ICCTouchDelegate
     {
         const float kDefaultPadding = 5;
@@ -115,7 +121,7 @@ namespace cocos2d
                 CCSize s = CCDirector.sharedDirector().getWinSize();
 
                 this.m_bIsRelativeAnchorPoint = true;
-                anchorPoint = new CCPoint(0.0f, 0.0f);
+                anchorPoint = new CCPoint(0.5f, 0.5f);
                 this.contentSize = s;
 
                 // XXX: in v0.7, winSize should return the visible size

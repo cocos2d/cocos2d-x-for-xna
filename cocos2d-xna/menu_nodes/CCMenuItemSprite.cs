@@ -33,11 +33,17 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// CCMenuItemSprite accepts CCNode<CCRGBAProtocol> objects as items.
+    /// The images has 3 different states:
+    /// - unselected image
+    /// - selected image
+    /// - disabled image
+    /// @since v0.8.0
+    /// </summary>
     public class CCMenuItemSprite : CCMenuItem, CCRGBAProtocol
     {
-        CCNode m_pNormalImage;
-        CCNode m_pSelectedImage;
-        CCNode m_pDisabledImage;
+        #region contructor
 
         public CCMenuItemSprite()
         {
@@ -92,12 +98,6 @@ namespace cocos2d
         /// <summary>
         /// initializes a menu item with a normal, selected  and disabled image with target/selector
         /// </summary>
-        /// <param name="normalSprite"></param>
-        /// <param name="selectedSprite"></param>
-        /// <param name="disabledSprite"></param>
-        /// <param name="target"></param>
-        /// <param name="selector"></param>
-        /// <returns></returns>
         public bool initFromNormalSprite(CCNode normalSprite, CCNode selectedSprite, CCNode disabledSprite,
                                     SelectorProtocol target, SEL_MenuHandler selector)
         {
@@ -108,90 +108,107 @@ namespace cocos2d
 
             initWithTarget(target, selector);
 
-            setNormalImage(normalSprite);
-            setSelectedImage(selectedSprite);
-            setDisabledImage(disabledSprite);
+            NormalImage = normalSprite;
+            SelectedImage = selectedSprite;
+            DisabledImage = disabledSprite;
 
             contentSize = m_pNormalImage.contentSize;
 
             return true;
         }
 
-        CCNode getNormalImage()
+        #endregion
+
+        #region Images
+
+        CCNode m_pNormalImage;
+        CCNode NormalImage
         {
-            return m_pNormalImage;
+            get
+            {
+                return m_pNormalImage;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    addChild(value);
+                    value.anchorPoint = new CCPoint(0, 0);
+                    value.visible = true;
+                }
+
+                if (m_pNormalImage != null)
+                {
+                    removeChild(m_pNormalImage, true);
+                }
+
+                m_pNormalImage = value;
+            }
         }
 
-        void setNormalImage(CCNode var)
+        CCNode m_pSelectedImage;
+        CCNode SelectedImage
         {
-            if (var != null)
+            get
             {
-                addChild(var);
-                var.anchorPoint = new CCPoint(0, 0);
-                var.visible = true;
+                return m_pSelectedImage;
             }
-
-            if (m_pNormalImage != null)
+            set
             {
-                removeChild(m_pNormalImage, true);
-            }
+                if (value != null)
+                {
+                    addChild(value);
+                    value.anchorPoint = new CCPoint(0, 0);
+                    value.visible = true;
+                }
 
-            m_pNormalImage = var;
+                if (m_pSelectedImage != null)
+                {
+                    removeChild(m_pSelectedImage, true);
+                }
+
+                m_pSelectedImage = value;
+            }
         }
 
-        CCNode getSelectedImage()
+        CCNode m_pDisabledImage;
+        CCNode DisabledImage
         {
-            return m_pSelectedImage;
+            get
+            {
+                return m_pDisabledImage;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    addChild(value);
+                    value.anchorPoint = new CCPoint(0, 0);
+                    value.visible = true;
+                }
+
+                if (m_pDisabledImage != null)
+                {
+                    removeChild(m_pDisabledImage, true);
+                }
+
+                m_pDisabledImage = value;
+            }
         }
 
-        void setSelectedImage(CCNode var)
-        {
-            if (var != null)
-            {
-                addChild(var);
-                var.anchorPoint = new CCPoint(0, 0);
-                var.visible = true;
-            }
-
-            if (m_pSelectedImage != null)
-            {
-                removeChild(m_pSelectedImage, true);
-            }
-
-            m_pSelectedImage = var;
-        }
-
-        CCNode getDisabledImage()
-        {
-            return m_pDisabledImage;
-        }
-
-        void setDisabledImage(CCNode var)
-        {
-            if (var != null)
-            {
-                addChild(var);
-                var.anchorPoint = new CCPoint(0, 0);
-                var.visible = true;
-            }
-
-            if (m_pDisabledImage != null)
-            {
-                removeChild(m_pDisabledImage, true);
-            }
-
-            m_pDisabledImage = var;
-        }
+        #endregion
 
         //// super methods
         public ccColor3B Color { get; set; }
 
         public byte Opacity { get; set; } // typedef khronos_uint8_t  GLubyte;
 
+        #region override
+
         ///**
         //@since v0.99.5
         //*/
-        public virtual void selected()
+        public override void selected()
         {
             base.selected();
 
@@ -211,7 +228,7 @@ namespace cocos2d
             }
         }
 
-        public virtual void unselected()
+        public override void unselected()
         {
             base.unselected();
 
@@ -228,37 +245,43 @@ namespace cocos2d
             }
         }
 
-        public virtual void setIsEnabled(bool bEnabled)
+        public override bool Enabled
         {
-            base.Enabled = bEnabled;
-
-            if (m_pSelectedImage != null)
+            get { return base.Enabled; }
+            set
             {
-                m_pSelectedImage.visible = false;
-            }
+                base.Enabled = value;
 
-            if (bEnabled)
-            {
-                m_pNormalImage.visible = true;
-
-                if (m_pDisabledImage != null)
+                if (m_pSelectedImage != null)
                 {
-                    m_pDisabledImage.visible = false;
+                    m_pSelectedImage.visible = false;
                 }
-            }
-            else
-            {
-                if (m_pDisabledImage != null)
+
+                if (value)
                 {
-                    m_pDisabledImage.visible = true;
-                    m_pNormalImage.visible = false;
+                    m_pNormalImage.visible = true;
+
+                    if (m_pDisabledImage != null)
+                    {
+                        m_pDisabledImage.visible = false;
+                    }
                 }
                 else
                 {
-                    m_pNormalImage.visible = true;
+                    if (m_pDisabledImage != null)
+                    {
+                        m_pDisabledImage.visible = true;
+                        m_pNormalImage.visible = false;
+                    }
+                    else
+                    {
+                        m_pNormalImage.visible = true;
+                    }
                 }
             }
         }
+
+        #endregion
 
         public virtual CCRGBAProtocol convertToRGBAProtocol()
         {

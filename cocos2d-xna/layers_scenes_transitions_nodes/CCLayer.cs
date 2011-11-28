@@ -2,8 +2,10 @@
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
+http://www.openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,15 +31,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 namespace cocos2d
 {
-    //
-    // CCLayer
-    //
-    /** @brief CCLayer is a subclass of CCNode that implements the TouchEventsDelegate protocol.
-
-    All features from CCNode are valid, plus the following new features:
-    - It can receive iPhone Touches
-    - It can receive Accelerometer input
-    */
+    /// <summary>
+    /// @brief CCLayer is a subclass of CCNode that implements the TouchEventsDelegate protocol.
+    /// All features from CCNode are valid, plus the following new features:
+    /// It can receive iPhone Touches
+    /// It can receive Accelerometer input
+    /// </summary>
     public class CCLayer : CCNode, ICCTargetedTouchDelegate, ICCStandardTouchDelegate, ICCTouchDelegate
     {
         public CCLayer()
@@ -45,8 +44,6 @@ namespace cocos2d
             anchorPoint = CCPointExtension.ccp(0.5f, 0.5f);
             isRelativeAnchorPoint = false;
         }
-
-        ~CCLayer() { }
 
         public static new CCLayer node()
         {
@@ -147,7 +144,7 @@ namespace cocos2d
             base.onEnterTransitionDidFinish();
         }
 
-        // touches
+        #region touches
 
         public virtual bool ccTouchBegan(CCTouch touch, CCEvent event_)
         {
@@ -176,6 +173,8 @@ namespace cocos2d
         {
         }
 
+        #endregion
+
         /// <summary>
         /// @todo
         /// </summary>
@@ -197,14 +196,15 @@ namespace cocos2d
             CCTouchDispatcher.sharedDispatcher().addStandardDelegate(this, 0);
         }
 
-        // Properties
+        #region Properties
 
-        /** whether or not it will receive Touch events.
-	    You can enable / disable touch events with this property.
-	    Only the touches of this node will be affected. This "method" is not propagated to it's children.
-	    @since v0.8.1
-	    */
         protected bool m_bIsTouchEnabled;
+        /// <summary>
+        /// whether or not it will receive Touch events.
+        /// You can enable / disable touch events with this property.
+        /// Only the touches of this node will be affected. This "method" is not propagated to it's children.
+        /// @since v0.8.1
+        /// </summary>
         public bool isTouchEnabled
         {
             get
@@ -232,11 +232,12 @@ namespace cocos2d
             }
         }
 
-        /** whether or not it will receive Accelerometer events
-	    You can enable / disable accelerometer events with this property.
-	    @since v0.8.1
-	    */
         private bool m_bIsAccelerometerEnabled;
+        /// <summary>
+        /// whether or not it will receive Accelerometer events
+        /// You can enable / disable accelerometer events with this property.
+        /// @since v0.8.1
+        /// </summary>
         public bool isAccelerometerEnabled
         {
             get
@@ -265,11 +266,12 @@ namespace cocos2d
             }
         }
 
-        /** whether or not it will receive keypad events
-        You can enable / disable accelerometer events with this property.
-        it's new in cocos2d-x
-        */
         private bool m_bIsKeypadEnabled;
+        /// <summary>
+        /// whether or not it will receive keypad events
+        /// You can enable / disable accelerometer events with this property.
+        /// it's new in cocos2d-x
+        /// </summary>
         public bool isKeypadEnabled
         {
             get
@@ -297,5 +299,7 @@ namespace cocos2d
                 }
             }
         }
+
+        #endregion
     }
 }

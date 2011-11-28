@@ -33,6 +33,10 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// @brief CCMenuItem base class
+    /// Subclass CCMenuItem (or any subclass) to create your custom CCMenuItem objects.
+    /// </summary>
     public class CCMenuItem : CCNode
     {
         protected static uint _fontSize = 32;
@@ -95,7 +99,7 @@ namespace cocos2d
         {
             return new CCRect(m_tPosition.x - m_tContentSize.width * m_tAnchorPoint.x,
                 m_tPosition.y - m_tContentSize.height * m_tAnchorPoint.y,
-                m_tContentSize.width, 
+                m_tContentSize.width,
                 m_tContentSize.height);
         }
 

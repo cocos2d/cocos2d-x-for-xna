@@ -2,8 +2,10 @@
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
+http://www.openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -179,8 +181,10 @@ namespace cocos2d
             }
         }
 
-        /** returns whether or not the texture rectangle is rotated */
         private bool m_bRectRotated;
+        /// <summary>
+        /// returns whether or not the texture rectangle is rotated
+        /// </summary>
         public bool rectRotated
         {
             // read only
@@ -304,8 +308,7 @@ namespace cocos2d
             //get the point of cocos2d
             CCPoint uiPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x,
                  position.y - contentSizeInPixels.height * anchorPoint.y);
-            //convert cocos2d point to XNA point
-            uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
+
 
             m_pobTexture.drawAtPoint(uiPoint);
         }
@@ -462,7 +465,6 @@ namespace cocos2d
             m_obRectInPixels = new CCRect();
             m_obUnflippedOffsetPositionFromCenter = new CCPoint();
         }
-        ~CCSprite() { }
 
         public override void removeChild(CCNode child, bool cleanup)
         {
@@ -1027,10 +1029,10 @@ namespace cocos2d
             float dx = x1 * cr - y2 * sr2 + x;
             float dy = x1 * sr + y2 * cr2 + y;
 
-            //m_sQuad.bl.vertices = new  ccVertex3F((float)RENDER_IN_SUBPIXEL(ax), (float)RENDER_IN_SUBPIXEL(ay), m_fVertexZ);
-            //m_sQuad.br.vertices = vertex3((float)RENDER_IN_SUBPIXEL(bx), (float)RENDER_IN_SUBPIXEL(by), m_fVertexZ);
-            //m_sQuad.tl.vertices = vertex3((float)RENDER_IN_SUBPIXEL(dx), (float)RENDER_IN_SUBPIXEL(dy), m_fVertexZ);
-            //m_sQuad.tr.vertices = vertex3((float)RENDER_IN_SUBPIXEL(cx), (float)RENDER_IN_SUBPIXEL(cy), m_fVertexZ);
+            m_sQuad.bl.vertices = new ccVertex3F((float)ax, (float)ay, m_fVertexZ);
+            m_sQuad.br.vertices = new ccVertex3F((float)bx, (float)by, m_fVertexZ);
+            m_sQuad.tl.vertices = new ccVertex3F((float)dx, (float)dy, m_fVertexZ);
+            m_sQuad.tr.vertices = new ccVertex3F((float)cx, (float)cy, m_fVertexZ);
 
             m_pobTextureAtlas.updateQuad(m_sQuad, m_uAtlasIndex);
             m_bDirty = m_bRecursiveDirty = false;
