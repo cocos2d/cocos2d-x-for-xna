@@ -40,7 +40,22 @@ namespace cocos2d.menu_nodes
     /// </summary>
     public class CCMenuItemToggle : CCMenuItem, CCRGBAProtocol
     {
-        #region CCRGBAProtocol
+        private byte m_cOpacity;
+
+        /// <summary>
+        /// conforms with CCRGBAProtocol protocol
+        /// </summary>
+        public byte Opacity
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public ccColor3B Color
         {
@@ -54,18 +69,10 @@ namespace cocos2d.menu_nodes
             }
         }
 
-        public byte Opacity
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        private ccColor3B m_tColor;
+        /// <summary>
+        /// conforms with CCRGBAProtocol protocol
+        /// </summary>
         public bool IsOpacityModifyRGB
         {
             get
@@ -78,6 +85,91 @@ namespace cocos2d.menu_nodes
             }
         }
 
-        #endregion
+        private int m_uSelectedIndex;
+        /// <summary>
+        /// returns the selected item
+        /// </summary>
+        public int SelectedIndex { get; set; }
+
+        public List<CCMenuItem> m_pSubItems;
+        /// <summary>
+        /// CCMutableArray that contains the subitems. You can add/remove items in runtime, and you can replace the array with a new one.
+        /// @since v0.7.2
+        /// </summary>
+        public List<CCMenuItem> SubItems { get; set; }
+
+        public CCMenuItemToggle()
+        { }
+
+        /// <summary>
+        /// creates a menu item from a list of items with a target/selector
+        /// </summary>
+        public static CCMenuItemToggle itemWithTarget(SelectorProtocol target, SEL_MenuHandler selector, CCMenuItem[] item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// initializes a menu item from a list of items with a target selector
+        /// </summary>
+        public bool initWithTarget(SelectorProtocol target, SEL_MenuHandler selector, CCMenuItem[] item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// The follow methods offered to lua
+        /// creates a menu item with a item
+        /// </summary>
+        public static CCMenuItemToggle itemWithItem(CCMenuItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// initializes a menu item with a item
+        /// </summary>
+        public bool initWithItem(CCMenuItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// add more menu item
+        /// </summary>
+        public void addSubItem(CCMenuItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// return the selected item
+        /// </summary>
+        public CCMenuItem selectedItem()
+        {
+            throw new NotImplementedException();
+        }
+
+        // super methods
+        public virtual void activate()
+        { }
+
+        public virtual void selected()
+        { }
+
+        public virtual void unselected()
+        { }
+
+        public override bool Enabled
+        {
+            get
+            {
+                return base.Enabled;
+            }
+            set
+            {
+                base.Enabled = value;
+            }
+        }
     }
 }
