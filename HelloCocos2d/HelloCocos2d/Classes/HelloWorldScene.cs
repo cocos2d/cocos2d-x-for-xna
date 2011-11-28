@@ -23,18 +23,18 @@ namespace HelloCocos2d
             CCSize size = CCDirector.sharedDirector().getWinSize();
 
             CCMenuItemImage pCloseItem = CCMenuItemImage.itemFromNormalImage("CloseNormal", "CloseSelected", this, new SEL_MenuHandler(menuCloseCallback));
-            pCloseItem.position = new CCPoint(0, 0);
+            pCloseItem.position = new CCPoint(100, 150);
             pCloseItem.anchorPoint = new CCPoint(0, 0);
 
             CCLabelTTF EffectsTest = CCLabelTTF.labelWithString("EffectsTest", "SpriteFont1", 30);
-            EffectsTest.position = new CCPoint(size.width / 2, size.height / 2);
+            EffectsTest.position = new CCPoint(10, 10);
 
             CCMenuItemLabel EffectsTestMenu = CCMenuItemLabel.itemWithLabel(EffectsTest, this, menuCloseCallback);
-            EffectsTestMenu.position = new CCPoint(size.width / 2, size.height / 2);
+            EffectsTestMenu.position = new CCPoint(100, 100);
             EffectsTestMenu.anchorPoint = new CCPoint(0.0f, 0.0f);
 
-            CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { EffectsTestMenu, pCloseItem });
-            //pMenu.position = new CCPoint(0.1f, 0.1f);
+            CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { EffectsTestMenu });
+            pMenu.position = new CCPoint(100f, 100f);
             this.addChild(pMenu, 1);
 
             //pSprite = CCSprite.spriteWithFile("HelloWorld");

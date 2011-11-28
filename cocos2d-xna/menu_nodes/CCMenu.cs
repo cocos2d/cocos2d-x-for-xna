@@ -120,7 +120,7 @@ namespace cocos2d
                 // menu in the center of the screen
                 CCSize s = CCDirector.sharedDirector().getWinSize();
 
-                this.m_bIsRelativeAnchorPoint = true;
+                this.m_bIsRelativeAnchorPoint = false;
                 anchorPoint = new CCPoint(0.5f, 0.5f);
                 this.contentSize = s;
 
@@ -243,12 +243,16 @@ namespace cocos2d
         }
 
         /** align items in rows of columns */
-        //void alignItemsInColumns(unsigned int columns, ...);
-        //void alignItemsInColumns(unsigned int columns, va_list args);
+        public void alignItemsInColumns(params int[] columns)
+        {
+            throw new NotImplementedException(); 
+        }
 
         /** align items in columns of rows */
-        //void alignItemsInRows(unsigned int rows, ...);
-        //void alignItemsInRows(unsigned int rows, va_list args);
+        public void alignItemsInRows(params int[] rows)
+        {
+            throw new NotImplementedException();
+        }
 
         public override void registerWithTouchDispatcher()
         {

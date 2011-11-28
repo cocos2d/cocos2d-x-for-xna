@@ -306,9 +306,11 @@ namespace cocos2d
             }
 
             //get the point of cocos2d
-            CCPoint uiPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x,
+            CCPoint cocos2dPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x,
                  position.y - contentSizeInPixels.height * anchorPoint.y);
 
+            //uiPoint = this.convertToWorldSpace(uiPoint);
+            CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(cocos2dPoint, m_tNodeToWorldTransform);
 
             m_pobTexture.drawAtPoint(uiPoint);
         }

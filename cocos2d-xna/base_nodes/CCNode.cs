@@ -493,7 +493,14 @@ namespace cocos2d
              */
 
             transform();
-
+            if (this.parent == null)
+            {
+                this.m_tNodeToWorldTransform = this.nodeToParentTransform();
+            }
+            else
+            {
+                this.m_tNodeToWorldTransform = CCAffineTransform.CCAffineTransformConcat(this.m_tTransform, this.parent.m_tNodeToWorldTransform);
+            }
             CCNode node;
             int i = 0;
 
@@ -564,9 +571,9 @@ namespace cocos2d
             //
             if (m_bIsTransformGLDirty)
             {
-                //CCAffineTransform t = this.nodeToParentTransform();
+                CCAffineTransform t = this.nodeToParentTransform();
                 //TransformUtils.CGAffineToGL(t, m_pTransformGL);
-                //m_bIsTransformGLDirty = false;
+                m_bIsTransformGLDirty = false;
             }
 
             //glMultMatrixf(m_pTransformGL);
@@ -789,7 +796,7 @@ namespace cocos2d
         /// The scheduled selector will be ticked every frame
         /// </summary>
         /// <param name="selector"></param>
-        void schedule(SEL_SCHEDULE selector)
+        public void schedule(SEL_SCHEDULE selector)
         {
             this.schedule(selector, 0);
         }
@@ -801,7 +808,7 @@ namespace cocos2d
         ///If the selector is already scheduled, then the interval parameter 
         ///will be updated without scheduling it again.
         /// </summary>
-        void schedule(SEL_SCHEDULE selector, float interval)
+        public void schedule(SEL_SCHEDULE selector, float interval)
         {
             CCScheduler.sharedScheduler().scheduleSelector(selector, this, interval, !m_bIsRunning);
         }
@@ -809,7 +816,7 @@ namespace cocos2d
         /// <summary>
         /// unschedules a custom selector.
         /// </summary>
-        void unschedule(SEL_SCHEDULE selector)
+        public void unschedule(SEL_SCHEDULE selector)
         {
             // explicit nil handling
             if (selector != null)
@@ -1051,7 +1058,7 @@ namespace cocos2d
         /// converts a CCTouch (world coordinates) into a local coordiante. This method is AR (Anchor Relative).
         /// @since v0.7.1
         /// </summary>
-        CCPoint convertTouchToNodeSpaceAR(CCTouch touch)
+        public CCPoint convertTouchToNodeSpaceAR(CCTouch touch)
         {
             CCPoint point = touch.locationInView(touch.view());
             point = CCDirector.sharedDirector().convertToGL(point);
@@ -1522,7 +1529,9 @@ namespace cocos2d
         // internal member variables
 
         // transform
-        CCAffineTransform m_tTransform, m_tInverse;
+        protected CCAffineTransform m_tTransform, m_tInverse;
+        //add CCAffineTransform variable in xna,it have the same function as m_pTransformGL in openGL 
+        protected CCAffineTransform m_tNodeToWorldTransform;
 
 #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
         float[] m_pTransformGL;
