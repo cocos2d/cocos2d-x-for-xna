@@ -27,14 +27,14 @@ namespace HelloCocos2d
             pCloseItem.anchorPoint = new CCPoint(0, 0);
 
             CCLabelTTF EffectsTest = CCLabelTTF.labelWithString("EffectsTest", "SpriteFont1", 30);
-            EffectsTest.position = new CCPoint(10, 10);
+            //EffectsTest.position = new CCPoint(10, 10);
 
             CCMenuItemLabel EffectsTestMenu = CCMenuItemLabel.itemWithLabel(EffectsTest, this, menuCloseCallback);
             EffectsTestMenu.position = new CCPoint(100, 100);
-            EffectsTestMenu.anchorPoint = new CCPoint(0.0f, 0.0f);
+            //EffectsTestMenu.anchorPoint = new CCPoint(0.0f, 0.0f);
 
-            CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { EffectsTestMenu });
-            pMenu.position = new CCPoint(100f, 100f);
+            CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { EffectsTestMenu, pCloseItem });
+            pMenu.position = new CCPoint(0, 0);
             this.addChild(pMenu, 1);
 
             //pSprite = CCSprite.spriteWithFile("HelloWorld");

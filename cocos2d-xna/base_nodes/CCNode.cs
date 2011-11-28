@@ -499,7 +499,7 @@ namespace cocos2d
             }
             else
             {
-                this.m_tNodeToWorldTransform = CCAffineTransform.CCAffineTransformConcat(this.m_tTransform, this.parent.m_tNodeToWorldTransform);
+                this.m_tNodeToWorldTransform = CCAffineTransform.CCAffineTransformConcat(this.nodeToParentTransform(), this.parent.m_tNodeToWorldTransform);
             }
             CCNode node;
             int i = 0;

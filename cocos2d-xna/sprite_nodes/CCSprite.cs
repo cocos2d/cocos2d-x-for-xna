@@ -310,7 +310,9 @@ namespace cocos2d
                  position.y - contentSizeInPixels.height * anchorPoint.y);
 
             //uiPoint = this.convertToWorldSpace(uiPoint);
-            CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(cocos2dPoint, m_tNodeToWorldTransform);
+            CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(0, 0), m_tNodeToWorldTransform);
+
+            Debug.WriteLine("X: {0}, Y: {1}", uiPoint.x, uiPoint.y);
 
             m_pobTexture.drawAtPoint(uiPoint);
         }
