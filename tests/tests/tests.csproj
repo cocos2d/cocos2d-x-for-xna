@@ -101,7 +101,12 @@
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="classes\tests\DirectorTest\" />
+    <Folder Include="classes\tests\LabelTest\" />
+    <Folder Include="classes\tests\MenuTest\" />
+    <Folder Include="classes\tests\TouchesTest\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
