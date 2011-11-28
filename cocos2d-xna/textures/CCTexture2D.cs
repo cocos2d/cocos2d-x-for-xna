@@ -221,7 +221,7 @@ namespace cocos2d
             CCApplication app = CCApplication.sharedApplication();
 
             //*  for render to texture
-            RenderTarget2D renderTarget = new RenderTarget2D(app.graphics.GraphicsDevice, (int)dimensions.width, (int)dimensions.height);
+            RenderTarget2D renderTarget = new RenderTarget2D(app.graphics.GraphicsDevice, (int)dimensions.width, (int)dimensions.height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
             app.graphics.GraphicsDevice.SetRenderTarget(renderTarget);
 
             app.spriteBatch.Begin();
