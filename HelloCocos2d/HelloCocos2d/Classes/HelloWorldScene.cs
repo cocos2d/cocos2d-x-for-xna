@@ -34,7 +34,7 @@ namespace HelloCocos2d
             //EffectsTestMenu.anchorPoint = new CCPoint(0.0f, 0.0f);
 
             CCMenu pMenu = CCMenu.menuWithItems(new CCMenuItem[] { EffectsTestMenu, pCloseItem });
-            pMenu.position = new CCPoint(0, 0);
+            pMenu.position = new CCPoint(100, 100);
             this.addChild(pMenu, 1);
 
             //pSprite = CCSprite.spriteWithFile("HelloWorld");

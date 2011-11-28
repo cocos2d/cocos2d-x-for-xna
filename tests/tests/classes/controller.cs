@@ -17,7 +17,7 @@ namespace tests
             CCDirector.sharedDirector().deviceOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
 
             m_tBeginPos = new CCPoint(0.0f, 0.0f);
-
+            CCSize s = CCDirector.sharedDirector().getWinSize();
             // add close menu
             CCMenuItemImage pCloseItem = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathClose,
                 TestResource.s_pPathClose,
@@ -26,19 +26,16 @@ namespace tests
             pCloseItem.anchorPoint = new CCPoint(0, 0);
 
             CCMenu pMenu = CCMenu.menuWithItems(pCloseItem);
-            CCSize s = CCDirector.sharedDirector().getWinSize();
-
-            //pMenu.position = new CCPoint(0.0f, 0.0f);
-            // pCloseItem.position = new CCPoint( s.width - 30, s.height - 30);
+            pMenu.position = new CCPoint(s.width - 40, 10);
 
             // add menu items for tests
             m_pItemMenu = CCMenu.menuWithItems(null);
             for (int i = 0; i < (int)(TestCases.TESTS_COUNT); ++i)
             {
                 // todo, CCMenuItemLabel hasn't been implemented, use CCMenuItemImage instead
-                // CCLabelTTF label = CCLabelTTF.labelWithString(Tests.g_aTestNames[i], "Arial", 24);
-                // CCMenuItemLabel pMenuItem = CCMenuItemLabel.itemWithLabel(label, this, new SEL_MenuHandler(menuCallback));
-                CCMenuItemImage pMenuItem = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathGrossini, TestResource.s_pPathGrossini, this, new SEL_MenuHandler(menuCallback));
+                CCLabelTTF label = CCLabelTTF.labelWithString(Tests.g_aTestNames[i], "Arial", 24);
+                CCMenuItemLabel pMenuItem = CCMenuItemLabel.itemWithLabel(label, this, new SEL_MenuHandler(menuCallback));
+                //CCMenuItemImage pMenuItem = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathGrossini, TestResource.s_pPathGrossini, this, new SEL_MenuHandler(menuCallback));
 
                 m_pItemMenu.addChild(pMenuItem, i + 10000);
                 pMenuItem.position = new CCPoint(s.width / 2, (s.height - (i + 1) * LINE_SPACE));

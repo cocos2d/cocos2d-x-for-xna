@@ -312,8 +312,6 @@ namespace cocos2d
             //uiPoint = this.convertToWorldSpace(uiPoint);
             CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(0, 0), m_tNodeToWorldTransform);
 
-            Debug.WriteLine("X: {0}, Y: {1}", uiPoint.x, uiPoint.y);
-
             m_pobTexture.drawAtPoint(uiPoint);
         }
 
