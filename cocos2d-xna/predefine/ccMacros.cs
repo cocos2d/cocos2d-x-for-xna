@@ -25,7 +25,7 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
-    class ccMacros
+    public class ccMacros
     {
         // how to implement it by c#
         /** @def CC_SWAP

@@ -151,6 +151,10 @@
     <Compile Include="menu_nodes\CCMenuItemLabel.cs" />
     <Compile Include="menu_nodes\CCMenuItemSprite.cs" />
     <Compile Include="menu_nodes\CCMenuItemToggle.cs" />
+    <Compile Include="particle_nodes\CCParticleExamples.cs" />
+    <Compile Include="particle_nodes\CCParticleSystem.cs" />
+    <Compile Include="particle_nodes\CCParticleSystemPoint.cs" />
+    <Compile Include="particle_nodes\CCParticleSystemQuad.cs" />
     <Compile Include="platform\CCApplication.cs" />
     <Compile Include="platform\CCDictMaker.cs" />
     <Compile Include="platform\CCFileData.cs" />
@@ -203,7 +207,6 @@
     <Folder Include="effects\" />
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="misc_nodes\" />
-    <Folder Include="particle_nodes\" />
     <Folder Include="support\data_support\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

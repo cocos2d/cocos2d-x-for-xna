@@ -71,6 +71,8 @@
     <Compile Include="classes\testBasic.cs" />
     <Compile Include="classes\testResource.cs" />
     <Compile Include="classes\tests\ActionsTest\ActionsTest.cs" />
+    <Compile Include="classes\tests\DirectorTest\DirectorTest.cs" />
+    <Compile Include="classes\tests\LabelTest\LabelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -102,8 +104,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="classes\tests\DirectorTest\" />
-    <Folder Include="classes\tests\LabelTest\" />
     <Folder Include="classes\tests\MenuTest\" />
     <Folder Include="classes\tests\TouchesTest\" />
   </ItemGroup>
