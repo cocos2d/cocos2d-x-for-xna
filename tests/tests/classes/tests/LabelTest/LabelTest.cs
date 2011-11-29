@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
-    public enum LabelTest
+    public enum TagSprite
     {
         kTagTileMap = 1,
         kTagSpriteManager = 1,
@@ -43,71 +43,6 @@ namespace cocos2d
             IDC_RESTART
         }
 
-        static int sceneIdx = -1;
-        readonly int MAX_LAYER = 17;
-
-        public CCLayer nextAtlasAction()
-        {
-
-            sceneIdx++;
-            sceneIdx = sceneIdx % MAX_LAYER;
-
-            CCLayer pLayer = createAtlasLayer(sceneIdx);
-            return pLayer;
-
-        }
-
-        public CCLayer backAtlasAction()
-        {
-
-            sceneIdx--;
-            int total = MAX_LAYER;
-            if (sceneIdx < 0)
-                sceneIdx += total;
-
-            CCLayer pLayer = createAtlasLayer(sceneIdx);
-            return pLayer;
-
-        }
-
-        public CCLayer restartAtlasAction()
-        {
-
-            CCLayer pLayer = createAtlasLayer(sceneIdx);
-
-            return pLayer;
-
-        }
-
-        public CCLayer createAtlasLayer(int nIndex)
-        {
-            switch (nIndex)
-            {
-                case 0: return new LabelAtlasTest();
-                case 1: return new LabelAtlasColorTest();
-                case 2: return new Atlas3();
-                case 3: return new Atlas4();
-                case 4: return new Atlas5();
-                case 5: return new Atlas6();
-                case 6: return new AtlasBitmapColor();
-                case 7: return new AtlasFastBitmap();
-                case 8: return new BitmapFontMultiLine();
-                case 9: return new LabelsEmpty();
-                case 10: return new LabelBMFontHD();
-                case 11: return new LabelAtlasHD();
-                case 12: return new LabelGlyphDesigner();
-
-                // Not a label test. Should be moved to Atlas test
-                case 13: return new Atlas1();
-                case 14: return new LabelTTFTest();
-                case 15: return new LabelTTFMultiline();
-                case 16: return new LabelTTFChinese();
-            }
-
-            return null;
-
-        }
-
         public virtual string title()
         {
             return "No title";
@@ -131,7 +66,7 @@ namespace cocos2d
             string strSubtitle = subtitle();
             if (strSubtitle != null)
             {
-                CCLabelTTF l = CCLabelTTF.labelWithString(strSubtitle, "Thonburi", 16);
+                CCLabelTTF l = CCLabelTTF.labelWithString(strSubtitle, "Arial", 16);
                 addChild(l, 1);
                 l.position = new CCPoint(s.width / 2, s.height - 80);
             }
@@ -140,7 +75,7 @@ namespace cocos2d
             CCMenuItemImage item2 = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathR1, TestResource.s_pPathR2, this, new SEL_MenuHandler(restartCallback));
             CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathF1, TestResource.s_pPathF2, this, new SEL_MenuHandler(nextCallback));
 
-            CCMenu menu = CCMenu.menuWithItems(item1, item2, item3, null);
+            CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
 
             menu.position = new CCPoint();
             item1.position = new CCPoint(s.width / 2 - 100, 30);
@@ -153,12 +88,10 @@ namespace cocos2d
 
         public void restartCallback(CCObject pSender)
         {
-
             CCScene s = new AtlasTestScene();
-            s.addChild(restartAtlasAction());
+            s.addChild(AtlasTestScene.restartAtlasAction());
 
             CCDirector.sharedDirector().replaceScene(s);
-
         }
 
         public void nextCallback(CCObject pSender)
@@ -166,7 +99,7 @@ namespace cocos2d
 
             CCScene s = new AtlasTestScene();
 
-            s.addChild(nextAtlasAction());
+            s.addChild(AtlasTestScene.nextAtlasAction());
 
             CCDirector.sharedDirector().replaceScene(s);
 
@@ -177,7 +110,7 @@ namespace cocos2d
 
             CCScene s = new AtlasTestScene();
 
-            s.addChild(backAtlasAction());
+            s.addChild(AtlasTestScene.backAtlasAction());
 
             CCDirector.sharedDirector().replaceScene(s);
 
@@ -259,13 +192,13 @@ namespace cocos2d
         {
             m_time = 0;
 
-            CCLabelAtlas label1 = CCLabelAtlas.labelWithString("123 Test", "fonts/tuffy_bold_italic-charmap.png", 48, 64, ' ');
-            addChild(label1, 0, (int)LabelTest.kTagSprite1);
+            CCLabelAtlas label1 = CCLabelAtlas.labelWithString("123 Test", "Images/tuffy_bold_italic-charmap", 48, 64, ' ');
+            addChild(label1, 0, (int)TagSprite.kTagSprite1);
             label1.position = new CCPoint(10, 100);
             label1.Opacity = 200;
 
-            CCLabelAtlas label2 = CCLabelAtlas.labelWithString("0123456789", "fonts/tuffy_bold_italic-charmap.png", 48, 64, ' ');
-            addChild(label2, 0, (int)LabelTest.kTagSprite2);
+            CCLabelAtlas label2 = CCLabelAtlas.labelWithString("0123456789", "Images/tuffy_bold_italic-charmap", 48, 64, ' ');
+            addChild(label2, 0, (int)TagSprite.kTagSprite2);
             label2.position = new CCPoint(10, 200);
             label2.Opacity = 32;
 
@@ -282,10 +215,10 @@ namespace cocos2d
             Stepstring = string.Format("{0,2:f2} Test", m_time);
             //Stepstring.format("%2.2f Test", m_time);
 
-            CCLabelAtlas label1 = (CCLabelAtlas)getChildByTag((int)LabelTest.kTagSprite1);
+            CCLabelAtlas label1 = (CCLabelAtlas)getChildByTag((int)TagSprite.kTagSprite1);
             label1.setString(Stepstring);
 
-            CCLabelAtlas label2 = (CCLabelAtlas)getChildByTag((int)LabelTest.kTagSprite2);
+            CCLabelAtlas label2 = (CCLabelAtlas)getChildByTag((int)TagSprite.kTagSprite2);
             //sprintf(Stepstring, "%d", (int)m_time);
             Stepstring = m_time.ToString();
             //Stepstring.format("%d", (int)m_time);
@@ -318,12 +251,12 @@ namespace cocos2d
         public LabelAtlasColorTest()
         {
             CCLabelAtlas label1 = CCLabelAtlas.labelWithString("123 Test", "fonts/tuffy_bold_italic-charmap.png", 48, 64, ' ');
-            addChild(label1, 0, (int)LabelTest.kTagSprite1);
+            addChild(label1, 0, (int)TagSprite.kTagSprite1);
             label1.position = new CCPoint(10, 100);
             label1.Opacity = 200;
 
             CCLabelAtlas label2 = CCLabelAtlas.labelWithString("0123456789", "fonts/tuffy_bold_italic-charmap.png", 48, 64, ' ');
-            addChild(label2, 0, (int)LabelTest.kTagSprite2);
+            addChild(label2, 0, (int)TagSprite.kTagSprite2);
             label2.position = new CCPoint(10, 200);
             //label2.setColor( ccRED );
             label2.ccColor = ccRED;
@@ -348,10 +281,10 @@ namespace cocos2d
             //sprintf(string, "%2.2f Test", m_time);
             stepstring = string.Format("{0,2:f2} Test", m_time);
             //std::string string = std::string::stringWithFormat("%2.2f Test", m_time);
-            CCLabelAtlas label1 = (CCLabelAtlas)getChildByTag((int)LabelTest.kTagSprite1);
+            CCLabelAtlas label1 = (CCLabelAtlas)getChildByTag((int)TagSprite.kTagSprite1);
             label1.setString(stepstring);
 
-            CCLabelAtlas label2 = (CCLabelAtlas)getChildByTag((int)LabelTest.kTagSprite2);
+            CCLabelAtlas label2 = (CCLabelAtlas)getChildByTag((int)TagSprite.kTagSprite2);
             //sprintf(string, "%d", (int)m_time);
             stepstring = m_time.ToString();
             label2.setString(stepstring);
@@ -391,7 +324,7 @@ namespace cocos2d
 
             // testing anchors
             label1.setAnchorPoint(new CCPoint(0, 0));
-            addChild(label1, 0, (int)LabelTest.kTagBitmapAtlas1);
+            addChild(label1, 0, (int)TagSprite.kTagBitmapAtlas1);
             CCActionInterval fade = CCFadeOut.actionWithDuration(1.0f);
             //CCActionInterval fade_in = fade.reverse();
             CCActionInterval fade_in = null;
@@ -408,13 +341,13 @@ namespace cocos2d
             // testing anchors
             label2.setAnchorPoint(new CCPoint(0.5f, 0.5f));
             label2.setColor(ccRED);
-            addChild(label2, 0, (int)LabelTest.kTagBitmapAtlas2);
+            addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
             label2.runAction((CCAction)(repeat.copy()));
 
             CCLabelBMFont label3 = CCLabelBMFont.labelWithString("Test", "fonts/bitmapFontTest2.fnt");
             // testing anchors
             label3.setAnchorPoint(new CCPoint(1, 1));
-            addChild(label3, 0, (int)LabelTest.kTagBitmapAtlas3);
+            addChild(label3, 0, (int)TagSprite.kTagBitmapAtlas3);
 
 
             CCSize s = CCDirector.sharedDirector().getWinSize();
@@ -435,13 +368,13 @@ namespace cocos2d
             Stepstring = string.Format("{0,2:f2} Testj", m_time);
             //string.format("%2.2f Test j", m_time);
 
-            CCLabelBMFont label1 = (CCLabelBMFont)getChildByTag((int)LabelTest.kTagBitmapAtlas1);
+            CCLabelBMFont label1 = (CCLabelBMFont)getChildByTag((int)TagSprite.kTagBitmapAtlas1);
             label1.setString(Stepstring);
 
-            CCLabelBMFont label2 = (CCLabelBMFont)getChildByTag((int)LabelTest.kTagBitmapAtlas2);
+            CCLabelBMFont label2 = (CCLabelBMFont)getChildByTag((int)TagSprite.kTagBitmapAtlas2);
             label2.setString(Stepstring);
 
-            CCLabelBMFont label3 = (CCLabelBMFont)getChildByTag((int)LabelTest.kTagBitmapAtlas3);
+            CCLabelBMFont label3 = (CCLabelBMFont)getChildByTag((int)TagSprite.kTagBitmapAtlas3);
             label3.setString(Stepstring);
         }
 
@@ -506,7 +439,7 @@ namespace cocos2d
 
             // Bottom Label
             CCLabelBMFont label2 = CCLabelBMFont.labelWithString("00.0", "fonts/bitmapFontTest.fnt");
-            addChild(label2, 0, (int)LabelTest.kTagBitmapAtlas2);
+            addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
             label2.position = new CCPoint(s.width / 2.0f, 80);
 
             CCSprite lastChar = (CCSprite)label2.getChildByTag(3);
@@ -518,22 +451,22 @@ namespace cocos2d
 
         public virtual void step(float dt)
         {
-              m_time += dt;
-              //char string[10] = {0};
-              string Stepstring;
-              //sprintf(string, "%04.1f", m_time);
-              Stepstring=string.Format("{0,4:1f}",m_time);
-              // 	std::string string;
-              // 	string.format("%04.1f", m_time);
+            m_time += dt;
+            //char string[10] = {0};
+            string Stepstring;
+            //sprintf(string, "%04.1f", m_time);
+            Stepstring = string.Format("{0,4:1f}", m_time);
+            // 	std::string string;
+            // 	string.format("%04.1f", m_time);
 
-              CCLabelBMFont label1 = (CCLabelBMFont) getChildByTag((int)LabelTest.kTagBitmapAtlas2);
-              label1.setString(Stepstring);
+            CCLabelBMFont label1 = (CCLabelBMFont)getChildByTag((int)TagSprite.kTagBitmapAtlas2);
+            label1.setString(Stepstring);
         }
 
         public override void draw()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
-           //ccDrawLine(new CCPoint(0, s.height / 2), new CCPoint(s.width, s.height / 2));
+            //ccDrawLine(new CCPoint(0, s.height / 2), new CCPoint(s.width, s.height / 2));
             //ccDrawLine(new CCPoint(s.width / 2, 0), new CCPoint(s.width / 2, s.height));
         }
 
@@ -679,7 +612,7 @@ namespace cocos2d
                 //char str[6] = {0};
                 string str;
                 //sprintf(str, "-%d-", i);
-                str = string.Format("-{0,d}-",i);
+                str = string.Format("-{0,d}-", i);
                 CCLabelBMFont label = CCLabelBMFont.labelWithString(str, "fonts/bitmapFontTest.fnt");
                 addChild(label);
 
@@ -712,7 +645,7 @@ namespace cocos2d
             // Left
             CCLabelBMFont label1 = CCLabelBMFont.labelWithString("Multi line\nLeft", "fonts/bitmapFontTest3.fnt");
             label1.setAnchorPoint(new CCPoint(0, 0));
-            addChild(label1, 0, (int)LabelTest.kTagBitmapAtlas1);
+            addChild(label1, 0, (int)TagSprite.kTagBitmapAtlas1);
 
             s = label1.contentSize;
 
@@ -723,7 +656,7 @@ namespace cocos2d
             // Center
             CCLabelBMFont label2 = CCLabelBMFont.labelWithString("Multi line\nCenter", "fonts/bitmapFontTest3.fnt");
             label2.setAnchorPoint(new CCPoint(0.5f, 0.5f));
-            addChild(label2, 0, (int)LabelTest.kTagBitmapAtlas2);
+            addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
 
             s = label2.contentSize;
             //CCLOG("content size: %.2fx%.2f", s.width, s.height);
@@ -732,7 +665,7 @@ namespace cocos2d
             // right
             CCLabelBMFont label3 = CCLabelBMFont.labelWithString("Multi line\nRight\nThree lines Three", "fonts/bitmapFontTest3.fnt");
             label3.setAnchorPoint(new CCPoint(1, 1));
-            addChild(label3, 0, (int)LabelTest.kTagBitmapAtlas3);
+            addChild(label3, 0, (int)TagSprite.kTagBitmapAtlas3);
 
             s = label3.contentSize;
             //CCLOG("content size: %.2fx%.2f", s.width, s.height);
@@ -763,17 +696,17 @@ namespace cocos2d
 
             // CCLabelBMFont
             CCLabelBMFont label1 = CCLabelBMFont.labelWithString("", "fonts/bitmapFontTest3.fnt");
-            addChild(label1, 0, (int)LabelTest.kTagBitmapAtlas1);
+            addChild(label1, 0, (int)TagSprite.kTagBitmapAtlas1);
             label1.position = new CCPoint(s.width / 2, s.height - 100);
 
             // CCLabelTTF
             CCLabelTTF label2 = CCLabelTTF.labelWithString("", "Arial", 24);
-            addChild(label2, 0, (int)LabelTest.kTagBitmapAtlas2);
+            addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
             label2.position = new CCPoint(s.width / 2, s.height / 2);
 
             // CCLabelAtlas
             CCLabelAtlas label3 = CCLabelAtlas.labelWithString("", "fonts/tuffy_bold_italic-charmap.png", 48, 64, ' ');
-            addChild(label3, 0, (int)LabelTest.kTagBitmapAtlas3);
+            addChild(label3, 0, (int)TagSprite.kTagBitmapAtlas3);
             label3.position = new CCPoint(s.width / 2, 0 + 100);
 
             base.schedule(updateStrings, 1.0f);
@@ -783,9 +716,9 @@ namespace cocos2d
 
         public void updateStrings(float dt)
         {
-            CCLabelBMFont label1 = (CCLabelBMFont)getChildByTag((int)LabelTest.kTagBitmapAtlas1);
-            CCLabelTTF label2 = (CCLabelTTF)getChildByTag((int)LabelTest.kTagBitmapAtlas2);
-            CCLabelAtlas label3 = (CCLabelAtlas)getChildByTag((int)LabelTest.kTagBitmapAtlas3);
+            CCLabelBMFont label1 = (CCLabelBMFont)getChildByTag((int)TagSprite.kTagBitmapAtlas1);
+            CCLabelTTF label2 = (CCLabelTTF)getChildByTag((int)TagSprite.kTagBitmapAtlas2);
+            CCLabelAtlas label3 = (CCLabelAtlas)getChildByTag((int)TagSprite.kTagBitmapAtlas3);
 
             if (!setEmpty)
             {
@@ -907,25 +840,87 @@ namespace cocos2d
 
     public class AtlasTestScene : TestScene
     {
+        static int sceneIdx = -1;
+        static readonly int MAX_LAYER = 17;
+
+        public static CCLayer nextAtlasAction()
+        {
+            sceneIdx++;
+            sceneIdx = sceneIdx % MAX_LAYER;
+
+            CCLayer pLayer = createAtlasLayer(sceneIdx);
+            return pLayer;
+
+        }
+
+        public static CCLayer backAtlasAction()
+        {
+
+            sceneIdx--;
+            int total = MAX_LAYER;
+            if (sceneIdx < 0)
+                sceneIdx += total;
+
+            CCLayer pLayer = createAtlasLayer(sceneIdx);
+            return pLayer;
+        }
+
+        public static CCLayer restartAtlasAction()
+        {
+            CCLayer pLayer = createAtlasLayer(sceneIdx);
+
+            return pLayer;
+        }
+        public static CCLayer createAtlasLayer(int nIndex)
+        {
+            switch (nIndex)
+            {
+                //case 0: return new LabelAtlasTest();
+                //case 1: return new LabelAtlasColorTest();
+                //case 2: return new Atlas3();
+                //case 3: return new Atlas4();
+                //case 4: return new Atlas5();
+                //case 5: return new Atlas6();
+                //case 6: return new AtlasBitmapColor();
+                //case 7: return new AtlasFastBitmap();
+                //case 8: return new BitmapFontMultiLine();
+                //case 9: return new LabelsEmpty();
+                //case 10: return new LabelBMFontHD();
+                //case 11: return new LabelAtlasHD();
+                //case 12: return new LabelGlyphDesigner();
+
+                //// Not a label test. Should be moved to Atlas test
+                //case 13: return new Atlas1();
+                case 0: return new LabelTTFTest();
+                    break;
+                //case 15: return new LabelTTFMultiline();
+                //case 16: return new LabelTTFChinese();
+                default:
+                    break;
+            }
+
+            return null;
+
+        }
 
         public override void runThisTest()
         {
-            throw new NotImplementedException();
+            CCLayer pLayer = nextAtlasAction();
+            addChild(pLayer);
+            CCDirector.sharedDirector().replaceScene(this);
         }
-
     }
 
     public class LabelTTFTest : AtlasDemo
     {
-
         public LabelTTFTest()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             // CCLabelBMFont
-            CCLabelTTF left = CCLabelTTF.labelWithString("align left", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentLeft, "Marker Felt", 32);
-            CCLabelTTF center = CCLabelTTF.labelWithString("align center", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentCenter, "Marker Felt", 32);
-            CCLabelTTF right = CCLabelTTF.labelWithString("align right", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentRight, "Marker Felt", 32);
+            CCLabelTTF left = CCLabelTTF.labelWithString("align left", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentLeft, "Arial", 32);
+            CCLabelTTF center = CCLabelTTF.labelWithString("align center", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentCenter, "Arial", 32);
+            CCLabelTTF right = CCLabelTTF.labelWithString("align right", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentRight, "Arial", 32);
 
             left.position = new CCPoint(s.width / 2, 200);
             center.position = new CCPoint(s.width / 2, 150);

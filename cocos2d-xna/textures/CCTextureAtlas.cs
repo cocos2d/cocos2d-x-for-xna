@@ -210,7 +210,7 @@ namespace cocos2d
             // Re-initialization is not allowed
             Debug.Assert(m_pIndices == null);
 
-            // m_pQuads = (ccV3F_C4B_T2F_Quad)calloc( sizeof(ccV3F_C4B_T2F_Quad) * m_uCapacity, 1 );
+            //m_pQuads = (ccV3F_C4B_T2F_Quad)calloc( sizeof(ccV3F_C4B_T2F_Quad) * m_uCapacity, 1 );
             m_pQuads = new ccV3F_C4B_T2F_Quad();
 
             //m_pIndices = (ushort)calloc( sizeof(ushort) * m_uCapacity * 6, 1 );            

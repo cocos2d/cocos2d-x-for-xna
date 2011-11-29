@@ -163,7 +163,7 @@ namespace cocos2d
             set
             {
                 uint len = (uint)value.Length;
-                if (len > m_pTextureAtlas.getTotalQuads())
+                if (len > m_pTextureAtlas.TotalQuads)
                 {
                     m_pTextureAtlas.resizeCapacity(len);
                 }
@@ -206,7 +206,7 @@ namespace cocos2d
         public void setString(string label)
         {
             uint len = (uint)label.Length;
-            if (len > m_pTextureAtlas.getTotalQuads())
+            if (len > m_pTextureAtlas.TotalQuads)
             {
                 m_pTextureAtlas.resizeCapacity(len);
             }

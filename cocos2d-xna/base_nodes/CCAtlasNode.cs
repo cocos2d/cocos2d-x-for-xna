@@ -182,7 +182,7 @@ namespace cocos2d
             this.m_pTextureAtlas = new CCTextureAtlas();
             m_pTextureAtlas.initWithFile(tile, itemsToRender);
 
-            if (m_pTextureAtlas != null)
+            if (m_pTextureAtlas == null)
             {
                 //CCLOG("cocos2d: Could not initialize CCAtlasNode. Invalid Texture.");
                 //delete this;
@@ -297,12 +297,16 @@ namespace cocos2d
 
         private void updateBlendFunc()
         {
-            throw new NotImplementedException();
+            if (!m_pTextureAtlas.getTexture().getHasPremultipliedAlpha())
+            {
+                m_tBlendFunc.src = 0x0302;
+                m_tBlendFunc.dst = 0x0305;
+            }
         }
 
         private void updateOpacityModifyRGB()
         {
-            throw new NotImplementedException();
+            m_bIsOpacityModifyRGB = m_pTextureAtlas.getTexture().getHasPremultipliedAlpha();
         }
 
         #region getColor,setColor->ccColor
