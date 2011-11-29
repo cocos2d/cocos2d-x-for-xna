@@ -216,7 +216,7 @@ namespace cocos2d
 	    */
         public void dumpCachedTextureInfo()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
 #if CC_SUPPORT_PVRTC
