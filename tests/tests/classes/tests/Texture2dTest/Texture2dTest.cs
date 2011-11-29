@@ -214,19 +214,27 @@ namespace tests
         public override void onEnter()
         {
             base.onEnter();
-            CCSprite sprite;
+
+            CCSize size = CCDirector.sharedDirector().getWinSize();
 
             Debug.WriteLine("Loading 512x512 image...");
-            sprite = CCSprite.spriteWithFile("Images/texture512x512");
-            if( sprite != null )
+            CCSprite sprite1 = CCSprite.spriteWithFile("Images/texture512x512");
+            if (sprite1 != null)
+            {
                 Debug.WriteLine("OK\n");
+                sprite1.position = new CCPoint(size.width - 50, size.height -50);
+                this.addChild(sprite1);
+            }
             else
                 Debug.WriteLine("Error\n");
 
             Debug.WriteLine("Loading 1024x1024 image...");
-            sprite = CCSprite.spriteWithFile("Images/texture1024x1024");
-            if( sprite != null )
+            CCSprite sprite2 = CCSprite.spriteWithFile("Images/texture1024x1024");
+            if (sprite2 != null)
+            {
                 Debug.WriteLine("OK\n");
+                this.addChild(sprite2);
+            }
             else
                 Debug.WriteLine("Error\n");
         // 	@todo
