@@ -40,7 +40,7 @@ namespace cocos2d
     public class CCMenuItem : CCNode
     {
         protected static uint _fontSize = 32;
-        protected static string _fontName = "Marker Felt";
+        protected static string _fontName = "Arial";
         protected static bool _fontNameRelease = false;
 
         const uint kCurrentItem = 0xc0c05001;
