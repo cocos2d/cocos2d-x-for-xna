@@ -117,6 +117,9 @@
     <Compile Include="actions\action_intervals\CCSpawn.cs" />
     <Compile Include="actions\action_intervals\CCTintBy.cs" />
     <Compile Include="actions\action_intervals\CCTintTo.cs" />
+    <Compile Include="actions\action_intervals\grid_action\CCAccelAmplitude.cs" />
+    <Compile Include="actions\action_intervals\grid_action\CCAccelDeccelAmplitude.cs" />
+    <Compile Include="actions\action_intervals\grid_action\CCDeccelAmplitude.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
     <Compile Include="actions\action_intervals\CCActionInterval.cs" />
@@ -142,6 +145,7 @@
     <Compile Include="label_nodes\CCLabelTTF.cs" />
     <Compile Include="label_nodes\tKerningHashElement.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayer.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCLayerMultiplex.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCScene.cs" />
     <Compile Include="menu_nodes\CCMenu.cs" />
     <Compile Include="menu_nodes\CCMenuItem.cs" />

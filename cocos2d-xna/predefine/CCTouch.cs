@@ -73,5 +73,6 @@ namespace cocos2d
 
     public class CCEvent : CCObject
     {
+
     }
 }

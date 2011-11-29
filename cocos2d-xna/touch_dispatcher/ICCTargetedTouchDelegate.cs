@@ -46,7 +46,7 @@ namespace cocos2d
  handler, without bothering the other handlers.)
  @since v0.8
  */
-    public interface ICCTargetedTouchDelegate
+    public interface ICCTargetedTouchDelegate : ICCTouchDelegate
     {
         bool ccTouchBegan(CCTouch pTouch, CCEvent pEvent);
 

@@ -37,7 +37,7 @@ namespace cocos2d
     * Once the texture is loaded, the next time it will return
     * a reference of the previously loaded texture reducing GPU & CPU memory
     */
-    class CCTextureCache : CCObject
+    public class CCTextureCache : CCObject
     {
         protected Dictionary<string, CCTexture2D> m_pTextures;
         ///@todo

@@ -104,7 +104,7 @@ namespace cocos2d.menu_nodes
         /// <summary>
         /// creates a menu item from a list of items with a target/selector
         /// </summary>
-        public static CCMenuItemToggle itemWithTarget(SelectorProtocol target, SEL_MenuHandler selector, CCMenuItem[] item)
+        public static CCMenuItemToggle itemWithTarget(SelectorProtocol target, SEL_MenuHandler selector,params CCMenuItem[] item)
         {
             throw new NotImplementedException();
         }
