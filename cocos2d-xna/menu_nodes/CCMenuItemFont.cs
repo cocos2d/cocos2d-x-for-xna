@@ -89,10 +89,11 @@ namespace cocos2d.menu_nodes
             m_uFontSize = _fontSize;
 
             CCLabelTTF label = CCLabelTTF.labelWithString(value, m_strFontName, (float)m_uFontSize);
-            //if (CCMenuItemLabel.initWithLabel(label, target, selector))
-            //{
-            //    // do something ?
-            //}
+            if (base.initWithLabel(label, target, selector))
+            {
+                // do something ?
+            }
+
             return true;
         }
 

@@ -12,7 +12,7 @@ namespace tests
     {
         readonly int MAX_LAYER = 1;
         static int sceneIdx = -1;
-        protected ccDeviceOrientation s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
+        public static ccDeviceOrientation s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
 
         public CCLayer createTestCaseLayer(int index)
         {
@@ -126,20 +126,17 @@ namespace tests
         public override bool init()
         {
             bool bRet = false;
+            //CC_BREAK_IF(! DirectorTest::init());
+            isTouchEnabled = true;
+            CCSize s = CCDirector.sharedDirector().getWinSize();
 
-            do
-            {
-                //CC_BREAK_IF(! DirectorTest::init());
-                isTouchEnabled = true;
-                CCSize s = CCDirector.sharedDirector().getWinSize();
 
-                CCMenuItem item = CCMenuItemFont.itemFromString("Rotate Device", this, new SEL_MenuHandler(rotateDevice));
-                CCMenu menu = CCMenu.menuWithItems(item, null);
-                menu.position = new CCPoint(s.width / 2, s.height / 2);
-                addChild(menu);
+            CCMenuItem item = CCMenuItemFont.itemFromString("Rotate Device", this, new SEL_MenuHandler(rotateDevice));
+            CCMenu menu = CCMenu.menuWithItems(item);
+            menu.position = new CCPoint(s.width / 2, s.height / 2);
+            addChild(menu);
 
-                bRet = true;
-            } while (true);
+            bRet = true;
 
             return bRet;
         }
@@ -171,7 +168,7 @@ namespace tests
         }
 
 
-        public override  void ccTouchesEnded(List<CCTouch> touches, CCEvent eventarg)
+        public override void ccTouchesEnded(List<CCTouch> touches, CCEvent eventarg)
         {
 
             foreach (CCTouch touch in touches)

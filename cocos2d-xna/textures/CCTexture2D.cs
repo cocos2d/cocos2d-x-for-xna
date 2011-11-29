@@ -208,7 +208,8 @@ namespace cocos2d
             {
                 return false;
             }
-
+#warning fontName will be delete in future
+            fontName = "Arial";
             SpriteFont font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
             if (CCSize.CCSizeEqualToSize(dimensions, new CCSize()))
             {
