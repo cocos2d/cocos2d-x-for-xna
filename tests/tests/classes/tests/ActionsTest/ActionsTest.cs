@@ -8,33 +8,33 @@ namespace tests
 {
     public enum ActionTest
     {
-        ACTION_MANUAL_LAYER = 0,
-        ACTION_MOVE_LAYER,
+        // ACTION_MANUAL_LAYER = 0,
+        // ACTION_MOVE_LAYER,
         ACTION_SCALE_LAYER,
         ACTION_ROTATE_LAYER,
-	    ACTION_SKEW_LAYER,
-	    ACTION_SKEWROTATE_LAYER,
+        //ACTION_SKEW_LAYER,
+        //ACTION_SKEWROTATE_LAYER,
         ACTION_JUMP_LAYER,
         ACTION_BEZIER_LAYER,
         ACTION_BLINK_LAYER,
-        ACTION_FADE_LAYER,
-        ACTION_TINT_LAYER,
-        ACTION_ANIMATE_LAYER,
-        ACTION_SEQUENCE_LAYER,
-        ACTION_SEQUENCE2_LAYER,
-        ACTION_SPAWN_LAYER,
-        ACTION_REVERSE,
-        ACTION_DELAYTIME_LAYER,
-        ACTION_REPEAT_LAYER,
-        ACTION_REPEATEFOREVER_LAYER,
-        ACTION_ROTATETOREPEATE_LAYER,
-        ACTION_ROTATEJERK_LAYER,
-        ACTION_CALLFUNC_LAYER,
-        ACTION_CALLFUNCND_LAYER,
-        ACTION_REVERSESEQUENCE_LAYER,
-        ACTION_REVERSESEQUENCE2_LAYER,
-        ACTION_ORBIT_LAYER,
-        ACTION_FLLOW_LAYER,
+        // ACTION_FADE_LAYER,
+        //ACTION_TINT_LAYER,
+        //ACTION_ANIMATE_LAYER,
+        //ACTION_SEQUENCE_LAYER,
+        //ACTION_SEQUENCE2_LAYER,
+        // ACTION_SPAWN_LAYER,
+        //ACTION_REVERSE,
+        //ACTION_DELAYTIME_LAYER,
+        //ACTION_REPEAT_LAYER,
+        //ACTION_REPEATEFOREVER_LAYER,
+        //ACTION_ROTATETOREPEATE_LAYER,
+        //ACTION_ROTATEJERK_LAYER,
+        //ACTION_CALLFUNC_LAYER,
+        //ACTION_CALLFUNCND_LAYER,
+        //ACTION_REVERSESEQUENCE_LAYER,
+        //ACTION_REVERSESEQUENCE2_LAYER,
+        //ACTION_ORBIT_LAYER,
+        //ACTION_FLLOW_LAYER,
         ACTION_LAYER_COUNT,
     };
 
@@ -52,60 +52,60 @@ namespace tests
 
             switch (nIndex)
             {
-                case (int)ActionTest.ACTION_MANUAL_LAYER:
-                    pLayer = new ActionManual(); break;
-                case (int)ActionTest.ACTION_MOVE_LAYER:
-                    pLayer = new ActionMove(); break;
+                //case (int)ActionTest.ACTION_MANUAL_LAYER:
+                //    pLayer = new ActionManual(); break;
+                //case (int)ActionTest.ACTION_MOVE_LAYER:
+                //    pLayer = new ActionMove(); break;
                 case (int)ActionTest.ACTION_SCALE_LAYER:
                     pLayer = new ActionScale(); break;
                 case (int)ActionTest.ACTION_ROTATE_LAYER:
                     pLayer = new ActionRotate(); break;
-                case (int)ActionTest.ACTION_SKEW_LAYER:
-                    pLayer = new ActionSkew(); break;
-                case (int)ActionTest.ACTION_SKEWROTATE_LAYER:
-                    pLayer = new ActionSkewRotateScale(); break;
+                //case (int)ActionTest.ACTION_SKEW_LAYER:
+                //    pLayer = new ActionSkew(); break;
+                //case (int)ActionTest.ACTION_SKEWROTATE_LAYER:
+                //    pLayer = new ActionSkewRotateScale(); break;
                 case (int)ActionTest.ACTION_JUMP_LAYER:
                     pLayer = new ActionJump(); break;
                 case (int)ActionTest.ACTION_BEZIER_LAYER:
                     pLayer = new ActionBezier(); break;
                 case (int)ActionTest.ACTION_BLINK_LAYER:
                     pLayer = new ActionBlink(); break;
-                case (int)ActionTest.ACTION_FADE_LAYER:
-                    pLayer = new ActionFade(); break;
-                case (int)ActionTest.ACTION_TINT_LAYER:
-                    pLayer = new ActionTint(); break;
-                case (int)ActionTest.ACTION_ANIMATE_LAYER:
-                    pLayer = new ActionAnimate(); break;
-                case (int)ActionTest.ACTION_SEQUENCE_LAYER:
-                    pLayer = new ActionSequence(); break;
-                case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
-                    pLayer = new ActionSequence2(); break;
-                case (int)ActionTest.ACTION_SPAWN_LAYER:
-                    pLayer = new ActionSpawn(); break;
-                case (int)ActionTest.ACTION_REVERSE:
-                    pLayer = new ActionReverse(); break;
-                case (int)ActionTest.ACTION_DELAYTIME_LAYER:
-                    pLayer = new ActionDelayTime(); break;
-                case (int)ActionTest.ACTION_REPEAT_LAYER:
-                    pLayer = new ActionRepeat(); break;
-                case (int)ActionTest.ACTION_REPEATEFOREVER_LAYER:
-                    pLayer = new ActionRepeatForever(); break;
-                case (int)ActionTest.ACTION_ROTATETOREPEATE_LAYER:
-                    pLayer = new ActionRotateToRepeat(); break;
-                case (int)ActionTest.ACTION_ROTATEJERK_LAYER:
-                    pLayer = new ActionRotateJerk(); break;
-                case (int)ActionTest.ACTION_CALLFUNC_LAYER:
-                    pLayer = new ActionCallFunc(); break;
-                case (int)ActionTest.ACTION_CALLFUNCND_LAYER:
-                    pLayer = new ActionCallFuncND(); break;
-                case (int)ActionTest.ACTION_REVERSESEQUENCE_LAYER:
-                    pLayer = new ActionReverseSequence(); break;
-                case (int)ActionTest.ACTION_REVERSESEQUENCE2_LAYER:
-                    pLayer = new ActionReverseSequence2(); break;
-                case (int)ActionTest.ACTION_ORBIT_LAYER:
-                    pLayer = new ActionOrbit(); break;
-                case (int)ActionTest.ACTION_FLLOW_LAYER:
-                    pLayer = new ActionFollow(); break;
+                //case (int)ActionTest.ACTION_FADE_LAYER:
+                //    pLayer = new ActionFade(); break;
+                //case (int)ActionTest.ACTION_TINT_LAYER:
+                //    pLayer = new ActionTint(); break;
+                //case (int)ActionTest.ACTION_ANIMATE_LAYER:
+                //    pLayer = new ActionAnimate(); break;
+                //case (int)ActionTest.ACTION_SEQUENCE_LAYER:
+                //    pLayer = new ActionSequence(); break;
+                //case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
+                //    pLayer = new ActionSequence2(); break;
+                //case (int)ActionTest.ACTION_SPAWN_LAYER:
+                //    pLayer = new ActionSpawn(); break;
+                //case (int)ActionTest.ACTION_REVERSE:
+                //    pLayer = new ActionReverse(); break;
+                //case (int)ActionTest.ACTION_DELAYTIME_LAYER:
+                //    pLayer = new ActionDelayTime(); break;
+                //case (int)ActionTest.ACTION_REPEAT_LAYER:
+                //    pLayer = new ActionRepeat(); break;
+                //case (int)ActionTest.ACTION_REPEATEFOREVER_LAYER:
+                //    pLayer = new ActionRepeatForever(); break;
+                //case (int)ActionTest.ACTION_ROTATETOREPEATE_LAYER:
+                //    pLayer = new ActionRotateToRepeat(); break;
+                //case (int)ActionTest.ACTION_ROTATEJERK_LAYER:
+                //    pLayer = new ActionRotateJerk(); break;
+                //case (int)ActionTest.ACTION_CALLFUNC_LAYER:
+                //    pLayer = new ActionCallFunc(); break;
+                //case (int)ActionTest.ACTION_CALLFUNCND_LAYER:
+                //    pLayer = new ActionCallFuncND(); break;
+                //case (int)ActionTest.ACTION_REVERSESEQUENCE_LAYER:
+                //    pLayer = new ActionReverseSequence(); break;
+                //case (int)ActionTest.ACTION_REVERSESEQUENCE2_LAYER:
+                //    pLayer = new ActionReverseSequence2(); break;
+                //case (int)ActionTest.ACTION_ORBIT_LAYER:
+                //    pLayer = new ActionOrbit(); break;
+                //case (int)ActionTest.ACTION_FLLOW_LAYER:
+                //    pLayer = new ActionFollow(); break;
             default:
                 break;
             }
@@ -331,7 +331,7 @@ namespace tests
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             CCActionInterval actionTo = CCMoveTo.actionWithDuration(2, new CCPoint(s.width-40, s.height-40));
-            CCActionInterval actionBy = CCMoveBy.actionWithDuration(2, new CCPoint(80,80));
+            CCActionInterval actionBy = CCMoveBy.actionWithDuration(10, new CCPoint(80,80));
 
             // source code: CCActionInterval* actionByBack = actionBy->reverse();
             CCFiniteTimeAction actionByBack = actionBy.reverse();
