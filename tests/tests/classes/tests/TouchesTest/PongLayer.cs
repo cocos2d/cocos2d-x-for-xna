@@ -35,8 +35,8 @@ namespace tests
 {
     public class PongLayer : CCLayer
     {
-        string s_Ball = "Images/ball.png";
-        string s_Paddle = "Images/paddle.png";
+        string s_Ball = "Images/ball";
+        string s_Paddle = "Images/paddle";
         Ball m_ball;
         List<CCObject> m_paddles;
         CCPoint m_ballStartingVelocity;
