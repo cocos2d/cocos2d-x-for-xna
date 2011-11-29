@@ -140,10 +140,10 @@ namespace tests
                 //        pScene = new DrawPrimitivesTestScene(); break;
                 //    case TEST_COCOSNODE:
                 //        pScene = new CocosNodeTestScene(); break;
-                //    case TEST_TOUCHES:
-                //        pScene = new PongScene(); break;
-                //    case TEST_MENU:
-                //        pScene = new MenuTestScene(); break;
+                case (int)TestCases.TEST_TOUCHES:
+                    pScene = new PongScene(); break;
+                case (int)TestCases.TEST_MENU:
+                    pScene = new MenuTestScene(); break;
                 //    case TEST_ACTION_MANAGER:
                 //        pScene = new ActionManagerTestScene(); break;
                 //    case TEST_LAYER:
@@ -166,8 +166,8 @@ namespace tests
                 //#endif
                 //#endif
                 //#endif
-                //    case TEST_LABEL:
-                //        pScene = new AtlasTestScene(); break;
+                case (int)TestCases.TEST_LABEL:
+                    pScene = new AtlasTestScene(); break;
                 //#if (CC_TARGET_PLATFORM != CC_PLATFORM_AIRPLAY)
                 //    case TEST_TEXT_INPUT:
                 //        pScene = new TextInputTestScene(); break;
@@ -206,8 +206,8 @@ namespace tests
                 //    case TEST_USERDEFAULT:
                 //        pScene = new UserDefaultTestScene(); break;
                 //#endif
-                //    case TEST_DIRECTOR:
-                //        pScene = new DirectorTestScene(); break;
+                case (int)TestCases.TEST_DIRECTOR:
+                    pScene = new DirectorTestScene(); break;
                 //    case TEST_BUGS:
                 //        pScene = new BugsTestScene(); break;
                 //#if (CC_TARGET_PLATFORM != CC_PLATFORM_AIRPLAY)
