@@ -269,6 +269,7 @@ namespace cocos2d
                     graphics.PreferredBackBufferWidth = 800;
                     graphics.PreferredBackBufferHeight = 480;
                     _size = new CCSize(800, 480);
+                    m_rcViewPort = new Rectangle(0, 0, 800, 480);
                     graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationLandscapeLeft;
@@ -277,6 +278,7 @@ namespace cocos2d
                     graphics.PreferredBackBufferWidth = 800;
                     graphics.PreferredBackBufferHeight = 480;
                     _size = new CCSize(800, 480);
+                    m_rcViewPort = new Rectangle(0, 0, 800, 480);
                     graphics.SupportedOrientations = DisplayOrientation.LandscapeRight;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationLandscapeRight;
@@ -285,6 +287,7 @@ namespace cocos2d
                     graphics.PreferredBackBufferWidth = 480;
                     graphics.PreferredBackBufferHeight = 800;
                     _size = new CCSize(480, 800);
+                    m_rcViewPort = new Rectangle(0, 0, 480, 800);
                     graphics.SupportedOrientations = DisplayOrientation.Portrait;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationPortrait;
@@ -334,7 +337,7 @@ namespace cocos2d
             get { return true; }
         }
 
-        private CCSize _size=new CCSize(480,800);
+        private CCSize _size = new CCSize(480, 800);
         public CCSize getSize()
         {
             return _size;
