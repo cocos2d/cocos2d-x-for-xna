@@ -35,15 +35,20 @@ namespace tests
 {
     public class MenuTestScene : TestScene
     {
+
         public override void runThisTest()
         {
-            CCLayer pLayer1 = new MenuLayer1();
+           // CCLayer pLayer1 = new MenuLayer1();
             CCLayer pLayer2 = new MenuLayer2();
-            CCLayer pLayer3 = new MenuLayer3();
-            CCLayer pLayer4 = new MenuLayer4();
+            //CCLayer pLayer3 = new MenuLayer3();
+            //CCLayer pLayer4 = new MenuLayer4();
 
+
+            //CCLayerMultiplex layer = CCLayerMultiplex.layerWithLayers(  pLayer3, pLayer4);
+            base.addChild(pLayer2, 0);
             // CCLayerMultiplex layer = CCLayerMultiplex.layerWithLayers(pLayer1, pLayer2, pLayer3, pLayer4, null);
             // addChild(layer, 0);
+
 
             CCDirector.sharedDirector().replaceScene(this);
         }

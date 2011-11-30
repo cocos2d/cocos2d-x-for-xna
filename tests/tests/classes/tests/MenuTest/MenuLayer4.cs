@@ -38,11 +38,11 @@ namespace tests
     {
         public MenuLayer4()
         {
-            CCMenuItemFont.FontName = "American Typewriter";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 18;
             CCMenuItemFont title1 = CCMenuItemFont.itemFromString("Sound");
             title1.Enabled = false;
-            CCMenuItemFont.FontName = "Marker Felt";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 34;
             CCMenuItemToggle item1 = CCMenuItemToggle.itemWithTarget(this,
                                                                     this.menuCallback,
@@ -50,11 +50,11 @@ namespace tests
                                                                         CCMenuItemFont.itemFromString("Off")
                                                                          );
 
-            CCMenuItemFont.FontName = "American Typewriter";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 18;
             CCMenuItemFont title2 = CCMenuItemFont.itemFromString("Music");
             title2.Enabled = false;
-            CCMenuItemFont.FontName = "Marker Felt";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 34;
             CCMenuItemToggle item2 = CCMenuItemToggle.itemWithTarget(this,
                                                                         this.menuCallback,
@@ -62,11 +62,11 @@ namespace tests
                                                                         CCMenuItemFont.itemFromString("Off"),
                                                                         null);
 
-            CCMenuItemFont.FontName = "American Typewriter";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 18;
             CCMenuItemFont title3 = CCMenuItemFont.itemFromString("Quality");
             title3.Enabled = false;
-            CCMenuItemFont.FontName = "Marker Felt";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 34;
             CCMenuItemToggle item3 = CCMenuItemToggle.itemWithTarget(this,
                                                                         this.menuCallback,
@@ -74,11 +74,11 @@ namespace tests
                                                                         CCMenuItemFont.itemFromString("Low"),
                                                                         null);
 
-            CCMenuItemFont.FontName = "American Typewriter";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 18;
             CCMenuItemFont title4 = CCMenuItemFont.itemFromString("Orientation");
             title4.Enabled = false;
-            CCMenuItemFont.FontName = "Marker Felt";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 34;
             //CCMenuItemToggle item4 = CCMenuItemToggle.itemWithTarget( this, 
             //                                                            this.menuCallback), 
@@ -98,7 +98,7 @@ namespace tests
             // you can change the one of the items by doing this
             //item4.SelectedIndex(2);
 
-            CCMenuItemFont.FontName = "Marker Felt";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 34;
 
             CCLabelBMFont label = CCLabelBMFont.labelWithString("go back", "fonts/bitmapFontTest3.fnt");

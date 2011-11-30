@@ -35,12 +35,12 @@ namespace tests
 {
     public class MenuLayer2 : CCLayer
     {
-        string s_PlayNormal = "Images/btn-play-normal.png";
-        string s_PlaySelect = "Images/btn-play-selected.png";
-        string s_HighNormal = "Images/btn-highscores-normal.png";
-        string s_HighSelect = "Images/btn-highscores-selected.png";
-        string s_AboutNormal = "Images/btn-about-normal.png";
-        string s_AboutSelect = "Images/btn-about-selected.png";
+        string s_PlayNormal = "Images/btn-play-normal";
+        string s_PlaySelect = "Images/btn-play-selected";
+        string s_HighNormal = "Images/btn-highscores-normal";
+        string s_HighSelect = "Images/btn-highscores-selected";
+        string s_AboutNormal = "Images/btn-about-normal";
+        string s_AboutSelect = "Images/btn-about-selected";
 
 
         protected CCPoint m_centeredMenu;
@@ -50,7 +50,7 @@ namespace tests
         {
             for (int i = 0; i < 2; i++)
             {
-                CCMenu menu = (CCMenu)getChildByTag(100 + i);
+                CCMenu menu = new CCMenu();// (CCMenu)getChildByTag(100 + i);
                 menu.position = m_centeredMenu;
                 if (i == 0)
                 {
@@ -104,7 +104,7 @@ namespace tests
                 item2.scaleX = 0.5f;
                 item3.scaleX = 0.5f;
 
-                CCMenu menu = CCMenu.menuWithItems(item1, item2, item3, null);
+                CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
 
                 menu.tag = (int)kTag.kTagMenu;
 
@@ -118,7 +118,9 @@ namespace tests
         }
         public void menuCallback(CCObject pSender)
         {
-            ((CCLayerMultiplex)m_pParent).switchTo(0);
+            //CCLayerMultiplex m = m_pParent as CCLayerMultiplex;
+            //m.switchTo(0);
+            //((CCLayerMultiplex)m_pParent).switchTo(0);
         }
         public void menuCallbackOpacity(CCObject pSender)
         {

@@ -38,7 +38,7 @@ namespace tests
     {
         protected CCMenuItem m_disabledItem;
 
-        string s_MenuItem = "Images/menuitemsprite.png";
+        string s_MenuItem = "Images/menuitemsprite";
         public MenuLayer3()
         {
             CCMenuItemFont.FontName = "Marker Felt";

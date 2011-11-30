@@ -38,14 +38,14 @@ namespace tests
     public class MenuLayer1 : CCLayer
     {
         protected CCMenuItem m_disabledItem;
-        string s_SendScore = "Images/SendScoreButton.png";
-        string s_MenuItem = "Images/menuitemsprite.png";
-        string s_PressSendScore = "Images/SendScoreButtonPressed.png";
+        string s_SendScore = "Images/SendScoreButton";
+        string s_MenuItem = "Images/menuitemsprite";
+        string s_PressSendScore = "Images/SendScoreButtonPressed";
 
         public MenuLayer1()
         {
             CCMenuItemFont.FontSize = 30;
-            CCMenuItemFont.FontName = "Courier New";
+            CCMenuItemFont.FontName = "Arial";
             base.isTouchEnabled = true;
             // Font Item
 
@@ -62,33 +62,33 @@ namespace tests
             CCMenuItem item2 = CCMenuItemImage.itemFromNormalImage(s_SendScore, s_PressSendScore, this, this.menuCallback2);
 
             // Label Item (LabelAtlas)
-            CCLabelAtlas labelAtlas = CCLabelAtlas.labelWithString("0123456789", "fonts/fps_images.png", 16, 24, '.');
-            CCMenuItemLabel item3 = CCMenuItemLabel.itemWithLabel(labelAtlas, this, this.menuCallbackDisabled);
-            item3.DisabledColor = new ccColor3B(32, 32, 64);
-            item3.Color = new ccColor3B(200, 200, 255);
+            //CCLabelAtlas labelAtlas = CCLabelAtlas.labelWithString("0123456789", "fonts/fps_images", 16, 24, '.');
+            //CCMenuItemLabel item3 = CCMenuItemLabel.itemWithLabel(labelAtlas, this, this.menuCallbackDisabled);
+            //item3.DisabledColor = new ccColor3B(32, 32, 64);
+            //item3.Color = new ccColor3B(200, 200, 255);
 
             // Font Item
             CCMenuItemFont item4 = CCMenuItemFont.itemFromString("I toggle enable items", this, this.menuCallbackEnable);
 
             item4.FontSizeObj = 20;
-            item4.FontNameObj = "Marker Felt";
+            item4.FontNameObj = "Arial";
 
             // Label Item (CCLabelBMFont)
-            CCLabelBMFont label = CCLabelBMFont.labelWithString("configuration", "fonts/bitmapFontTest3.fnt");
-            CCMenuItemLabel item5 = CCMenuItemLabel.itemWithLabel(label, this, this.menuCallbackConfig);
+           // CCLabelBMFont label = CCLabelBMFont.labelWithString("configuration", "fonts/bitmapFontTest3.fnt");
+          //  CCMenuItemLabel item5 = CCMenuItemLabel.itemWithLabel(label, this, this.menuCallbackConfig);
 
             // Testing issue #500
-            item5.scale = 0.8f;
+         //   item5.scale = 0.8f;
 
             // Font Item
             CCMenuItemFont item6 = CCMenuItemFont.itemFromString("Quit", this, this.onQuit);
 
             CCActionInterval color_action = CCTintBy.actionWithDuration(0.5f, 0, -255, -255);
             CCActionInterval color_back = (CCActionInterval)color_action.reverse();
-            CCFiniteTimeAction seq = CCSequence.actions(color_action, color_back, null);
+            CCFiniteTimeAction seq = CCSequence.actions(color_action, color_back);
             item6.runAction(CCRepeatForever.actionWithAction((CCActionInterval)seq));
 
-            CCMenu menu = CCMenu.menuWithItems(item1, item2, item3, item4, item5, item6, null);
+            CCMenu menu = CCMenu.menuWithItems(item1, item2, item4, item6);
             menu.alignItemsVertically();
 
             // elastic effect
@@ -120,7 +120,7 @@ namespace tests
 
                 }
             }
-            m_disabledItem = item3;
+            //m_disabledItem = item3;
             m_disabledItem.Enabled = false;
 
             addChild(menu);
