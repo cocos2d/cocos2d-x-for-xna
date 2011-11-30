@@ -48,7 +48,7 @@ namespace tests
             m_ball = Ball.ballWithTexture(CCTextureCache.sharedTextureCache().addImage(s_Ball));
             m_ball.position = new CCPoint(160.0f, 240.0f);
             m_ball.Velocity = m_ballStartingVelocity;
-            base.addChild(m_ball);
+            addChild(m_ball);
 
             CCTexture2D paddleTexture = CCTextureCache.sharedTextureCache().addImage(s_Paddle);
 
@@ -78,9 +78,9 @@ namespace tests
 
                 if (paddle == null) break;
 
-                base.addChild(paddle);
+                addChild(paddle);
             }
-            //base.schedule(this.doStep);
+            schedule(new SEL_SCHEDULE(this.doStep));
         }
 
 

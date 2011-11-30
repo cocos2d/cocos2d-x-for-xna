@@ -70,7 +70,7 @@ namespace cocos2d
 
             if (m_fElapsed >= m_fInterval)
             {
-                if (null == m_pfnSelector)
+                if (null != m_pfnSelector)
                 {
                     m_pfnSelector(m_fElapsed);
                     m_fElapsed = 0;
