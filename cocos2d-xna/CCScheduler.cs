@@ -431,7 +431,7 @@ namespace cocos2d
                 return;
             }
 
-            if (m_pHashForSelectors.ContainsKey(target))
+            if (m_pHashForUpdates.ContainsKey(target))
             {
                 tHashUpdateEntry element = m_pHashForUpdates[target];
                 if (m_bUpdateHashLocked)
