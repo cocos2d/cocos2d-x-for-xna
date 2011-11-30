@@ -47,7 +47,7 @@ namespace tests
             CCDirector.sharedDirector().replaceScene(this);
         }
 
-        public virtual void MainMenuCallback(CCObject pSender)
+        public override void MainMenuCallback(CCObject pSender)
         {
             CCDirector.sharedDirector().deviceOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
             base.MainMenuCallback(pSender);

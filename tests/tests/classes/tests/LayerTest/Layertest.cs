@@ -103,7 +103,7 @@ namespace tests
 
         public virtual string title() { return "No title"; }
         public virtual string subtitle() { return ""; }
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
             CCSize s = CCDirector.sharedDirector().getWinSize();
@@ -178,7 +178,7 @@ namespace tests
             return "ColorLayer resize (tap & move)";
         }
 
-        public void registerWithTouchDispatcher()
+        public override void registerWithTouchDispatcher()
         {
             CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(this, -128 + 1, true);
         }

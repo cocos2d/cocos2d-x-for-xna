@@ -732,7 +732,7 @@ namespace tests
 
     public class ActionCallFunc : ActionsDemo
     {
-        public void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 

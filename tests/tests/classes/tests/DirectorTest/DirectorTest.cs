@@ -10,11 +10,11 @@ namespace tests
 {
     public class DirectorTest : CCLayer
     {
-        readonly int MAX_LAYER = 1;
+        static int MAX_LAYER = 1;
         static int sceneIdx = -1;
         public static ccDeviceOrientation s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
 
-        public CCLayer createTestCaseLayer(int index)
+        public static CCLayer createTestCaseLayer(int index)
         {
             switch (index)
             {
@@ -29,7 +29,7 @@ namespace tests
             }
         }
 
-        public CCLayer nextDirectorTestCase()
+        public static CCLayer nextDirectorTestCase()
         {
             sceneIdx++;
             sceneIdx = sceneIdx % MAX_LAYER;
@@ -37,7 +37,7 @@ namespace tests
             return createTestCaseLayer(sceneIdx);
         }
 
-        public CCLayer backDirectorTestCase()
+        public static CCLayer backDirectorTestCase()
         {
             sceneIdx--;
             if (sceneIdx < 0)
@@ -46,7 +46,7 @@ namespace tests
             return createTestCaseLayer(sceneIdx);
         }
 
-        public CCLayer restartDirectorTestCase()
+        public static CCLayer restartDirectorTestCase()
         {
             return createTestCaseLayer(sceneIdx);
         }
@@ -56,7 +56,9 @@ namespace tests
             bool bRet = false;
             do
             {
-                //CC_BREAK_IF(! CCLayer::init());
+                if( !base.init())
+                    break;
+
                 CCSize s = CCDirector.sharedDirector().getWinSize();
 
                 CCLabelTTF label = CCLabelTTF.labelWithString(title(), "Arial", 26);
@@ -66,7 +68,7 @@ namespace tests
                 string sSubtitle = subtitle();
                 if (sSubtitle.Length > 0)
                 {
-                    CCLabelTTF l = CCLabelTTF.labelWithString(sSubtitle, "Thonburi", 16);
+                    CCLabelTTF l = CCLabelTTF.labelWithString(sSubtitle, "Arial", 16);
                     addChild(l, 1);
                     l.position = new CCPoint(s.width / 2, s.height - 80);
                 }
@@ -75,14 +77,14 @@ namespace tests
                 CCMenuItemImage item2 = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathR1, TestResource.s_pPathR2, this, new SEL_MenuHandler(restartCallback));
                 CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathF1, TestResource.s_pPathF2, this, new SEL_MenuHandler(nextCallback));
 
-                CCMenu menu = CCMenu.menuWithItems(item1, item2, item3, null);
+                CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
                 menu.position = new CCPoint();
                 item1.position = new CCPoint(s.width / 2 - 100, 30);
                 item2.position = new CCPoint(s.width / 2, 30);
                 item3.position = new CCPoint(s.width / 2 + 100, 30);
 
                 bRet = true;
-            } while (true);
+            } while (false);
 
             return bRet;
         }
@@ -126,17 +128,21 @@ namespace tests
         public override bool init()
         {
             bool bRet = false;
-            //CC_BREAK_IF(! DirectorTest::init());
-            isTouchEnabled = true;
-            CCSize s = CCDirector.sharedDirector().getWinSize();
+            do
+            {
+                if (!base.init())
+                    break;
+                isTouchEnabled = true;
+                CCSize s = CCDirector.sharedDirector().getWinSize();
 
 
-            CCMenuItem item = CCMenuItemFont.itemFromString("Rotate Device", this, new SEL_MenuHandler(rotateDevice));
-            CCMenu menu = CCMenu.menuWithItems(item);
-            menu.position = new CCPoint(s.width / 2, s.height / 2);
-            addChild(menu);
+                CCMenuItem item = CCMenuItemFont.itemFromString("Rotate Device", this, new SEL_MenuHandler(rotateDevice));
+                CCMenu menu = CCMenu.menuWithItems(item);
+                menu.position = new CCPoint(s.width / 2, s.height / 2);
+                addChild(menu);
 
-            bRet = true;
+                bRet = true;
+            } while (false);
 
             return bRet;
         }
@@ -201,10 +207,8 @@ namespace tests
 
         public override void runThisTest()
         {
-            ccDeviceOrientation s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
-            s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
-            DirectorTest directorTest = new DirectorTest();
-            CCLayer pLayer = directorTest.nextDirectorTestCase();
+            DirectorTest.s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
+            CCLayer pLayer = DirectorTest.nextDirectorTestCase();
             addChild(pLayer);
 
             CCDirector.sharedDirector().replaceScene(this);

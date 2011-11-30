@@ -892,7 +892,6 @@ namespace cocos2d
                 //// Not a label test. Should be moved to Atlas test
                 //case 13: return new Atlas1();
                 case 0: return new LabelTTFTest();
-                    break;
                 //case 15: return new LabelTTFMultiline();
                 //case 16: return new LabelTTFChinese();
                 default:
