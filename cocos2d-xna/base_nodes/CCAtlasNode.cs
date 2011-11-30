@@ -290,14 +290,14 @@ namespace cocos2d
 
         private void calculateMaxItems()
         {
-            CCSize s = m_pTextureAtlas.getTexture().getContentSizeInPixels();
+            CCSize s = m_pTextureAtlas.getTexture().ContentSizeInPixels;
             m_uItemsPerColumn = (uint)(s.height / m_uItemHeight);
             m_uItemsPerRow = (uint)(s.width / m_uItemWidth);
         }
 
         private void updateBlendFunc()
         {
-            if (!m_pTextureAtlas.getTexture().getHasPremultipliedAlpha())
+            if (!m_pTextureAtlas.getTexture().HasPremultipliedAlpha)
             {
                 m_tBlendFunc.src = 0x0302;
                 m_tBlendFunc.dst = 0x0305;
@@ -306,7 +306,7 @@ namespace cocos2d
 
         private void updateOpacityModifyRGB()
         {
-            m_bIsOpacityModifyRGB = m_pTextureAtlas.getTexture().getHasPremultipliedAlpha();
+            m_bIsOpacityModifyRGB = m_pTextureAtlas.getTexture().HasPremultipliedAlpha;
         }
 
         #region getColor,setColor->ccColor

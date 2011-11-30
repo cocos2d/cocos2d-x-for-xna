@@ -807,7 +807,7 @@ namespace cocos2d
 
         private void updateBlendFunc()
         {
-            if (!m_pobTextureAtlas.getTexture().getHasPremultipliedAlpha())
+            if (!m_pobTextureAtlas.getTexture().HasPremultipliedAlpha)
             {
                 m_blendFunc.src = 0x0302;
                 m_blendFunc.dst = 0x0303;

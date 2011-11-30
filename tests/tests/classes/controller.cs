@@ -172,8 +172,8 @@ namespace tests
                 //    case TEST_TEXT_INPUT:
                 //        pScene = new TextInputTestScene(); break;
                 //#endif
-                //    case TEST_SPRITE:
-                //        pScene = new SpriteTestScene(); break;
+                case (int)TestCases.TEST_SPRITE:
+                    pScene = new SpriteTestScene(); break;
                 //    case TEST_SCHEDULER:
                 //        pScene = new SchedulerTestScene(); break;
                 //    case TEST_RENDERTEXTURE:

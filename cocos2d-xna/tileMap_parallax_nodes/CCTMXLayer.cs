@@ -497,7 +497,7 @@ namespace cocos2d
         public void setupTiles()
         {
             // Optimization: quick hack that sets the image size on the tileset
-            m_pTileSet.m_tImageSize = m_pobTextureAtlas.Texture.getContentSizeInPixels();
+            m_pTileSet.m_tImageSize = m_pobTextureAtlas.Texture.ContentSizeInPixels;
 
             // By default all the tiles are aliased
             // pros:

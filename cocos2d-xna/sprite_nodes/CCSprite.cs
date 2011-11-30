@@ -1175,7 +1175,83 @@ namespace cocos2d
 
         protected void updateTextureCoords(CCRect rect)
         {
-            // throw new NotImplementedException();
+            CCTexture2D tex = m_bUsesBatchNode ? m_pobTextureAtlas.getTexture() : m_pobTexture;
+            if (tex == null)
+            {
+                return;
+            }
+
+            float atlasWidth = (float)tex.PixelsWide;
+            float atlasHeight = (float)tex.PixelsHigh;
+
+            float left, right, top, bottom;
+
+            if (m_bRectRotated)
+            {
+#if CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
+		left	= (2*rect.origin.x+1)/(2*atlasWidth);
+		right	= left+(rect.size.height*2-2)/(2*atlasWidth);
+		top		= (2*rect.origin.y+1)/(2*atlasHeight);
+		bottom	= top+(rect.size.width*2-2)/(2*atlasHeight);
+#else
+                left = rect.origin.x / atlasWidth;
+                right = left + (rect.size.height / atlasWidth);
+                top = rect.origin.y / atlasHeight;
+                bottom = top + (rect.size.width / atlasHeight);
+#endif // CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
+
+                if (m_bFlipX)
+                {
+                    ccMacros.CC_SWAP<float>(top, bottom);
+                }
+
+                if (m_bFlipY)
+                {
+                    ccMacros.CC_SWAP<float>(left, right);
+                }
+
+                m_sQuad.bl.texCoords.u = left;
+                m_sQuad.bl.texCoords.v = top;
+                m_sQuad.br.texCoords.u = left;
+                m_sQuad.br.texCoords.v = bottom;
+                m_sQuad.tl.texCoords.u = right;
+                m_sQuad.tl.texCoords.v = top;
+                m_sQuad.tr.texCoords.u = right;
+                m_sQuad.tr.texCoords.v = bottom;
+            }
+            else
+            {
+#if CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
+		left	= (2*rect.origin.x+1)/(2*atlasWidth);
+		right	= left + (rect.size.width*2-2)/(2*atlasWidth);
+		top		= (2*rect.origin.y+1)/(2*atlasHeight);
+		bottom	= top + (rect.size.height*2-2)/(2*atlasHeight);
+#else
+                left = rect.origin.x / atlasWidth;
+                right = left + rect.size.width / atlasWidth;
+                top = rect.origin.y / atlasHeight;
+                bottom = top + rect.size.height / atlasHeight;
+#endif // ! CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
+
+                if (m_bFlipX)
+                {
+                    ccMacros.CC_SWAP<float>(left, right);
+                }
+
+                if (m_bFlipY)
+                {
+                    ccMacros.CC_SWAP<float>(top, bottom);
+                }
+
+                m_sQuad.bl.texCoords.u = left;
+                m_sQuad.bl.texCoords.v = bottom;
+                m_sQuad.br.texCoords.u = right;
+                m_sQuad.br.texCoords.v = bottom;
+                m_sQuad.tl.texCoords.u = left;
+                m_sQuad.tl.texCoords.v = top;
+                m_sQuad.tr.texCoords.u = right;
+                m_sQuad.tr.texCoords.v = top;
+            }
         }
 
         protected void updateBlendFunc()
@@ -1201,10 +1277,11 @@ namespace cocos2d
         // optimization to check if it contain children
         protected bool m_bHasChildren;
 
-        //
         // Data used when the sprite is self-rendered
-        //
         protected CCTexture2D m_pobTexture;
+
+        // whether or not it's parent is a CCSpriteBatchNode
+        bool m_bUsesBatchNode;
 
         // texture
         protected CCRect m_obRect;

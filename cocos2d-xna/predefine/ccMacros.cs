@@ -27,19 +27,19 @@ namespace cocos2d
 {
     public class ccMacros
     {
-        // how to implement it by c#
-        /** @def CC_SWAP
-            simple macro that swaps 2 variables
-          */
-        //#define CC_SWAP(x, y, type)	\
-        //{	type temp = (x);		\
-	    //x = y; y = temp;		\
-        //}
+        /// <summary>
+        /// simple macro that swaps 2 variables
+        /// </summary>
+        public static void CC_SWAP<T>(T x, T y)
+        {
+            T temp = x;
+            x = y; y = temp;
+        }
 
-        /** @def CCRANDOM_MINUS1_1
-            returns a random float between -1 and 1
-          */
         private static Random rand = new Random();
+        /// <summary>
+        /// returns a random float between -1 and 1
+        /// </summary>
         public static float CCRANDOM_MINUS1_1()
         {
             return (2.0f * ((float)rand.Next() / int.MaxValue)) - 1.0f;
@@ -92,7 +92,7 @@ namespace cocos2d
 
         public static bool CC_HOST_IS_BIG_ENDIAN()
         {
-            return ! BitConverter.IsLittleEndian;
+            return !BitConverter.IsLittleEndian;
         }
 
         // Only unsigned int can use these functions.
@@ -168,15 +168,15 @@ namespace cocos2d
         // #define CC_BLEND_DST GL_ONE_MINUS_SRC_ALPHA
 
         // #define CC_ENABLE_DEFAULT_GL_STATES() {				\
-	    // glEnableClientState(GL_VERTEX_ARRAY);			\
-	    // glEnableClientState(GL_COLOR_ARRAY);			\
-	    // glEnableClientState(GL_TEXTURE_COORD_ARRAY);	\
-	    // glEnable(GL_TEXTURE_2D);			
-        
+        // glEnableClientState(GL_VERTEX_ARRAY);			\
+        // glEnableClientState(GL_COLOR_ARRAY);			\
+        // glEnableClientState(GL_TEXTURE_COORD_ARRAY);	\
+        // glEnable(GL_TEXTURE_2D);			
+
         // #define CC_DISABLE_DEFAULT_GL_STATES() {			\
-	    // glDisable(GL_TEXTURE_2D);						\
-	    // glDisableClientState(GL_COLOR_ARRAY);			\
-	    // glDisableClientState(GL_TEXTURE_COORD_ARRAY);	\
-	    // glDisableClientState(GL_VERTEX_ARRAY);			\
+        // glDisable(GL_TEXTURE_2D);						\
+        // glDisableClientState(GL_COLOR_ARRAY);			\
+        // glDisableClientState(GL_TEXTURE_COORD_ARRAY);	\
+        // glDisableClientState(GL_VERTEX_ARRAY);			\
     }
 }

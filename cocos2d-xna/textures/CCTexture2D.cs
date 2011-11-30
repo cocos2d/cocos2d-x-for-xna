@@ -173,8 +173,8 @@ namespace cocos2d
             }
 
             CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, 
-                new Rectangle((int)(rect.origin.x), 
+            CCApplication.sharedApplication().spriteBatch.Draw(texture2D,
+                new Rectangle((int)(rect.origin.x),
                     (int)(rect.origin.y),
                     (int)(rect.size.width),
                     (int)(rect.size.height)),
@@ -223,7 +223,7 @@ namespace cocos2d
             //*  for render to texture
             RenderTarget2D renderTarget = new RenderTarget2D(app.graphics.GraphicsDevice, (int)dimensions.width, (int)dimensions.height);
             app.graphics.GraphicsDevice.SetRenderTarget(renderTarget);
-            app.graphics.GraphicsDevice.Clear(new Color(0,0,0,0));
+            app.graphics.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
 
             app.spriteBatch.Begin();
             app.spriteBatch.DrawString(font, text, new Vector2(0, 0), Color.YellowGreen, 0.0f, new Vector2(0.0f, 0.0f), scale, SpriteEffects.None, 0.0f);
@@ -253,10 +253,7 @@ namespace cocos2d
             return initWithString(text, new CCSize(0, 0), CCTextAlignment.CCTextAlignmentCenter, fontName, fontSize);
         }
 
-        public CCSize getContentSizeInPixels()
-        {
-            return m_tContentSize;
-        }
+
 
         /// <summary>
         /// returns the content size of the texture in points
@@ -417,31 +414,84 @@ namespace cocos2d
         // By default PVR images are treated as if they don't have the alpha channel premultiplied
         private bool m_PVRHaveAlphaPremultiplied;
 
-        /** pixel format of the texture */
         private CCTexture2DPixelFormat m_ePixelFormat;
-        /** width in pixels */
+        /// <summary>
+        /// pixel format of the texture
+        /// </summary>
+        public CCTexture2DPixelFormat PixelFormat
+        {
+            get { return m_ePixelFormat; }
+            set { m_ePixelFormat = value; }
+        }
+
         private uint m_uPixelsWide;
-        /** hight in pixels */
+        /// <summary>
+        /// width in pixels
+        /// </summary>
+        public uint PixelsWide
+        {
+            get { return m_uPixelsWide; }
+            set { m_uPixelsWide = value; }
+        }
+
         private uint m_uPixelsHigh;
+        /// <summary>
+        /// hight in pixels
+        /// </summary>
+        public uint PixelsHigh
+        {
+            get { return m_uPixelsHigh; }
+            set { m_uPixelsHigh = value; }
+        }
 
-        /** texture name */
         private uint m_uName;
+        /// <summary>
+        /// texture name
+        /// </summary>
+        public uint Name
+        {
+            get { return m_uName; }
+            set { m_uName = value; }
+        }
 
-        /** content size */
         private CCSize m_tContentSize;
-        /** texture max S */
-        private float m_fMaxS;
-        /** texture max T */
-        private float m_fMaxT;
+        /// <summary>
+        /// content size
+        /// </summary>
+        public CCSize ContentSizeInPixels
+        {
+            get { return m_tContentSize; }
+            set { m_tContentSize = value; }
+        }
 
+        private float m_fMaxS;
+        /// <summary>
+        /// texture max S
+        /// </summary>
+        public float MaxS
+        {
+            get { return m_fMaxS; }
+            set { m_fMaxS = value; }
+        }
+
+        private float m_fMaxT;
+        /// <summary>
+        /// texture max T
+        /// </summary>
+        public float MaxT
+        {
+            get { return m_fMaxT; }
+            set { m_fMaxT = value; }
+        }
 
         private bool m_bHasPremultipliedAlpha;
         /// <summary>
         /// whether or not the texture has their Alpha premultiplied
         /// </summary>
-        public bool getHasPremultipliedAlpha()
+        public bool HasPremultipliedAlpha
         {
-            return m_bHasPremultipliedAlpha;
+            get { return m_bHasPremultipliedAlpha; }
+            set { m_bHasPremultipliedAlpha = value; }
         }
     }
 }

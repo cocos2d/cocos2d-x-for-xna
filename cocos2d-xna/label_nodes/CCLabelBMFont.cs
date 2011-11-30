@@ -142,7 +142,7 @@ namespace cocos2d
                 m_cOpacity = 255;
                 m_tColor = new ccColor3B(255, 255, 255);
                 m_tContentSize = new CCSize(0, 0);
-                m_bIsOpacityModifyRGB = m_pobTextureAtlas.getTexture().getHasPremultipliedAlpha();
+                m_bIsOpacityModifyRGB = m_pobTextureAtlas.getTexture().HasPremultipliedAlpha;
                 setAnchorPoint(new CCPoint(0.5f, 0.5f));
                 this.setString(theString);
                 return true;

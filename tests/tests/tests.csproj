@@ -81,6 +81,9 @@
     <Compile Include="classes\tests\MenuTest\MenuLayer3.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer4.cs" />
     <Compile Include="classes\tests\MenuTest\MenuTestScene.cs" />
+    <Compile Include="classes\tests\SpriteTest\Sprite1.cs" />
+    <Compile Include="classes\tests\SpriteTest\SpriteTestDemo.cs" />
+    <Compile Include="classes\tests\SpriteTest\SpriteTestScene.cs" />
     <Compile Include="classes\tests\Texture2dTest\Texture2dTest.cs" />
     <Compile Include="classes\tests\TouchesTest\Ball.cs" />
     <Compile Include="classes\tests\TouchesTest\Paddle.cs" />
