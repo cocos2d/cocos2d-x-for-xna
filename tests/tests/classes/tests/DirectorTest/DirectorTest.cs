@@ -213,7 +213,7 @@ namespace tests
         public override void MainMenuCallback(CCObject pSender)
         {
             CCDirector.sharedDirector().deviceOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
-            MainMenuCallback(pSender);
+            base.MainMenuCallback(pSender);
         }
 
     }
