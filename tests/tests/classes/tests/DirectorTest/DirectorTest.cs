@@ -204,7 +204,7 @@ namespace tests
     {
         public override void runThisTest()
         {
-            DirectorTest.s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
+            DirectorTest.s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
             CCLayer pLayer = DirectorTest.nextDirectorTestCase();
             addChild(pLayer);
 
