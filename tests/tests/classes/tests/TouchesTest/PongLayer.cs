@@ -80,7 +80,7 @@ namespace tests
 
                 base.addChild(paddle);
             }
-            base.schedule(this.doStep);
+            //base.schedule(this.doStep);
         }
 
 
