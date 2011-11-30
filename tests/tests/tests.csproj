@@ -71,8 +71,11 @@
     <Compile Include="classes\testBasic.cs" />
     <Compile Include="classes\testResource.cs" />
     <Compile Include="classes\tests\ActionsTest\ActionsTest.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\CocosNodeTest.cs" />
     <Compile Include="classes\tests\DirectorTest\DirectorTest.cs" />
+    <Compile Include="classes\tests\EaseActionTest\EaseActionsTest.cs" />
     <Compile Include="classes\tests\LabelTest\LabelTest.cs" />
+    <Compile Include="classes\tests\LayerTest\Layertest.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer1.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer2.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer3.cs" />

@@ -132,22 +132,22 @@ namespace tests
                 //        pScene = new RotateWorldTestScene(); break;
                 //    case TEST_PARTICLE:
                 //        pScene = new ParticleTestScene(); break;
-                //    case TEST_EASE_ACTIONS:
-                //        pScene = new EaseActionsTestScene(); break;
+                case (int)TestCases.TEST_EASE_ACTIONS:
+                    pScene = new EaseActionsTestScene(); break;
                 //    case TEST_MOTION_STREAK:
                 //        pScene = new MotionStreakTestScene(); break;
                 //    case TEST_DRAW_PRIMITIVES:
                 //        pScene = new DrawPrimitivesTestScene(); break;
-                //    case TEST_COCOSNODE:
-                //        pScene = new CocosNodeTestScene(); break;
+                case (int)TestCases.TEST_COCOSNODE:
+                    pScene = new CocosNodeTestScene(); break;
                 case (int)TestCases.TEST_TOUCHES:
                     pScene = new PongScene(); break;
                 case (int)TestCases.TEST_MENU:
                     pScene = new MenuTestScene(); break;
                 //    case TEST_ACTION_MANAGER:
                 //        pScene = new ActionManagerTestScene(); break;
-                //    case TEST_LAYER:
-                //        pScene = new LayerTestScene(); break;
+                case (int)TestCases.TEST_LAYER:
+                    pScene = new LayerTestScene(); break;
                 //    case TEST_SCENE:
                 //        pScene = new SceneTestScene(); break;
                 //    case TEST_PARALLAX:
