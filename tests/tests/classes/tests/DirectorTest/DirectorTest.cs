@@ -12,7 +12,7 @@ namespace tests
     {
         static int MAX_LAYER = 1;
         static int sceneIdx = -1;
-        public static ccDeviceOrientation s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
+        public static ccDeviceOrientation s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
 
         public static CCLayer createTestCaseLayer(int index)
         {
@@ -119,12 +119,10 @@ namespace tests
         {
             return "";
         }
-
     }
 
     public class Director1 : DirectorTest
     {
-
         public override bool init()
         {
             bool bRet = false;
@@ -158,7 +156,7 @@ namespace tests
                     s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeRight;
                     break;
                 case ccDeviceOrientation.CCDeviceOrientationLandscapeRight:
-                    s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown;
+                    s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
                     break;
                 case ccDeviceOrientation.CCDeviceOrientationPortraitUpsideDown:
                     s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
@@ -204,7 +202,6 @@ namespace tests
 
     public class DirectorTestScene : TestScene
     {
-
         public override void runThisTest()
         {
             DirectorTest.s_currentOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
@@ -216,7 +213,7 @@ namespace tests
 
         public override void MainMenuCallback(CCObject pSender)
         {
-            CCDirector.sharedDirector().deviceOrientation = ccDeviceOrientation.CCDeviceOrientationPortrait;
+            CCDirector.sharedDirector().deviceOrientation = ccDeviceOrientation.CCDeviceOrientationLandscapeLeft;
             base.MainMenuCallback(pSender);
         }
 
