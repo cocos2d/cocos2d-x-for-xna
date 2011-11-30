@@ -879,7 +879,18 @@ namespace cocos2d
         /// </summary>
         public bool initWithFile(string fileName, CCRect rect)
         {
-            throw new NotImplementedException();
+            Debug.Assert(fileName != null);
+
+            CCTexture2D pTexture = CCTextureCache.sharedTextureCache().addImage(fileName);
+            if (pTexture != null)
+            {
+                return initWithTexture(pTexture, rect);
+            }
+
+            // don't release here.
+            // when load texture failed, it's better to get a "transparent" sprite then a crashed program
+            // this->release(); 
+            return false;
         }
 
         ///@todo
