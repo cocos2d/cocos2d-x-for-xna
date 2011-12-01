@@ -1514,17 +1514,24 @@ namespace cocos2d
 
         #endregion
 
-        ///@todo add CCCamera
-        /** A CCCamera object that lets you move the node using a gluLookAt
-           
-       @property(nonatomic,readonly) CCCamera* camera;
-         */
 
+        private CCCamera m_pCamera;
+        /// <summary>
+        ///  A CCCamera object that lets you move the node using a gluLookAt
+        /// </summary>
+        public CCCamera Camera
+        {
+            get { return m_pCamera; }
+        }
 
-        ///@todo
-        /** A CCGrid object that is used when applying effects */
-        /// @property(nonatomic,readwrite,retain) CCGridBase* grid;
-
+        private CCGridBase m_pGrid;
+        /// <summary>
+        /// A CCGrid object that is used when applying effects
+        /// </summary>
+        public CCGridBase Grid 
+        {
+            get { return m_pGrid; }
+        }
 
         // internal member variables
 
