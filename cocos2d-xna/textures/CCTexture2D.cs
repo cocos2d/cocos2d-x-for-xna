@@ -33,9 +33,13 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using System.Diagnostics;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// Possible texture pixel formats
+    /// </summary>
     public enum CCTexture2DPixelFormat
     {
         kCCTexture2DPixelFormat_Automatic = 0,
@@ -79,14 +83,13 @@ namespace cocos2d
     /// </summary>
     public struct ccTexParams
     {
-        uint minFilter;
-        uint magFilter;
-        uint wrapS;
-        uint wrapT;
+        public uint minFilter;
+        public uint magFilter;
+        public uint wrapS;
+        public uint wrapT;
     };
 
     /// <summary>
-    /// @brief CCTexture2D class.
     /// This class allows to easily create OpenGL 2D textures from images, text or raw data.
     /// The created CCTexture2D object will always have power-of-two dimensions. 
     /// Depending on how you create the CCTexture2D object, the actual image area of the texture might be smaller than the texture dimensions i.e. "contentSize" != (pixelsWide, pixelsHigh) and (maxS, maxT) != (1.0, 1.0).
@@ -118,22 +121,30 @@ namespace cocos2d
             return ret;
         }
 
-        ///** These functions are needed to create mutable textures */
-        //public void releaseData(object data)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public object keepData(object data, uint length)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        #region raw data
 
-        ///** Intializes with a texture2d with data */
-        //public bool initWithData(object data, CCTexture2DPixelFormat pixelFormat, uint pixelsWide, uint pixelsHigh, CCSize contentSize)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        /// <summary>
+        /// These functions are needed to create mutable textures
+        /// </summary>
+        public void releaseData(object data)
+        {
+            throw new NotImplementedException();
+        }
 
+        public object keepData(object data, uint length)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Intializes with a texture2d with data
+        /// </summary>
+        public bool initWithData(object data, CCTexture2DPixelFormat pixelFormat, uint pixelsWide, uint pixelsHigh, CCSize contentSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Drawing extensions
 
@@ -183,6 +194,8 @@ namespace cocos2d
         }
 
         #endregion
+
+        #region create extensions
 
         ///**
         //Extensions to make it easy to create a CCTexture2D object from an image file.
@@ -253,20 +266,6 @@ namespace cocos2d
             return initWithString(text, new CCSize(0, 0), CCTextAlignment.CCTextAlignmentCenter, fontName, fontSize);
         }
 
-
-
-        /// <summary>
-        /// returns the content size of the texture in points
-        /// </summary>
-        public CCSize getContentSize()
-        {
-            CCSize ret = new CCSize();
-            ret.width = m_tContentSize.width / ccMacros.CC_CONTENT_SCALE_FACTOR();
-            ret.height = m_tContentSize.height / ccMacros.CC_CONTENT_SCALE_FACTOR();
-
-            return ret;
-        }
-
 #if CC_SUPPORT_PVRTC	
 	    /**
 	    Extensions to make it easy to create a CCTexture2D object from a PVRTC file
@@ -295,9 +294,36 @@ namespace cocos2d
                 return false;
             }
 
+            long POTWide, POTHigh;
+            POTWide = ccUtils.ccNextPOT(texture.Width);
+            POTHigh = ccUtils.ccNextPOT(texture.Height);
+
+            int maxTextureSize = CCConfiguration.sharedConfiguration().MaxTextureSize;
+            if (POTHigh > maxTextureSize || POTWide > maxTextureSize)
+            {
+                Debug.WriteLine(string.Format("cocos2d: WARNING: Image ({0} x {1}) is bigger than the supported {2} x {3}", POTWide, POTHigh, maxTextureSize, maxTextureSize));
+                return false;
+            }
+
+            return initPremultipliedATextureWithImage(texture, texture.Width, texture.Height);
+        }
+
+
+        public bool initPremultipliedATextureWithImage(Texture2D texture, int POTWide, int POTHigh)
+        {
+#warning "to set pixelFormat,alpha"
+
             texture2D = texture;
             m_tContentSize.width = texture2D.Width;
             m_tContentSize.height = texture2D.Height;
+
+            m_uPixelsWide = POTWide;
+            m_uPixelsHigh = POTHigh;
+            //m_ePixelFormat = pixelFormat;
+            m_fMaxS = m_tContentSize.width / (float)(POTWide);
+            m_fMaxT = m_tContentSize.height / (float)(POTHigh);
+
+            //m_bHasPremultipliedAlpha = false;
 
             return true;
         }
@@ -307,6 +333,8 @@ namespace cocos2d
         {
             throw new NotImplementedException();
         }
+
+        #endregion
 
         public void SaveAsJpeg()
         {
@@ -405,14 +433,16 @@ namespace cocos2d
         //    throw new NotImplementedException();
         //}
 
+        // By default PVR images are treated as if they don't have the alpha channel premultiplied
+        private bool m_PVRHaveAlphaPremultiplied;
+
+        #region Property
+
         private Texture2D texture2D;
         public Texture2D getTexture2D()
         {
             return texture2D;
         }
-
-        // By default PVR images are treated as if they don't have the alpha channel premultiplied
-        private bool m_PVRHaveAlphaPremultiplied;
 
         private CCTexture2DPixelFormat m_ePixelFormat;
         /// <summary>
@@ -424,21 +454,21 @@ namespace cocos2d
             set { m_ePixelFormat = value; }
         }
 
-        private uint m_uPixelsWide;
+        private int m_uPixelsWide;
         /// <summary>
         /// width in pixels
         /// </summary>
-        public uint PixelsWide
+        public int PixelsWide
         {
             get { return m_uPixelsWide; }
             set { m_uPixelsWide = value; }
         }
 
-        private uint m_uPixelsHigh;
+        private int m_uPixelsHigh;
         /// <summary>
         /// hight in pixels
         /// </summary>
-        public uint PixelsHigh
+        public int PixelsHigh
         {
             get { return m_uPixelsHigh; }
             set { m_uPixelsHigh = value; }
@@ -462,6 +492,18 @@ namespace cocos2d
         {
             get { return m_tContentSize; }
             set { m_tContentSize = value; }
+        }
+
+        /// <summary>
+        /// returns the content size of the texture in points
+        /// </summary>
+        public CCSize getContentSize()
+        {
+            CCSize ret = new CCSize();
+            ret.width = m_tContentSize.width / ccMacros.CC_CONTENT_SCALE_FACTOR();
+            ret.height = m_tContentSize.height / ccMacros.CC_CONTENT_SCALE_FACTOR();
+
+            return ret;
         }
 
         private float m_fMaxS;
@@ -493,5 +535,7 @@ namespace cocos2d
             get { return m_bHasPremultipliedAlpha; }
             set { m_bHasPremultipliedAlpha = value; }
         }
+
+        #endregion
     }
 }

@@ -32,7 +32,7 @@ using System.Text;
 //#include "CCGeometry.h"
 //#include "CCGL.h"
 
-namespace   cocos2d 
+namespace cocos2d
 {
 
     /** RGB color composed of bytes 3 bytes
@@ -87,11 +87,12 @@ namespace   cocos2d
         public byte b;
         public byte a;
     };
-    
+
     /** RGBA color composed of 4 floats
     @since v0.8
     */
-    public struct ccColor4F {
+    public struct ccColor4F
+    {
         public ccColor4F(float inr, float ing, float inb, float ina)
         {
             r = inr;
@@ -137,10 +138,10 @@ namespace   cocos2d
         public float y;
         public float z;
     };
-     /** A texcoord composed of 2 floats: u, y
-     @since v0.8
-     */
-    public struct ccTex2F 
+    /** A texcoord composed of 2 floats: u, y
+    @since v0.8
+    */
+    public struct ccTex2F
     {
         public ccTex2F(float inu, float inv)
         {
@@ -161,7 +162,7 @@ namespace   cocos2d
     };
 
     //!	A 2D Quad. 4 * 2 floats
-    public struct ccQuad2 
+    public struct ccQuad2
     {
         public ccVertex2F tl;
         public ccVertex2F tr;
@@ -171,7 +172,8 @@ namespace   cocos2d
 
 
     //!	A 3D Quad. 4 * 3 floats
-    public struct ccQuad3 {
+    public struct ccQuad3
+    {
         public ccVertex3F bl;
         public ccVertex3F br;
         public ccVertex3F tl;
@@ -191,7 +193,7 @@ namespace   cocos2d
         public int y;
     };
 
-        //! a Point with a vertex point, a tex coord point and a color 4B
+    //! a Point with a vertex point, a tex coord point and a color 4B
     public struct ccV2F_C4B_T2F
     {
         //! vertices (2F)
@@ -218,11 +220,11 @@ namespace   cocos2d
     {
         //! vertices (3F)
         public ccVertex3F vertices;			// 12 bytes
-    //	char __padding__[4];
+        //	char __padding__[4];
 
         //! colors (4B)
         public ccColor4B colors;				// 4 bytes
-    //	char __padding2__[4];
+        //	char __padding2__[4];
 
         // tex coords (2F)
         public ccTex2F texCoords;			// 8 byts
@@ -244,13 +246,24 @@ namespace   cocos2d
     //! 4 ccVertex3FTex2FColor4B
     public struct ccV3F_C4B_T2F_Quad
     {
-        //! top left
+        /// <summary>
+        /// top left
+        /// </summary>
         public ccV3F_C4B_T2F tl;
-        //! bottom left
+
+        /// <summary>
+        /// bottom left
+        /// </summary>
         public ccV3F_C4B_T2F bl;
-        //! top right
+
+        /// <summary>
+        /// top right
+        /// </summary>
         public ccV3F_C4B_T2F tr;
-        //! bottom right
+
+        /// <summary>
+        /// bottom right
+        /// </summary>
         public ccV3F_C4B_T2F br;
     } ;
 
@@ -283,16 +296,16 @@ namespace   cocos2d
 
     public enum CCTextAlignment
     {
-	    CCTextAlignmentLeft,
-	    CCTextAlignmentCenter,
-	    CCTextAlignmentRight,
+        CCTextAlignmentLeft,
+        CCTextAlignmentCenter,
+        CCTextAlignmentRight,
     };
 
     public class ccTypes
     {
         //ccColor3B predefined colors
         //! White color (255,255,255)
-        public readonly ccColor3B ccWHITE = new ccColor3B(255,255,255);
+        public readonly ccColor3B ccWHITE = new ccColor3B(255, 255, 255);
         //! Yellow color (255,255,0)
         public readonly ccColor3B ccYELLOW = new ccColor3B(255, 255, 0);
         //! Blue color (0,0,255)
@@ -329,7 +342,7 @@ namespace   cocos2d
          */
         public static ccColor4F ccc4FFromccc3B(ccColor3B c)
         {
-            ccColor4F c4 = new ccColor4F(c.r/255.0f, c.g/255.0f, c.b/255.0f, 1.0f);
+            ccColor4F c4 = new ccColor4F(c.r / 255.0f, c.g / 255.0f, c.b / 255.0f, 1.0f);
             return c4;
         }
 
@@ -338,7 +351,7 @@ namespace   cocos2d
          */
         public static ccColor4F ccc4FFromccc4B(ccColor4B c)
         {
-            ccColor4F c4 = new ccColor4F(c.r/255.0f, c.g/255.0f, c.b/255.0f, c.a/255.0f);
+            ccColor4F c4 = new ccColor4F(c.r / 255.0f, c.g / 255.0f, c.b / 255.0f, c.a / 255.0f);
             return c4;
         }
 
@@ -361,10 +374,10 @@ namespace   cocos2d
             ccVertex3F c = new ccVertex3F(x, y, z);
             return c;
         }
-		
+
         public static ccTex2F tex2(float u, float v)
         {
-            ccTex2F t = new ccTex2F(u , v);
+            ccTex2F t = new ccTex2F(u, v);
             return t;
         }
 

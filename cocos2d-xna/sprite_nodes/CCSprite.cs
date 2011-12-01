@@ -32,12 +32,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 namespace cocos2d
 {
-    /**
-         Whether or not an CCSprite will rotate, scale or translate with it's parent.
-         Useful in health bars, when you want that the health bar translates with it's parent but you don't
-         want it to rotate with its parent.
-         @since v0.99.0
-         */
+    /// <summary>
+    /// Whether or not an CCSprite will rotate, scale or translate with it's parent.
+    /// Useful in health bars, when you want that the health bar translates with it's parent but you don't
+    /// want it to rotate with its parent.
+    /// @since v0.99.0
+    /// </summary>
     public enum ccHonorParentTransform
     {
         //! Translate with it's parent
@@ -282,38 +282,14 @@ namespace cocos2d
 
         #endregion
 
-        /** conforms to CCTextureProtocol protocol */
-        private ccBlendFunc m_sBlendFunc;
-        public ccBlendFunc getBlendFunc()
+        public CCSprite()
         {
-            return m_sBlendFunc;
-        }
-        public void setBlendFunc(ccBlendFunc value)
-        {
-            m_sBlendFunc = value;
+            m_obOffsetPositionInPixels = new CCPoint();
+            m_obRectInPixels = new CCRect();
+            m_obUnflippedOffsetPositionFromCenter = new CCPoint();
         }
 
-        protected CCTextureAtlas m_pobTextureAtlas;
-        protected CCSpriteBatchNode m_pobBatchNode;
-
-        public override void draw()
-        {
-            base.draw();
-
-            if (m_pobTexture == null)
-            {
-                return;
-            }
-
-            //get the point of cocos2d
-            CCPoint cocos2dPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x,
-                 position.y - contentSizeInPixels.height * anchorPoint.y);
-
-            //uiPoint = this.convertToWorldSpace(uiPoint);
-            CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(0, 0), m_tNodeToWorldTransform);
-
-            m_pobTexture.drawAtPoint(uiPoint);
-        }
+        #region spriteWith:CCTexture2D,CCSpriteFrame,File,BatchNode
 
         /// <summary>
         /// Creates an sprite with a texture.
@@ -357,17 +333,24 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        ///@todo
-        /** Creates an sprite with an sprite frame. */
-        //static CCSprite* spriteWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
+        /// <summary>
+        /// Creates an sprite with an sprite frame.
+        /// </summary>
+        public static CCSprite spriteWithSpriteFrame(CCSpriteFrame pSpriteFrame)
+        {
+            throw new NotImplementedException();
+        }
 
-        ///@todo
-        /** Creates an sprite with an sprite frame name.
-         An CCSpriteFrame will be fetched from the CCSpriteFrameCache by name.
-         If the CCSpriteFrame doesn't exist it will raise an exception.
-         @since v0.9
-         */
-        //static CCSprite* spriteWithSpriteFrameName(const char *pszSpriteFrameName);
+        /// <summary>
+        /// Creates an sprite with an sprite frame name.
+        /// An CCSpriteFrame will be fetched from the CCSpriteFrameCache by name.
+        /// If the CCSpriteFrame doesn't exist it will raise an exception.
+        /// @since v0.9
+        /// </summary>
+        public static CCSprite spriteWithSpriteFrameName(string pszSpriteFrameName)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Creates an sprite with an image filename.
@@ -394,7 +377,7 @@ namespace cocos2d
         {
             CCSprite sprite = new CCSprite();
 
-            if (sprite != null && sprite.initWithFile(fileName, rect))
+            if (sprite.initWithFile(fileName, rect))
             {
                 return sprite;
             }
@@ -403,9 +386,15 @@ namespace cocos2d
             return sprite;
         }
 
-        /** Creates an sprite with an CCBatchNode and a rect */
-        ///@todo
-        // static CCSprite* spriteWithBatchNode(CCSpriteBatchNode *batchNode, const CCRect& rect);
+        /// <summary>
+        /// Creates an sprite with an CCBatchNode and a rect 
+        /// </summary>
+        public static CCSprite spriteWithBatchNode(CCSpriteBatchNode batchNode, CCRect rect)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         public virtual bool init()
         {
@@ -461,12 +450,51 @@ namespace cocos2d
             return true;
         }
 
-        public CCSprite()
+        /** conforms to CCTextureProtocol protocol */
+        private ccBlendFunc m_sBlendFunc;
+        public ccBlendFunc getBlendFunc()
         {
-            m_obOffsetPositionInPixels = new CCPoint();
-            m_obRectInPixels = new CCRect();
-            m_obUnflippedOffsetPositionFromCenter = new CCPoint();
+            return m_sBlendFunc;
         }
+        public void setBlendFunc(ccBlendFunc value)
+        {
+            m_sBlendFunc = value;
+        }
+
+        protected CCTextureAtlas m_pobTextureAtlas;
+        protected CCSpriteBatchNode m_pobBatchNode;
+
+        public override void draw()
+        {
+            base.draw();
+            if (m_pobTexture == null)
+            {
+                return;
+            }
+
+            //get the point of cocos2d
+            CCPoint cocos2dPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x,
+     position.y - contentSizeInPixels.height * anchorPoint.y);
+            CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), m_tNodeToWorldTransform);
+            uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
+
+            Vector2 vecPosition = new Vector2(uiPoint.x, uiPoint.y - contentSizeInPixels.height);
+            Texture2D texture = m_pobTexture.getTexture2D();
+            Rectangle? sourceRectangle = new Rectangle((int)m_obRect.origin.x, (int)m_obRect.origin.y, (int)m_obRect.size.width, (int)m_obRect.size.height);
+            Color color = new Microsoft.Xna.Framework.Color() { R = m_sColor.r, G = m_sColor.g, B = m_sColor.b };
+            float rotation = m_fRotation;
+            Vector2 origin = new Vector2(anchorPoint.x, anchorPoint.y);
+            Vector2 scale = new Vector2(m_fScaleX, m_fScaleY);
+            SpriteEffects effects = SpriteEffects.None;
+            float layerDepth = 0;
+
+
+            CCApplication.sharedApplication().spriteBatch.Begin();
+            CCApplication.sharedApplication().spriteBatch.Draw(texture, vecPosition, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
+            CCApplication.sharedApplication().spriteBatch.End();
+        }
+
+        #region add,remove child
 
         public override void removeChild(CCNode child, bool cleanup)
         {
@@ -542,6 +570,10 @@ namespace cocos2d
 
             m_bHasChildren = true;
         }
+
+        #endregion
+
+        #region override prpperty
 
         public virtual void setDirtyRecursively(bool bValue)
         {
@@ -724,6 +756,8 @@ namespace cocos2d
             }
         }
 
+        #endregion
+
         public void setFlipX(bool bFlipX)
         {
             if (m_bFlipX != bFlipX)
@@ -807,6 +841,8 @@ namespace cocos2d
             return m_pobTexture;
         }
 
+        #region initWith: Texture,File,SpriteFrame,BatchNode
+
         /// <summary>
         /// Initializes an sprite with a texture.
         /// The rect used will be the size of the texture.
@@ -836,15 +872,20 @@ namespace cocos2d
             return true;
         }
 
-        ///@todo
-        // Initializes an sprite with an sprite frame.
-        //bool initWithSpriteFrame(CCSpriteFrame* pSpriteFrame);
+        /// <summary>
+        /// Initializes an sprite with an sprite frame.
+        /// </summary>
+        public bool initWithSpriteFrame(CCSpriteFrame pSpriteFrame)
+        {
+            throw new NotImplementedException();
+        }
 
-        /** Initializes an sprite with an sprite frame name.
-	     An CCSpriteFrame will be fetched from the CCSpriteFrameCache by name.
-	     If the CCSpriteFrame doesn't exist it will raise an exception.
-	     @since v0.9
-	     */
+        /// <summary>
+        /// Initializes an sprite with an sprite frame name.
+        /// An CCSpriteFrame will be fetched from the CCSpriteFrameCache by name.
+        /// If the CCSpriteFrame doesn't exist it will raise an exception.
+        /// @since v0.9
+        /// </summary>
         public bool initWithSpriteFrameName(string spriteFrameName)
         {
             throw new NotImplementedException();
@@ -864,8 +905,6 @@ namespace cocos2d
             if (null != textureFromFile)
             {
                 CCRect rect = new CCRect();
-                rect.origin.x = 0.0f;
-                rect.origin.y = 0.0f;
                 rect.size = textureFromFile.getContentSize();
                 return initWithTexture(textureFromFile, rect);
             }
@@ -893,15 +932,24 @@ namespace cocos2d
             return false;
         }
 
-        ///@todo
-        /** Initializes an sprite with an CCSpriteBatchNode and a rect in points */
-        //bool initWithBatchNode(CCSpriteBatchNode *batchNode, const CCRect& rect);
+        /// <summary>
+        /// Initializes an sprite with an CCSpriteBatchNode and a rect in points
+        /// </summary>
+        public bool initWithBatchNode(CCSpriteBatchNode batchNode, CCRect rect)
+        {
+            throw new NotImplementedException();
+        }
 
-        ///@todo
-        /** Initializes an sprite with an CCSpriteBatchNode and a rect in pixels
-	    @since v0.99.5
-	    */
-        //bool initWithBatchNodeRectInPixels(CCSpriteBatchNode *batchNode, const CCRect& rect);
+        /// <summary>
+        /// Initializes an sprite with an CCSpriteBatchNode and a rect in pixels
+        /// @since v0.99.5
+        /// </summary>
+        public bool initWithBatchNodeRectInPixels(CCSpriteBatchNode batchNode, CCRect rect)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         // BatchNode methods
 
@@ -1148,26 +1196,34 @@ namespace cocos2d
             m_pobBatchNode = batchNode;
         }
 
-        // Frames
+        #region Frames
 
-        ///@todo
-        /** sets a new display frame to the CCSprite. */
-        //void setDisplayFrame(CCSpriteFrame* pNewFrame);
+        /// <summary>
+        /// gets or sets a new display frame to the CCSprite.
+        /// </summary>
+        public CCSpriteFrame DisplayFrame
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
 
-        ///@todo
-        /** returns whether or not a CCSpriteFrame is being displayed */
-        //bool isFrameDisplayed(CCSpriteFrame* pFrame);
+        /// <summary>
+        /// returns whether or not a CCSpriteFrame is being displayed
+        /// </summary>
+        public bool isFrameDisplayed(CCSpriteFrame pFrame)
+        {
+            throw new NotImplementedException();
+        }
 
-        ///@todo
-        /** returns the current displayed frame. */
-        //CCSpriteFrame* displayedFrame(void);
+        #endregion
 
         // Animation
 
-        /** changes the display frame with animation name and index.
-	    The animation name will be get from the CCAnimationCache
-	    @since v0.99.5
-	    */
+        /// <summary>
+        /// changes the display frame with animation name and index.
+        /// The animation name will be get from the CCAnimationCache
+        /// @since v0.99.5
+        /// </summary>
         public void setDisplayFrameWithAnimationName(string animationName, int frameIndex)
         {
             throw new NotImplementedException();
@@ -1202,12 +1258,12 @@ namespace cocos2d
 
                 if (m_bFlipX)
                 {
-                    ccMacros.CC_SWAP<float>(top, bottom);
+                    ccMacros.CC_SWAP<float>(ref top, ref bottom);
                 }
 
                 if (m_bFlipY)
                 {
-                    ccMacros.CC_SWAP<float>(left, right);
+                    ccMacros.CC_SWAP<float>(ref left, ref right);
                 }
 
                 m_sQuad.bl.texCoords.u = left;
@@ -1235,12 +1291,12 @@ namespace cocos2d
 
                 if (m_bFlipX)
                 {
-                    ccMacros.CC_SWAP<float>(left, right);
+                    ccMacros.CC_SWAP<float>(ref left, ref right);
                 }
 
                 if (m_bFlipY)
                 {
-                    ccMacros.CC_SWAP<float>(top, bottom);
+                    ccMacros.CC_SWAP<float>(ref top, ref bottom);
                 }
 
                 m_sQuad.bl.texCoords.u = left;

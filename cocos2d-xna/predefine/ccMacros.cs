@@ -30,7 +30,7 @@ namespace cocos2d
         /// <summary>
         /// simple macro that swaps 2 variables
         /// </summary>
-        public static void CC_SWAP<T>(T x, T y)
+        public static void CC_SWAP<T>(ref T x, ref  T y)
         {
             T temp = x;
             x = y; y = temp;

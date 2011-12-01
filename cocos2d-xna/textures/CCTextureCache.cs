@@ -2,8 +2,10 @@
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
+http://www.openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,18 +35,19 @@ using Microsoft.Xna.Framework.Content;
 
 namespace cocos2d
 {
-    /** @brief Singleton that handles the loading of textures
-    * Once the texture is loaded, the next time it will return
-    * a reference of the previously loaded texture reducing GPU & CPU memory
-    */
+    /// <summary>
+    /// Singleton that handles the loading of textures
+    /// Once the texture is loaded, the next time it will return
+    /// a reference of the previously loaded texture reducing GPU & CPU memory
+    /// </summary>
     public class CCTextureCache : CCObject
     {
         protected Dictionary<string, CCTexture2D> m_pTextures;
-        ///@todo
-        /*
-         * CCLock				*m_pDictLock;
-	       CCLock				*m_pContextLock;
-         */
+        object m_pDictLock;
+        object m_pContextLock;
+
+        #region Singleton
+
         private static CCTextureCache g_sharedTextureCache;
 
         private CCTextureCache()
@@ -53,11 +56,11 @@ namespace cocos2d
 
             m_pTextures = new Dictionary<string, CCTexture2D>();
 
-            /*@todo
-             * m_pDictLock = new CCLock();
-	           m_pContextLock = new CCLock();
-             */
+            m_pDictLock = new object();
+            m_pContextLock = new object();
+
         }
+
         ~CCTextureCache()
         {
             Debug.WriteLine("cocos2d: deallocing CCTextureCache.");
@@ -65,7 +68,9 @@ namespace cocos2d
             m_pTextures.Clear();
         }
 
-        /** Retruns ths shared instance of the cache */
+        /// <summary>
+        /// Retruns ths shared instance of the cache
+        /// </summary>
         public static CCTextureCache sharedTextureCache()
         {
             if (g_sharedTextureCache == null)
@@ -76,53 +81,59 @@ namespace cocos2d
             return g_sharedTextureCache;
         }
 
-        /** purges the cache. It releases the retained instance.
-	    @since v0.99.0
-	    */
+        #endregion
+
+        /// <summary>
+        /// purges the cache. It releases the retained instance.
+        /// @since v0.99.0
+        /// </summary>
         public static void purgeSharedTextureCache()
         {
             g_sharedTextureCache = null;
         }
 
-        /** Returns a Texture2D object given an file image
-	    * If the file image was not previously loaded, it will create a new CCTexture2D
-	    *  object and it will return it. It will use the filename as a key.
-	    * Otherwise it will return a reference of a previosly loaded image.
-	    * Supported image extensions: .png, .bmp, .tiff, .jpeg, .pvr, .gif
-	    */
+        /// <summary>
+        /// Returns a Texture2D object given an file image
+        /// If the file image was not previously loaded, it will create a new CCTexture2D
+        /// object and it will return it. It will use the filename as a key.
+        /// Otherwise it will return a reference of a previosly loaded image.
+        /// Supported image extensions: .png, .bmp, .tiff, .jpeg, .pvr, .gif
+        /// </summary>
         public CCTexture2D addImage(string fileimage)
         {
             Debug.Assert(fileimage != null, "TextureCache: fileimage MUST not be NULL");
 
-	        CCTexture2D texture;
+            CCTexture2D texture;
+            lock (m_pDictLock)
+            {
+                //remove possible -HD suffix to prevent caching the same image twice (issue #1040)
+                string pathKey = fileimage;
+                //CCFileUtils::ccRemoveHDSuffixFromFile(pathKey);
 
-	        // remove possible -HD suffix to prevent caching the same image twice (issue #1040)
-            string pathKey = fileimage;
-	        bool isTextureExist = m_pTextures.TryGetValue(pathKey, out texture);
+                bool isTextureExist = m_pTextures.TryGetValue(pathKey, out texture);
+                if (!isTextureExist)
+                {
+                    Texture2D textureXna = CCApplication.sharedApplication().content.Load<Texture2D>(fileimage);
+                    texture = new CCTexture2D();
+                    bool isInited = texture.initWithTexture(textureXna);
 
-            if (false == isTextureExist) 
-	        {
-                Texture2D textureXna = CCApplication.sharedApplication().content.Load<Texture2D>(fileimage);
-				texture = new CCTexture2D();
-				bool isInited = texture.initWithTexture(textureXna);
-
-				if( isInited )
-				{
+                    if (isInited)
+                    {
 #if CC_ENABLE_CACHE_TEXTTURE_DATA
                     // cache the texture file name
                     VolatileTexture::addImageTexture(texture, fullpath.c_str(), CCImage::kFmtPng);
 #endif
 
-                    m_pTextures.Add(pathKey, texture);
-				}
-				else
-				{
-					Debug.Assert(false, "cocos2d: Couldn't add image:" + fileimage +" in CCTextureCache");
-                    return null;
-				}
-	        }
-
-	        return texture;
+                        m_pTextures.Add(pathKey, texture);
+                    }
+                    else
+                    {
+                        Debug.Assert(false, "cocos2d: Couldn't add image:" + fileimage + " in CCTextureCache");
+                        return null;
+                    }
+                }
+            }
+            return texture;
         }
 
         /** Returns a Texture2D object given an UIImage image
@@ -136,9 +147,10 @@ namespace cocos2d
         //    throw new NotImplementedException();
         //}
 
-        /** Returns an already created texture. Returns nil if the texture doesn't exist.
-	    @since v0.99.5
-	    */
+        /// <summary>
+        /// Returns an already created texture. Returns nil if the texture doesn't exist.
+        /// @since v0.99.5
+        /// </summary>
         public CCTexture2D textureForKey(string key)
         {
             //@todo
@@ -157,28 +169,33 @@ namespace cocos2d
             return texture;
         }
 
-        /** Purges the dictionary of loaded textures.
-	    * Call this method if you receive the "Memory Warning"
-	    * In the short term: it will free some resources preventing your app from being killed
-	    * In the medium term: it will allocate more resources
-	    * In the long term: it will be the same
-	    */
+        /// <summary>
+        /// Purges the dictionary of loaded textures.
+        /// Call this method if you receive the "Memory Warning"
+        /// In the short term: it will free some resources preventing your app from being killed
+        /// In the medium term: it will allocate more resources
+        /// In the long term: it will be the same
+        /// </summary>
         public void removeAllTextures()
         {
             m_pTextures.Clear();
         }
 
-        /** Removes unused textures
-	    * Textures that have a retain count of 1 will be deleted
-	    * It is convinient to call this method after when starting a new Scene
-	    * @since v0.8
-	    */
+        /// <summary>
+        /// Removes unused textures
+        /// Textures that have a retain count of 1 will be deleted
+        /// It is convinient to call this method after when starting a new Scene
+        /// @since v0.8
+        /// </summary>
         public void removeUnusedTextures()
         {
-            throw new NotImplementedException();
+            //GAC to handle
+            //throw new NotImplementedException();
         }
 
-        /** Deletes a texture from the cache given a texture */
+        /// <summary>
+        /// Deletes a texture from the cache given a texture
+        /// </summary>
         public void removeTexture(CCTexture2D texture)
         {
             if (texture == null)
@@ -201,19 +218,26 @@ namespace cocos2d
             }
         }
 
-        /** Deletes a texture from the cache given a its key name
-	    @since v0.99.4
-	    */
+        /// <summary>
+        /// Deletes a texture from the cache given a its key name
+        /// @since v0.99.4
+        /// </summary>
         public void removeTextureForKey(string textureKeyName)
         {
-            throw new NotImplementedException();
+            if (textureKeyName == null)
+            {
+                return;
+            }
+
+            //string fullPath = CCFileUtils::fullPathFromRelativePath(textureKeyName);
+            m_pTextures.Remove(textureKeyName);
         }
 
-        /** Output to CCLOG the current contents of this CCTextureCache
-	    * This will attempt to calculate the size of each texture, and the total texture memory in use
-	    *
-	    * @since v1.0
-	    */
+        /// <summary>
+        /// Output to CCLOG the current contents of this CCTextureCache
+        /// This will attempt to calculate the size of each texture, and the total texture memory in use
+        /// @since v1.0
+        /// </summary>
         public void dumpCachedTextureInfo()
         {
             // throw new NotImplementedException();
@@ -234,10 +258,11 @@ namespace cocos2d
         }
 #endif
 
-        /** Returns a Texture2D object given an PVR filename
-	    * If the file image was not previously loaded, it will create a new CCTexture2D
-	    *  object and it will return it. Otherwise it will return a reference of a previosly loaded image
-	    */
+        /// <summary>
+        /// Returns a Texture2D object given an PVR filename
+        /// If the file image was not previously loaded, it will create a new CCTexture2D
+        /// object and it will return it. Otherwise it will return a reference of a previosly loaded image
+        /// </summary>
         public CCTexture2D addPVRImage(string filename)
         {
             throw new NotImplementedException();

@@ -132,6 +132,7 @@
     <Compile Include="base_nodes\CCAtlasNode.cs" />
     <Compile Include="base_nodes\CCNode.cs" />
     <Compile Include="CCCamera.cs" />
+    <Compile Include="CCConfiguration.cs" />
     <Compile Include="CCDirector.cs" />
     <Compile Include="CCScheduler.cs" />
     <Compile Include="cocoa\CCAffineTransform.cs" />
@@ -179,6 +180,8 @@
     <Compile Include="script_support\CCScriptEngineProtocol.cs" />
     <Compile Include="sprite_nodes\CCSprite.cs" />
     <Compile Include="sprite_nodes\CCSpriteBatchNode.cs" />
+    <Compile Include="sprite_nodes\CCSpriteFrame.cs" />
+    <Compile Include="support\ccUtils.cs" />
     <Compile Include="support\image_support\TGAlib.cs" />
     <Compile Include="support\TransformUtils.cs" />
     <Compile Include="support\zip_support\CCZHeader.cs" />
