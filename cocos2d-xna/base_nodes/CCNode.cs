@@ -1521,16 +1521,25 @@ namespace cocos2d
         /// </summary>
         public CCCamera Camera
         {
-            get { return m_pCamera; }
+            get
+            {
+                if (m_pCamera == null)
+                {
+                    m_pCamera = new CCCamera();
+                }
+
+                return m_pCamera;
+            }
         }
 
         private CCGridBase m_pGrid;
         /// <summary>
         /// A CCGrid object that is used when applying effects
         /// </summary>
-        public CCGridBase Grid 
+        public CCGridBase Grid
         {
             get { return m_pGrid; }
+            set { m_pGrid = value; }
         }
 
         // internal member variables
