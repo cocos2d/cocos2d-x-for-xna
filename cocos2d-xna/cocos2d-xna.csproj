@@ -120,6 +120,8 @@
     <Compile Include="actions\action_intervals\grid_action\CCAccelAmplitude.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCAccelDeccelAmplitude.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCDeccelAmplitude.cs" />
+    <Compile Include="actions\action_intervals\grid_action\CCGrabber.cs" />
+    <Compile Include="actions\action_intervals\grid_action\CCGridAction.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
     <Compile Include="actions\action_intervals\CCActionInterval.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="cocoa\CCGeometry.cs" />
     <Compile Include="cocoa\CCObject.cs" />
     <Compile Include="cocoa\CCZone.cs" />
+    <Compile Include="effects\CCGridBase.cs" />
     <Compile Include="label_nodes\CCBMFontConfiguration.cs" />
     <Compile Include="label_nodes\ccBMFontDef.cs" />
     <Compile Include="label_nodes\ccBMFontPadding.cs" />
@@ -213,7 +216,6 @@
   <ItemGroup>
     <Folder Include="actions\action_intervals\grid_action\grid3d_action\" />
     <Folder Include="actions\action_intervals\grid_action\tiledgrid3d_action\" />
-    <Folder Include="effects\" />
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="misc_nodes\" />
     <Folder Include="support\data_support\" />
