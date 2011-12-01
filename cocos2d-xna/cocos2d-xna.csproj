@@ -120,7 +120,7 @@
     <Compile Include="actions\action_intervals\grid_action\CCAccelAmplitude.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCAccelDeccelAmplitude.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCDeccelAmplitude.cs" />
-    <Compile Include="actions\action_intervals\grid_action\CCGrabber.cs" />
+    <Compile Include="effects\CCGrabber.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCGridAction.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
