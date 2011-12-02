@@ -86,8 +86,8 @@ namespace cocos2d
             return moveTo;
         }
 
-        protected CCPoint m_endPosition;
-        protected CCPoint m_startPosition;
-        protected CCPoint m_delta;
+        protected CCPoint m_endPosition = new CCPoint(0f, 0f);
+        protected CCPoint m_startPosition = new CCPoint(0f, 0f);
+        protected CCPoint m_delta = new CCPoint(0f, 0f);
     }
 }
