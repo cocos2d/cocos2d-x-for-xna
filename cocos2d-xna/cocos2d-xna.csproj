@@ -99,8 +99,15 @@
     <Compile Include="actions\action_intervals\CCDelayTime.cs" />
     <Compile Include="actions\action_intervals\CCFadeIn.cs" />
     <Compile Include="actions\action_intervals\CCFadeOut.cs" />
+    <Compile Include="actions\action_intervals\grid_action\CCTiledGrid3DAction.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCFadeOutBLTiles.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCFadeOutDownTiles.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCFadeOutTRTiles.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCFadeOutUpTiles.cs" />
     <Compile Include="actions\action_intervals\CCFadeTo.cs" />
+    <Compile Include="actions\action_intervals\grid_action\CCGrid3DAction.cs" />
     <Compile Include="actions\action_intervals\CCJumpBy.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCJumpTiles3D.cs" />
     <Compile Include="actions\action_intervals\CCJumpTo.cs" />
     <Compile Include="actions\action_intervals\CCMoveBy.cs" />
     <Compile Include="actions\action_intervals\CCMoveTo.cs" />
@@ -112,14 +119,23 @@
     <Compile Include="actions\action_intervals\CCScaleBy.cs" />
     <Compile Include="actions\action_intervals\CCScaleTo.cs" />
     <Compile Include="actions\action_intervals\CCSequence.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCShakyTiles3D.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCShatteredTiles3D.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCShuffleTiles.cs" />
     <Compile Include="actions\action_intervals\CCSkewBy.cs" />
     <Compile Include="actions\action_intervals\CCSkewTo.cs" />
     <Compile Include="actions\action_intervals\CCSpawn.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCSplitCols.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCSplitRows.cs" />
     <Compile Include="actions\action_intervals\CCTintBy.cs" />
     <Compile Include="actions\action_intervals\CCTintTo.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCTurnOffTiles.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCWavesTiles3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCAccelAmplitude.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCAccelDeccelAmplitude.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCDeccelAmplitude.cs" />
+    <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\Tile.cs" />
+    <Compile Include="effects\CCTiledGrid3D.cs" />
     <Compile Include="effects\CCGrabber.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCGridAction.cs" />
     <Compile Include="actions\CCAction.cs" />
@@ -215,7 +231,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="actions\action_intervals\grid_action\grid3d_action\" />
-    <Folder Include="actions\action_intervals\grid_action\tiledgrid3d_action\" />
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="misc_nodes\" />
     <Folder Include="support\data_support\" />

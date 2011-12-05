@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
@@ -24,34 +24,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace cocos2d
 {
-    /// <summary>
-    /// @brief CCStopGrid action.
-    /// @warning Don't call this action if another grid action is active.
-    /// Call if you want to remove the the grid effect. Example:
-    /// CCSequence::actions(Lens::action(...), CCStopGrid::action(...), NULL);
-    /// </summary>
-    public class CCStopGrid : CCActionInstant
+    public class Tile
     {
-        public override void startWithTarget(CCNode pTarget)
-        {
-            base.startWithTarget(pTarget);
-
-            CCGridBase pGrid = m_pTarget.Grid;
-            if (pGrid != null && pGrid.Active)
-            {
-                pGrid.Active = false;
-            }
-        }
-
-        public static new CCStopGrid action()
-        {
-            CCStopGrid pAction = new CCStopGrid();
-
-            return pAction;
-        }
+        public CCPoint position;
+        public CCPoint startPosition;
+        public ccGridSize delta;
     }
 }

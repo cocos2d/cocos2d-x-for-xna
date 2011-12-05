@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
@@ -26,56 +26,60 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace cocos2d
 {
-    public class CCReuseGrid : CCActionInstant
+    public class CCFadeOutUpTiles : CCFadeOutTRTiles
     {
-
-        /// <summary>
-        /// initializes an action with the number of times that the current grid will be reused
-        /// </summary>
-        /// <param name="times"></param>
-        /// <returns></returns>
-        public bool initWithTimes(int times)
+        public virtual float testFunc(ccGridSize pos, float time)
         {
-            m_nTimes = times;
-            return true;
-        }
-
-        public virtual void startWithTarget(CCNode pTarget)
-        {
-            base.startWithTarget(pTarget);
-
-            if (m_pTarget.Grid != null && m_pTarget.Grid.Active != null)
+            CCPoint n = new CCPoint((float)(m_sGridSize.x * time), (float)(m_sGridSize.y * time));
+            if (n.y == 0.0f)
             {
-                m_pTarget.Grid.ReuseGrid = m_pTarget.Grid.ReuseGrid + m_nTimes;
+                return 1.0f;
             }
+
+            return (float)Math.Pow(pos.y / n.y, 6);
+        }
+
+        public virtual void transformTile(ccGridSize pos, float distance)
+        {
+            ccQuad3 coords = originalTile(pos);
+            CCPoint step = m_pTarget.Grid.Step;
+
+            coords.bl.y += (step.y / 2) * (1.0f - distance);
+            coords.br.y += (step.y / 2) * (1.0f - distance);
+            coords.tl.y -= (step.y / 2) * (1.0f - distance);
+            coords.tr.y -= (step.y / 2) * (1.0f - distance);
+
+            setTile(pos, coords);
         }
 
         /// <summary>
-        /// creates an action with the number of times that the current grid will be reused
+        /// creates the action with the grid size and the duration 
         /// </summary>
-        /// <param name="times"></param>
+        /// <param name="?"></param>
         /// <returns></returns>
-        public static CCReuseGrid actionWithTimes(int times)
+        public static CCFadeOutUpTiles actionWithSize(ccGridSize gridSize, float time)
         {
-            CCReuseGrid pAction = new CCReuseGrid();
+            CCFadeOutUpTiles pAction = new CCFadeOutUpTiles();
+
             if (pAction != null)
             {
-                if (pAction.initWithTimes(times))
+                if (pAction.initWithSize(gridSize, time))
                 {
                     //pAction->autorelease();
                 }
                 else
                 {
-                    //CC_SAFE_DELETE(pAction);
+                    //CC_SAFE_RELEASE_NULL(pAction);
                 }
             }
 
             return pAction;
         }
-
-        protected int m_nTimes;
     }
 }

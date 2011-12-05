@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
@@ -24,32 +24,48 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace cocos2d
 {
-    /// <summary>
-    /// @brief CCStopGrid action.
-    /// @warning Don't call this action if another grid action is active.
-    /// Call if you want to remove the the grid effect. Example:
-    /// CCSequence::actions(Lens::action(...), CCStopGrid::action(...), NULL);
-    /// </summary>
-    public class CCStopGrid : CCActionInstant
+    public class CCFadeOutBLTiles : CCFadeOutTRTiles
     {
-        public override void startWithTarget(CCNode pTarget)
+        public virtual float testFunc(ccGridSize pos, float time)
         {
-            base.startWithTarget(pTarget);
-
-            CCGridBase pGrid = m_pTarget.Grid;
-            if (pGrid != null && pGrid.Active)
+            CCPoint n = new CCPoint((float)(m_sGridSize.x * (1.0f - time)), (float)(m_sGridSize.y * (1.0f - time)));
+            if ((pos.x + pos.y) == 0)
             {
-                pGrid.Active = false;
+                return 1.0f;
             }
+
+            return (float)Math.Pow((n.x + n.y) / (pos.x + pos.y), 6);
         }
 
-        public static new CCStopGrid action()
+        /// <summary>
+        /// creates the action with the grid size and the duration
+        /// </summary>
+        /// <param name="gridSize"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static CCFadeOutBLTiles actionWithSize(ccGridSize gridSize, float time)
         {
-            CCStopGrid pAction = new CCStopGrid();
+            CCFadeOutBLTiles pAction = new CCFadeOutBLTiles();
+
+            if (pAction != null)
+            {
+                if (pAction.initWithSize(gridSize, time))
+                {
+                    //pAction->autorelease();
+                }
+                else
+                {
+                    //CC_SAFE_RELEASE_NULL(pAction);
+                }
+            }
 
             return pAction;
         }
