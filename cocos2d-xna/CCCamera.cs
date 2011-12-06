@@ -59,17 +59,20 @@ namespace cocos2d
 
         public CCCamera()
         {
-            throw new NotImplementedException();
+            init();
         }
 
         public void init()
         {
-            throw new NotImplementedException();
+            restore();
         }
 
         public string description()
         {
-            throw new NotImplementedException();
+            string ret;
+            ret = String.Format("<CCCamera | center = ({0},{1},{2})>", m_fCenterX, m_fCenterY, m_fCenterZ);
+            //sprintf(ret, "<CCCamera | center = (%.2f,%.2f,%.2f)>", m_fCenterX, m_fCenterY, m_fCenterZ);
+            return ret;
         }
 
         /// <summary>
@@ -77,14 +80,28 @@ namespace cocos2d
         /// </summary>
         public void restore()
         {
-            throw new NotImplementedException();
+            m_fEyeX = m_fEyeY = 0.0f;
+            m_fEyeZ = getZEye();
+
+            m_fCenterX = m_fCenterY = m_fCenterZ = 0.0f;
+
+            m_fUpX = 0.0f;
+            m_fUpY = 1.0f;
+            m_fUpZ = 0.0f;
+
+            m_bDirty = false;
         }
         /// <summary>
         ///  Sets the camera using gluLookAt using its eye, center and up_vector
         /// </summary>
         public void locate()
         {
-            throw new NotImplementedException();
+            if (m_bDirty)
+            {
+                //gluLookAt(m_fEyeX, m_fEyeY, m_fEyeZ,
+                //    m_fCenterX, m_fCenterY, m_fCenterZ,
+                //    m_fUpX, m_fUpY, m_fUpZ);
+            }
         }
         /// <summary>
         /// sets the eye values in points
@@ -94,7 +111,11 @@ namespace cocos2d
         /// <param name="fEyeZ"></param>
         public void setEyeXYZ(float fEyeX, float fEyeY, float fEyeZ)
         {
-            throw new NotImplementedException();
+            m_fEyeX = fEyeX * CCDirector.sharedDirector().ContentScaleFactor;
+            m_fEyeY = fEyeY * CCDirector.sharedDirector().ContentScaleFactor;
+            m_fEyeZ = fEyeZ * CCDirector.sharedDirector().ContentScaleFactor;
+
+            m_bDirty = true;
         }
 
         /// <summary>
@@ -105,7 +126,11 @@ namespace cocos2d
         /// <param name="fCenterZ"></param>
         public void setCenterXYZ(float fCenterX, float fCenterY, float fCenterZ)
         {
-            throw new NotImplementedException();
+            m_fCenterX = fCenterX * CCDirector.sharedDirector().ContentScaleFactor;
+            m_fCenterY = fCenterY * CCDirector.sharedDirector().ContentScaleFactor;
+            m_fCenterZ = fCenterZ * CCDirector.sharedDirector().ContentScaleFactor;
+
+            m_bDirty = true;
         }
 
         /// <summary>
@@ -116,7 +141,11 @@ namespace cocos2d
         /// <param name="fUpZ"></param>
         public void setUpXYZ(float fUpX, float fUpY, float fUpZ)
         {
-            throw new NotImplementedException();
+            m_fUpX = fUpX;
+            m_fUpY = fUpY;
+            m_fUpZ = fUpZ;
+
+            m_bDirty = true;
         }
 
         /// <summary>
@@ -127,7 +156,9 @@ namespace cocos2d
         /// <param name="pEyeZ"></param>
         public void getEyeXYZ(float pEyeX, float pEyeY, float pEyeZ)
         {
-            throw new NotImplementedException();
+            pEyeX = m_fEyeX / CCDirector.sharedDirector().ContentScaleFactor;
+            pEyeY = m_fEyeY / CCDirector.sharedDirector().ContentScaleFactor;
+            pEyeZ = m_fEyeZ / CCDirector.sharedDirector().ContentScaleFactor;
         }
 
         /// <summary>
@@ -138,8 +169,11 @@ namespace cocos2d
         /// <param name="pCenterZ"></param>
         public void getCenterXYZ(float pCenterX, float pCenterY, float pCenterZ)
         {
-            throw new NotImplementedException();
+            pCenterX = m_fCenterX / CCDirector.sharedDirector().ContentScaleFactor;
+            pCenterY = m_fCenterY / CCDirector.sharedDirector().ContentScaleFactor;
+            pCenterZ = m_fCenterZ / CCDirector.sharedDirector().ContentScaleFactor;
         }
+
         /// <summary>
         ///  get the up vector values
         /// </summary>
@@ -148,7 +182,9 @@ namespace cocos2d
         /// <param name="pUpZ"></param>
         public void getUpXYZ(float pUpX, float pUpY, float pUpZ)
         {
-            throw new NotImplementedException();
+            pUpX = m_fUpX;
+            pUpY = m_fUpY;
+            pUpZ = m_fUpZ;
         }
 
         /// <summary>
@@ -157,7 +193,7 @@ namespace cocos2d
         /// <returns></returns>
         public static float getZEye()
         {
-            throw new NotImplementedException();
+            return 1.192092896e-07F;
         }
 
         //private:
