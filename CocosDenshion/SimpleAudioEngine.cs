@@ -24,7 +24,10 @@ namespace CocosDenshion
 
         public static string _FullPath(string szPath)
         {
-            return null;
+            // todo: return self now
+            return szPath;
+
+            // return null;
         }
         
         public static uint _Hash(string key)
@@ -85,7 +88,7 @@ namespace CocosDenshion
         @brief Release the shared Engine object
         @warning It must be called before the application exit, or a memroy leak will be casued.
         */
-        public static void end()
+        public void end()
         { 
             sharedMusic().Close();
 
@@ -205,7 +208,7 @@ namespace CocosDenshion
         /**
         @brief the volume of the background music max value is 1.0,the min value is 0.0
         */
-        public float getbackgroundmusicvolume()
+        public float getBackgroundMusicVolume()
         {
             return 1.0f; // original code in c++
         }
@@ -222,7 +225,7 @@ namespace CocosDenshion
         /**
         @brief The volume of the effects max value is 1.0,the min value is 0.0
         */
-        float getEffectsVolume()
+        public float getEffectsVolume()
         {
             return 1.0f;// original code in c++
         }
@@ -231,7 +234,7 @@ namespace CocosDenshion
         @brief set the volume of sound effecs
         @param volume must be in 0.0~1.0
         */
-        void setEffectsVolume(float volume)
+        public void setEffectsVolume(float volume)
         { 
         
         }

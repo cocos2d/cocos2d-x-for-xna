@@ -115,7 +115,9 @@ namespace cocos2d
         /// <returns></returns>
         public static string fullPathFromRelativePath(string pszRelativePath)
         {
-            throw new NotImplementedException("win32 only definition does not realize !");
+            // todo: return self now
+            return pszRelativePath;
+            // throw new NotImplementedException("win32 only definition does not realize !");
         }
 
         /// <summary>

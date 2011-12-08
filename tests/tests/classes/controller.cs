@@ -194,8 +194,8 @@ namespace tests
                 //#endif
                 //    case TEST_KEYPAD:
                 //        pScene = new KeypadTestScene(); break;
-                //    case TEST_COCOSDENSHION:
-                //        pScene = new CocosDenshionTestScene(); break;
+                case (int)TestCases.TEST_COCOSDENSHION:
+                    pScene = new CocosDenshionTestScene(); break;
                 //    case TEST_PERFORMANCE:
                 //        pScene = new PerformanceTestScene(); break;
                 //    case TEST_ZWOPTEX:

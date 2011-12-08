@@ -68,8 +68,11 @@ namespace CocosDenshion
                 Stop();
             }
 
-            m_music.Dispose();
-            m_music = null;
+            if (m_music != null)
+            {
+                m_music.Dispose();
+                m_music = null;
+            }
 
             m_bPlaying = false;
         }
