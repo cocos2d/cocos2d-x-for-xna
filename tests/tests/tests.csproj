@@ -71,6 +71,7 @@
     <Compile Include="classes\testBasic.cs" />
     <Compile Include="classes\testResource.cs" />
     <Compile Include="classes\tests\ActionsTest\ActionsTest.cs" />
+    <Compile Include="classes\tests\CocosDenshionTest\CocosDenshionTest.cs" />
     <Compile Include="classes\tests\CocosNodeTest\CocosNodeTest.cs" />
     <Compile Include="classes\tests\DirectorTest\DirectorTest.cs" />
     <Compile Include="classes\tests\EaseActionTest\EaseActionsTest.cs" />
@@ -113,6 +114,10 @@
     <ProjectReference Include="..\..\cocos2d-xna\cocos2d-xna.csproj">
       <Project>{47EE6CE6-493D-4967-944A-5E55B71AA9FD}</Project>
       <Name>cocos2d-xna</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CocosDenshion\CocosDenshion.csproj">
+      <Project>{F028609A-7A53-4F01-8939-5B823285EC10}</Project>
+      <Name>CocosDenshion</Name>
     </ProjectReference>
     <ProjectReference Include="..\testsContent\testsContent.contentproj">
       <Name>testsContent</Name>
