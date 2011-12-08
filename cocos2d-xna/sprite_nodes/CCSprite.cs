@@ -416,7 +416,7 @@ namespace cocos2d
              */
 
             // update texture (calls updateBlendFunc)
-            setTexture(null);
+            Texture = null;
 
             // clean the Quad
             //memset(&m_sQuad, 0, sizeof(m_sQuad));
@@ -452,13 +452,10 @@ namespace cocos2d
 
         /** conforms to CCTextureProtocol protocol */
         private ccBlendFunc m_sBlendFunc;
-        public ccBlendFunc getBlendFunc()
+        public ccBlendFunc BlendFunc
         {
-            return m_sBlendFunc;
-        }
-        public void setBlendFunc(ccBlendFunc value)
-        {
-            m_sBlendFunc = value;
+            get { return m_sBlendFunc; }
+            set { m_sBlendFunc = value; }
         }
 
         protected CCTextureAtlas m_pobTextureAtlas;
@@ -812,8 +809,7 @@ namespace cocos2d
             {
                 if (m_uAtlasIndex != ccMacros.CCSpriteIndexNotInitialized)
                 {
-                    //@todo
-                    throw new NotImplementedException();
+                    m_pobTextureAtlas.updateQuad(m_sQuad, m_uAtlasIndex);
                 }
                 else
                 {
@@ -828,17 +824,17 @@ namespace cocos2d
         }
 
         // CCTextureProtocol
-        public virtual void setTexture(CCTexture2D texture)
+        public virtual CCTexture2D Texture
         {
-            Debug.Assert(!m_bUseBatchNode, "CCSprite: setTexture doesn't work when the sprite is rendered using a CCSpriteBatchNode");
+            set
+            {
+                Debug.Assert(!m_bUseBatchNode, "CCSprite: setTexture doesn't work when the sprite is rendered using a CCSpriteBatchNode");
 
-            m_pobTexture = texture;
+                m_pobTexture = value;
 
-            updateBlendFunc();
-        }
-        public virtual CCTexture2D getTexture()
-        {
-            return m_pobTexture;
+                updateBlendFunc();
+            }
+            get { return m_pobTexture; }
         }
 
         #region initWith: Texture,File,SpriteFrame,BatchNode
@@ -866,7 +862,7 @@ namespace cocos2d
         {
             Debug.Assert(texture != null);
             init();
-            setTexture(texture);
+            Texture = texture;
             setTextureRect(rect);
 
             return true;
@@ -937,7 +933,12 @@ namespace cocos2d
         /// </summary>
         public bool initWithBatchNode(CCSpriteBatchNode batchNode, CCRect rect)
         {
-            throw new NotImplementedException();
+            if (initWithTexture(batchNode.Texture, rect))
+            {
+                useBatchNode(batchNode);
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -946,7 +947,13 @@ namespace cocos2d
         /// </summary>
         public bool initWithBatchNodeRectInPixels(CCSpriteBatchNode batchNode, CCRect rect)
         {
-            throw new NotImplementedException();
+            if (initWithTexture(batchNode.Texture))
+            {
+                setTextureRectInPixels(rect, false, rect.size);
+                useBatchNode(batchNode);
+                return true;
+            }
+            return false;
         }
 
         #endregion
@@ -1231,7 +1238,7 @@ namespace cocos2d
 
         protected void updateTextureCoords(CCRect rect)
         {
-            CCTexture2D tex = m_bUsesBatchNode ? m_pobTextureAtlas.getTexture() : m_pobTexture;
+            CCTexture2D tex = m_bUsesBatchNode ? m_pobTextureAtlas.Texture : m_pobTexture;
             if (tex == null)
             {
                 return;

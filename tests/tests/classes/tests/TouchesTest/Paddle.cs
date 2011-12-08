@@ -45,7 +45,7 @@ namespace tests
         PaddleState m_state;
         public CCRect rect()
         {
-            CCSize s = getTexture().getContentSize();
+            CCSize s = Texture.getContentSize();
             return new CCRect(-s.width / 2, -s.height / 2, s.width, s.height);
         }
 

@@ -37,14 +37,14 @@ namespace cocos2d
     public class CCAtlasNode : CCNode, CCRGBAProtocol, CCTextureProtocol
     {
         //chars per row
-        protected uint m_uItemsPerRow;
+        protected int m_uItemsPerRow;
         //chars per column
-        protected uint m_uItemsPerColumn;
+        protected int m_uItemsPerColumn;
 
         //width of each char
-        protected uint m_uItemWidth;
+        protected int m_uItemWidth;
         //height of each char
-        protected uint m_uItemHeight;
+        protected int m_uItemHeight;
 
         protected ccColor3B m_tColorUnmodified;
 
@@ -115,8 +115,8 @@ namespace cocos2d
         }
 
         // quads to draw
-        protected uint m_uQuadsToDraw;
-        public uint QuadsToDraw
+        protected int m_uQuadsToDraw;
+        public int QuadsToDraw
         {
             get
             {
@@ -144,7 +144,7 @@ namespace cocos2d
         /// <param name="itemsToRender"></param>
         /// <returns></returns>
         #endregion
-        public static CCAtlasNode atlasWithTileFile(string tile, uint tileWidth, uint tileHeight, uint itemsToRender)
+        public static CCAtlasNode atlasWithTileFile(string tile, int tileWidth, int tileHeight, int itemsToRender)
         {
             CCAtlasNode pRet = new CCAtlasNode();
             if (pRet.initWithTileFile(tile, tileWidth, tileHeight, itemsToRender))
@@ -164,11 +164,11 @@ namespace cocos2d
         /// <param name="tileHeight"></param>
         /// <param name="itemsToRender"></param>
         /// <returns></returns>
-        public  bool initWithTileFile(string tile, uint tileWidth, uint tileHeight, uint itemsToRender)
+        public bool initWithTileFile(string tile, int tileWidth, int tileHeight, int itemsToRender)
         {
             Debug.Assert(tile != null);
-            m_uItemWidth = (uint)(tileWidth);
-            m_uItemHeight = (uint)(tileHeight);
+            m_uItemWidth = tileWidth;
+            m_uItemHeight = tileHeight;
 
             m_cOpacity = 255;
             m_tColor = m_tColorUnmodified = new ccColor3B(255, 255, 255); //ccWHITE=static const ccColor3B ccWHITE={255,255,255};
@@ -249,55 +249,30 @@ namespace cocos2d
         }
 
         // CC Texture protocol
-
-        #region returns the used texture
-        /// <summary>
-        /// returns the used texture
-        /// </summary>
-        /// <returns></returns>
-        #endregion
-        public virtual CCTexture2D getTexture()
+        public virtual CCTexture2D Texture
         {
-            return m_pTextureAtlas.Texture;
+            get
+            {
+                return m_pTextureAtlas.Texture;
+            }
+            set
+            {
+                m_pTextureAtlas.Texture = value;
+                this.updateBlendFunc();
+                this.updateOpacityModifyRGB();
+            }
         }
-
-        #region sets a new texture. it will be retained
-        /// <summary>
-        /// sets a new texture. it will be retained
-        /// </summary>
-        /// <param name="texture"></param>
-        #endregion
-        public virtual void setTexture(CCTexture2D texture)
-        {
-            m_pTextureAtlas.Texture = texture;
-            this.updateBlendFunc();
-            this.updateOpacityModifyRGB();
-        }
-
-        //public virtual CCTexture2D ccTexture
-        //{
-        //    get
-        //    {
-        //        return m_pTextureAtlas.Texture;
-        //    }
-        //    set
-        //    {
-        //        m_pTextureAtlas.Texture=value;
-        //        this.updateBlendFunc();
-        //        this.updateOpacityModifyRGB();
-        //    }
-        //}
 
         private void calculateMaxItems()
         {
-            CCSize s = m_pTextureAtlas.getTexture().ContentSizeInPixels;
-            m_uItemsPerColumn = (uint)(s.height / m_uItemHeight);
-            m_uItemsPerRow = (uint)(s.width / m_uItemWidth);
+            CCSize s = m_pTextureAtlas.Texture.ContentSizeInPixels;
+            m_uItemsPerColumn = (int)(s.height / m_uItemHeight);
+            m_uItemsPerRow = (int)(s.width / m_uItemWidth);
         }
 
         private void updateBlendFunc()
         {
-            if (!m_pTextureAtlas.getTexture().HasPremultipliedAlpha)
+            if (!m_pTextureAtlas.Texture.HasPremultipliedAlpha)
             {
                 m_tBlendFunc.src = 0x0302;
                 m_tBlendFunc.dst = 0x0305;
@@ -306,7 +281,7 @@ namespace cocos2d
 
         private void updateOpacityModifyRGB()
         {
-            m_bIsOpacityModifyRGB = m_pTextureAtlas.getTexture().HasPremultipliedAlpha;
+            m_bIsOpacityModifyRGB = m_pTextureAtlas.Texture.HasPremultipliedAlpha;
         }
 
         #region getColor,setColor->ccColor
@@ -341,7 +316,7 @@ namespace cocos2d
         /// <summary>
         /// getOpacity setOpacity->ccOpacity
         /// </summary>
-        #endregion 
+        #endregion
         public byte ccOpacity
         {
             get
@@ -400,9 +375,9 @@ namespace cocos2d
         //    }
         //}
 
-        public uint ccQuadsToDraw
+        public int ccQuadsToDraw
         {
-            get 
+            get
             {
                 return m_uQuadsToDraw;
             }

@@ -69,7 +69,7 @@ namespace cocos2d.menu_nodes
         {
             // CCAssert( value != NULL && strlen(value) != 0, "value length must be greater than 0");
             CCLabelAtlas label = new CCLabelAtlas();
-            label.initWithString(value, charMapFile, (uint)itemWidth, (uint)itemHeight, startCharMap);
+            label.initWithString(value, charMapFile, itemWidth, itemHeight, startCharMap);
             //label->autorelease();
             if (base.initWithLabel(label, target, selector))
             {

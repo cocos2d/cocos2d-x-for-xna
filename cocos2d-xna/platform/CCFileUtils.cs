@@ -29,17 +29,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
+using cocos2d.Framework;
 
 namespace cocos2d
 {
     /// <summary>
-    /// ! @brief  Helper class to handle file operations
+    /// Helper class to handle file operations
     /// </summary>
     public class CCFileUtils
     {
         protected static bool s_bPopupNotify = true;
         /// <summary>
-        ///  @brief Set/Get whether pop-up a message box when the image load failed
+        /// Set/Get whether pop-up a message box when the image load failed
         /// </summary>
         public bool IsPopupNotify
         {
@@ -65,9 +67,12 @@ namespace cocos2d
         /// <param name="pszMode"></param>
         /// <param name="pSize"></param>
         /// <returns></returns>
-        public static byte[] getFileData(string pszFileName, string pszMode, UInt64 pSize)
+        public static string getFileData(string pszFileName, string pszMode, UInt64 pSize)
         {
-            throw new NotImplementedException("win32 only definition does not realize !");
+            ContentManager content = CCApplication.sharedApplication().content;
+            CCData data = content.Load<CCData>(pszFileName);
+
+            return data.Content;
         }
 
         /// <summary>
@@ -114,14 +119,13 @@ namespace cocos2d
         }
 
         /// <summary>
-        /// cond
+        /// 
         /// </summary>
-        /// <param name="pszFilename"></param>
-        /// <param name="pszRelativeFile"></param>
-        /// <returns></returns>
         public static string fullPathFromRelativeFile(string pszFilename, string pszRelativeFile)
         {
-            throw new NotImplementedException("win32 only definition does not realize !");
+            string m_sString = pszRelativeFile.Substring(0, pszRelativeFile.LastIndexOf("/\\") + 1);
+            m_sString += pszFilename;
+            return m_sString;
         }
 
 
@@ -163,7 +167,7 @@ namespace cocos2d
             throw new NotImplementedException("win32 only definition does not realize !");
         }
 
-        
+
         ///////////////////////////////////////////////////
         // interfaces on wophone
         ///////////////////////////////////////////////////

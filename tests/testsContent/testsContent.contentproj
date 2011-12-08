@@ -517,6 +517,157 @@
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\cocos2d.Content.Pipeline.Importers\cocos2d.Content.Pipeline.Importers.csproj">
+      <Project>{FBE4633D-00D1-4391-8184-63B91DA28D4B}</Project>
+      <Name>cocos2d.Content.Pipeline.Importers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TileMaps\iso.png">
+      <Name>iso</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TileMaps\iso-test.tmx">
+      <Name>iso-test</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="fonts\fnt\images\arial16.png">
+      <Name>arial16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\bitmapFontTest.png">
+      <Name>bitmapFontTest</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\bitmapFontTest2.png">
+      <Name>bitmapFontTest2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\bitmapFontTest3.png">
+      <Name>bitmapFontTest3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\bitmapFontTest4.png">
+      <Name>bitmapFontTest4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\bitmapFontTest5.png">
+      <Name>bitmapFontTest5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\fps_images-hd.png">
+      <Name>fps_images-hd</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\fps_images.png">
+      <Name>fps_images</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\futura-48.png">
+      <Name>futura-48</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\konqa32-hd.png">
+      <Name>konqa32-hd</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\konqa32.png">
+      <Name>konqa32</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\larabie-16-hd.png">
+      <Name>larabie-16-hd</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\larabie-16.png">
+      <Name>larabie-16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\tuffy_bold_italic-charmap-hd.png">
+      <Name>tuffy_bold_italic-charmap-hd</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\images\tuffy_bold_italic-charmap.png">
+      <Name>tuffy_bold_italic-charmap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="fonts\fnt\arial16.fnt">
+      <Name>arial16</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\bitmapFontTest.fnt">
+      <Name>bitmapFontTest</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\bitmapFontTest2.fnt">
+      <Name>bitmapFontTest2</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\bitmapFontTest3.fnt">
+      <Name>bitmapFontTest3</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\bitmapFontTest4.fnt">
+      <Name>bitmapFontTest4</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\bitmapFontTest5.fnt">
+      <Name>bitmapFontTest5</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\futura-48.fnt">
+      <Name>futura-48</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\konqa32-hd.fnt">
+      <Name>konqa32-hd</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\konqa32.fnt">
+      <Name>konqa32</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TileMaps\arial16.fnt">
+      <Name>arial16</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

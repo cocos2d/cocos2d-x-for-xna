@@ -233,7 +233,7 @@ namespace cocos2d
                 texture = CCTextureCache.sharedTextureCache().addImage(tilesetInfo.m_sSourceImage);
             }
 
-            if (base.initWithTexture(texture, (uint)capacity))
+            if (base.initWithTexture(texture, (int)capacity))
             {
                 // layerInfo
                 m_sLayerName = layerInfo.m_sName;

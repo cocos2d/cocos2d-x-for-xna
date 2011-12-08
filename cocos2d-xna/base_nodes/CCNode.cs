@@ -652,8 +652,11 @@ namespace cocos2d
         /// </summary>
         public void transformAncestors()
         {
-            ///@todo
-            throw new NotImplementedException();
+            if (m_pParent != null)
+            {
+                m_pParent.transformAncestors();
+                m_pParent.transform();
+            }
         }
 
         #endregion

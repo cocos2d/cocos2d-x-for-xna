@@ -327,24 +327,26 @@ namespace cocos2d
 
 
 
-        public CCTexture2D getTexture()
+        public CCTexture2D Texture
         {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public void setTexture(CCTexture2D texture)
+        public ccBlendFunc BlendFunc
         {
-            throw new NotImplementedException();
-        }
-
-        public void setBlendFunc(ccBlendFunc blendFunc)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ccBlendFunc getBlendFunc()
-        {
-            throw new NotImplementedException();
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            { throw new NotImplementedException(); }
         }
     }
 }

@@ -48,14 +48,14 @@ namespace cocos2d
 
         public CCFileData(string pszFileName, string pszMode)
         {
-            m_pBuffer = CCFileUtils.getFileData(pszFileName, pszMode, m_uSize);
+            //m_pBuffer = CCFileUtils.getFileData(pszFileName, pszMode, m_uSize);
         }
 
         public bool reset(string pszFileName, string pszMode)
         {
             m_pBuffer = null;
             m_uSize = 0;
-            m_pBuffer = CCFileUtils.getFileData(pszFileName, pszMode, m_uSize);
+            //m_pBuffer = CCFileUtils.getFileData(pszFileName, pszMode, m_uSize);
             return (m_pBuffer != null) ? true : false;
         }
     }

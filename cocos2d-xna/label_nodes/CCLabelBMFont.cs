@@ -41,6 +41,8 @@ namespace cocos2d
 
         public static Dictionary<string, CCBMFontConfiguration> configurations;
 
+        #region CCRGBAProtocol members
+
         //** conforms to CCRGBAProtocol protocol */
         private byte m_cOpacity;
         public byte Opacity
@@ -85,6 +87,8 @@ namespace cocos2d
             }
         }
 
+        #endregion
+
         // string to render
         protected string m_sString;
         protected CCBMFontConfiguration m_pConfiguration;
@@ -95,40 +99,33 @@ namespace cocos2d
             //CC_SAFE_RELEASE(m_pConfiguration);
         }
 
-        #region Purges the cached data.
         /// <summary>
         /// Purges the cached data.
         /// Removes from memory the cached configurations and the atlas name dictionary.
         /// @since v0.99.3
         /// </summary>
-        #endregion
         public static void purgeCachedData()
         {
             FNTConfigRemoveCache();
         }
 
-        #region creates a bitmap font altas with an initial string and the FNT file
         /// <summary>
         /// creates a bitmap font altas with an initial string and the FNT file
         /// </summary>
-        #endregion
         public static CCLabelBMFont labelWithString(string str, string fntFile)
         {
             CCLabelBMFont pRet = new CCLabelBMFont();
             if (pRet != null && pRet.initWithString(str, fntFile))
             {
-                //pRet->autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet)
+
             return null;
         }
 
-        #region init a bitmap font altas with an initial string and the FNT file
         /// <summary>
         /// init a bitmap font altas with an initial string and the FNT file
         /// </summary>
-        #endregion
         public bool initWithString(string theString, string fntFile)
         {
             Debug.Assert(theString != null);
@@ -136,25 +133,22 @@ namespace cocos2d
             m_pConfiguration = FNTConfigLoadFile(fntFile);
 
             Debug.Assert(m_pConfiguration != null, "Error creating config for LabelBMFont");
-            CCSpriteBatchNode ccspriteBatchNode = new CCSpriteBatchNode();
-            if (ccspriteBatchNode.initWithFile(m_pConfiguration.m_sAtlasName, (uint)(theString.Length)))
+            if (base.initWithFile(m_pConfiguration.m_sAtlasName, theString.Length))
             {
                 m_cOpacity = 255;
                 m_tColor = new ccColor3B(255, 255, 255);
                 m_tContentSize = new CCSize(0, 0);
-                m_bIsOpacityModifyRGB = m_pobTextureAtlas.getTexture().HasPremultipliedAlpha;
-                setAnchorPoint(new CCPoint(0.5f, 0.5f));
+                m_bIsOpacityModifyRGB = m_pobTextureAtlas.Texture.HasPremultipliedAlpha;
+                anchorPoint = new CCPoint(0.5f, 0.5f);
                 this.setString(theString);
                 return true;
             }
             return false;
         }
 
-        #region updates the font chars based on the string to render
         /// <summary>
         /// updates the font chars based on the string to render
         /// </summary>
-        #endregion
         public void createFontChars()
         {
             int nextFontPositionX = 0;
@@ -190,7 +184,7 @@ namespace cocos2d
 
             for (int i = 0; i < stringLen; i++)
             {
-                ushort c = m_sString[i];
+                int c = m_sString[i];
                 Debug.Assert(c < kCCBMFontMaxChars, "LabelBMFont: character outside bounds");
 
                 if (c == '\n')
@@ -209,16 +203,17 @@ namespace cocos2d
                 CCSprite fontChar;
 
                 fontChar = (CCSprite)(this.getChildByTag(i));
-                if (fontChar != null)
+                if (fontChar == null)
                 {
                     fontChar = new CCSprite();
-                    //fontChar.initWithBatchNodeRectInPixels(this, rect);
+                    fontChar.initWithBatchNodeRectInPixels(this, rect);
                     this.addChild(fontChar, 0, i);
                     //fontChar.release();
                 }
                 else
                 {
                     // reusing fonts
+                    fontChar = new CCSprite();
                     fontChar.setTextureRectInPixels(rect, false, rect.size);
 
                     // restore to default in case they were modified
@@ -260,37 +255,8 @@ namespace cocos2d
             //this.setContentSizeInPixels(tmpSize);
         }
 
-        //public virtual string gsString
-        //{
-        //    get
-        //    {
-        //        return m_sString;
-        //    }
-        //    set
-        //    {
-        //        m_sString = "";
-        //        m_sString = value;
-
-        //        if (m_pChildren != null && m_pChildren.Count > 0)
-        //        {
-        //            for (int i = 0; i < m_pChildren.Count; i++)
-        //            {
-        //                CCObject child = m_pChildren[i];
-        //                CCNode pNode = (CCNode)child;
-        //                if (pNode != null)
-        //                {
-        //                    // pNode.setIsVisible(false);
-        //                    pNode.visible = false;
-        //                }
-        //            }
-        //        }
-        //        this.createFontChars();
-        //    }
-        //}
-
         public virtual void setString(string label)
         {
-            m_sString = "";
             m_sString = label;
 
             if (m_pChildren != null && m_pChildren.Count > 0)
@@ -319,13 +285,19 @@ namespace cocos2d
             setString(label);
         }
 
-        // varPoint=var
-        public virtual void setAnchorPoint(CCPoint varPoint)
+        public override CCPoint anchorPoint
         {
-            if (!CCPoint.CCPointEqualToPoint(varPoint, m_tAnchorPoint))
+            get
             {
-                //CCSpriteBatchNode.setAnchorPoint(varPoint);
-                this.createFontChars();
+                return base.anchorPoint;
+            }
+            set
+            {
+                if (!CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint))
+                {
+                    base.anchorPoint = value;
+                    this.createFontChars();
+                }
             }
         }
 
@@ -372,13 +344,14 @@ namespace cocos2d
                 configurations = new Dictionary<string, CCBMFontConfiguration>();
             }
 
-            string key = file;
-            pRet = configurations[key];
-
-            if (pRet == null)
+            if (!configurations.Keys.Contains(file))
             {
                 pRet = CCBMFontConfiguration.configurationWithFNTFile(file);
-                configurations.Add(key, pRet);
+                configurations.Add(file, pRet);
+            }
+            else
+            {
+                pRet = configurations[file];
             }
 
             return pRet;

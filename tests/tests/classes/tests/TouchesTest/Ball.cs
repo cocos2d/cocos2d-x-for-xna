@@ -37,7 +37,7 @@ namespace tests
     {
         public float radius()
         {
-            return getTexture().getContentSize().width / 2;
+            return Texture.getContentSize().width / 2;
         }
 
         //BOOL initWithTexture(CCTexture2D* aTexture);

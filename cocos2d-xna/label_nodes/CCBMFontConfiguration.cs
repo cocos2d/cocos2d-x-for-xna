@@ -31,27 +31,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using cocos2d.Framework;
+using System.IO;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// CCBMFontConfiguration has parsed configuration of the the .fnt file
+    /// @since v0.8
+    /// </summary>
     public class CCBMFontConfiguration : CCObject
     {
-        // XXX: Creating a public interface so that the bitmapFontArray[] is accesible
-        //@public
+        #region public
+
+        // Creating a public interface so that the bitmapFontArray[] is accesible
         // The characters building up the font
-        public List<ccBMFontDef> m_pBitmapFontArray;
+        public Dictionary<int, ccBMFontDef> m_pBitmapFontArray = new Dictionary<int, ccBMFontDef>();
 
         // FNTConfig: Common Height
         public uint m_uCommonHeight;
 
         // Padding
-        public ccBMFontPadding m_tPadding;
+        public ccBMFontPadding m_tPadding = new ccBMFontPadding();
 
         // atlas name
         public string m_sAtlasName;
 
         // values for kerning
-        public tKerningHashElement m_pKerningDictionary;
+        public Dictionary<int, tKerningHashElement> m_pKerningDictionary = new Dictionary<int, tKerningHashElement>();
+
+        #endregion
 
         public CCBMFontConfiguration()
         {
@@ -61,175 +70,320 @@ namespace cocos2d
             m_sAtlasName = "";
         }
 
-        public string description()
+        public string Description
         {
-            string[] ret = new string[100];
-            //sprintf(ret, "<CCBMFontConfiguration | Kernings:%d | Image = %s>", HASH_COUNT(m_pKerningDictionary), m_sAtlasName.c_str());
-            return ret.ToString();
+            get
+            {
+                string[] ret = new string[100];
+                //sprintf(ret, "<CCBMFontConfiguration | Kernings:%d | Image = %s>", HASH_COUNT(m_pKerningDictionary), m_sAtlasName.c_str());
+                return ret.ToString();
+            }
         }
 
-        #region allocates a CCBMFontConfiguration with a FNT file
         /// <summary>
         /// allocates a CCBMFontConfiguration with a FNT file
         /// </summary>
-        #endregion
         public static CCBMFontConfiguration configurationWithFNTFile(string FNTfile)
         {
             CCBMFontConfiguration pRet = new CCBMFontConfiguration();
             if (pRet.initWithFNTfile(FNTfile))
             {
-                //pRet->autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet);
+
             return null;
         }
 
-        #region initializes a BitmapFontConfiguration with a FNT file
         /// <summary>
         /// initializes a BitmapFontConfiguration with a FNT file
         /// </summary>
-        #endregion
         public bool initWithFNTfile(string FNTfile)
         {
             Debug.Assert(FNTfile != null && FNTfile.Length != 0);
-            m_pKerningDictionary = null;
+            m_pKerningDictionary = new Dictionary<int, tKerningHashElement>();
             this.parseConfigFile(FNTfile);
             return true;
         }
 
+        #region Private method
+
         private void parseConfigFile(string controlFile)
         {
-        //string fullpath =CCFileUtils.fullPathFromRelativePath(controlFile);
+            CCData data = CCApplication.sharedApplication().content.Load<CCData>(controlFile);
+            string pBuffer = data.Content;
+            long nBufSize = data.Content.Length;
+            Debug.Assert(pBuffer != null, "CCBMFontConfiguration::parseConfigFile | Open file error.");
 
-        //CCFileData data(fullpath, "rb");
-        //ulong nBufSize = data.getSize();
-        //string pBuffer = (string) data.getBuffer();
+            if (string.IsNullOrEmpty(pBuffer))
+            {
+                return;
+            }
 
-        //Debug.Assert(pBuffer!=null, "CCBMFontConfiguration::parseConfigFile | Open file error.");
+            // parse spacing / padding
+            string line;
+            string strLeft = pBuffer;
+            while (strLeft.Length > 0)
+            {
+                int pos = strLeft.IndexOf('\n');
 
-        //if (!pBuffer)
-        //{
-        //    return;
-        //}
+                if (pos != -1)
+                {
+                    // the data is more than a line.get one line
+                    line = strLeft.Substring(0, pos);
+                    strLeft = strLeft.Substring(pos + 1);
+                }
+                else
+                {
+                    // get the left data
+                    line = strLeft;
+                    strLeft = null;
+                }
 
-        //// parse spacing / padding
-        //string line;
-        //string strLeft(pBuffer, nBufSize);
-        //while (strLeft.Length> 0)        //{
-        //    int pos = strLeft.IndexOf('\n');
+                if (line.StartsWith("info face"))
+                {
+                    // XXX: info parsing is incomplete
+                    // Not needed for the Hiero editors, but needed for the AngelCode editor
+                    //			[self parseInfoArguments:line];
+                    this.parseInfoArguments(line);
+                }
+                // Check to see if the start of the line is something we are interested in
 
-        //    if (pos != (int)std::string::npos)
-        //    {
-        //        // the data is more than a line.get one line
-        //        line = strLeft.Substring(0, pos);
-        //        strLeft = strLeft.Substring(pos + 1);
-        //    }
-        //    else
-        //    {
-        //        // get the left data
-        //        line = strLeft;
-        //        strLeft.erase();
-        //    }
+                if (line.StartsWith("common lineHeight"))
+                {
+                    this.parseCommonArguments(line);
+                }
 
-        //    if(line.Substring(0,("info face").Length) == "info face") 
-        //    {
-        //        // XXX: info parsing is incomplete
-        //        // Not needed for the Hiero editors, but needed for the AngelCode editor
-        //        //			[self parseInfoArguments:line];
-        //        this.parseInfoArguments(line);
-        //    }
-        //    // Check to see if the start of the line is something we are interested in
-        //    else if(line.Substring(0,("common lineHeight").Length) == "common lineHeight")
-        //    {
-        //        this.parseCommonArguments(line);
-        //    }
-        //    else if(line.Substring(0,("page id").Length) == "page id")
-        //    {
-        //        this.parseImageFileName(line, controlFile);
-        //    }
-        //    else if(line.Substring(0,("chars c").Length) == "chars c")
-        //    {
-        //        // Ignore this line
-        //    }
-        //    else if(line.Substring(0,("char").Length) == "char")
-        //    {
-        //        // Parse the current line and create a new CharDef
-        //        ccBMFontDef characterDefinition;
-        //        this.parseCharacterDefinition(line,characterDefinition);
+                if (line.StartsWith("page id"))
+                {
+                    this.parseImageFileName(line, controlFile);
+                }
 
-        //        // Add the CharDef returned to the charArray
+                if (line.StartsWith("chars c"))
+                {
+                    // Ignore this line
+                    continue;
+                }
 
-        //        //m_pBitmapFontArray[ characterDefinition.charID ] = characterDefinition;
-        //        m_pBitmapFontArray.Add(characterDefinition);
-        //    }
-        //    else if(line.Substring(0,("kernings count").Length) == "kernings count")
-        //    {
-        //        this.parseKerningCapacity(line);
-        //    }
-        //    else if(line.Substring(0,("kerning first").Length) == "kerning first")
-        //    {
-        //        this.parseKerningEntry(line);
-        //    }
-        //}
-            throw new NotImplementedException();
+                if (line.StartsWith("char"))
+                {
+                    // Parse the current line and create a new CharDef
+                    ccBMFontDef characterDefinition = new ccBMFontDef();
+                    this.parseCharacterDefinition(line, characterDefinition);
+
+                    // Add the CharDef returned to the charArray
+                    m_pBitmapFontArray.Add(characterDefinition.charID, characterDefinition);
+                }
+
+                if (line.StartsWith("kernings count"))
+                {
+                    this.parseKerningCapacity(line);
+                }
+
+                if (line.StartsWith("kerning first"))
+                {
+                    this.parseKerningEntry(line);
+                }
+            }
         }
 
         private void parseCharacterDefinition(string line, ccBMFontDef characterDefinition)
         {
-            throw new NotImplementedException();
+            //////////////////////////////////////////////////////////////////////////
+            // line to parse:
+            // char id=32   x=0     y=0     width=0     height=0     xoffset=0     yoffset=44    xadvance=14     page=0  chnl=0 
+            //////////////////////////////////////////////////////////////////////////
+
+            // Character ID
+            int index = line.IndexOf("id=");
+            int index2 = line.IndexOf(' ', index);
+            string value = line.Substring(index, index2 - index);
+            characterDefinition.charID = int.Parse(value.Replace("id=", ""));
+            //CCAssert(characterDefinition->charID < kCCBMFontMaxChars, "BitmpaFontAtlas: CharID bigger than supported");
+
+            // Character x
+            index = line.IndexOf("x=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            characterDefinition.rect.origin.x = float.Parse(value.Replace("x=", ""));
+
+            // Character y
+            index = line.IndexOf("y=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            characterDefinition.rect.origin.y = float.Parse(value.Replace("y=", ""));
+
+            // Character width
+            index = line.IndexOf("width=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            characterDefinition.rect.size.width = float.Parse(value.Replace("width=", ""));
+
+            // Character height
+            index = line.IndexOf("height=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            characterDefinition.rect.size.height = float.Parse(value.Replace("height=", ""));
+
+            // Character xoffset
+            index = line.IndexOf("xoffset=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            characterDefinition.xOffset = int.Parse(value.Replace("xoffset=", ""));
+
+            // Character yoffset
+            index = line.IndexOf("yoffset=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            characterDefinition.yOffset = int.Parse(value.Replace("yoffset=", ""));
+
+            // Character xadvance
+            index = line.IndexOf("xadvance=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            characterDefinition.xAdvance = int.Parse(value.Replace("xadvance=", ""));
         }
 
+        // info face
         private void parseInfoArguments(string line)
         {
-            throw new NotImplementedException();
+            //////////////////////////////////////////////////////////////////////////
+            // possible lines to parse:
+            // info face="Script" size=32 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=1,4,3,2 spacing=0,0 outline=0
+            // info face="Cracked" size=36 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1
+            //////////////////////////////////////////////////////////////////////////
+
+            // padding
+            int index = line.IndexOf("padding=");
+            int index2 = line.IndexOf(' ', index);
+            string value = line.Substring(index, index2 - index);
+
+            value = value.Replace("padding=", "");
+            string[] temp = value.Split(',');
+            m_tPadding.top = int.Parse(temp[0]);
+            m_tPadding.right = int.Parse(temp[1]);
+            m_tPadding.bottom = int.Parse(temp[2]);
+            m_tPadding.left = int.Parse(temp[3]);
+
+            //CCLOG("cocos2d: padding: %d,%d,%d,%d", m_tPadding.left, m_tPadding.top, m_tPadding.right, m_tPadding.bottom);
         }
 
+        // common
         private void parseCommonArguments(string line)
         {
-            throw new NotImplementedException();
+            //////////////////////////////////////////////////////////////////////////
+            // line to parse:
+            // common lineHeight=104 base=26 scaleW=1024 scaleH=512 pages=1 packed=0
+            //////////////////////////////////////////////////////////////////////////
+
+            // Height
+            int index = line.IndexOf("lineHeight=");
+            int index2 = line.IndexOf(' ', index);
+            string value = line.Substring(index, index2 - index);
+            m_uCommonHeight = uint.Parse(value.Replace("lineHeight=", ""));
+
+            // scaleW. sanity check
+            index = line.IndexOf("scaleW=") + "scaleW=".Length;
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            //CCAssert(atoi(value.c_str()) <= CCConfiguration::sharedConfiguration()->getMaxTextureSize(), "CCLabelBMFont: page can't be larger than supported");
+            // scaleH. sanity check
+            index = line.IndexOf("scaleH=") + "scaleH=".Length;
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            //CCAssert(atoi(value.c_str()) <= CCConfiguration::sharedConfiguration()->getMaxTextureSize(), "CCLabelBMFont: page can't be larger than supported");
+            // pages. sanity check
+            index = line.IndexOf("pages=") + "pages=".Length;
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            //CCAssert(atoi(value.c_str()) == 1, "CCBitfontAtlas: only supports 1 page");
+
+            // packed (ignore) What does this mean ??
         }
 
+        //page file
         private void parseImageFileName(string line, string fntFile)
         {
-        //    //////////////////////////////////////////////////////////////////////////
-        //// line to parse:
-        //// page id=0 file="bitmapFontTest.png"
-        ////////////////////////////////////////////////////////////////////////////
+            //    //////////////////////////////////////////////////////////////////////////
+            //// line to parse:
+            //// page id=0 file="bitmapFontTest.png"
+            ////////////////////////////////////////////////////////////////////////////
 
-        //// page ID. Sanity check
-        //int index = line.IndexOf('=')+1;
-        //int index2 = line.IndexOf(' ', index);
-        //string value = line.Substring(index, index2-index);
-        //Debug.Assert(Convert.ToInt32(value) == 0, "LabelBMFont file could not be found");
-        //// file 
-        //index = line.IndexOf('"')+1;
-        //index2 = line.IndexOf('"', index);
-        //value = line.Substring(index, index2-index);
+            // page ID. Sanity check
+            int index = line.IndexOf('=') + 1;
+            int index2 = line.IndexOf(' ', index);
+            string value = line.Substring(index, index2 - index);
+            Debug.Assert(Convert.ToInt32(value) == 0, "LabelBMFont file could not be found");
+            // file 
+            index = line.IndexOf('"') + 1;
+            index2 = line.IndexOf('"', index);
+            value = line.Substring(index, index2 - index);
 
-        //m_sAtlasName = CCFileUtils::fullPathFromRelativeFile(value, fntFile);
-            throw new NotImplementedException();
+            string name = value.Substring(0, value.LastIndexOf('.'));
+
+            m_sAtlasName = fntFile.Substring(0, fntFile.LastIndexOf("/")) + "/images/" + name;
         }
 
         private void parseKerningCapacity(string line)
         {
-            throw new NotImplementedException();
+            // When using uthash there is not need to parse the capacity.
+
+            //	CCAssert(!kerningDictionary, @"dictionary already initialized");
+            //	
+            //	// Break the values for this line up using =
+            //	CCMutableArray *values = [line componentsSeparatedByString:@"="];
+            //	NSEnumerator *nse = [values objectEnumerator];	
+            //	CCString *propertyValue;
+            //	
+            //	// We need to move past the first entry in the array before we start assigning values
+            //	[nse nextObject];
+            //	
+            //	// count
+            //	propertyValue = [nse nextObject];
+            //	int capacity = [propertyValue intValue];
+            //	
+            //	if( capacity != -1 )
+            //		kerningDictionary = ccHashSetNew(capacity, targetSetEql);
         }
 
         private void parseKerningEntry(string line)
         {
-            throw new NotImplementedException();
+            //////////////////////////////////////////////////////////////////////////
+            // line to parse:
+            // kerning first=121  second=44  amount=-7
+            //////////////////////////////////////////////////////////////////////////
+
+            // first
+            int first;
+            int index = line.IndexOf("first=");
+            int index2 = line.IndexOf(' ', index);
+            string value = line.Substring(index, index2 - index);
+            first = int.Parse(value.Replace("first=", ""));
+
+            // second
+            int second;
+            index = line.IndexOf("second=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index, index2 - index);
+            second = int.Parse(value.Replace("second=", ""));
+
+            // amount
+            int amount;
+            index = line.IndexOf("amount=");
+            index2 = line.IndexOf(' ', index);
+            value = line.Substring(index);
+            amount = int.Parse(value.Replace("amount=", ""));
+
+            tKerningHashElement element = new tKerningHashElement();
+            element.amount = amount;
+            element.key = (first << 16) | (second & 0xffff);
+            m_pKerningDictionary.Add(element.key, element);
         }
 
         private void purgeKerningDictionary()
         {
-            //tKerningHashElement current;
-            //while (m_pKerningDictionary != null)
-            //{
-            //    current = m_pKerningDictionary;
-            //    HASH_DEL(m_pKerningDictionary, current);
-            //    free(current);
-            //}
+            m_pKerningDictionary.Clear();
         }
+
+        #endregion
     }
 }

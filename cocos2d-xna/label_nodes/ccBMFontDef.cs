@@ -33,23 +33,34 @@ using System.Text;
 
 namespace cocos2d
 {
-
-    #region BMFont definition
     /// <summary>
     /// BMFont definition
     /// </summary>
-    #endregion
     public class ccBMFontDef
     {
-        // ID of the character
-        public uint charID;
-        // origin and size of the font
-        public CCRect rect;
-        // The X amount the image should be offset when drawing the image (in pixels)
+        /// <summary>
+        /// ID of the character
+        /// </summary>
+        public int charID;
+
+        /// <summary>
+        /// origin and size of the font
+        /// </summary>
+        public CCRect rect = new CCRect();
+
+        /// <summary>
+        /// The X amount the image should be offset when drawing the image (in pixels)
+        /// </summary>
         public int xOffset;
-        // The Y amount the image should be offset when drawing the image (in pixels)
+
+        /// <summary>
+        /// The Y amount the image should be offset when drawing the image (in pixels)
+        /// </summary>
         public int yOffset;
-        // The amount to move the current position after drawing the character (in pixels)
+
+        /// <summary>
+        /// The amount to move the current position after drawing the character (in pixels)
+        /// </summary>
         public int xAdvance;
     }
 }

@@ -244,6 +244,12 @@
     <Folder Include="misc_nodes\" />
     <Folder Include="support\data_support\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cocos2d.Framework\cocos2d.Framework.csproj">
+      <Project>{CC156337-B4A7-479F-9262-9A708B5E1164}</Project>
+      <Name>cocos2d.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

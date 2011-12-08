@@ -152,7 +152,7 @@ namespace cocos2d
                 texture = new CCTexture2D();
                 texture.initWithString(label, m_tDimensions, m_eAlignment, m_pFontName.ToString(), m_fFontSize);
             }
-            this.setTexture(texture);
+            this.Texture=texture;
             //texture->release();
 
             CCRect rect = new CCRect(0, 0, 0, 0);

@@ -59,7 +59,7 @@ namespace cocos2d
         /// <param name="?"></param>
         /// <returns></returns>
         #endregion
-        public static CCLabelAtlas labelWithString(string label, string charMapFile, uint itemWidth, uint itemHeight, char startCharMap)
+        public static CCLabelAtlas labelWithString(string label, string charMapFile, int itemWidth, int itemHeight, char startCharMap)
         {
             CCLabelAtlas pRet = new CCLabelAtlas();
             if (pRet != null && pRet.initWithString(label, charMapFile, itemWidth, itemHeight, startCharMap))
@@ -82,11 +82,11 @@ namespace cocos2d
         /// <param name="startCharMap"></param>
         /// <returns></returns>
         #endregion
-        public bool initWithString(string label, string charMapFile, uint itemWidth, uint itemHeight, char startCharMap)
+        public bool initWithString(string label, string charMapFile, int itemWidth, int itemHeight, char startCharMap)
         {
             Debug.Assert(label != null);
             CCAtlasNode ccAtlasNode = new CCAtlasNode();
-            if (ccAtlasNode.initWithTileFile(charMapFile, itemWidth, itemHeight, (uint)label.Length))
+            if (ccAtlasNode.initWithTileFile(charMapFile, itemWidth, itemHeight, label.Length))
             {
                 m_cMapStartChar = startCharMap;
                 this.setString(label);
@@ -99,9 +99,9 @@ namespace cocos2d
         public override void updateAtlasValues()
         {
             uint n = (uint)m_sString.Length;
-            ccV3F_C4B_T2F_Quad quad;
+            ccV3F_C4B_T2F_Quad quad = new ccV3F_C4B_T2F_Quad();
             string s = (string)m_sString;
-            CCTexture2D texture = m_pTextureAtlas.getTexture();
+            CCTexture2D texture = m_pTextureAtlas.Texture;
             float textureWide = (float)texture.getTexture2D().Width;
             float textureHigh = (float)texture.getTexture2D().Height;
             for (int i = 0; i < n; i++)
@@ -129,7 +129,7 @@ namespace cocos2d
                 quad.tr.texCoords.v = top;
                 quad.bl.texCoords.u = left;
                 quad.bl.texCoords.v = bottom;
-                quad.br.texCoords.u  = right;
+                quad.br.texCoords.u = right;
                 quad.br.texCoords.v = bottom;
 
                 quad.bl.vertices.x = (float)(i * m_uItemWidth);
@@ -162,7 +162,7 @@ namespace cocos2d
 
             set
             {
-                uint len = (uint)value.Length;
+                int len = value.Length;
                 if (len > m_pTextureAtlas.TotalQuads)
                 {
                     m_pTextureAtlas.resizeCapacity(len);
@@ -170,7 +170,7 @@ namespace cocos2d
                 m_sString = "";
                 this.updateAtlasValues();
 
-                CCSize s=new CCSize();
+                CCSize s = new CCSize();
                 s.width = (float)(len * m_uItemWidth);
                 s.height = (float)(m_uItemHeight);
                 //this.setContentSizeInPixels(s);
@@ -205,7 +205,7 @@ namespace cocos2d
 
         public void setString(string label)
         {
-            uint len = (uint)label.Length;
+            int len = label.Length;
             if (len > m_pTextureAtlas.TotalQuads)
             {
                 m_pTextureAtlas.resizeCapacity(len);

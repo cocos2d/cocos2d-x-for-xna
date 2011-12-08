@@ -2,8 +2,10 @@
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011      Zynga Inc.
-
+Copyright (c) 2011      Fulcrum Mobile Network, Inc.
+ 
 http://www.cocos2d-x.org
+http://www.openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,15 +31,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-//#include "CCGeometry.h"
-//#include "CCGL.h"
-
 namespace cocos2d
 {
-
-    /** RGB color composed of bytes 3 bytes
-    @since v0.8
-     */
+    /// <summary>
+    /// RGB color composed of bytes 3 bytes
+    /// @since v0.8
+    /// </summary>
     public struct ccColor3B
     {
         public ccColor3B(byte inr, byte ing, byte inb)
@@ -47,7 +46,9 @@ namespace cocos2d
             b = inb;
         }
 
-        // Convert Color value of XNA Framework to ccColor3B type
+        /// <summary>
+        /// Convert Color value of XNA Framework to ccColor3B type
+        /// </summary>
         public ccColor3B(Microsoft.Xna.Framework.Color color)
         {
             r = color.R;
@@ -58,11 +59,12 @@ namespace cocos2d
         public byte r;
         public byte g;
         public byte b;
-    };
+    }
 
-    /** RGBA color composed of 4 bytes
-    @since v0.8
-    */
+    /// <summary>
+    /// RGBA color composed of 4 bytes
+    /// @since v0.8
+    /// </summary>
     public struct ccColor4B
     {
         public ccColor4B(byte inr, byte ing, byte inb, byte ina)
@@ -73,7 +75,9 @@ namespace cocos2d
             a = ina;
         }
 
-        // Convert Color value of XNA Framework to ccColor4B type
+        /// <summary>
+        /// Convert Color value of XNA Framework to ccColor4B type
+        /// </summary>
         public ccColor4B(Microsoft.Xna.Framework.Color color)
         {
             r = color.R;
@@ -86,11 +90,12 @@ namespace cocos2d
         public byte g;
         public byte b;
         public byte a;
-    };
+    }
 
-    /** RGBA color composed of 4 floats
-    @since v0.8
-    */
+    /// <summary>
+    /// RGBA color composed of 4 floats
+    /// @since v0.8
+    /// </summary>
     public struct ccColor4F
     {
         public ccColor4F(float inr, float ing, float inb, float ina)
@@ -105,11 +110,12 @@ namespace cocos2d
         public float g;
         public float b;
         public float a;
-    };
+    }
 
-    /** A vertex composed of 2 floats: x, y
-     @since v0.8
-     */
+    /// <summary>
+    /// A vertex composed of 2 floats: x, y
+    /// @since v0.8
+    /// </summary>
     public struct ccVertex2F
     {
         public ccVertex2F(float inx, float iny)
@@ -120,11 +126,12 @@ namespace cocos2d
 
         public float x;
         public float y;
-    };
+    }
 
-    /** A vertex composed of 2 floats: x, y
-     @since v0.8
-     */
+    /// <summary>
+    /// A vertex composed of 2 floats: x, y
+    /// @since v0.8
+    /// </summary>
     public struct ccVertex3F
     {
         public ccVertex3F(float inx, float iny, float inz)
@@ -137,10 +144,12 @@ namespace cocos2d
         public float x;
         public float y;
         public float z;
-    };
-    /** A texcoord composed of 2 floats: u, y
-    @since v0.8
-    */
+    }
+
+    /// <summary>
+    /// A texcoord composed of 2 floats: u, y
+    /// @since v0.8
+    /// </summary>
     public struct ccTex2F
     {
         public ccTex2F(float inu, float inv)
@@ -151,36 +160,43 @@ namespace cocos2d
 
         public float u;
         public float v;
-    };
+    }
 
-    //! Point Sprite component
+    /// <summary>
+    /// Point Sprite component
+    /// </summary>
     public struct ccPointSprite
     {
         public ccVertex2F pos;		// 8 bytes
         public ccColor4B color;		// 4 bytes
         public float size;		// 4 bytes
-    };
+    }
 
-    //!	A 2D Quad. 4 * 2 floats
+    /// <summary>
+    /// A 2D Quad. 4 * 2 floats
+    /// </summary>
     public struct ccQuad2
     {
         public ccVertex2F tl;
         public ccVertex2F tr;
         public ccVertex2F bl;
         public ccVertex2F br;
-    };
+    }
 
-
-    //!	A 3D Quad. 4 * 3 floats
+    /// <summary>
+    /// A 3D Quad. 4 * 3 floats
+    /// </summary>
     public struct ccQuad3
     {
         public ccVertex3F bl;
         public ccVertex3F br;
         public ccVertex3F tl;
         public ccVertex3F tr;
-    };
+    }
 
-    //! A 2D grid size
+    /// <summary>
+    /// A 2D grid size
+    /// </summary>
     public struct ccGridSize
     {
         public ccGridSize(int inx, int iny)
@@ -191,59 +207,100 @@ namespace cocos2d
 
         public int x;
         public int y;
-    };
+    }
 
-    //! a Point with a vertex point, a tex coord point and a color 4B
+    /// <summary>
+    /// a Point with a vertex point, a tex coord point and a color 4B
+    /// </summary>
     public struct ccV2F_C4B_T2F
     {
-        //! vertices (2F)
+        /// <summary>
+        /// vertices (2F)
+        /// </summary>
         public ccVertex2F vertices;
-        //! colors (4B)
-        public ccColor4B colors;
-        //! tex coords (2F)
-        public ccTex2F texCoords;
-    };
 
-    //! a Point with a vertex point, a tex coord point and a color 4F
+        /// <summary>
+        /// colors (4B)
+        /// </summary>
+        public ccColor4B colors;
+
+        /// <summary>
+        /// tex coords (2F)
+        /// </summary>
+        public ccTex2F texCoords;
+    }
+
+    /// <summary>
+    /// a Point with a vertex point, a tex coord point and a color 4F
+    /// </summary>
     public struct ccV2F_C4F_T2F
     {
-        //! vertices (2F)
+        /// <summary>
+        /// vertices (2F)
+        /// </summary>
         public ccVertex2F vertices;
-        //! colors (4F)
-        public ccColor4F colors;
-        //! tex coords (2F)
-        public ccTex2F texCoords;
-    };
 
-    //! a Point with a vertex point, a tex coord point and a color 4B
+        /// <summary>
+        /// colors (4F)
+        /// </summary>
+        public ccColor4F colors;
+
+        /// <summary>
+        /// tex coords (2F)
+        /// </summary>
+        public ccTex2F texCoords;
+    }
+
+    /// <summary>
+    /// a Point with a vertex point, a tex coord point and a color 4B
+    /// </summary>
     public struct ccV3F_C4B_T2F
     {
-        //! vertices (3F)
+        /// <summary>
+        /// vertices (3F)
+        /// </summary>
         public ccVertex3F vertices;			// 12 bytes
-        //	char __padding__[4];
 
-        //! colors (4B)
+        /// <summary>
+        /// colors (4B)
+        /// </summary>
         public ccColor4B colors;				// 4 bytes
-        //	char __padding2__[4];
 
-        // tex coords (2F)
+        /// <summary>
+        /// tex coords (2F)
+        /// </summary>
         public ccTex2F texCoords;			// 8 byts
-    } ;
+    }
 
-    //! 4 ccVertex2FTex2FColor4B Quad
+    /// <summary>
+    /// 4 ccVertex2FTex2FColor4B Quad
+    /// </summary>
     public struct ccV2F_C4B_T2F_Quad
     {
-        //! bottom left
+        /// <summary>
+        /// bottom left
+        /// </summary>
         public ccV2F_C4B_T2F bl;
-        //! bottom right
-        public ccV2F_C4B_T2F br;
-        //! top left
-        public ccV2F_C4B_T2F tl;
-        //! top right
-        public ccV2F_C4B_T2F tr;
-    } ;
 
-    //! 4 ccVertex3FTex2FColor4B
+        /// <summary>
+        /// bottom right
+        /// </summary>
+        public ccV2F_C4B_T2F br;
+
+        /// <summary>
+        /// top left
+        /// </summary>
+        public ccV2F_C4B_T2F tl;
+
+        /// <summary>
+        /// top right
+        /// </summary>
+        public ccV2F_C4B_T2F tr;
+    }
+
+    /// <summary>
+    /// 4 ccVertex3FTex2FColor4B
+    /// </summary>
     public struct ccV3F_C4B_T2F_Quad
     {
         /// <summary>
@@ -265,41 +322,56 @@ namespace cocos2d
         /// bottom right
         /// </summary>
         public ccV3F_C4B_T2F br;
-    } ;
+    }
 
-    //! 4 ccVertex2FTex2FColor4F Quad
+    /// <summary>
+    /// 4 ccVertex2FTex2FColor4F Quad
+    /// </summary>
     public struct ccV2F_C4F_T2F_Quad
     {
-        //! bottom left
+        /// <summary>
+        /// bottom left
+        /// </summary>
         public ccV2F_C4F_T2F bl;
-        //! bottom right
-        public ccV2F_C4F_T2F br;
-        //! top left
-        public ccV2F_C4F_T2F tl;
-        //! top right
-        public ccV2F_C4F_T2F tr;
-    } ;
 
-    //! Blend Function used for textures
+        /// <summary>
+        /// bottom right
+        /// </summary>
+        public ccV2F_C4F_T2F br;
+
+        /// <summary>
+        /// top left
+        /// </summary>
+        public ccV2F_C4F_T2F tl;
+
+        /// <summary>
+        /// top right
+        /// </summary>
+        public ccV2F_C4F_T2F tr;
+    }
+
+    /// <summary>
+    /// Blend Function used for textures
+    /// </summary>
     public struct ccBlendFunc
     {
-        //! source blend function
+        /// <summary>
+        /// source blend function
+        /// </summary>
         public uint src;
-        //! destination blend function
-        public uint dst;
-    };
 
-    //! delta time type
-    //! if you want more resolution redefine it as a double
-    // #define ccTime float
-    //typedef double ccTime;
+        /// <summary>
+        /// destination blend function
+        /// </summary>
+        public uint dst;
+    }
 
     public enum CCTextAlignment
     {
         CCTextAlignmentLeft,
         CCTextAlignmentCenter,
         CCTextAlignmentRight,
-    };
+    }
 
     public class ccTypes
     {

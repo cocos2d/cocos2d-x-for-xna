@@ -323,7 +323,7 @@ namespace cocos2d
             CCLabelBMFont label1 = CCLabelBMFont.labelWithString("Test", "fonts/bitmapFontTest2.fnt");
 
             // testing anchors
-            label1.setAnchorPoint(new CCPoint(0, 0));
+            label1.anchorPoint = new CCPoint(0, 0);
             addChild(label1, 0, (int)TagSprite.kTagBitmapAtlas1);
             CCActionInterval fade = CCFadeOut.actionWithDuration(1.0f);
             //CCActionInterval fade_in = fade.reverse();
@@ -339,14 +339,14 @@ namespace cocos2d
             // Of course, you can also tell XCode not to compress PNG images, but I think it doesn't work as expected
             CCLabelBMFont label2 = CCLabelBMFont.labelWithString("Test", "fonts/bitmapFontTest2.fnt");
             // testing anchors
-            label2.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label2.anchorPoint = new CCPoint(0.5f, 0.5f);
             label2.setColor(ccRED);
             addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
             label2.runAction((CCAction)(repeat.copy()));
 
             CCLabelBMFont label3 = CCLabelBMFont.labelWithString("Test", "fonts/bitmapFontTest2.fnt");
             // testing anchors
-            label3.setAnchorPoint(new CCPoint(1, 1));
+            label3.anchorPoint = new CCPoint(1, 1);
             addChild(label3, 0, (int)TagSprite.kTagBitmapAtlas3);
 
 
@@ -406,7 +406,7 @@ namespace cocos2d
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             label.position = new CCPoint(s.width / 2, s.height / 2);
-            label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label.anchorPoint = new CCPoint(0.5f, 0.5f);
 
 
             CCSprite BChar = (CCSprite)label.getChildByTag(1);
@@ -492,7 +492,7 @@ namespace cocos2d
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             label.position = new CCPoint(s.width / 2, s.height / 2);
-            label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label.anchorPoint = new CCPoint(0.5f, 0.5f);
         }
         public override string title()
         {
@@ -517,17 +517,17 @@ namespace cocos2d
             label = CCLabelBMFont.labelWithString("FaFeFiFoFu", "fonts/bitmapFontTest5.fnt");
             addChild(label);
             label.position = new CCPoint(s.width / 2, s.height / 2 + 50);
-            label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label.anchorPoint = new CCPoint(0.5f, 0.5f);
 
             label = CCLabelBMFont.labelWithString("fafefifofu", "fonts/bitmapFontTest5.fnt");
             addChild(label);
             label.position = new CCPoint(s.width / 2, s.height / 2);
-            label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label.anchorPoint = new CCPoint(0.5f, 0.5f);
 
             label = CCLabelBMFont.labelWithString("aeiou", "fonts/bitmapFontTest5.fnt");
             addChild(label);
             label.position = new CCPoint(s.width / 2, s.height / 2 - 50);
-            label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label.anchorPoint = new CCPoint(0.5f, 0.5f);
         }
 
         public override string title()
@@ -573,18 +573,18 @@ namespace cocos2d
             label.setColor(ccBLUE);
             addChild(label);
             label.position = new CCPoint(s.width / 2, s.height / 4);
-            label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label.anchorPoint = new CCPoint(0.5f, 0.5f);
 
             label = CCLabelBMFont.labelWithString("Red", "fonts/bitmapFontTest5.fnt");
             addChild(label);
             label.position = new CCPoint(s.width / 2, 2 * s.height / 4);
-            label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label.anchorPoint = new CCPoint(0.5f, 0.5f);
             label.setColor(ccRED);
 
             label = CCLabelBMFont.labelWithString("G", "fonts/bitmapFontTest5.fnt");
             addChild(label);
             label.position = new CCPoint(s.width / 2, 3 * s.height / 4);
-            label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label.anchorPoint = new CCPoint(0.5f, 0.5f);
             label.setColor(ccGREEN);
             label.setString("Green");
         }
@@ -620,7 +620,7 @@ namespace cocos2d
 
                 CCPoint p = new CCPoint(ccMacros.CCRANDOM_0_1() * s.width, ccMacros.CCRANDOM_0_1() * s.height);
                 label.position = p;
-                label.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+                label.anchorPoint = new CCPoint(0.5f, 0.5f);
             }
         }
 
@@ -644,7 +644,7 @@ namespace cocos2d
 
             // Left
             CCLabelBMFont label1 = CCLabelBMFont.labelWithString("Multi line\nLeft", "fonts/bitmapFontTest3.fnt");
-            label1.setAnchorPoint(new CCPoint(0, 0));
+            label1.anchorPoint = new CCPoint(0, 0);
             addChild(label1, 0, (int)TagSprite.kTagBitmapAtlas1);
 
             s = label1.contentSize;
@@ -655,7 +655,7 @@ namespace cocos2d
 
             // Center
             CCLabelBMFont label2 = CCLabelBMFont.labelWithString("Multi line\nCenter", "fonts/bitmapFontTest3.fnt");
-            label2.setAnchorPoint(new CCPoint(0.5f, 0.5f));
+            label2.anchorPoint = new CCPoint(0.5f, 0.5f);
             addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
 
             s = label2.contentSize;
@@ -664,7 +664,7 @@ namespace cocos2d
 
             // right
             CCLabelBMFont label3 = CCLabelBMFont.labelWithString("Multi line\nRight\nThree lines Three", "fonts/bitmapFontTest3.fnt");
-            label3.setAnchorPoint(new CCPoint(1, 1));
+            label3.anchorPoint = new CCPoint(1, 1);
             addChild(label3, 0, (int)TagSprite.kTagBitmapAtlas3);
 
             s = label3.contentSize;

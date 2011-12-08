@@ -27,19 +27,16 @@ namespace cocos2d
 {
     public interface CCRGBAProtocol
     {
-        /** sets Color
-         @since v0.8
-         */
-        /** returns the color
-	     @since v0.8
-	     */
+        /// <summary>
+        /// Gets or sets the color
+        /// </summary>
         ccColor3B Color { get; set; }
 
-        // returns the opacity
-        /** sets the opacity.
-	     @warning If the the texture has premultiplied alpha then, the R, G and B channels will be modifed.
-	     Values goes from 0 to 255, where 255 means fully opaque.
-	     */
+        /// <summary>
+        /// Gets or sets the Opacity
+        /// @warning If the the texture has premultiplied alpha then, the R, G and B channels will be modifed.
+        /// Values goes from 0 to 255, where 255 means fully opaque.
+        /// </summary>
         byte Opacity { get; set; }
 
         /** sets the premultipliedAlphaOpacity property.
@@ -56,35 +53,36 @@ namespace cocos2d
 	     */
     }
 
-    /**
-     @brief You can specify the blending fuction.
-     @since v0.99.0
-     */
+    /// <summary>
+    /// You can specify the blending fuction.
+    /// @since v0.99.0
+    /// </summary>
     public interface CCBlendProtocol
     {
-        // set the source blending function for the texture
-        void setBlendFunc(ccBlendFunc blendFunc);
-
-        // returns the blending function used for the texture
-        ccBlendFunc getBlendFunc();
+        /// <summary>
+        /// gets or sets the source blending function for the texture
+        /// </summary>
+        ccBlendFunc BlendFunc { get; set; }
     }
 
-    /** @brief CCNode objects that uses a Texture2D to render the images.
-     The texture can have a blending function.
-     If the texture has alpha premultiplied the default blending function is:
-        src=GL_ONE dst= GL_ONE_MINUS_SRC_ALPHA
-     else
-	    src=GL_SRC_ALPHA dst= GL_ONE_MINUS_SRC_ALPHA
-     But you can change the blending funtion at any time.
-     @since v0.8.0
-     */
+    /// <summary>
+    /// CCNode objects that uses a Texture2D to render the images.
+    /// </summary>
+    /// <remarks>
+    /// The texture can have a blending function.
+    /// If the texture has alpha premultiplied the default blending function is:
+    ///   src=GL_ONE dst= GL_ONE_MINUS_SRC_ALPHA
+    /// else
+    ///    src=GL_SRC_ALPHA dst= GL_ONE_MINUS_SRC_ALPHA
+    /// But you can change the blending funtion at any time.
+    /// @since v0.8.0
+    /// </remarks>
     public interface CCTextureProtocol : CCBlendProtocol
     {
-        // returns the used texture
-        CCTexture2D getTexture();
-
-        // sets a new texture. it will be retained
-        void setTexture(CCTexture2D texture);
+        /// <summary>
+        /// gets or sets a new texture. it will be retained
+        /// </summary>
+        CCTexture2D Texture { get; set; }
     }
 
     public interface CCLabelProtocol
