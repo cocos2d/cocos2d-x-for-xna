@@ -293,23 +293,20 @@ namespace CocosDenshion
         */
         public void preloadEffect(string pszFilePath)
         {
-            uint nRet = 0;
             do 
             {
-                //BREAK_IF(! pszFilePath);
+                if (pszFilePath.Length <= 0)
+                    break;
+                
+                uint nID = _Hash(pszFilePath);
 
-                //nRet = _Hash(pszFilePath);
+                if (sharedList().ContainsKey(nID))
+                    break;
 
-                //BREAK_IF(sharedList().end() != sharedList().find(nRet));
+                EffectPlayer eff = new EffectPlayer();
+                eff.Open(_FullPath(pszFilePath), nID);
+                sharedList().Add(nID, eff);
 
-                //sharedList().insert(Effect(nRet, new MciPlayer()));
-                //MciPlayer * pPlayer = sharedList()[nRet];
-                //pPlayer->Open(_FullPath(pszFilePath), nRet);
-
-                //BREAK_IF(nRet == pPlayer->GetSoundID());
-
-                //sharedList().erase(nRet);
-                //nRet = 0;
             } while (false);
         }
 

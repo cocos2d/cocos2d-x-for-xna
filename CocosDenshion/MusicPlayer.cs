@@ -70,7 +70,6 @@ namespace CocosDenshion
 
             if (m_music != null)
             {
-                m_music.Dispose();
                 m_music = null;
             }
 

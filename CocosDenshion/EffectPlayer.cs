@@ -71,7 +71,6 @@ namespace CocosDenshion
                 Stop();
             }
 
-            m_effect.Dispose();
             m_effect = null;
 
             m_bPlaying = false;
