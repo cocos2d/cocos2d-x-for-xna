@@ -40,30 +40,30 @@ namespace cocos2d
             CCGridBase newgrid = this.getGrid();
 
             CCNode t = m_pTarget;
-            //CCGridBase targetGrid = t.getGrid();
+            CCGridBase targetGrid = t.Grid;
 
-            //if (targetGrid && targetGrid->getReuseGrid() > 0)
-            //{
-            //    if (targetGrid->isActive() && targetGrid->getGridSize().x == m_sGridSize.x
-            //        && targetGrid->getGridSize().y == m_sGridSize.y /*&& dynamic_cast<CCGridBase*>(targetGrid) != NULL*/)
-            //    {
-            //        targetGrid->reuse();
-            //    }
-            //    else
-            //    {
-            //        assert(0);
-            //    }
-            //}
-            //else
-            //{
-            //    if (targetGrid && targetGrid->isActive())
-            //    {
-            //        targetGrid->setActive(false);
-            //    }
+            if (targetGrid != null && targetGrid.ReuseGrid > 0)
+            {
+                if (targetGrid.Active && targetGrid.GridSize.x == m_sGridSize.x
+                    && targetGrid.GridSize.y == m_sGridSize.y /*&& dynamic_cast<CCGridBase*>(targetGrid) != NULL*/)
+                {
+                    targetGrid.reuse();
+                }
+                else
+                {
+                    Debug.Assert(false);
+                }
+            }
+            else
+            {
+                if (targetGrid != null && targetGrid.Active)
+                {
+                    targetGrid.Active = false;
+                }
 
-            //    t->setGrid(newgrid);
-            //    t->getGrid()->setActive(true);
-            //}
+                t.Grid = newgrid;
+                t.Grid.Active = true;
+            }
         }
         public virtual CCActionInterval reverse()
         {

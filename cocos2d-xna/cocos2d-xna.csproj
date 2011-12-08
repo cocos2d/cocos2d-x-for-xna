@@ -99,7 +99,18 @@
     <Compile Include="actions\action_intervals\CCDelayTime.cs" />
     <Compile Include="actions\action_intervals\CCFadeIn.cs" />
     <Compile Include="actions\action_intervals\CCFadeOut.cs" />
+    <Compile Include="actions\action_intervals\grid_action\CCGridAction.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCTiledGrid3DAction.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCFlipX3D.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCFlipY3D.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCLens3D.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCLiquid.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCOrbitCamera.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCRipple3D.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCShaky3D.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCTwirl.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCWaves.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCWaves3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCFadeOutBLTiles.cs" />
     <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCFadeOutDownTiles.cs" />
     <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\CCFadeOutTRTiles.cs" />
@@ -137,7 +148,6 @@
     <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\Tile.cs" />
     <Compile Include="effects\CCTiledGrid3D.cs" />
     <Compile Include="effects\CCGrabber.cs" />
-    <Compile Include="actions\action_intervals\grid_action\CCGridAction.cs" />
     <Compile Include="actions\CCAction.cs" />
     <Compile Include="actions\action_instants\CCActionInstant.cs" />
     <Compile Include="actions\action_intervals\CCActionInterval.cs" />
@@ -230,7 +240,6 @@
     <Compile Include="touch_dispatcher\ICCTouchDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="actions\action_intervals\grid_action\grid3d_action\" />
     <Folder Include="keypad_dispatcher\" />
     <Folder Include="misc_nodes\" />
     <Folder Include="support\data_support\" />

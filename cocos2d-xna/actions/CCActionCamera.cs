@@ -32,7 +32,38 @@ using System.Text;
 
 namespace cocos2d
 {
-    public class CCActionCamera
+    public class CCActionCamera : CCActionInstant
     {
+        public CCActionCamera()
+        {
+
+        }
+
+        public override void startWithTarget(CCNode pTarget)
+        {
+            startWithTarget(pTarget);
+
+            CCCamera camera = pTarget.Camera;
+            camera.getCenterXYZ(m_fCenterXOrig, m_fCenterYOrig, m_fCenterZOrig);
+            camera.getEyeXYZ(m_fEyeXOrig, m_fEyeYOrig, m_fEyeZOrig);
+            camera.getUpXYZ(m_fUpXOrig, m_fUpYOrig, m_fUpZOrig);
+        }
+
+        public virtual CCActionInterval reverse()
+        {
+            return CCReverseTime.actionWithAction(this);
+        }
+
+        protected float m_fCenterXOrig;
+        protected float m_fCenterYOrig;
+        protected float m_fCenterZOrig;
+
+        protected float m_fEyeXOrig;
+        protected float m_fEyeYOrig;
+        protected float m_fEyeZOrig;
+
+        protected float m_fUpXOrig;
+        protected float m_fUpYOrig;
+        protected float m_fUpZOrig;
     }
 }
