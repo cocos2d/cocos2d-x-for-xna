@@ -19,8 +19,8 @@ namespace CocosDenshion
         static string s_szFullPath;
 
         static SimpleAudioEngine s_SharedEngine;
-        static Dictionary<uint, MciPlayer> s_List;
-        static MciPlayer s_Music;
+        static Dictionary<uint, EffectPlayer> s_List;
+        static MusicPlayer s_Music;
 
         public static string _FullPath(string szPath)
         {
@@ -29,24 +29,31 @@ namespace CocosDenshion
         
         public static uint _Hash(string key)
         {
-            return 0;
+            uint hash = 0;
+            char[] arrKey = key.ToUpper().ToCharArray();
+            for (int i = 0; i < key.Length; i++)
+            {
+                hash *= 16777619;
+                hash ^= (uint)(arrKey[i]);
+            }
+            return hash;
         }
 
-        public static Dictionary<uint, MciPlayer> sharedList()
+        public static Dictionary<uint, EffectPlayer> sharedList()
         {
             if (null == s_List)
             {
-                s_List = new Dictionary<uint, MciPlayer>();
+                s_List = new Dictionary<uint, EffectPlayer>();
             }
 
             return s_List;
         }
 
-        static MciPlayer sharedMusic()
+        static MusicPlayer sharedMusic()
         {
             if (null == s_Music)
             {
-                s_Music = new MciPlayer();
+                s_Music = new MusicPlayer();
             }
 
             return s_Music;
@@ -80,11 +87,11 @@ namespace CocosDenshion
         */
         public static void end()
         { 
-            // sharedMusic().Close();
+            sharedMusic().Close();
 
-            foreach (KeyValuePair<uint, MciPlayer> kvp in sharedList())
+            foreach (KeyValuePair<uint, EffectPlayer> kvp in sharedList())
             {
-                // kvp.Value.Close(); 
+                kvp.Value.Close(); 
             }
    
             sharedList().Clear();
@@ -118,8 +125,8 @@ namespace CocosDenshion
                 return;
             }
 
-            // sharedMusic().Open(_FullPath(pszFilePath), _Hash(pszFilePath));
-            // sharedMusic().Play((bLoop) ? -1 : 1);
+            sharedMusic().Open(_FullPath(pszFilePath), _Hash(pszFilePath));
+            sharedMusic().Play((bLoop) ? -1 : 1);
     
         }
 
@@ -140,11 +147,11 @@ namespace CocosDenshion
         {
             if (bReleaseData)
             {
-                // sharedMusic().Close();
+                sharedMusic().Close();
             }
             else
             {
-                // sharedMusic().Stop();
+                sharedMusic().Stop();
             }
         }
 
@@ -161,7 +168,7 @@ namespace CocosDenshion
         */
         public void pauseBackgroundMusic()
         {
-            // sharedMusic().Pause();
+            sharedMusic().Pause();
         }
 
         /**
@@ -169,7 +176,7 @@ namespace CocosDenshion
         */
         public void resumeBackgroundMusic()
         {
-            // sharedMusic().Resume();
+            sharedMusic().Resume();
         }
 
         /**
@@ -177,7 +184,7 @@ namespace CocosDenshion
         */
         public void rewindBackgroundMusic()
         {
-            // sharedMusic().Rewind();
+            sharedMusic().Rewind();
         }
 
         public bool willPlayBackgroundMusic()
@@ -189,10 +196,10 @@ namespace CocosDenshion
         @brief Whether the background music is playing
         @return If is playing return true,or return false
         */
-        //public bool isBackgroundMusicPlaying()
-        //{
-        //    return sharedMusic().IsPlaying();
-        //}
+        public bool isBackgroundMusicPlaying()
+        {
+            return sharedMusic().IsPlaying();
+        }
 
         // properties
         /**
@@ -239,13 +246,13 @@ namespace CocosDenshion
         { 
             uint nRet = _Hash(pszFilePath);
 
-            // preloadEffect(pszFilePath);
+            preloadEffect(pszFilePath);
 
-            foreach (KeyValuePair<uint, MciPlayer> kvp in sharedList())
+            foreach (KeyValuePair<uint, EffectPlayer> kvp in sharedList())
             {
                 if (nRet == kvp.Key)
                 {
-                    // kvp.Value.Play((bLoop) ? -1 : 1);
+                    kvp.Value.Play((bLoop) ? -1 : 1);
                 }
             }
    
@@ -267,11 +274,11 @@ namespace CocosDenshion
         */
         public void stopEffect(uint nSoundId)
         {
-            foreach (KeyValuePair<uint, MciPlayer> kvp in sharedList())
+            foreach (KeyValuePair<uint, EffectPlayer> kvp in sharedList())
             {
                 if (nSoundId == kvp.Key)
                 {
-                    // kvp.Value.Stop();
+                    kvp.Value.Stop();
                 }
             }
         }
@@ -311,7 +318,7 @@ namespace CocosDenshion
         { 
             uint nID = _Hash(pszFilePath);
 
-            foreach (KeyValuePair<uint, MciPlayer> kvp in sharedList())
+            foreach (KeyValuePair<uint, EffectPlayer> kvp in sharedList())
             {
                 if (nID == kvp.Key)
                 {

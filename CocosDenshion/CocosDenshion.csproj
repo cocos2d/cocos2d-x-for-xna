@@ -59,9 +59,16 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MciPlayer.cs" />
+    <Compile Include="EffectPlayer.cs" />
+    <Compile Include="MusicPlayer.cs" />
     <Compile Include="SimpleAudioEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cocos2d-xna\cocos2d-xna.csproj">
+      <Project>{47EE6CE6-493D-4967-944A-5E55B71AA9FD}</Project>
+      <Name>cocos2d-xna</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

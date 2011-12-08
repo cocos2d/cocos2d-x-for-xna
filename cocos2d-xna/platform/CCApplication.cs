@@ -316,7 +316,7 @@ namespace cocos2d
         /// <summary>
         /// Gets the current ContentManager
         /// </summary>
-        internal ContentManager content
+        public ContentManager content
         {
             get;
             private set;
