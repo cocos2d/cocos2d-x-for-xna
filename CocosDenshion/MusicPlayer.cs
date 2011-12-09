@@ -13,7 +13,7 @@ namespace CocosDenshion
 
         uint m_nSoundID;
         int m_nTimes;
-        bool m_bPlaying;
+        // bool m_bPlaying;
 
         Song m_music;
 
@@ -21,7 +21,7 @@ namespace CocosDenshion
         {
             m_nSoundID = 0;
             m_nTimes = 0;
-            m_bPlaying = false;
+            // m_bPlaying = false;
         }
 
         ~MusicPlayer()
@@ -41,7 +41,7 @@ namespace CocosDenshion
                 m_music = CCApplication.sharedApplication().content.Load<Song>(pFileName);
                 
                 m_nSoundID = uId;
-                m_bPlaying = false;
+                // m_bPlaying = false;
             } while (false);
         }
 
@@ -51,7 +51,7 @@ namespace CocosDenshion
             {
                 MediaPlayer.Play(m_music);
 
-                m_bPlaying = true;
+                // m_bPlaying = true;
                 m_nTimes = nTimes;
             }
 }
@@ -63,7 +63,7 @@ namespace CocosDenshion
 
         public void Close()
         {
-            if (m_bPlaying)
+            if (IsPlaying())
             {
                 Stop();
             }
@@ -73,7 +73,7 @@ namespace CocosDenshion
                 m_music = null;
             }
 
-            m_bPlaying = false;
+            // m_bPlaying = false;
         }
 
         public void Pause()
@@ -89,7 +89,7 @@ namespace CocosDenshion
         public void Stop()
         {
             MediaPlayer.Stop();
-            m_bPlaying = false;
+            // m_bPlaying = false;
         }
 
         public void Rewind()
@@ -99,17 +99,24 @@ namespace CocosDenshion
             if (null != m_music)
             {
                 MediaPlayer.Play(m_music);
-                m_bPlaying = true;
+                // m_bPlaying = true;
             }
             else
             {
-                m_bPlaying = false;
+                // m_bPlaying = false;
             }
         }
 
         public bool IsPlaying()
         {
-            return m_bPlaying;
+            if (MediaState.Playing == MediaPlayer.State)
+            {
+                return true;
+            }
+
+            return false;
+
+            // return m_bPlaying;
         }
 
         public uint GetSoundID()
@@ -117,17 +124,20 @@ namespace CocosDenshion
             return m_nSoundID;
         }
 
-        ////////////////////////////////////////////////////////////////////////////
-        //// private member
-        ////////////////////////////////////////////////////////////////////////////
-
-        public void _SendGenericCommand(int nCommand)
+        public float Volume
         {
-            //if (! m_hDev)
-            //{
-            //    return;
-            //}
-            //mciSendCommand(m_hDev, nCommand, 0, 0);
+            get
+            {
+                return MediaPlayer.Volume;
+            }
+
+            set 
+            {
+                if (value >= 0.0f && value <= 1.0f)
+                {
+                    MediaPlayer.Volume = value;
+                }
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////////

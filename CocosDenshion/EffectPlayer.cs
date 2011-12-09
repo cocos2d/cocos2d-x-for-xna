@@ -103,17 +103,21 @@ namespace CocosDenshion
             return m_nSoundID;
         }
 
-        ////////////////////////////////////////////////////////////////////////////
-        //// private member
-        ////////////////////////////////////////////////////////////////////////////
-
-        public void _SendGenericCommand(int nCommand)
+        // the volume is gloabal, it will affect other effects' volume
+        public static float Volume
         {
-            //if (! m_hDev)
-            //{
-            //    return;
-            //}
-            //mciSendCommand(m_hDev, nCommand, 0, 0);
+            get
+            {
+                return SoundEffect.MasterVolume;
+            }
+
+            set
+            {
+                if (value >= 0.0f && value <= 1.0f)
+                {
+                    SoundEffect.MasterVolume = value;
+                }
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////////

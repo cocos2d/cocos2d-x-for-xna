@@ -113,7 +113,8 @@ namespace CocosDenshion
          @param pszFilePath The path of the background music file,or the FileName of T_SoundResInfo
          */
         public void preloadBackgroundMusic(string pszFilePath)
-        { 
+        {
+            sharedMusic().Open(_FullPath(pszFilePath), _Hash(pszFilePath));
         }
     
         /**
@@ -210,7 +211,7 @@ namespace CocosDenshion
         */
         public float getBackgroundMusicVolume()
         {
-            return 1.0f; // original code in c++
+            return sharedMusic().Volume;
         }
 
         /**
@@ -218,8 +219,8 @@ namespace CocosDenshion
         @param volume must be in 0.0~1.0
         */
         public void setBackgroundMusicVolume(float volume)
-        { 
-        
+        {
+            sharedMusic().Volume = volume;
         }
 
         /**
@@ -227,7 +228,7 @@ namespace CocosDenshion
         */
         public float getEffectsVolume()
         {
-            return 1.0f;// original code in c++
+            return EffectPlayer.Volume;
         }
 
         /**
@@ -235,8 +236,8 @@ namespace CocosDenshion
         @param volume must be in 0.0~1.0
         */
         public void setEffectsVolume(float volume)
-        { 
-        
+        {
+            EffectPlayer.Volume = volume;
         }
 
         // for sound effects
@@ -318,12 +319,9 @@ namespace CocosDenshion
         { 
             uint nID = _Hash(pszFilePath);
 
-            foreach (KeyValuePair<uint, EffectPlayer> kvp in sharedList())
+            if (sharedList().ContainsKey(nID))
             {
-                if (nID == kvp.Key)
-                {
-                    sharedList().Remove(nID);
-                }
+                sharedList().Remove(nID);
             }
         }
 
