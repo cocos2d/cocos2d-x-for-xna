@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using cocos2d;
+using System.Diagnostics;
 
 namespace CocosDenshion
 {
@@ -13,16 +14,11 @@ namespace CocosDenshion
         public static ulong s_mciError;
 
         uint m_nSoundID;
-        int m_nTimes;
-        bool m_bPlaying;
-
         SoundEffect m_effect;
 
         public EffectPlayer()
         {
             m_nSoundID = 0;
-            m_nTimes = 0;
-            m_bPlaying = false;
         }
 
         ~EffectPlayer()
@@ -42,11 +38,10 @@ namespace CocosDenshion
                 m_effect = CCApplication.sharedApplication().content.Load<SoundEffect>(pFileName);
 
                 m_nSoundID = uId;
-                m_bPlaying = false;
             } while (false);
         }
 
-        public void Play(int nTimes /* = 1 */)
+        public void Play(bool bLoop)
         {
             if (null == m_effect)
             {
@@ -54,48 +49,45 @@ namespace CocosDenshion
             }
 
             m_effect.Play();
-            m_bPlaying = true;
-            m_nTimes = nTimes;
-            
+           
         }
 
         public void Play()
         {
-            Play(1);
+            Play(false);
         }
 
         public void Close()
         {
-            if (m_bPlaying)
-            {
-                Stop();
-            }
+            Stop();
 
             m_effect = null;
-
-            m_bPlaying = false;
         }
 
         public void Pause()
         {
+            Debug.WriteLine("Pause is invalid for sound effect");
         }
 
         public void Resume()
         {
+            Debug.WriteLine("Resume is invalid for sound effect");
         }
 
         public void Stop()
         {
-            m_bPlaying = false;
+            Debug.WriteLine("Stop is invalid for sound effect");
         }
 
         public void Rewind()
         {
+            Debug.WriteLine("Rewind is invalid for sound effect");
         }
 
         public bool IsPlaying()
         {
-            return m_bPlaying;
+            Debug.WriteLine("IsPlaying is invalid for sound effect");
+            return false;
         }
 
         public uint GetSoundID()
@@ -119,39 +111,6 @@ namespace CocosDenshion
                 }
             }
         }
-
-        ////////////////////////////////////////////////////////////////////////////
-        //// static function
-        ////////////////////////////////////////////////////////////////////////////
-
-        //LRESULT WINAPI _SoundPlayProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
-        //{
-        //    EffectPlayer * pPlayer = NULL;
-        //    if (MM_MCINOTIFY == Msg 
-        //        && MCI_NOTIFY_SUCCESSFUL == wParam
-        //        &&(pPlayer = (EffectPlayer *)GetWindowLong(hWnd, GWL_USERDATA)))
-        //    {
-        //        if (pPlayer->m_nTimes)
-        //        {
-        //            --pPlayer->m_nTimes;
-        //        }
-
-        //        if (pPlayer->m_nTimes)
-        //        {
-        //            mciSendCommand(lParam, MCI_SEEK, MCI_SEEK_TO_START, 0);
-
-        //            MCI_PLAY_PARMS mciPlay = {0};
-        //            mciPlay.dwCallback = (DWORD)hWnd;
-        //            mciSendCommand(lParam, MCI_PLAY, MCI_NOTIFY,(DWORD)&mciPlay);
-        //        }
-        //        else
-        //        {
-        //            pPlayer->m_bPlaying = false;
-        //        }
-        //        return 0;
-        //    }
-        //    return DefWindowProc(hWnd, Msg, wParam, lParam);
-        //}
 
     }
 }

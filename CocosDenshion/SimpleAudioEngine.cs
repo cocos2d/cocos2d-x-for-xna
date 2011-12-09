@@ -130,7 +130,7 @@ namespace CocosDenshion
             }
 
             sharedMusic().Open(_FullPath(pszFilePath), _Hash(pszFilePath));
-            sharedMusic().Play((bLoop) ? -1 : 1);
+            sharedMusic().Play(bLoop);
     
         }
 
@@ -256,7 +256,7 @@ namespace CocosDenshion
             {
                 if (nRet == kvp.Key)
                 {
-                    kvp.Value.Play((bLoop) ? -1 : 1);
+                    kvp.Value.Play(bLoop);
                 }
             }
    
