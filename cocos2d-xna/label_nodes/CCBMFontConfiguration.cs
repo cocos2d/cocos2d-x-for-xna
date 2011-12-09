@@ -109,7 +109,7 @@ namespace cocos2d
 
         private void parseConfigFile(string controlFile)
         {
-            CCData data = CCApplication.sharedApplication().content.Load<CCData>(controlFile);
+            CCContent data = CCApplication.sharedApplication().content.Load<CCContent>(controlFile);
             string pBuffer = data.Content;
             long nBufSize = data.Content.Length;
             Debug.Assert(pBuffer != null, "CCBMFontConfiguration::parseConfigFile | Open file error.");

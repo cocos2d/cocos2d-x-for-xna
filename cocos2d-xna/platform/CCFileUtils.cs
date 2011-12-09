@@ -70,7 +70,7 @@ namespace cocos2d
         public static string getFileData(string pszFileName, string pszMode, UInt64 pSize)
         {
             ContentManager content = CCApplication.sharedApplication().content;
-            CCData data = content.Load<CCData>(pszFileName);
+            CCContent data = content.Load<CCContent>(pszFileName);
 
             return data.Content;
         }
