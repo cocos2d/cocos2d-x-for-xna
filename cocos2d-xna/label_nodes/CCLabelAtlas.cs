@@ -45,7 +45,7 @@ namespace cocos2d
     /// A more flexible class is CCLabelBMFont. It supports variable width characters and it also has a nice editor.
     /// </summary>
     #endregion
-    public class CCLabelAtlas : CCAtlasNode, CCLabelProtocol
+    public class CCLabelAtlas : CCAtlasNode, ICCLabelProtocol
     {
         public CCLabelAtlas()
         {
@@ -193,9 +193,9 @@ namespace cocos2d
         //        }
         //#endif
 
-        public virtual CCLabelProtocol convertToLabelProtocol()
+        public virtual ICCLabelProtocol convertToLabelProtocol()
         {
-            return (CCLabelProtocol)this;
+            return (ICCLabelProtocol)this;
         }
 
         // string to render

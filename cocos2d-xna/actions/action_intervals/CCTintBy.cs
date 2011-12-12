@@ -72,7 +72,7 @@ namespace cocos2d
         {
             base.startWithTarget(target);
 
-            CCRGBAProtocol protocol = target as CCRGBAProtocol;
+            ICCRGBAProtocol protocol = target as ICCRGBAProtocol;
             if (protocol != null)
             {
                 ccColor3B color = protocol.Color;
@@ -84,7 +84,7 @@ namespace cocos2d
 
         public override void update(float dt)
         {
-            CCRGBAProtocol protocol = m_pTarget as CCRGBAProtocol;
+            ICCRGBAProtocol protocol = m_pTarget as ICCRGBAProtocol;
             if (protocol != null)
             {
                 protocol.Color = new ccColor3B((byte)(m_fromR + m_deltaR * dt),

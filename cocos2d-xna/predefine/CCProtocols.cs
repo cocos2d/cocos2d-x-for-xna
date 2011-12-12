@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 namespace cocos2d
 {
-    public interface CCRGBAProtocol
+    public interface ICCRGBAProtocol
     {
         /// <summary>
         /// Gets or sets the color
@@ -57,7 +57,7 @@ namespace cocos2d
     /// You can specify the blending fuction.
     /// @since v0.99.0
     /// </summary>
-    public interface CCBlendProtocol
+    public interface ICCBlendProtocol
     {
         /// <summary>
         /// gets or sets the source blending function for the texture
@@ -77,7 +77,7 @@ namespace cocos2d
     /// But you can change the blending funtion at any time.
     /// @since v0.8.0
     /// </remarks>
-    public interface CCTextureProtocol : CCBlendProtocol
+    public interface ICCTextureProtocol : ICCBlendProtocol
     {
         /// <summary>
         /// gets or sets a new texture. it will be retained
@@ -85,7 +85,7 @@ namespace cocos2d
         CCTexture2D Texture { get; set; }
     }
 
-    public interface CCLabelProtocol
+    public interface ICCLabelProtocol
     {
         // sets a new label using an string
         void setString(string label);
@@ -94,12 +94,15 @@ namespace cocos2d
         string getString();
     }
 
-    /** OpenGL projection protocol */
-    public interface CCProjectionProtocol
+    /// <summary>
+    /// OpenGL projection protocol
+    /// </summary>
+    public interface ICCProjectionProtocol
     {
-        /** Called by CCDirector when the porjection is updated, and "custom" projection is used
-	    @since v0.99.5
-	    */
+        /// <summary>
+        /// Called by CCDirector when the porjection is updated, and "custom" projection is used
+        /// @since v0.99.5
+        /// </summary>
         void updateProjection();
     }
 }

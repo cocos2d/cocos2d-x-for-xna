@@ -62,7 +62,7 @@ namespace cocos2d
 
         public override void update(float time)
         {
-	        CCRGBAProtocol pRGBAProtocol = m_pTarget as CCRGBAProtocol;
+	        ICCRGBAProtocol pRGBAProtocol = m_pTarget as ICCRGBAProtocol;
 	        if (pRGBAProtocol != null)
 	        {
 		        pRGBAProtocol.Opacity  = (byte)(255 * (1 - time));

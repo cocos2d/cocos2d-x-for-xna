@@ -63,7 +63,7 @@ namespace cocos2d
         public override void startWithTarget(CCNode pTarget)
         {
             base.startWithTarget(pTarget);
-            ((CCSprite)(pTarget)).setFlipY(m_bFlipY);
+            ((CCSprite)(pTarget)).IsFlipY = m_bFlipY;
         }
 
         public override CCFiniteTimeAction reverse()

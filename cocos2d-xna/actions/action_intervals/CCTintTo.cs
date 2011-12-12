@@ -72,7 +72,7 @@ namespace cocos2d
         public override void startWithTarget(CCNode target)
         {
             base.startWithTarget(target);
-            CCRGBAProtocol protocol = m_pTarget as CCRGBAProtocol;
+            ICCRGBAProtocol protocol = m_pTarget as ICCRGBAProtocol;
             if (protocol != null)
             {
                 m_from = protocol.Color;
@@ -81,7 +81,7 @@ namespace cocos2d
 
         public override void update(float dt)
         {
-            CCRGBAProtocol protocol = m_pTarget as CCRGBAProtocol;
+            ICCRGBAProtocol protocol = m_pTarget as ICCRGBAProtocol;
             if (protocol != null)
             {
                 protocol.Color =  new ccColor3B((byte)(m_from.r + (m_to.r - m_from.r) * dt),

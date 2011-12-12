@@ -38,7 +38,7 @@ namespace cocos2d.menu_nodes
     /// A simple container class that "toggles" it's inner items
     /// The inner itmes can be any MenuItem
     /// </summary>
-    public class CCMenuItemToggle : CCMenuItem, CCRGBAProtocol
+    public class CCMenuItemToggle : CCMenuItem, ICCRGBAProtocol
     {
         private byte m_cOpacity;
 

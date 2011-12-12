@@ -34,7 +34,14 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
-    public class CCAtlasNode : CCNode, CCRGBAProtocol, CCTextureProtocol
+    ///<summary>
+    /// CCAtlasNode is a subclass of CCNode that implements the CCRGBAProtocol and CCTextureProtocol protocol
+    /// It knows how to render a TextureAtlas object.
+    /// If you are going to render a TextureAtlas consider subclassing CCAtlasNode (or a subclass of CCAtlasNode)
+    /// All features from CCNode are valid, plus the following features:
+    ///- opacity and RGB colors
+    ///</summary>
+    public class CCAtlasNode : CCNode, ICCRGBAProtocol, ICCTextureProtocol
     {
         //chars per row
         protected int m_uItemsPerRow;
@@ -134,16 +141,9 @@ namespace cocos2d
 
         }
 
-        #region creates a CCAtlasNode  with an Atlas file the width and height of each item and the quantity of items to render
         /// <summary>
         /// creates a CCAtlasNode  with an Atlas file the width and height of each item and the quantity of items to render
         /// </summary>
-        /// <param name="tile"></param>
-        /// <param name="tileWidth"></param>
-        /// <param name="tileHeight"></param>
-        /// <param name="itemsToRender"></param>
-        /// <returns></returns>
-        #endregion
         public static CCAtlasNode atlasWithTileFile(string tile, int tileWidth, int tileHeight, int itemsToRender)
         {
             CCAtlasNode pRet = new CCAtlasNode();
@@ -199,12 +199,10 @@ namespace cocos2d
             return true;
         }
 
-        #region updates the Atlas (indexed vertex array).
         /// <summary>
         ///  updates the Atlas (indexed vertex array).
         ///  Shall be overriden in subclasses
         /// </summary>
-        #endregion
         public virtual void updateAtlasValues()
         {
             Debug.Assert(false, "CCAtlasNode:Abstract updateAtlasValue not overriden");
@@ -243,9 +241,9 @@ namespace cocos2d
             //glEnableClientState(GL_COLOR_ARRAY);
         }
 
-        public virtual CCRGBAProtocol convertToRGBAProtocol()
+        public virtual ICCRGBAProtocol convertToRGBAProtocol()
         {
-            return (CCRGBAProtocol)this;
+            return (ICCRGBAProtocol)this;
         }
 
         // CC Texture protocol

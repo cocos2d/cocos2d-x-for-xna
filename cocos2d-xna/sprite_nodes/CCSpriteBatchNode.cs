@@ -48,7 +48,7 @@ namespace cocos2d
     ///  - Either all its children are Aliased or Antialiased. It can't be a mix. This is because "alias" is a property of the texture, and all the sprites share the same texture.
     ///  @since v0.7.1
     ///  </remarks>
-    public class CCSpriteBatchNode : CCNode, CCTextureProtocol
+    public class CCSpriteBatchNode : CCNode, ICCTextureProtocol
     {
         const int defaultCapacity = 29;
 

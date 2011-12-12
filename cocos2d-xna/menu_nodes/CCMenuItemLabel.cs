@@ -41,7 +41,7 @@ namespace cocos2d
     /// - CCLabelAtlas
     /// - CCLabelTTF
     /// </summary>
-    public class CCMenuItemLabel : CCMenuItem, CCRGBAProtocol
+    public class CCMenuItemLabel : CCMenuItem, ICCRGBAProtocol
     {
         const uint kCurrentItem = 0xc0c05001;
         const uint kZoomActionTag = 0xc0c05002;
@@ -133,7 +133,7 @@ namespace cocos2d
         /** sets a new string to the inner label */
         public void setString(string label)
         {
-            ((CCLabelProtocol)m_pLabel).setString(label);
+            ((ICCLabelProtocol)m_pLabel).setString(label);
             this.contentSize = m_pLabel.contentSize;
         }
 
@@ -213,9 +213,9 @@ namespace cocos2d
         }
 
 
-        public virtual CCRGBAProtocol convertToRGBAProtocol()
+        public virtual ICCRGBAProtocol convertToRGBAProtocol()
         {
-            return (CCRGBAProtocol)this;
+            return (ICCRGBAProtocol)this;
         }
 
 

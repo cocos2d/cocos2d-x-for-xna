@@ -75,21 +75,17 @@ namespace cocos2d
     *
     * The default anchorPoint in CCSprite is (0.5, 0.5).
     */
-    public class CCSprite : CCNode, CCTextureProtocol, CCRGBAProtocol
+    public class CCSprite : CCNode, ICCTextureProtocol, ICCRGBAProtocol
     {
         #region Properties
 
         private byte m_nOpacity;
-
         /// <summary>
         /// Opacity: conforms to CCRGBAProtocol protocol
         /// </summary>
         public byte Opacity
         {
-            get
-            {
-                return m_nOpacity;
-            }
+            get { return m_nOpacity; }
             set
             {
                 m_nOpacity = value;
@@ -105,7 +101,6 @@ namespace cocos2d
         }
 
         private ccColor3B m_sColor;
-
         /// <summary>
         /// Color: conforms with CCRGBAProtocol protocol
         /// </summary>
@@ -187,11 +182,7 @@ namespace cocos2d
         /// </summary>
         public bool rectRotated
         {
-            // read only
-            get
-            {
-                return m_bRectRotated;
-            }
+            get { return m_bRectRotated; }
         }
 
         private uint m_uAtlasIndex;
@@ -217,10 +208,7 @@ namespace cocos2d
         public CCRect textureRect
         {
             // read only
-            get
-            {
-                return m_obTextureRect;
-            }
+            get { return m_obTextureRect; }
         }
 
         /// <summary>
@@ -239,6 +227,17 @@ namespace cocos2d
             }
         }
 
+        /** conforms to CCTextureProtocol protocol */
+        private ccBlendFunc m_sBlendFunc;
+        public ccBlendFunc BlendFunc
+        {
+            get { return m_sBlendFunc; }
+            set { m_sBlendFunc = value; }
+        }
+
+        protected CCTextureAtlas m_pobTextureAtlas;
+        protected CCSpriteBatchNode m_pobBatchNode;
+
         /** weak reference of the CCTextureAtlas used when the sprite is rendered using a CCSpriteBatchNode */
         ///@todo add m_pobTextureAtlas
         ///
@@ -256,28 +255,19 @@ namespace cocos2d
         /// </summary>
         public ccHonorParentTransform honorParentTransform
         {
-            get
-            {
-                return m_eHonorParentTransform;
-            }
-            set
-            {
-                m_eHonorParentTransform = value;
-            }
+            get { return m_eHonorParentTransform; }
+            set { m_eHonorParentTransform = value; }
         }
 
         /// <summary>
-        /// offset position in pixels of the sprite in points. Calculated automatically by editors like Zwoptex.
+        /// Gets offset position in pixels of the sprite in points. Calculated automatically by editors like Zwoptex.
         /// @since v0.99.0
         /// </summary>
         private CCPoint m_obOffsetPositionInPixels;
         public CCPoint offsetPositionInPixels
         {
             // read only
-            get
-            {
-                return m_obOffsetPositionInPixels;
-            }
+            get { return m_obOffsetPositionInPixels; }
         }
 
         #endregion
@@ -450,17 +440,6 @@ namespace cocos2d
             return true;
         }
 
-        /** conforms to CCTextureProtocol protocol */
-        private ccBlendFunc m_sBlendFunc;
-        public ccBlendFunc BlendFunc
-        {
-            get { return m_sBlendFunc; }
-            set { m_sBlendFunc = value; }
-        }
-
-        protected CCTextureAtlas m_pobTextureAtlas;
-        protected CCSpriteBatchNode m_pobBatchNode;
-
         public override void draw()
         {
             base.draw();
@@ -470,21 +449,21 @@ namespace cocos2d
             }
 
             //get the point of cocos2d
-            CCPoint cocos2dPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x,
-     position.y - contentSizeInPixels.height * anchorPoint.y);
+            CCPoint cocos2dPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x, position.y - contentSizeInPixels.height * anchorPoint.y);
             CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), m_tNodeToWorldTransform);
             uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
 
             Vector2 vecPosition = new Vector2(uiPoint.x, uiPoint.y - contentSizeInPixels.height);
             Texture2D texture = m_pobTexture.getTexture2D();
             Rectangle? sourceRectangle = new Rectangle((int)m_obRect.origin.x, (int)m_obRect.origin.y, (int)m_obRect.size.width, (int)m_obRect.size.height);
-            Color color = new Microsoft.Xna.Framework.Color() { R = m_sColor.r, G = m_sColor.g, B = m_sColor.b };
+            Color color = new Microsoft.Xna.Framework.Color() { R = m_sColor.r, G = m_sColor.g, B = m_sColor.b, A = m_nOpacity };
             float rotation = m_fRotation;
             Vector2 origin = new Vector2(anchorPoint.x, anchorPoint.y);
             Vector2 scale = new Vector2(m_fScaleX, m_fScaleY);
             SpriteEffects effects = SpriteEffects.None;
             float layerDepth = 0;
 
+            //BlendState blendState = new BlendState();
 
             CCApplication.sharedApplication().spriteBatch.Begin();
             CCApplication.sharedApplication().spriteBatch.Draw(texture, vecPosition, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
@@ -755,46 +734,44 @@ namespace cocos2d
 
         #endregion
 
-        public void setFlipX(bool bFlipX)
+        /// <summary>
+        /// whether or not the sprite is flipped horizontally. 
+        /// It only flips the texture of the sprite, and not the texture of the sprite's children.
+        /// Also, flipping the texture doesn't alter the anchorPoint.
+        /// If you want to flip the anchorPoint too, and/or to flip the children too use:
+        /// sprite->setScaleX(sprite->getScaleX() * -1);
+        /// </summary>
+        public bool IsFlipX
         {
-            if (m_bFlipX != bFlipX)
+            set
             {
-                m_bFlipX = bFlipX;
-                setTextureRectInPixels(m_obRectInPixels, m_bRectRotated, m_tContentSizeInPixels);
+                if (m_bFlipX != value)
+                {
+                    m_bFlipX = value;
+                    setTextureRectInPixels(m_obRectInPixels, m_bRectRotated, m_tContentSizeInPixels);
+                }
             }
+            get { return m_bFlipX; }
         }
 
-        public void setFlipY(bool bFlipY)
+        /// <summary>
+        /// whether or not the sprite is flipped vertically.
+        /// It only flips the texture of the sprite, and not the texture of the sprite's children.
+        /// Also, flipping the texture doesn't alter the anchorPoint.
+        /// If you want to flip the anchorPoint too, and/or to flip the children too use:
+        /// sprite->setScaleY(sprite->getScaleY() * -1);
+        /// </summary>
+        public bool IsFlipY
         {
-            if (m_bFlipY != bFlipY)
+            set
             {
-                m_bFlipY = bFlipY;
-                setTextureRectInPixels(m_obRectInPixels, m_bRectRotated, m_tContentSizeInPixels);
+                if (m_bFlipY != value)
+                {
+                    m_bFlipY = value;
+                    setTextureRectInPixels(m_obRectInPixels, m_bRectRotated, m_tContentSizeInPixels);
+                }
             }
-        }
-        /** whether or not the sprite is flipped horizontally. 
-	    It only flips the texture of the sprite, and not the texture of the sprite's children.
-	    Also, flipping the texture doesn't alter the anchorPoint.
-	    If you want to flip the anchorPoint too, and/or to flip the children too use:
-
-	    sprite->setScaleX(sprite->getScaleX() * -1);
-	    */
-
-        public bool isFlipX()
-        {
-            return m_bFlipX;
-        }
-
-        /** whether or not the sprite is flipped vertically.
-	    It only flips the texture of the sprite, and not the texture of the sprite's children.
-	    Also, flipping the texture doesn't alter the anchorPoint.
-	    If you want to flip the anchorPoint too, and/or to flip the children too use:
-
-	    sprite->setScaleY(sprite->getScaleY() * -1);
-	    */
-        public bool isFlipY()
-        {
-            return m_bFlipY;
+            get { return m_bFlipY; }
         }
 
         void updateColor()
@@ -965,7 +942,7 @@ namespace cocos2d
         /// </summary>
         public void updateTransform()
         {
-            //assert(m_bUsesBatchNode);
+            Debug.Assert(m_bUsesBatchNode != null);
 
             // optimization. Quick return if not dirty
             if (!m_bDirty)
@@ -1068,6 +1045,8 @@ namespace cocos2d
                 }
             }
 
+            #region No use in XNA
+
             //
             // calculate the Quad based on the Affine Matrix
             //
@@ -1103,6 +1082,9 @@ namespace cocos2d
             m_sQuad.tr.vertices = new ccVertex3F((float)cx, (float)cy, m_fVertexZ);
 
             m_pobTextureAtlas.updateQuad(m_sQuad, m_uAtlasIndex);
+
+            #endregion
+
             m_bDirty = m_bRecursiveDirty = false;
         }
 
@@ -1344,7 +1326,7 @@ namespace cocos2d
         protected CCTexture2D m_pobTexture;
 
         // whether or not it's parent is a CCSpriteBatchNode
-        bool m_bUsesBatchNode;
+        bool m_bUsesBatchNode = false;
 
         // texture
         protected CCRect m_obRect;

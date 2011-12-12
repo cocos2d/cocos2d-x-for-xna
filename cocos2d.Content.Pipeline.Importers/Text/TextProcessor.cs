@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 
 using TInput = System.String;
-using TOutput = cocos2d.Framework.CCData;
+using TOutput = cocos2d.Framework.CCContent;
 
 namespace cocos2d.Content.Pipeline.Importers
 {

@@ -46,7 +46,7 @@ namespace cocos2d
     ///  You can add MenuItem objects in runtime using addChild:
     ///  But the only accecpted children are MenuItem objects
     /// </summary>
-    public class CCMenu : CCLayer, CCRGBAProtocol, ICCTouchDelegate
+    public class CCMenu : CCLayer, ICCRGBAProtocol, ICCTouchDelegate
     {
         const float kDefaultPadding = 5;
         const int kCCMenuTouchPriority = -128;
@@ -359,9 +359,9 @@ namespace cocos2d
             base.onExit();
         }
 
-        public virtual CCRGBAProtocol convertToRGBAProtocol()
+        public virtual ICCRGBAProtocol convertToRGBAProtocol()
         {
-            return (CCRGBAProtocol)this;
+            return (ICCRGBAProtocol)this;
         }
 
         protected CCMenuItem itemForTouch(CCTouch touch)

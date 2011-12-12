@@ -40,11 +40,13 @@ namespace cocos2d
     /// All features from CCTextureNode are valid in CCLabelTTF
     /// CCLabelTTF objects are slow. Consider using CCLabelAtlas or CCLabelBMFont instead.
     /// </summary>
-    public class CCLabelTTF : CCSprite, CCLabelProtocol
+    public class CCLabelTTF : CCSprite, ICCLabelProtocol
     {
         public CCLabelTTF()
         {
-
+            this.m_eAlignment = CCTextAlignment.CCTextAlignmentCenter;
+            this.m_pFontName = string.Empty;
+            this.m_fFontSize = 0.0f;
         }
 
         public string description()
@@ -208,9 +210,9 @@ namespace cocos2d
         //    }
         //}
 
-        public virtual CCLabelProtocol convertToLabelProtocol()
+        public virtual ICCLabelProtocol convertToLabelProtocol()
         {
-            return (CCLabelProtocol)this;
+            return (ICCLabelProtocol)this;
         }
 
         protected SpriteFont spriteFont;

@@ -106,7 +106,7 @@ namespace cocos2d
     /// emitter.startSpin = 0;
     /// @endcode
     /// </summary>
-    public class CCParticleSystem : CCNode, CCTextureProtocol
+    public class CCParticleSystem : CCNode, ICCTextureProtocol
     {
         // The Particle emitter lives forever 
         const int kCCParticleDurationInfinity = -1;

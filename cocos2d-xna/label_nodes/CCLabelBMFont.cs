@@ -34,7 +34,7 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
-    public class CCLabelBMFont : CCSpriteBatchNode, CCLabelProtocol, CCRGBAProtocol
+    public class CCLabelBMFont : CCSpriteBatchNode, ICCLabelProtocol, ICCRGBAProtocol
     {
         // how many characters are supported
         const uint kCCBMFontMaxChars = 2048;//256,
@@ -301,14 +301,14 @@ namespace cocos2d
             }
         }
 
-        public virtual CCRGBAProtocol convertToRGBAProtocol()
+        public virtual ICCRGBAProtocol convertToRGBAProtocol()
         {
-            return (CCRGBAProtocol)this;
+            return (ICCRGBAProtocol)this;
         }
 
-        public virtual CCLabelProtocol convertToLabelProtocol()
+        public virtual ICCLabelProtocol convertToLabelProtocol()
         {
-            return (CCLabelProtocol)this;
+            return (ICCLabelProtocol)this;
         }
 
 #if CC_LABELBMFONT_DEBUG_DRAW

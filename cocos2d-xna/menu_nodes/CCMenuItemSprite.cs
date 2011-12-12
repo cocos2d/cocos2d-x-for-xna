@@ -41,7 +41,7 @@ namespace cocos2d
     /// - disabled image
     /// @since v0.8.0
     /// </summary>
-    public class CCMenuItemSprite : CCMenuItem, CCRGBAProtocol
+    public class CCMenuItemSprite : CCMenuItem, ICCRGBAProtocol
     {
         #region contructor
 
@@ -283,14 +283,14 @@ namespace cocos2d
 
         #endregion
 
-        public virtual CCRGBAProtocol convertToRGBAProtocol()
+        public virtual ICCRGBAProtocol convertToRGBAProtocol()
         {
-            return (this as CCRGBAProtocol);
+            return (this as ICCRGBAProtocol);
         }
 
         #region Interface CCRGBAProtocol
 
-        byte CCRGBAProtocol.Opacity
+        byte ICCRGBAProtocol.Opacity
         {
             get
             {
