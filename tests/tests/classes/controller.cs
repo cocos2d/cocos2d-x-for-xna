@@ -139,7 +139,7 @@ namespace tests
                 //    case TEST_DRAW_PRIMITIVES:
                 //        pScene = new DrawPrimitivesTestScene(); break;
                 case (int)TestCases.TEST_COCOSNODE:
-                    pScene = new CocosNodeTestScene(); break;
+                    //pScene = new CocosNodeTestScene(); break;
                 case (int)TestCases.TEST_TOUCHES:
                     pScene = new PongScene(); break;
                 case (int)TestCases.TEST_MENU:
@@ -147,7 +147,7 @@ namespace tests
                 //    case TEST_ACTION_MANAGER:
                 //        pScene = new ActionManagerTestScene(); break;
                 case (int)TestCases.TEST_LAYER:
-                    pScene = new LayerTestScene(); break;
+                   // pScene = new LayerTestScene(); break;
                 //    case TEST_SCENE:
                 //        pScene = new SceneTestScene(); break;
                 //    case TEST_PARALLAX:

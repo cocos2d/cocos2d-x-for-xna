@@ -355,6 +355,11 @@ namespace cocos2d
     /// </summary>
     public struct ccBlendFunc
     {
+        public ccBlendFunc(uint src,uint dst) 
+        {
+            this.src = src;
+            this.dst = dst;
+        }
         /// <summary>
         /// source blend function
         /// </summary>

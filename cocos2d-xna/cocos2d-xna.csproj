@@ -146,6 +146,7 @@
     <Compile Include="actions\action_intervals\grid_action\CCAccelDeccelAmplitude.cs" />
     <Compile Include="actions\action_intervals\grid_action\CCDeccelAmplitude.cs" />
     <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\Tile.cs" />
+    <Compile Include="cocoa\CCData.cs" />
     <Compile Include="effects\CCTiledGrid3D.cs" />
     <Compile Include="effects\CCGrabber.cs" />
     <Compile Include="actions\CCAction.cs" />
@@ -177,8 +178,38 @@
     <Compile Include="label_nodes\CCLabelTTF.cs" />
     <Compile Include="label_nodes\tKerningHashElement.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayer.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCLayerColor.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCLayerMultiplex.cs" />
     <Compile Include="layers_scenes_transitions_nodes\CCScene.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionFadeDown.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionFadeUp.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionFlipAngular.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionFlipX.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionFlipY.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionJumpZoom.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionMoveInB.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionMoveInL.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionMoveInR.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionMoveInT.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionRotoZoom.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionSceneOriented.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionShrinkGrow.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionSlideInB.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionSlideInL.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionSlideInR.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionSlideInT.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionSplitCols.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionSplitRows.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionTurnOffTiles.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionZoomFlipAngular.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionZoomFlipX.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionZoomFlipY.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\ICCTransitionEaseScene.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionFade.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionFadeBL.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionFadeTR.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionScene.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\CCTransitionCrossFade.cs" />
     <Compile Include="menu_nodes\CCMenu.cs" />
     <Compile Include="menu_nodes\CCMenuItem.cs" />
     <Compile Include="menu_nodes\CCMenuItemAtlasFont.cs" />
@@ -187,6 +218,7 @@
     <Compile Include="menu_nodes\CCMenuItemLabel.cs" />
     <Compile Include="menu_nodes\CCMenuItemSprite.cs" />
     <Compile Include="menu_nodes\CCMenuItemToggle.cs" />
+    <Compile Include="misc_nodes\CCRenderTexture.cs" />
     <Compile Include="particle_nodes\CCParticleExamples.cs" />
     <Compile Include="particle_nodes\CCParticleSystem.cs" />
     <Compile Include="particle_nodes\CCParticleSystemPoint.cs" />
@@ -241,7 +273,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="keypad_dispatcher\" />
-    <Folder Include="misc_nodes\" />
     <Folder Include="support\data_support\" />
   </ItemGroup>
   <ItemGroup>

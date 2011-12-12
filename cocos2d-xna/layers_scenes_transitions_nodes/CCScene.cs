@@ -33,34 +33,37 @@ using System.Text;
 
 namespace cocos2d
 {
-    /** @brief CCScene is a subclass of CCNode that is used only as an abstract concept.
+    public enum ccSceneFlag
+    {
+        ccNormalScene = 1 << 0,
+        ccTransitionScene = 1 << 1
+    }
 
-    CCScene an CCNode are almost identical with the difference that CCScene has it's
-    anchor point (by default) at the center of the screen.
-
-    For the moment CCScene has no other logic than that, but in future releases it might have
-    additional logic.
-
-    It is a good practice to use and CCScene as the parent of all your nodes.
-    */
+    /// <summary>
+    /// brief CCScene is a subclass of CCNode that is used only as an abstract concept.
+    /// CCScene an CCNode are almost identical with the difference that CCScene has it's
+    /// anchor point (by default) at the center of the screen.
+    /// For the moment CCScene has no other logic than that, but in future releases it might have
+    /// additional logic.
+    ///  It is a good practice to use and CCScene as the parent of all your nodes.
+    /// </summary>
     public class CCScene : CCNode
     {
+        public ccSceneFlag getSceneType() { return m_eSceneType; }
+
+        protected ccSceneFlag m_eSceneType;
         public CCScene()
         {
             isRelativeAnchorPoint = false;
             anchorPoint = CCPointExtension.ccp(0.5f, 0.5f);
+            m_eSceneType = ccSceneFlag.ccNormalScene;
         }
 
-	    ~CCScene()
+        public bool init()
         {
-        
-        }
-
-	    public bool init()
-        {
-	        bool bRet = false;
- 	        do 
- 	        {
+            bool bRet = false;
+            do
+            {
                 CCDirector director = CCDirector.sharedDirector();
                 if (director == null)
                 {
@@ -68,13 +71,13 @@ namespace cocos2d
                 }
 
                 contentSize = director.getWinSize();
- 		        // success
- 		        bRet = true;
- 	        } while (false);
- 	        return bRet;
+                // success
+                bRet = true;
+            } while (false);
+            return bRet;
         }
 
-	    public static new CCScene node()
+        public static new CCScene node()
         {
             CCScene pRet = new CCScene();
             if (pRet.init())
@@ -111,29 +114,4 @@ namespace cocos2d
             }
         }
     }
-
-    public class CCTransitionScene : CCScene
-    {
-        public CCTransitionScene()
-        {
-        }
-
-        ~CCTransitionScene()
-        {
-        }
-
-        public static new CCTransitionScene node()
-        {
-            CCTransitionScene pRet = new CCTransitionScene();
-            if (pRet.init())
-            {
-                return pRet;
-            }
-            else
-            {
-                return null;
-            }
-        }
-    }
-
 }

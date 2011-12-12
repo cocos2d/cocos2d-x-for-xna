@@ -72,12 +72,10 @@
     <Compile Include="classes\testResource.cs" />
     <Compile Include="classes\tests\ActionsTest\ActionsTest.cs" />
     <Compile Include="classes\tests\CocosDenshionTest\CocosDenshionTest.cs" />
-    <Compile Include="classes\tests\CocosNodeTest\CocosNodeTest.cs" />
     <Compile Include="classes\tests\DirectorTest\DirectorTest.cs" />
     <Compile Include="classes\tests\EaseActionTest\EaseActionsTest.cs" />
     <Compile Include="classes\tests\LabelTest\Atlas3.cs" />
     <Compile Include="classes\tests\LabelTest\LabelTest.cs" />
-    <Compile Include="classes\tests\LayerTest\Layertest.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer1.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer2.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer3.cs" />
@@ -125,7 +123,10 @@
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="classes\tests\CocosNodeTest\" />
+    <Folder Include="classes\tests\LayerTest\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
