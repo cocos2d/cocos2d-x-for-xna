@@ -2,6 +2,7 @@
 Copyright (c) 2010-2011 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
+Copyright (c) 2011      Fulcrum Mobile Network, Inc.
 
 http://www.cocos2d-x.org
 http://www.openxlive.com
@@ -32,6 +33,12 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// CCLayerColor is a subclass of CCLayer that implements the CCRGBAProtocol protocol
+    /// All features from CCLayer are valid, plus the following new features:
+    /// - opacity
+    /// - RGB colors
+    /// </summary>
     public class CCLayerColor : CCLayer, ICCRGBAProtocol, ICCBlendProtocol
     {
         protected ccVertex2F[] m_pSquareVertices = new ccVertex2F[4];
@@ -46,7 +53,7 @@ namespace cocos2d
             m_tBlendFunc.dst = 0x0303;
         }
 
-        public virtual void draw()
+        public override void draw()
         {
             base.draw();
 
@@ -58,6 +65,11 @@ namespace cocos2d
 
             //glVertexPointer(2, GL_FLOAT, 0, m_pSquareVertices);
             //glColorPointer(4, GL_UNSIGNED_BYTE, 0, m_pSquareColors);
+
+
+            //@to change to draw an rect color aera,maybe use 3D 
+            CCApplication.sharedApplication().GraphicsDevice.Clear(
+                new Microsoft.Xna.Framework.Color(m_tColor.r, m_tColor.g, m_tColor.b, m_cOpacity));
 
             bool newBlend = false;
             if (m_tBlendFunc.src != 1 || m_tBlendFunc.dst != 0x0303)
@@ -82,24 +94,35 @@ namespace cocos2d
             //glEnable(GL_TEXTURE_2D);
         }
 
-        public virtual void setContentSize(CCSize var)
+        /// <summary>
+        /// override contentSize
+        /// </summary>
+        public override CCSize contentSize
         {
-            throw new NotImplementedException();
+            get { return base.contentSize; }
+            set
+            {
+                float factor = CCDirector.sharedDirector().ContentScaleFactor;
+
+                m_pSquareVertices[1].x = value.width * factor;
+                m_pSquareVertices[2].y = value.height * factor;
+                m_pSquareVertices[3].x = value.width * factor;
+                m_pSquareVertices[3].y = value.height * factor;
+
+                base.contentSize = value;
+            }
         }
+
+        #region create and init
 
         /// <summary>
         /// creates a CCLayer with color, width and height in Points
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
         public static CCLayerColor layerWithColorWidthHeight(ccColor4B color, float width, float height)
         {
             CCLayerColor pLayer = new CCLayerColor();
             if (pLayer != null && pLayer.initWithColorWidthHeight(color, width, height))
             {
-                //pLayer->autorelease();
                 return pLayer;
             }
             pLayer = null;
@@ -109,14 +132,11 @@ namespace cocos2d
         /// <summary>
         /// creates a CCLayer with color. Width and height are the window size. 
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
         public static CCLayerColor layerWithColor(ccColor4B color)
         {
             CCLayerColor pLayer = new CCLayerColor();
             if (pLayer != null && pLayer.initWithColor(color))
             {
-                //pLayer->autorelease();
                 return pLayer;
             }
             pLayer = null;
@@ -126,10 +146,6 @@ namespace cocos2d
         /// <summary>
         ///  initializes a CCLayer with color, width and height in Points
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
         public virtual bool initWithColorWidthHeight(ccColor4B color, float width, float height)
         {
             // default blend function
@@ -147,15 +163,13 @@ namespace cocos2d
             }
 
             this.updateColor();
-            this.setContentSize(new CCSize(width, height));
+            this.contentSize = new CCSize(width, height);
             return true;
         }
 
         /// <summary>
         /// initializes a CCLayer with color. Width and height are the window size.
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
         public virtual bool initWithColor(ccColor4B color)
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
@@ -163,13 +177,17 @@ namespace cocos2d
             return true;
         }
 
+        #endregion
+
+        #region changesize
+
         /// <summary>
         /// change width in Points
         /// </summary>
         /// <param name="w"></param>
         public void changeWidth(float w)
         {
-            this.setContentSize(new CCSize(w, base.m_tContentSize.height));
+            this.contentSize = new CCSize(w, base.m_tContentSize.height);
         }
 
         /// <summary>
@@ -178,7 +196,7 @@ namespace cocos2d
         /// <param name="h"></param>
         public void changeHeight(float h)
         {
-            this.setContentSize(new CCSize(base.m_tContentSize.width, h));
+            this.contentSize = new CCSize(base.m_tContentSize.width, h);
         }
 
         /// <summary>
@@ -189,8 +207,12 @@ namespace cocos2d
         /// <param name="h"></param>
         public void changeWidthAndHeight(float w, float h)
         {
-            this.setContentSize(new CCSize(w, h));
+            this.contentSize = new CCSize(w, h);
         }
+
+        #endregion
+
+        #region ICCRGBAProtocol
 
         protected byte m_cOpacity;
         /// <summary>
@@ -212,11 +234,19 @@ namespace cocos2d
             set { m_tColor = value; }
         }
 
+        public bool IsOpacityModifyRGB
+        {
+            get { return false; }
+            set { }
+        }
+
+        #endregion
+
         protected ccBlendFunc m_tBlendFunc;
         /// <summary>
         /// BlendFunction. Conforms to CCBlendProtocol protocol 
         /// </summary>
-        protected virtual ccBlendFunc BlendFunc
+        public virtual ccBlendFunc BlendFunc
         {
             get { return m_tBlendFunc; }
             set { m_tBlendFunc = value; }
@@ -226,12 +256,11 @@ namespace cocos2d
         {
             return (ICCRGBAProtocol)this;
         }
-        static CCLayerColor node()
+        public static CCLayerColor node()
         {
             CCLayerColor pRet = new CCLayerColor();
             if (pRet != null && pRet.init())
             {
-                //pRet->autorelease(); 
                 return pRet;
             }
             else
@@ -249,67 +278,6 @@ namespace cocos2d
                 m_pSquareColors[i].g = m_tColor.g;
                 m_pSquareColors[i].b = m_tColor.b;
                 m_pSquareColors[i].a = m_cOpacity;
-            }
-        }
-
-
-        public bool IsOpacityModifyRGB
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        ccColor3B ICCRGBAProtocol.Color
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        byte ICCRGBAProtocol.Opacity
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        bool ICCRGBAProtocol.IsOpacityModifyRGB
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        ccBlendFunc ICCBlendProtocol.BlendFunc
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
             }
         }
     }

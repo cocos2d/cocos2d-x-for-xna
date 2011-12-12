@@ -259,6 +259,8 @@ namespace cocos2d
         {
             m_sString = label;
 
+            m_pChildren.Clear();
+
             if (m_pChildren != null && m_pChildren.Count > 0)
             {
                 for (int i = 0; i < m_pChildren.Count; i++)

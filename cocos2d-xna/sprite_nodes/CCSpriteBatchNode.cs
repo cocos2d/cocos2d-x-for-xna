@@ -247,7 +247,7 @@ namespace cocos2d
             }
 
             ccV3F_C4B_T2F_Quad quad = pobSprite.quad;
-            m_pobTextureAtlas.insertQuad(quad, uIndex);
+            //m_pobTextureAtlas.insertQuad(quad, uIndex);
             m_pobDescendants.Insert((int)uIndex, pobSprite);
 
             // update indices

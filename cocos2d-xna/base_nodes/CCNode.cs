@@ -244,8 +244,7 @@ namespace cocos2d
 
             insertChild(child, zOrder);
 
-            this.m_nTag = tag;
-
+            child.m_nTag = tag;
             child.parent = this;
 
             if (m_bIsRunning)
@@ -400,10 +399,11 @@ namespace cocos2d
 
         #region composition: GET
 
-        /** Gets a child from the container given its tag
-        @return returns a CCNode object
-        @since v0.7.1
-        */
+        /// <summary>
+        /// Gets a child from the container given its tag
+        /// @since v0.7.1
+        /// </summary>
+        /// <returns>returns a CCNode object</returns>
         public CCNode getChildByTag(int tag)
         {
             Debug.Assert(tag != (int)NodeTag.kCCNodeTagInvalid, "Invalid tag");
@@ -1273,7 +1273,7 @@ namespace cocos2d
         /// All nodes has a size. Layer and Scene has the same size of the screen.
         /// @since v0.8
         /// </summary>
-        public CCSize contentSize
+        public virtual CCSize contentSize
         {
             get
             {
