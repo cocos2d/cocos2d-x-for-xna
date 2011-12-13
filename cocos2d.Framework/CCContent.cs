@@ -15,5 +15,6 @@ namespace cocos2d.Framework
     public class CCContent
     {
         public string Content { get; set; }
+        public byte[] Date { get; set; }
     }
 }

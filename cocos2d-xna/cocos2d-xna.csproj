@@ -281,6 +281,10 @@
     <Folder Include="support\data_support\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\cocos2d.Content.Pipeline.Importers\cocos2d.Content.Pipeline.Importers.csproj">
+      <Project>{FBE4633D-00D1-4391-8184-63B91DA28D4B}</Project>
+      <Name>cocos2d.Content.Pipeline.Importers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\cocos2d.Framework\cocos2d.Framework.csproj">
       <Project>{CC156337-B4A7-479F-9262-9A708B5E1164}</Project>
       <Name>cocos2d.Framework</Name>

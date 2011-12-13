@@ -52,9 +52,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decompress.cs" />
     <Compile Include="Text\TextImporter.cs" />
     <Compile Include="Text\TextProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TMX\TMXImporter.cs" />
+    <Compile Include="TMX\TMXProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d.Framework\cocos2d.Framework.csproj">

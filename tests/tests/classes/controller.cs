@@ -152,8 +152,8 @@ namespace tests
                 //        pScene = new SceneTestScene(); break;
                 //    case TEST_PARALLAX:
                 //        pScene = new ParallaxTestScene(); break;
-                //    case TEST_TILE_MAP:
-                //        pScene = new TileMapTestScene(); break;
+                case (int)TestCases.TEST_TILE_MAP:
+                    pScene = new TileMapTestScene(); break;
                 //    case TEST_INTERVAL:
                 //        pScene = new IntervalTestScene(); break;
                 //    case TEST_CHIPMUNK:

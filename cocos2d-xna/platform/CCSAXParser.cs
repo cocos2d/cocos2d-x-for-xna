@@ -29,6 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using cocos2d.Framework;
+using System.Xml.Linq;
 
 namespace cocos2d
 {
@@ -50,14 +52,92 @@ namespace cocos2d
 
         public bool parse(string pszFile)
         {
-            CCFileData data = new CCFileData(pszFile, "rt");
-            ulong size = data.Size;
-            byte[] pBuffer = (byte[])data.Buffer;
 
-            if (pBuffer == null)
+            //CCFileData data = new CCFileData(pszFile, "rt");
+            //ulong size = data.Size;
+            //byte[] pBuffer = (byte[])data.Buffer;
+            CCContent data = CCApplication.sharedApplication().content.Load<CCContent>(pszFile);
+
+            if (data == null)
             {
                 return false;
             }
+            //Òª¸Éµôhttp
+            string str = data.Content;
+            XElement doc = XElement.Parse(str);
+            List<string> atts1 = new List<string>();
+
+            atts1 = (from item in doc.Attributes()
+                    select item.Value.ToString()).ToList();
+
+            List<string> atts2 = new List<string>();
+            atts2 = (from item in doc.Attributes()
+                     select item.Name.ToString()).ToList();
+
+            List<string> atts = new List<string>();
+            if (atts1.Count==atts2.Count)
+            {
+                for (int i = 0; i < atts1.Count; i++)
+                {
+                    atts.Add(atts2[i]);
+                    atts.Add(atts1[i]);
+                }
+            }
+            startElement(this, "map", atts.ToArray());
+
+            List<string> atts3 = new List<string>();
+            atts3 = (from item in doc.Descendants("tileset").LastOrDefault().Attributes()
+                    select item.Name.ToString()).ToList();
+            List<string> atts4 = new List<string>();
+            atts4 = (from item in doc.Descendants("tileset").LastOrDefault().Attributes()
+                     select item.Value.ToString()).ToList();
+
+            List<string> atts5 = new List<string>();
+            if (atts3.Count == atts4.Count)
+            {
+                for (int i = 0; i < atts3.Count; i++)
+                {
+                    atts5.Add(atts3[i]);
+                    atts5.Add(atts4[i]);
+                }
+            }
+            startElement(this, "tileset",atts5.ToArray());
+
+            List<string> atts6 = new List<string>();
+            atts6 = (from item in doc.Descendants("image").LastOrDefault().Attributes()
+                     select item.Name.ToString()).ToList();
+            List<string> atts7 = new List<string>();
+            atts7 = (from item in doc.Descendants("image").LastOrDefault().Attributes()
+                     select item.Value.ToString()).ToList();
+            List<string> atts8 = new List<string>();
+            if (atts6.Count == atts7.Count)
+            {
+                for (int i = 0; i < atts6.Count; i++)
+                {
+                    atts8.Add(atts6[i]);
+                    atts8.Add(atts7[i]);
+                }
+            }
+            startElement(this, "image", atts8.ToArray());
+
+            List<string> atts9 = new List<string>();
+            atts9 = (from item in doc.Descendants("data").FirstOrDefault().Attributes()
+                     select item.Name.ToString()).ToList();
+            List<string> atts10 = new List<string>();
+            atts10 = (from item in doc.Descendants("data").FirstOrDefault().Attributes()
+                     select item.Value.ToString()).ToList();
+            List<string> atts11 = new List<string>();
+            if (atts9.Count==atts10.Count)
+            {
+                for (int i = 0; i < atts10.Count; i++)
+                {
+                    atts11.Add(atts9[i]);
+                    atts11.Add(atts10[i]);
+                }
+            }
+            startElement(this, "data", atts11.ToArray());
+            endElement(data, "data");
+
 #warning about xml
             /// * this initialize the library and check potential ABI mismatches
             /// * between the version it was compiled for and the actual shared
