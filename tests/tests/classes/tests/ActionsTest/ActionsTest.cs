@@ -17,10 +17,10 @@ namespace tests
         ACTION_JUMP_LAYER,
         ACTION_BEZIER_LAYER,
         ACTION_BLINK_LAYER,
-        // ACTION_FADE_LAYER,
-        //ACTION_TINT_LAYER,
-        //ACTION_ANIMATE_LAYER,
-        //ACTION_SEQUENCE_LAYER,
+        ACTION_FADE_LAYER,
+        ACTION_TINT_LAYER,
+        ACTION_ANIMATE_LAYER,
+        ACTION_SEQUENCE_LAYER,
         //ACTION_SEQUENCE2_LAYER,
         // ACTION_SPAWN_LAYER,
         //ACTION_REVERSE,
@@ -70,14 +70,14 @@ namespace tests
                     pLayer = new ActionBezier(); break;
                 case (int)ActionTest.ACTION_BLINK_LAYER:
                     pLayer = new ActionBlink(); break;
-                //case (int)ActionTest.ACTION_FADE_LAYER:
-                //    pLayer = new ActionFade(); break;
-                //case (int)ActionTest.ACTION_TINT_LAYER:
-                //    pLayer = new ActionTint(); break;
-                //case (int)ActionTest.ACTION_ANIMATE_LAYER:
-                //    pLayer = new ActionAnimate(); break;
-                //case (int)ActionTest.ACTION_SEQUENCE_LAYER:
-                //    pLayer = new ActionSequence(); break;
+                case (int)ActionTest.ACTION_FADE_LAYER:
+                    pLayer = new ActionFade(); break;
+                case (int)ActionTest.ACTION_TINT_LAYER:
+                    pLayer = new ActionTint(); break;
+                case (int)ActionTest.ACTION_ANIMATE_LAYER:
+                    pLayer = new ActionAnimate(); break;
+                case (int)ActionTest.ACTION_SEQUENCE_LAYER:
+                    pLayer = new ActionSequence(); break;
                 //case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
                 //    pLayer = new ActionSequence2(); break;
                 //case (int)ActionTest.ACTION_SPAWN_LAYER:
@@ -627,24 +627,29 @@ namespace tests
     {
         public override void onEnter()
         {
-            // todo:CCAnimation hasn't been implemented 
+            base.onEnter();
 
-            //base.onEnter();
+            centerSprites(1);
 
-            //centerSprites(1);
+            CCAnimation animation = CCAnimation.animation();
+            string frameName;
+            for( int i=1;i<15;i++)
+            {
+                if (i < 10)
+                {
+                    frameName = string.Format("Images/grossini_dance_0{0}", i);
+                }
+                else
+                {
+                    frameName = string.Format("Images/grossini_dance_{0}", i);
+                }
+                animation.addFrameWithFileName(frameName);
+            }
 
-            //CCAnimation animation = CCAnimation.animation();
-            //char frameName[100] = {0};
-            //for( int i=1;i<15;i++)
-            //{
-            //    sprintf(frameName, "Images/grossini_dance_%02d.png", i);
-            //    animation->addFrameWithFileName(frameName);
-            //}
+            CCActionInterval action = CCAnimate.actionWithDuration(3.0f, animation, false);
+            CCFiniteTimeAction action_back = action.reverse();
 
-            //CCActionInterval*  action = CCAnimate::actionWithDuration(3, animation, false);
-            //CCActionInterval*  action_back = action->reverse();
-
-            //m_grossini->runAction( CCSequence::actions( action, action_back, NULL));
+            m_grossini.runAction( CCSequence.actions( action, action_back));
         }
 
         public override string subtitle()

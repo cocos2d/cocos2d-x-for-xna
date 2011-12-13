@@ -49,6 +49,8 @@ namespace cocos2d
             // m_nameStr.clear();
             m_nameStr = null;
             // CC_SAFE_RELEASE(m_pobFrames);
+
+            m_pobFrames = new List<CCSpriteFrame>();
         }
 
         /** Initializes a CCAnimation with frames.
@@ -89,7 +91,6 @@ namespace cocos2d
              CCSpriteFrame pFrame = CCSpriteFrame.frameWithTexture(pTexture, rect);
              //// m_pobFrames.addObject(pFrame);
              m_pobFrames.Add(pFrame);
-            throw new NotFiniteNumberException();
         }
 
         /** Adds a frame with a texture and a rect. Internally it will create a CCSpriteFrame and it will add it.
@@ -105,7 +106,7 @@ namespace cocos2d
 
         public bool init()
         {
-            return initWithFrames(null, 0);
+            return initWithFrames(new List<CCSpriteFrame>(), 0);
         }
 
         /** Creates an animation

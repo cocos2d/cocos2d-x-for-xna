@@ -93,6 +93,7 @@
     <Compile Include="actions\action_intervals\action_ease\CCEaseSineIn.cs" />
     <Compile Include="actions\action_intervals\action_ease\CCEaseSineInOut.cs" />
     <Compile Include="actions\action_intervals\action_ease\CCEaseSineOut.cs" />
+    <Compile Include="actions\action_intervals\CCAnimate.cs" />
     <Compile Include="actions\action_intervals\CCBezierBy.cs" />
     <Compile Include="actions\action_intervals\CCBezierTo.cs" />
     <Compile Include="actions\action_intervals\CCBlink.cs" />

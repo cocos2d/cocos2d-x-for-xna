@@ -168,7 +168,7 @@ namespace cocos2d
             CCPoint uiPoint = CCDirector.sharedDirector().convertToUI(point);
 
             CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(uiPoint.x, uiPoint.y - m_tContentSize.height), Color.Yellow);
+            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(uiPoint.x, uiPoint.y - m_tContentSize.height), Color.White);
             CCApplication.sharedApplication().spriteBatch.End();
         }
 
