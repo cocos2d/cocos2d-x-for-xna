@@ -143,5 +143,42 @@ namespace cocos2d
 
             return pAnimation;
         }
+
+        /** get name of the animation */
+		public string getName()
+        { 
+            return m_nameStr;
+        }
+		
+        /** set name of the animation */
+		public void setName(string pszName)
+        { 
+            m_nameStr = pszName; 
+        }
+
+		/** get delay between frames in seconds */
+		public float getDelay() 
+        { 
+            return m_fDelay; 
+        }
+
+
+		/** set delay between frames in seconds */
+		public void setDelay(float fDelay) 
+        { 
+            m_fDelay = fDelay; 
+        }
+
+		/** get array of frames */
+		public List<CCSpriteFrame> getFrames() 
+        { 
+            return m_pobFrames; 
+        }
+
+		/** set array of frames, the Frames is retained */
+        public void setFrames(List<CCSpriteFrame> pFrames)
+		{
+			m_pobFrames = pFrames;
+		}
     }
 }
