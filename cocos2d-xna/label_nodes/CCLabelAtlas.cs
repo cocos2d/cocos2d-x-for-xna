@@ -181,18 +181,16 @@ namespace cocos2d
         {
             this.children.Clear();
             int len = label.Length;
-            if (m_sString != label)
-            {
-                m_sString = label;
-                this.updateAtlasValues();
 
-                CCSize s = new CCSize();
-                s.width = (float)(len * m_uItemWidth);
-                s.height = (float)(m_uItemHeight);
-                this.contentSizeInPixels = s;
+            m_sString = label;
+            this.updateAtlasValues();
 
-                m_uQuadsToDraw = len;
-            }
+            CCSize s = new CCSize();
+            s.width = (float)(len * m_uItemWidth);
+            s.height = (float)(m_uItemHeight);
+            this.contentSizeInPixels = s;
+
+            m_uQuadsToDraw = len;
         }
 
         public string getString()

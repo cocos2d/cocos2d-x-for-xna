@@ -105,6 +105,10 @@ namespace cocos2d
             set
             {
                 m_cOpacity = value;
+
+                // special opacity for premultiplied textures
+                if (m_bIsOpacityModifyRGB)
+                    this.Color = m_tColorUnmodified;
             }
         }
 
@@ -113,11 +117,22 @@ namespace cocos2d
         {
             get
             {
+                if (m_bIsOpacityModifyRGB)
+                {
+                    return m_tColorUnmodified;
+                }
                 return m_tColor;
             }
             set
             {
-                m_tColor = value;
+                m_tColor = m_tColorUnmodified = value;
+
+                if (m_bIsOpacityModifyRGB)
+                {
+                    m_tColor.r = (byte)(value.r * m_cOpacity / 255);
+                    m_tColor.g = (byte)(value.g * m_cOpacity / 255);
+                    m_tColor.b = (byte)(value.b * m_cOpacity / 255);
+                }
             }
         }
 
@@ -135,6 +150,16 @@ namespace cocos2d
             }
         }
 
+        public override void visit()
+        {
+            foreach (CCSprite item in m_pChildren)
+            {
+                item.Color = m_tColor;
+                item.Opacity = m_cOpacity;
+            }
+
+            base.visit();
+        }
 
         public CCAtlasNode()
         {
@@ -209,38 +234,6 @@ namespace cocos2d
             //[NSException raise:@"CCAtlasNode:Abstract" format:@"updateAtlasValue not overriden"];
         }
 
-        public override void draw()
-        {
-            //CCNode.draw();
-
-            // Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
-            // Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_TEXTURE_COORD_ARRAY
-            // Unneeded states: GL_COLOR_ARRAY
-            //glDisableClientState(GL_COLOR_ARRAY);
-
-            // glColor4ub isn't implement on some android devices
-            // glColor4ub( m_tColor.r, m_tColor.g, m_tColor.b, m_cOpacity); 
-            // glColor4f(((float)m_tColor.r) / 255, ((float)m_tColor.g) / 255, ((float)m_tColor.b) / 255, ((float)m_cOpacity) / 255);
-            //bool newBlend = m_tBlendFunc.src != CC_BLEND_SRC || m_tBlendFunc.dst != CC_BLEND_DST;
-            // if (newBlend)
-            //  {
-            // glBlendFunc(m_tBlendFunc.src, m_tBlendFunc.dst);
-            //}
-
-            // m_pTextureAtlas.drawNumberOfQuads(m_uQuadsToDraw, 0);
-
-            //if (newBlend)
-            //glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
-
-            // is this chepear than saving/restoring color state ?
-            // XXX: There is no need to restore the color to (255,255,255,255). Objects should use the color
-            // XXX: that they need
-            //	glColor4ub( 255, 255, 255, 255);
-
-            // restore default GL state
-            //glEnableClientState(GL_COLOR_ARRAY);
-        }
-
         public virtual ICCRGBAProtocol convertToRGBAProtocol()
         {
             return (ICCRGBAProtocol)this;
@@ -280,52 +273,6 @@ namespace cocos2d
         private void updateOpacityModifyRGB()
         {
             m_bIsOpacityModifyRGB = m_pTextureAtlas.Texture.HasPremultipliedAlpha;
-        }
-
-        /// <summary>
-        /// getColor,setColor->ccColor
-        /// </summary>
-        public ccColor3B ccColor
-        {
-            get
-            {
-                if (m_bIsOpacityModifyRGB)
-                {
-                    return m_tColorUnmodified;
-                }
-                return m_tColor;
-            }
-            set
-            {
-                m_tColor = m_tColorUnmodified = value;
-
-                if (m_bIsOpacityModifyRGB)
-                {
-                    m_tColor.r = (byte)(value.r * m_cOpacity / 255);
-                    m_tColor.g = (byte)(value.g * m_cOpacity / 255);
-                    m_tColor.b = (byte)(value.b * m_cOpacity / 255);
-                }
-            }
-        }
-
-        /// <summary>
-        /// getOpacity setOpacity->ccOpacity
-        /// </summary>
-        public byte ccOpacity
-        {
-            get
-            {
-                return m_cOpacity;
-            }
-            set
-            {
-                m_cOpacity = value;
-
-                // special opacity for premultiplied textures
-                if (m_bIsOpacityModifyRGB)
-                    this.ccColor = m_tColorUnmodified;
-
-            }
         }
 
         /// <summary>
