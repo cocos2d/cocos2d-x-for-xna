@@ -25,7 +25,7 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
-    class CCPointExtension
+    public class CCPointExtension
     {
         /// <summary>
         /// Helper macro that creates a CCPoint 
