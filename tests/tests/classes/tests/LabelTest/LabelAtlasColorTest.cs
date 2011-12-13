@@ -28,7 +28,7 @@ namespace tests
             addChild(label2, 0, (int)TagSprite.kTagSprite2);
             label2.position = new CCPoint(10, 200);
             //label2.setColor( ccRED );
-            label2.ccColor = ccRED;
+            label2.Color = ccRED;
 
             CCActionInterval fade = CCFadeOut.actionWithDuration(1.0f);
             CCFiniteTimeAction fade_in = fade.reverse();
@@ -55,7 +55,7 @@ namespace tests
 
             CCLabelAtlas label2 = (CCLabelAtlas)getChildByTag((int)TagSprite.kTagSprite2);
             //sprintf(string, "%d", (int)m_time);
-            stepstring = m_time.ToString();
+            stepstring = string.Format("{0} Test", m_time);
             label2.setString(stepstring);
         }
 
