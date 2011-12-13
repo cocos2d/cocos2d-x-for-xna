@@ -34,17 +34,14 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
-
-    #region It can be as a replacement of CCLabel since it is MUCH faster.
     /// <summary>
     /// It can be as a replacement of CCLabel since it is MUCH faster.
-    ///CCLabelAtlas versus CCLabel:
-    ///CCLabelAtlas is MUCH faster than CCLabel
-    ///CCLabelAtlas "characters" have a fixed height and width
-    ///CCLabelAtlas "characters" can be anything you want since they are taken from an image file
+    /// CCLabelAtlas versus CCLabel:
+    /// CCLabelAtlas is MUCH faster than CCLabel
+    /// CCLabelAtlas "characters" have a fixed height and width
+    /// CCLabelAtlas "characters" can be anything you want since they are taken from an image file
     /// A more flexible class is CCLabelBMFont. It supports variable width characters and it also has a nice editor.
     /// </summary>
-    #endregion
     public class CCLabelAtlas : CCAtlasNode, ICCLabelProtocol
     {
         public CCLabelAtlas()
@@ -52,41 +49,26 @@ namespace cocos2d
             m_sString = "";
         }
 
-        #region creates the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas
         /// <summary>
         /// creates the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas
         /// </summary>
-        /// <param name="?"></param>
-        /// <returns></returns>
-        #endregion
         public static CCLabelAtlas labelWithString(string label, string charMapFile, int itemWidth, int itemHeight, char startCharMap)
         {
             CCLabelAtlas pRet = new CCLabelAtlas();
             if (pRet != null && pRet.initWithString(label, charMapFile, itemWidth, itemHeight, startCharMap))
             {
-                //pRet.autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet)
             return null;
         }
 
-        #region initializes the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas
         /// <summary>
         /// initializes the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas
         /// </summary>
-        /// <param name="label"></param>
-        /// <param name="charMapFile"></param>
-        /// <param name="itemWidth"></param>
-        /// <param name="itemHeight"></param>
-        /// <param name="startCharMap"></param>
-        /// <returns></returns>
-        #endregion
         public bool initWithString(string label, string charMapFile, int itemWidth, int itemHeight, char startCharMap)
         {
             Debug.Assert(label != null);
-            CCAtlasNode ccAtlasNode = new CCAtlasNode();
-            if (ccAtlasNode.initWithTileFile(charMapFile, itemWidth, itemHeight, label.Length))
+            if (base.initWithTileFile(charMapFile, itemWidth, itemHeight, label.Length))
             {
                 m_cMapStartChar = startCharMap;
                 this.setString(label);
@@ -98,15 +80,15 @@ namespace cocos2d
         // super methods
         public override void updateAtlasValues()
         {
-            uint n = (uint)m_sString.Length;
-            ccV3F_C4B_T2F_Quad quad = new ccV3F_C4B_T2F_Quad();
-            string s = (string)m_sString;
+            int nextFontPositionX = 0;
+            int nextFontPositionY = 0;
+            int n = m_sString.Length;
             CCTexture2D texture = m_pTextureAtlas.Texture;
             float textureWide = (float)texture.getTexture2D().Width;
             float textureHigh = (float)texture.getTexture2D().Height;
             for (int i = 0; i < n; i++)
             {
-                char a = (char)(s[i] - m_cMapStartChar);
+                char a = (char)(m_sString[i] - m_cMapStartChar);
                 float row = (float)(a % m_uItemsPerRow);
                 float col = (float)(a / m_uItemsPerRow);
 
@@ -123,59 +105,51 @@ namespace cocos2d
                 float bottom = top + m_uItemHeight / textureHigh;
 #endif // ! CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
 
-                quad.tl.texCoords.u = left;
-                quad.tl.texCoords.v = top;
-                quad.tr.texCoords.u = right;
-                quad.tr.texCoords.v = top;
-                quad.bl.texCoords.u = left;
-                quad.bl.texCoords.v = bottom;
-                quad.br.texCoords.u = right;
-                quad.br.texCoords.v = bottom;
+                //quad.tl.texCoords.u = left;
+                //quad.tl.texCoords.v = top;
+                //quad.tr.texCoords.u = right;
+                //quad.tr.texCoords.v = top;
+                //quad.bl.texCoords.u = left;
+                //quad.bl.texCoords.v = bottom;
+                //quad.br.texCoords.u = right;
+                //quad.br.texCoords.v = bottom;
 
-                quad.bl.vertices.x = (float)(i * m_uItemWidth);
-                quad.bl.vertices.y = 0;
-                quad.bl.vertices.z = 0.0f;
-                quad.br.vertices.x = (float)(i * m_uItemWidth + m_uItemWidth);
-                quad.br.vertices.y = 0;
-                quad.br.vertices.z = 0.0f;
-                quad.tl.vertices.x = (float)(i * m_uItemWidth);
-                quad.tl.vertices.y = (float)(m_uItemHeight);
-                quad.tl.vertices.z = 0.0f;
-                quad.tr.vertices.x = (float)(i * m_uItemWidth + m_uItemWidth);
-                quad.tr.vertices.y = (float)(m_uItemHeight);
-                quad.tr.vertices.z = 0.0f;
+                CCRect rect = new CCRect();
+                rect.origin.x = row * m_uItemWidth;
+                rect.origin.y = top * textureHigh;
+                rect.size.height = m_uItemHeight;
+                rect.size.width = m_uItemWidth;
+
+                CCSprite charSprite = new CCSprite();
+                charSprite.initWithTexture(texture, rect);
+                charSprite.positionInPixels = new CCPoint(nextFontPositionX, nextFontPositionY);
+                this.addChild(charSprite, 0, i);
+
+                nextFontPositionX += m_uItemWidth;
+
+
+                //if (nextFontPositionY + m_uItemHeight > textureHigh)
+                //{
+                //    nextFontPositionY = 0;
+                //}
+                //else
+                //{
+                //    nextFontPositionY += m_uItemHeight;
+                //}
+
+                //quad.bl.vertices.x = (float)(i * m_uItemWidth);
+                //quad.bl.vertices.y = 0;
+                //quad.bl.vertices.z = 0.0f;
+                //quad.br.vertices.x = (float)(i * m_uItemWidth + m_uItemWidth);
+                //quad.br.vertices.y = 0;
+                //quad.br.vertices.z = 0.0f;
+                //quad.tl.vertices.x = (float)(i * m_uItemWidth);
+                //quad.tl.vertices.y = (float)(m_uItemHeight);
+                //quad.tl.vertices.z = 0.0f;
+                //quad.tr.vertices.x = (float)(i * m_uItemWidth + m_uItemWidth);
+                //quad.tr.vertices.y = (float)(m_uItemHeight);
+                //quad.tr.vertices.z = 0.0f;
                 //m_pTextureAtlas.updateQuad(quad,(uint)i);
-            }
-        }
-
-        #region setString getString->StrString
-        /// <summary>
-        /// setString getString->StrString
-        /// </summary>
-        #endregion
-        public virtual string StrString
-        {
-            get
-            {
-                return m_sString;
-            }
-
-            set
-            {
-                int len = value.Length;
-                if (len > m_pTextureAtlas.TotalQuads)
-                {
-                    m_pTextureAtlas.resizeCapacity(len);
-                }
-                m_sString = "";
-                this.updateAtlasValues();
-
-                CCSize s = new CCSize();
-                s.width = (float)(len * m_uItemWidth);
-                s.height = (float)(m_uItemHeight);
-                //this.setContentSizeInPixels(s);
-
-                m_uQuadsToDraw = len;
             }
         }
 
@@ -205,20 +179,20 @@ namespace cocos2d
 
         public void setString(string label)
         {
+            this.children.Clear();
             int len = label.Length;
-            if (len > m_pTextureAtlas.TotalQuads)
+            if (m_sString != label)
             {
-                m_pTextureAtlas.resizeCapacity(len);
+                m_sString = label;
+                this.updateAtlasValues();
+
+                CCSize s = new CCSize();
+                s.width = (float)(len * m_uItemWidth);
+                s.height = (float)(m_uItemHeight);
+                this.contentSizeInPixels = s;
+
+                m_uQuadsToDraw = len;
             }
-            m_sString = "";
-            this.updateAtlasValues();
-
-            CCSize s = new CCSize();
-            s.width = (float)(len * m_uItemWidth);
-            s.height = (float)(m_uItemHeight);
-            //this.setContentSizeInPixels(s);
-
-            m_uQuadsToDraw = len;
         }
 
         public string getString()

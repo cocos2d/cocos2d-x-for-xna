@@ -180,7 +180,7 @@ namespace cocos2d
             // double retain to avoid the autorelease pool
             // also, using: self.textureAtlas supports re-initialization without leaking
             this.m_pTextureAtlas = new CCTextureAtlas();
-            m_pTextureAtlas.initWithFile(tile, itemsToRender);
+            this.m_pTextureAtlas.initWithFile(tile, itemsToRender);
 
             if (m_pTextureAtlas == null)
             {
@@ -282,11 +282,9 @@ namespace cocos2d
             m_bIsOpacityModifyRGB = m_pTextureAtlas.Texture.HasPremultipliedAlpha;
         }
 
-        #region getColor,setColor->ccColor
         /// <summary>
         /// getColor,setColor->ccColor
         /// </summary>
-        #endregion
         public ccColor3B ccColor
         {
             get
@@ -310,11 +308,9 @@ namespace cocos2d
             }
         }
 
-        #region etOpacity setOpacity->ccOpacity
         /// <summary>
         /// getOpacity setOpacity->ccOpacity
         /// </summary>
-        #endregion
         public byte ccOpacity
         {
             get
@@ -332,11 +328,9 @@ namespace cocos2d
             }
         }
 
-        #region setIsOpacityModifyRGB getIsOpacityModifyRGB->ccIsOpacityModifyRGB
         /// <summary>
         /// setIsOpacityModifyRGB getIsOpacityModifyRGB->ccIsOpacityModifyRGB
         /// </summary>
-        #endregion
         public bool ccIsOpacityModifyRGB
         {
             get
@@ -350,28 +344,6 @@ namespace cocos2d
                 this.m_tColor = oldColor;
             }
         }
-
-        public void setBlendFunc(ccBlendFunc blendFunc)
-        {
-            m_tBlendFunc = blendFunc;
-        }
-
-        public ccBlendFunc getBlendFunc()
-        {
-            return m_tBlendFunc;
-        }
-
-        //public ccBlendFunc BlendFunc
-        //{
-        //    get 
-        //    {
-        //        return m_tBlendFunc;
-        //    }
-        //    set
-        //    {
-        //        m_tBlendFunc = value;
-        //    }
-        //}
 
         public int ccQuadsToDraw
         {
@@ -387,16 +359,8 @@ namespace cocos2d
 
         public CCTextureAtlas ccTextureAtlas
         {
-            get
-            {
-                return m_pTextureAtlas;
-            }
-            set
-            {
-                //CC_SAFE_RETAIN(var);
-                //CC_SAFE_RELEASE(m_pTextureAtlas);
-                m_pTextureAtlas = value;
-            }
+            get { return m_pTextureAtlas; }
+            set { m_pTextureAtlas = value; }
         }
     }
 }

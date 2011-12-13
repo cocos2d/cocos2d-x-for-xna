@@ -141,10 +141,10 @@ namespace cocos2d
             // Re-initialization is not allowed
             Debug.Assert(m_pIndices == null);
 
-            m_pQuads = new List<ccV3F_C4B_T2F_Quad>();
-            m_pIndices = new ushort[m_uCapacity * 6];
+            //m_pQuads = new List<ccV3F_C4B_T2F_Quad>();
+            //m_pIndices = new ushort[m_uCapacity * 6];
 
-            this.initIndices();
+            //this.initIndices();
             return true;
         }
 
@@ -344,7 +344,7 @@ namespace cocos2d
             set { m_pTexture = value; }
         }
 
-        protected List<ccV3F_C4B_T2F_Quad> m_pQuads;
+        protected List<ccV3F_C4B_T2F_Quad> m_pQuads = new List<ccV3F_C4B_T2F_Quad>();
         /// <summary>
         /// Quads that are going to be rendered
         /// </summary>
