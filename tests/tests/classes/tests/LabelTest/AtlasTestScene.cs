@@ -46,7 +46,7 @@ namespace tests
                 case 0: return new LabelAtlasTest();
                 case 1: return new LabelAtlasColorTest();
                 case 2: return new Atlas3();
-                //case 3: return new Atlas4();
+                case 3: return new Atlas4();
                 //case 4: return new Atlas5();
                 //case 5: return new Atlas6();
                 //case 6: return new AtlasBitmapColor();

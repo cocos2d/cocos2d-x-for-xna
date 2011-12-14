@@ -75,6 +75,7 @@
     <Compile Include="classes\tests\DirectorTest\DirectorTest.cs" />
     <Compile Include="classes\tests\EaseActionTest\EaseActionsTest.cs" />
     <Compile Include="classes\tests\LabelTest\Atlas3.cs" />
+    <Compile Include="classes\tests\LabelTest\Atlas4.cs" />
     <Compile Include="classes\tests\LabelTest\AtlasTestScene.cs" />
     <Compile Include="classes\tests\LabelTest\LabelAtlasColorTest.cs" />
     <Compile Include="classes\tests\LabelTest\LabelAtlasTest.cs" />
