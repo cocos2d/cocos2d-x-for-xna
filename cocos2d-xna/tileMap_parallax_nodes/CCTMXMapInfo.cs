@@ -36,6 +36,19 @@ using cocos2d.tileMap_parallax_nodes;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// CCTMXMapInfo contains the information about the map like:
+    ///- Map orientation (hexagonal, isometric or orthogonal)
+    ///- Tile size
+    ///- Map size
+    ///
+    ///	And it also contains:
+    ///- Layers (an array of TMXLayerInfo objects)
+    ///- Tilesets (an array of TMXTilesetInfo objects)
+    ///- ObjectGroups (an array of TMXObjectGroupInfo objects)
+    ///
+    ///This information is obtained from the TMX file.
+    /// </summary>
     public class CCTMXMapInfo : CCObject, ICCSAXDelegator
     {
         public static byte[] ToByte(string str)
@@ -48,6 +61,8 @@ namespace cocos2d
             }
             return bytes;
         }
+
+        #region properties
 
         protected int m_nOrientation;
         /// <summary>
@@ -189,6 +204,8 @@ namespace cocos2d
             set { m_pTileProperties = value; }
         }
 
+        #endregion
+
         public CCTMXMapInfo()
         {
         }
@@ -196,25 +213,20 @@ namespace cocos2d
         /// <summary>
         /// creates a TMX Format with a tmx file
         /// </summary>
-        /// <param name="?"></param>
-        /// <returns></returns>
         public static CCTMXMapInfo formatWithTMXFile(string tmxFile)
         {
             CCTMXMapInfo pRet = new CCTMXMapInfo();
             if (pRet.initWithTMXFile(tmxFile))
             {
-                //pRet->autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet);
+
             return null;
         }
 
         /// <summary>
         /// initializes a TMX format witha  tmx file
         /// </summary>
-        /// <param name="?"></param>
-        /// <returns></returns>
         public bool initWithTMXFile(string tmxFile)
         {
             m_pTilesets = new List<CCTMXTilesetInfo>();

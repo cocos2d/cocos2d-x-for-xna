@@ -86,6 +86,8 @@ object->propertyNamed(name_of_the_property);
 */
     public class CCTMXTiledMap : CCNode
     {
+        #region properties
+
         protected CCSize m_tMapSize;
         /// <summary>
         /// the map's size property measured in tiles
@@ -136,6 +138,8 @@ object->propertyNamed(name_of_the_property);
             set { m_pProperties = value; }
         }
 
+        #endregion
+
         public CCTMXTiledMap()
         {
         }
@@ -143,9 +147,6 @@ object->propertyNamed(name_of_the_property);
         /// <summary>
         /// creates a TMX Tiled Map with a TMX file.
         /// </summary>
-        /// <param name="?"></param>
-        /// <returns></returns>
-        //char* is string: CCTMXTiledMap *map = CCTMXTiledMap::tiledMapWithTMXFile("TileMaps/orthogonal-test3.tmx");
         public static CCTMXTiledMap tiledMapWithTMXFile(string tmxFile)
         {
             CCTMXTiledMap pRet = new CCTMXTiledMap();
@@ -153,7 +154,6 @@ object->propertyNamed(name_of_the_property);
             {
                 return pRet;
             }
-            pRet = null;
             return null;
         }
 
@@ -224,9 +224,6 @@ object->propertyNamed(name_of_the_property);
         /// <summary>
         /// return the TMXLayer for the specific layer
         /// </summary>
-        /// <param name="layerName"></param>
-        /// <returns></returns>
-        //this char* is string: CCTMXLayer* layer = map->layerNamed("Layer 0");
         public CCTMXLayer layerNamed(string layerName)
         {
             string sLayerName = layerName;
@@ -237,9 +234,6 @@ object->propertyNamed(name_of_the_property);
         /// <summary>
         /// return the TMXObjectGroup for the secific group 
         /// </summary>
-        /// <param name="groupName"></param>
-        /// <returns></returns>
-        //this char* is string: CCTMXObjectGroup* group = map->objectGroupNamed("Object Group 1");
         public CCTMXObjectGroup objectGroupNamed(string groupName)
         {
             string sGroupName = groupName;
@@ -264,8 +258,6 @@ object->propertyNamed(name_of_the_property);
         /// <summary>
         ///  return the value for the specific property name
         /// </summary>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
         public string propertyNamed(string propertyName)
         {
             return m_pProperties[propertyName];
@@ -274,8 +266,6 @@ object->propertyNamed(name_of_the_property);
         /// <summary>
         /// return properties dictionary for tile GID
         /// </summary>
-        /// <param name="GID"></param>
-        /// <returns></returns>
         public Dictionary<string, string> propertiesForGID(int GID)
         {
             return m_pTileProperties[GID];

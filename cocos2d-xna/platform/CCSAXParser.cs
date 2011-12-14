@@ -57,7 +57,7 @@ namespace cocos2d
             //ulong size = data.Size;
             //byte[] pBuffer = (byte[])data.Buffer;
             CCContent data = CCApplication.sharedApplication().content.Load<CCContent>(pszFile);
-
+  
             if (data == null)
             {
                 return false;
