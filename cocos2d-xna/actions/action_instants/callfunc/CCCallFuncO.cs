@@ -103,13 +103,10 @@ namespace cocos2d
 
         public override void execute()
         {
-            throw new NotFiniteNumberException();
-
-            // todo
-            //if (m_pCallFuncO) 
-            //{
-            //    (m_pSelectorTarget->*m_pCallFuncO)(m_pObject);
-            //}
+            if (null != m_pCallFuncO) 
+            {
+                m_pCallFuncO(m_pObject);
+            }
 
             //if (CCScriptEngineManager::sharedScriptEngineManager()->getScriptEngine()) {
             //    CCScriptEngineManager::sharedScriptEngineManager()->getScriptEngine()->executeCallFunc0(

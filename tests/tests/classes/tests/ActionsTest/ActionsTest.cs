@@ -21,13 +21,13 @@ namespace tests
         ACTION_TINT_LAYER,
         //ACTION_ANIMATE_LAYER,
         ACTION_SEQUENCE_LAYER,
-        //ACTION_SEQUENCE2_LAYER,
+        ACTION_SEQUENCE2_LAYER,
         ACTION_SPAWN_LAYER,
         ACTION_REVERSE,
-        //ACTION_DELAYTIME_LAYER,
-        //ACTION_REPEAT_LAYER,
-        //ACTION_REPEATEFOREVER_LAYER,
-        //ACTION_ROTATETOREPEATE_LAYER,
+        ACTION_DELAYTIME_LAYER,
+        ACTION_REPEAT_LAYER,
+        ACTION_REPEATEFOREVER_LAYER,
+        ACTION_ROTATETOREPEATE_LAYER,
         //ACTION_ROTATEJERK_LAYER,
         //ACTION_CALLFUNC_LAYER,
         //ACTION_CALLFUNCND_LAYER,
@@ -78,20 +78,20 @@ namespace tests
                 //    pLayer = new ActionAnimate(); break;
                 case (int)ActionTest.ACTION_SEQUENCE_LAYER:
                     pLayer = new ActionSequence(); break;
-                //case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
-                //    pLayer = new ActionSequence2(); break;
+                case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
+                    pLayer = new ActionSequence2(); break;
                 case (int)ActionTest.ACTION_SPAWN_LAYER:
                     pLayer = new ActionSpawn(); break;
                 case (int)ActionTest.ACTION_REVERSE:
                     pLayer = new ActionReverse(); break;
-                //case (int)ActionTest.ACTION_DELAYTIME_LAYER:
-                //    pLayer = new ActionDelayTime(); break;
-                //case (int)ActionTest.ACTION_REPEAT_LAYER:
-                //    pLayer = new ActionRepeat(); break;
-                //case (int)ActionTest.ACTION_REPEATEFOREVER_LAYER:
-                //    pLayer = new ActionRepeatForever(); break;
-                //case (int)ActionTest.ACTION_ROTATETOREPEATE_LAYER:
-                //    pLayer = new ActionRotateToRepeat(); break;
+                case (int)ActionTest.ACTION_DELAYTIME_LAYER:
+                    pLayer = new ActionDelayTime(); break;
+                case (int)ActionTest.ACTION_REPEAT_LAYER:
+                    pLayer = new ActionRepeat(); break;
+                case (int)ActionTest.ACTION_REPEATEFOREVER_LAYER:
+                    pLayer = new ActionRepeatForever(); break;
+                case (int)ActionTest.ACTION_ROTATETOREPEATE_LAYER:
+                    pLayer = new ActionRotateToRepeat(); break;
                 //case (int)ActionTest.ACTION_ROTATEJERK_LAYER:
                 //    pLayer = new ActionRotateJerk(); break;
                 //case (int)ActionTest.ACTION_CALLFUNC_LAYER:

@@ -84,12 +84,10 @@ namespace cocos2d
 		/** executes the callback */
         public virtual void execute() 
         {
-            throw new NotImplementedException();
-
-            // todo
-            //if (m_pCallFunc) {
-            //    (m_pSelectorTarget->*m_pCallFunc)();
-            //}
+            if (null != m_pCallFunc) 
+            {
+                m_pCallFunc();
+            }
 
             //if (CCScriptEngineManager::sharedScriptEngineManager()->getScriptEngine()) {
             //    CCScriptEngineManager::sharedScriptEngineManager()->getScriptEngine()->executeCallFunc(

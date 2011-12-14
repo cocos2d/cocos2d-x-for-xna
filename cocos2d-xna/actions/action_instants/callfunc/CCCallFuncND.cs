@@ -96,12 +96,10 @@ namespace cocos2d
 
         public override void execute() 
         {
-            throw new NotImplementedException();
-
-            // todo
-            //if (m_pCallFuncND) {
-            //    (m_pSelectorTarget->*m_pCallFuncND)(m_pTarget, m_pData);
-            //}
+            if (null != m_pCallFuncND) 
+            {
+                m_pCallFuncND(m_pTarget, m_pData);
+            }
 
             //if (CCScriptEngineManager::sharedScriptEngineManager()->getScriptEngine()) {
             //    CCScriptEngineManager::sharedScriptEngineManager()->getScriptEngine()->executeCallFuncND(
