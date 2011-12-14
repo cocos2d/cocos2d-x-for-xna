@@ -126,7 +126,10 @@ namespace cocos2d
         public static string fullPathFromRelativeFile(string pszFilename, string pszRelativeFile)
         {
             string m_sString = pszRelativeFile.Substring(0, pszRelativeFile.LastIndexOf("/") + 1);
+             int len=pszFilename.IndexOf('.');
+             pszFilename = pszFilename.Substring(0, len);
             m_sString += pszFilename;
+
             return m_sString;
         }
 

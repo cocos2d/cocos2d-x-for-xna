@@ -504,12 +504,12 @@ namespace cocos2d
             //  - easier to render
             // cons:
             //  - difficult to scale / rotate / etc.
-            m_pobTextureAtlas.Texture.setAliasTexParameters();
+            //m_pobTextureAtlas.Texture.setAliasTexParameters();
 
             //CFByteOrder o = CFByteOrderGetCurrent();
 
             // Parse cocos2d properties
-            this.parseInternalProperties();
+            //this.parseInternalProperties();
 
             for (int y = 0; y < m_tLayerSize.height; y++)
             {

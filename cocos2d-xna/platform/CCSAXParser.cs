@@ -120,6 +120,23 @@ namespace cocos2d
             }
             startElement(this, "image", atts8.ToArray());
 
+            List<string> atts20 = new List<string>();
+            atts20 = (from item in doc.Descendants("layer").FirstOrDefault().Attributes()
+                      select item.Name.ToString()).ToList();
+            List<string> atts21 = new List<string>();
+            atts21 = (from item in doc.Descendants("layer").FirstOrDefault().Attributes()
+                      select item.Value.ToString()).ToList();
+            List<string> atts22 = new List<string>();
+            if (atts21.Count == atts20.Count)
+            {
+                for (int i = 0; i < atts21.Count; i++)
+                {
+                    atts22.Add(atts20[i]);
+                    atts22.Add(atts21[i]);
+                }
+            }
+            startElement(this, "layer", atts22.ToArray());
+
             List<string> atts9 = new List<string>();
             atts9 = (from item in doc.Descendants("data").FirstOrDefault().Attributes()
                      select item.Name.ToString()).ToList();
@@ -136,8 +153,9 @@ namespace cocos2d
                 }
             }
             startElement(this, "data", atts11.ToArray());
-            endElement(data, "data");
-
+             //str= UnicodeEncoding.UTF8.GetString(data.Date, 0, data.Date.Length);
+            endElement(this ,"data",data);
+            
 #warning about xml
             /// * this initialize the library and check potential ABI mismatches
             /// * between the version it was compiled for and the actual shared
@@ -164,7 +182,6 @@ namespace cocos2d
             // * this is to debug memory for regression tests
             // */
             //xmlMemoryDump();
-
             return true;
         }
 
@@ -178,9 +195,9 @@ namespace cocos2d
             ((CCSAXParser)(ctx)).m_pDelegator.startElement(ctx, name, atts);
         }
 
-        public static void endElement(object ctx, string name)
+        public static void endElement(object ctx, string name,object o)
         {
-            ((CCSAXParser)(ctx)).m_pDelegator.endElement(ctx, name);
+            ((CCSAXParser)(ctx)).m_pDelegator.endElement(o, name);
         }
 
         public static void textHandler(object ctx, string name, int len)

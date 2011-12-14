@@ -166,6 +166,7 @@ object->propertyNamed(name_of_the_property);
 
             contentSize = new CCSize(0, 0);
 
+            //z这里是关键
             CCTMXMapInfo mapInfo = CCTMXMapInfo.formatWithTMXFile(tmxFile);
 
             if (mapInfo == null)
@@ -185,6 +186,7 @@ object->propertyNamed(name_of_the_property);
 
             int idx = 0;
 
+            //Layers
             List<CCTMXLayerInfo> layers = mapInfo.Layers;
             if (layers != null && layers.Count > 0)
             {
@@ -198,7 +200,7 @@ object->propertyNamed(name_of_the_property);
                 for (int i = 0; i < layers.Count; i++)
                 {
                     layerInfo = layers[i];
-                    if (layerInfo != null && layerInfo.m_bVisible)
+                    if (layerInfo != null /*&& layerInfo.m_bVisible*/)
                     {
                         CCTMXLayer child = parseLayer(layerInfo, mapInfo);
                         addChild((CCNode)child, idx, idx);

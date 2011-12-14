@@ -354,22 +354,39 @@ namespace cocos2d
                 s.height = float.Parse(attributeDict["height"]);
                 layer.m_tLayerSize = s;
 
-                string visible = attributeDict["visible"];
-                layer.m_bVisible = !(visible == "0");
-
-                string opacity = attributeDict["opacity"];
-                if (opacity != "")
+                foreach (var item in attributeDict.Keys)
                 {
-                    layer.m_cOpacity = (byte)(255 * float.Parse(opacity));
-                }
-                else
-                {
-                    layer.m_cOpacity = 255;
+                    if (item == "visible")
+                    {
+                        string visible = attributeDict["visible"];
+                        layer.m_bVisible = !(visible == "0");
+                    }
+                    if (item == "opacity")
+                    {
+                        string opacity = attributeDict["opacity"];
+                        if (opacity != "")
+                        {
+                            layer.m_cOpacity = (byte)(255 * float.Parse(opacity));
+                        }
+                        else
+                        {
+                            layer.m_cOpacity = 255;
+                        }
+                    }
+                    float x = 0;
+                    if (item == "x")
+                    {
+                        x = float.Parse(attributeDict["x"]);
+
+                    }
+                    float y = 0;
+                    if (item == "y")
+                    {
+                        y = float.Parse(attributeDict["y"]);
+                        layer.m_tOffset = new CCPoint(x, y);
+                    }
                 }
 
-                float x = float.Parse(attributeDict["x"]);
-                float y = float.Parse(attributeDict["y"]);
-                layer.m_tOffset = new CCPoint(x, y);
 
                 pTMXMapInfo.Layers.Add(layer);
 
@@ -786,8 +803,8 @@ namespace cocos2d
 
                 //string currentString = pTMXMapInfo.CurrentString;
                 byte[] bs = ((cocos2d.Framework.CCContent)ctx).Date;
-                uint[] bytes = new uint[12 * 12];
-                for (int j = 0; j < 15 * 25; j++)
+                uint[] bytes = new uint[24 * 24];
+                for (int j = 0; j < 24 * 24; j++)
                 {
                     bytes[j] = 0;
                 }

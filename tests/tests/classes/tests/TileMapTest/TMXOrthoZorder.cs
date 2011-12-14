@@ -28,6 +28,7 @@ namespace tests
             CCFiniteTimeAction seq = CCSequence.actions(move, back);
             m_tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)seq));
 
+            
             schedule((this.repositionSprite));
         }
 
@@ -40,6 +41,7 @@ namespace tests
             return "Sprite should hide behind the trees";
         }
 
+        //¸´Î»
         void repositionSprite(float dt)
         {
             CCPoint p = m_tamara.positionInPixels;

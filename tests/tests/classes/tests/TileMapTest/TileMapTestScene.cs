@@ -16,7 +16,7 @@ namespace tests
             sceneIdx++;
             sceneIdx = sceneIdx % MAX_LAYER;
 
-            CCLayer pLayer = createTileMapLayer(sceneIdx);
+            CCLayer pLayer = createTileMapLayer(1);
             return pLayer;
         }
 
@@ -25,7 +25,7 @@ namespace tests
             switch (nIndex)
             {
                 //case 0: return new TMXIsoZorder();
-                case 0: return new TMXOrthoZorder();
+                case 1: return new TMXOrthoZorder();
                 //case 2: return new TMXIsoVertexZ();
                 //case 3: return new TMXOrthoVertexZ();
                 //case 4: return new TMXOrthoTest();
