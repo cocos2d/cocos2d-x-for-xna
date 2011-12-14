@@ -49,7 +49,7 @@ namespace cocos2d
             // nothing to do
             return true;
         }
-
+        
         public bool parse(string pszFile)
         {
 

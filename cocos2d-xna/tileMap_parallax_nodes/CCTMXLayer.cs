@@ -646,17 +646,17 @@ namespace cocos2d
             if (m_pReusedTile == null)
             {
                 m_pReusedTile = new CCSprite();
-                //m_pReusedTile.initWithBatchNode(this, rect);
+                m_pReusedTile.initWithBatchNode(this, rect);
             }
             else
             {
-                //m_pReusedTile.initWithBatchNode(this, rect);
+                m_pReusedTile.initWithBatchNode(this, rect);
             }
 
             m_pReusedTile.position = positionAt(pos);
             m_pReusedTile.vertexZ = (float)vertexZForPos(pos);
             m_pReusedTile.anchorPoint = new CCPoint(0, 0);
-            m_pReusedTile.Opacity = m_cOpacity;
+            m_pReusedTile.Opacity = 255;
 
             // optimization:
             // The difference between appendTileForGID and insertTileforGID is that append is faster, since
@@ -667,7 +667,7 @@ namespace cocos2d
             addQuadFromSprite(m_pReusedTile, indexForZ);
 
             // append should be after addQuadFromSprite since it modifies the quantity values
-            ccCArray.ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, z, indexForZ);
+           // ccCArray.ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, z, indexForZ);
 
             return m_pReusedTile;
         }
