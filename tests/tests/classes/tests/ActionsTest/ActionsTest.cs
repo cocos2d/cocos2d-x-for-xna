@@ -19,11 +19,11 @@ namespace tests
         ACTION_BLINK_LAYER,
         ACTION_FADE_LAYER,
         ACTION_TINT_LAYER,
-        ACTION_ANIMATE_LAYER,
+        //ACTION_ANIMATE_LAYER,
         ACTION_SEQUENCE_LAYER,
         //ACTION_SEQUENCE2_LAYER,
-        // ACTION_SPAWN_LAYER,
-        //ACTION_REVERSE,
+        ACTION_SPAWN_LAYER,
+        ACTION_REVERSE,
         //ACTION_DELAYTIME_LAYER,
         //ACTION_REPEAT_LAYER,
         //ACTION_REPEATEFOREVER_LAYER,
@@ -74,16 +74,16 @@ namespace tests
                     pLayer = new ActionFade(); break;
                 case (int)ActionTest.ACTION_TINT_LAYER:
                     pLayer = new ActionTint(); break;
-                case (int)ActionTest.ACTION_ANIMATE_LAYER:
-                    pLayer = new ActionAnimate(); break;
+                //case (int)ActionTest.ACTION_ANIMATE_LAYER:
+                //    pLayer = new ActionAnimate(); break;
                 case (int)ActionTest.ACTION_SEQUENCE_LAYER:
                     pLayer = new ActionSequence(); break;
                 //case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
                 //    pLayer = new ActionSequence2(); break;
-                //case (int)ActionTest.ACTION_SPAWN_LAYER:
-                //    pLayer = new ActionSpawn(); break;
-                //case (int)ActionTest.ACTION_REVERSE:
-                //    pLayer = new ActionReverse(); break;
+                case (int)ActionTest.ACTION_SPAWN_LAYER:
+                    pLayer = new ActionSpawn(); break;
+                case (int)ActionTest.ACTION_REVERSE:
+                    pLayer = new ActionReverse(); break;
                 //case (int)ActionTest.ACTION_DELAYTIME_LAYER:
                 //    pLayer = new ActionDelayTime(); break;
                 //case (int)ActionTest.ACTION_REPEAT_LAYER:

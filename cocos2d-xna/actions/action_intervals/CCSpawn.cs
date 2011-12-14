@@ -71,13 +71,16 @@ namespace cocos2d
 
             if (base.initWithDuration(Math.Max(d1, d2)))
             {
+                m_pOne = action1;
+                m_pTwo = action2;
+
                 if (d1 > d2)
                 {
                     m_pTwo = CCSequence.actionOneTwo(action2, CCDelayTime.actionWithDuration(d1 - d2));
                 }
                 else if (d1 < d2)
                 {
-                 m_pOne = CCSequence.actionOneTwo(action1, CCDelayTime.actionWithDuration(d2 - d1));
+                    m_pOne = CCSequence.actionOneTwo(action1, CCDelayTime.actionWithDuration(d2 - d1));
                 }
              
                 bRet = true;
@@ -151,7 +154,7 @@ namespace cocos2d
             return CCSpawn.actionOneTwo(m_pOne.reverse(), m_pTwo.reverse());
         }
 
-        protected CCFiniteTimeAction m_pOne;
-        protected CCFiniteTimeAction m_pTwo;
+        protected CCFiniteTimeAction m_pOne = new CCFiniteTimeAction();
+        protected CCFiniteTimeAction m_pTwo = new CCFiniteTimeAction();
     }
 }
