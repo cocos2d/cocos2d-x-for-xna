@@ -25,7 +25,7 @@ namespace tests
             label.anchorPoint = new CCPoint(0.5f, 0.5f);
 
 
-            CCSprite BChar = (CCSprite)label.getChildByTag(1);
+            CCSprite BChar = (CCSprite)label.getChildByTag(0);
             CCSprite FChar = (CCSprite)label.getChildByTag(7);
             CCSprite AChar = (CCSprite)label.getChildByTag(12);
 

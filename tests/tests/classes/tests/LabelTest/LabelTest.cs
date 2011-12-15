@@ -698,79 +698,84 @@ namespace cocos2d
 
 
 
-    public class LabelTTFTest : AtlasDemo
-    {
-        public LabelTTFTest()
-        {
-            CCSize s = CCDirector.sharedDirector().getWinSize();
+//    public class LabelTTFTest : AtlasDemo
+//    {
+//        public LabelTTFTest()
+//        {
+//            CCSize s = CCDirector.sharedDirector().getWinSize();
 
-            // CCLabelBMFont
-            CCLabelTTF left = CCLabelTTF.labelWithString("align left", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentLeft, "Arial", 32);
-            CCLabelTTF center = CCLabelTTF.labelWithString("align center", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentCenter, "Arial", 32);
-            CCLabelTTF right = CCLabelTTF.labelWithString("align right", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentRight, "Arial", 32);
+//            // CCLabelBMFont
+//            CCLabelTTF left = CCLabelTTF.labelWithString("align left", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentLeft, "Arial", 32);
+//            CCLabelTTF center = CCLabelTTF.labelWithString("align center", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentCenter, "Arial", 32);
+//            CCLabelTTF right = CCLabelTTF.labelWithString("align right", new CCSize(s.width, 50), CCTextAlignment.CCTextAlignmentRight, "Arial", 32);
 
-            left.position = new CCPoint(s.width / 2, 200);
-            center.position = new CCPoint(s.width / 2, 150);
-            right.position = new CCPoint(s.width / 2, 100);
+//            left.position = new CCPoint(s.width / 2, 200);
+//            center.position = new CCPoint(s.width / 2, 150);
+//            right.position = new CCPoint(s.width / 2, 100);
 
-            addChild(left);
-            addChild(center);
-            addChild(right);
-        }
+//            addChild(left);
+//            addChild(center);
+//            addChild(right);
+//        }
 
-        public override string title()
-        {
-            return "Testing CCLabelTTF";
-        }
-        public override string subtitle()
-        {
-            return "You should see 3 labels aligned left, center and right";
-        }
+//        public override string title()
+//        {
+//            return "Testing CCLabelTTF";
+//        }
+//        public override string subtitle()
+//        {
+//            return "You should see 3 labels aligned left, center and right";
+//        }
 
-    }
+//    }
 
-    public class LabelTTFMultiline : AtlasDemo
-    {
+//    public class LabelTTFMultiline : AtlasDemo
+//    {
 
-        public LabelTTFMultiline()
-        {
-            CCSize s = CCDirector.sharedDirector().getWinSize();
+//        public LabelTTFMultiline()
+//        {
+//            CCSize s = CCDirector.sharedDirector().getWinSize();
 
-            // CCLabelBMFont
-            CCLabelTTF center = CCLabelTTF.labelWithString("word wrap \"testing\" (bla0) bla1 'bla2' [bla3] (bla4) {bla5} {bla6} [bla7] (bla8) [bla9] 'bla0' \"bla1\"",
-                new CCSize(s.width / 2, 200), CCTextAlignment.CCTextAlignmentCenter, "MarkerFelt.ttc", 32);
-            center.position = new CCPoint(s.width / 2, 150);
+//            // CCLabelBMFont
+//            CCLabelTTF center = CCLabelTTF.labelWithString("word wrap \"testing\" (bla0) bla1 'bla2' [bla3] (bla4) {bla5} {bla6} [bla7] (bla8) [bla9] 'bla0' \"bla1\"",
+//                new CCSize(s.width / 2, 200), CCTextAlignment.CCTextAlignmentCenter, "MarkerFelt.ttc", 32);
+//            center.position = new CCPoint(s.width / 2, 150);
 
-            addChild(center);
-        }
+//            addChild(center);
+//        }
 
-        public override string title()
-        {
-            return "Testing CCLabelTTF Word Wrap";
-        }
+//        public override string title()
+//        {
+//            return "Testing CCLabelTTF Word Wrap";
+//        }
 
-        public override string subtitle()
-        {
-            return "Word wrap using CCLabelTTF";
-        }
+//        public override string subtitle()
+//        {
+//            return "Word wrap using CCLabelTTF";
+//        }
 
-    }
+//    }
 
-    public class LabelTTFChinese : AtlasDemo
-    {
+//    public class LabelTTFChinese : AtlasDemo
+//    {
 
-        public LabelTTFChinese()
-        {
-            CCSize size = CCDirector.sharedDirector().getWinSize();
-            CCLabelTTF pLable = CCLabelTTF.labelWithString("ÖÐ¹ú", "Marker Felt", 30);
-            pLable.position = new CCPoint(size.width / 2, size.height / 2);
-            this.addChild(pLable);
-        }
+//        public LabelTTFChinese()
+//        {
+//            CCSize size = CCDirector.sharedDirector().getWinSize();
+//            CCLabelTTF pLable = CCLabelTTF.labelWithString("Chinaese", "Arial", 30);
+//            pLable.position = new CCPoint(size.width / 2, size.height / 2);
+//            addChild(pLable);
+//        }
 
-        public override string title()
-        {
-            return "Testing CCLabelTTF with Chinese character";
-        }
+//        public override string title()
+//        {
+//            return "Testing CCLabelTTF with Chinese character";
+//        }
 
-    }
+//        public override string subtitle()
+//        {
+//            return "You should see Chinese font";
+//        }
+
+//    }
 }
