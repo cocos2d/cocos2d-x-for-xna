@@ -26,20 +26,20 @@ namespace tests
                 {
                     break;
                 }
-                pNode.Texture.setAntiAliasTexParameters();
+                //pNode.Texture.setAntiAliasTexParameters();
             }
 
             map.anchorPoint = new CCPoint(0, 0);
             CCTMXLayer layer = map.layerNamed("Tile Layer 1");
-            layer.setTileGID(3, new CCPoint(2, 2));
+            //layer.setTileGID(3, new CCPoint(2, 2));
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX Bug 987";
         }
 
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "You should see an square";
         }

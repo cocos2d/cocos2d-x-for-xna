@@ -37,7 +37,7 @@ namespace tests
                 map.runAction(CCScaleBy.actionWithDuration(2, 0.5f));
             }
         }
-        public virtual string title()
+        public override string title()
         {
             return "TMX Ortho test2";
         }

@@ -25,7 +25,7 @@ namespace tests
             map.runAction(CCMoveTo.actionWithDuration(1.0f, new CCPoint(-ms.width * ts.width / 2, -ms.height * ts.height / 2)));
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX Isometric test 2";
         }

@@ -15,12 +15,12 @@ namespace tests
 
             map.scale = 0.25f;
         }
-        public virtual string title()
+        public override string title()
         {
             return "TMX Bug 787";
         }
 
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "You should see a map";
         }

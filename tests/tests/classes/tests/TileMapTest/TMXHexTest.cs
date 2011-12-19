@@ -19,7 +19,7 @@ namespace tests
             CCSize s = map.contentSize;
             ////----UXLOG("ContentSize: %f, %f", s.width,s.height);
         }
-        public virtual string title()
+        public override string title()
         {
             return "TMX Hex tes";
         }

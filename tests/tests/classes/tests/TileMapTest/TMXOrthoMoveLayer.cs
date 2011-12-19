@@ -16,12 +16,12 @@ namespace tests
             CCSize s = map.contentSize;
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX Ortho Move Layer";
         }
 
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "Trees should be horizontally aligned";
         }

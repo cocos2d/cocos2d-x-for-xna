@@ -166,7 +166,6 @@ object->propertyNamed(name_of_the_property);
 
             contentSize = new CCSize(0, 0);
 
-            //z这里是关键
             CCTMXMapInfo mapInfo = CCTMXMapInfo.formatWithTMXFile(tmxFile);
 
             if (mapInfo == null)

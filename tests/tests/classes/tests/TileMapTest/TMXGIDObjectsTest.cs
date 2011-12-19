@@ -20,7 +20,7 @@ namespace tests
             Debug.WriteLine("----> Iterating over all the group objets");
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX GID objects";
         }

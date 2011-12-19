@@ -21,7 +21,7 @@ namespace tests
 
             //map.setAnchorPoint(ccp(0.5f, 0.5f));
         }
-        public virtual string title()
+        public override string title()
         {
             return "TMX Isometric test + anchorPoint";
         }

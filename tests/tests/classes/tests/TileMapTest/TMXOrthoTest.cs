@@ -42,18 +42,18 @@ namespace tests
             map.Camera.setEyeXYZ(x - 200, y, z + 300);
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX Orthogonal test";
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
             CCDirector.sharedDirector().Projection = ccDirectorProjection.CCDirectorProjection3D;
         }
 
-        public virtual void onExit()
+        public override void onExit()
         {
             CCDirector.sharedDirector().Projection = ccDirectorProjection.CCDirectorProjection2D;
             base.onExit();
