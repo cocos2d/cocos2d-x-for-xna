@@ -23,10 +23,15 @@ namespace cocos2d.Content.Pipeline.Importers.TMX
             TOutput output = new TOutput();
             output.Content = input;
             XElement doc = XElement.Parse(input);
-            string str = doc.Descendants("data").FirstOrDefault().Value.ToString();
-            byte[] bs = Convert.FromBase64String(str);
-            bs = Decompress.GZipDecompress(bs);
-            output.Date = bs;
+
+            IEnumerable<XElement> elemnet = doc.Descendants("data");
+            foreach (var item in elemnet)
+            {
+                string str = item.Value;
+                byte[] bs = Convert.FromBase64String(str);
+                bs = Decompress.GZipDecompress(bs);
+                output.Date.Add(bs);
+            }
             return output;
             throw new NotImplementedException();
         }

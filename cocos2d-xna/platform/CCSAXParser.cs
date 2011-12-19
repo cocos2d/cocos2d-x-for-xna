@@ -49,111 +49,47 @@ namespace cocos2d
             // nothing to do
             return true;
         }
-        
+
+        static List<string> ParseAttribute(XElement doc)
+        {
+            IEnumerable<XAttribute> attributes = doc.Attributes();
+            List<string> atts = new List<string>();
+            foreach (var item in attributes)
+            {
+                atts.Add(item.Name.ToString());
+                atts.Add(item.Value);
+            }
+            return atts;
+        }
+
+        static void ForeachNode(XElement doc,object ctx)
+        {
+            List<string> atts = new List<string>();
+            if (doc.Elements() != null)
+            {
+                foreach (var item in doc.Elements())
+                {
+                    atts = ParseAttribute(item);
+                    startElement(ctx, item.Name.ToString(), atts.ToArray());
+                    ForeachNode(item,ctx);
+                }
+            }
+        }
+
         public bool parse(string pszFile)
         {
-
-            //CCFileData data = new CCFileData(pszFile, "rt");
-            //ulong size = data.Size;
-            //byte[] pBuffer = (byte[])data.Buffer;
             CCContent data = CCApplication.sharedApplication().content.Load<CCContent>(pszFile);
-  
+            string str = data.Content;
             if (data == null)
             {
                 return false;
             }
-            //Òª¸Éµôhttp
-            string str = data.Content;
             XElement doc = XElement.Parse(str);
-            List<string> atts1 = new List<string>();
-
-            atts1 = (from item in doc.Attributes()
-                    select item.Value.ToString()).ToList();
-
-            List<string> atts2 = new List<string>();
-            atts2 = (from item in doc.Attributes()
-                     select item.Name.ToString()).ToList();
-
-            List<string> atts = new List<string>();
-            if (atts1.Count==atts2.Count)
-            {
-                for (int i = 0; i < atts1.Count; i++)
-                {
-                    atts.Add(atts2[i]);
-                    atts.Add(atts1[i]);
-                }
-            }
+            List<string> atts=new List<string>();
+            atts=ParseAttribute(doc);
             startElement(this, "map", atts.ToArray());
-
-            List<string> atts3 = new List<string>();
-            atts3 = (from item in doc.Descendants("tileset").LastOrDefault().Attributes()
-                    select item.Name.ToString()).ToList();
-            List<string> atts4 = new List<string>();
-            atts4 = (from item in doc.Descendants("tileset").LastOrDefault().Attributes()
-                     select item.Value.ToString()).ToList();
-
-            List<string> atts5 = new List<string>();
-            if (atts3.Count == atts4.Count)
-            {
-                for (int i = 0; i < atts3.Count; i++)
-                {
-                    atts5.Add(atts3[i]);
-                    atts5.Add(atts4[i]);
-                }
-            }
-            startElement(this, "tileset",atts5.ToArray());
-
-            List<string> atts6 = new List<string>();
-            atts6 = (from item in doc.Descendants("image").LastOrDefault().Attributes()
-                     select item.Name.ToString()).ToList();
-            List<string> atts7 = new List<string>();
-            atts7 = (from item in doc.Descendants("image").LastOrDefault().Attributes()
-                     select item.Value.ToString()).ToList();
-            List<string> atts8 = new List<string>();
-            if (atts6.Count == atts7.Count)
-            {
-                for (int i = 0; i < atts6.Count; i++)
-                {
-                    atts8.Add(atts6[i]);
-                    atts8.Add(atts7[i]);
-                }
-            }
-            startElement(this, "image", atts8.ToArray());
-
-            List<string> atts20 = new List<string>();
-            atts20 = (from item in doc.Descendants("layer").FirstOrDefault().Attributes()
-                      select item.Name.ToString()).ToList();
-            List<string> atts21 = new List<string>();
-            atts21 = (from item in doc.Descendants("layer").FirstOrDefault().Attributes()
-                      select item.Value.ToString()).ToList();
-            List<string> atts22 = new List<string>();
-            if (atts21.Count == atts20.Count)
-            {
-                for (int i = 0; i < atts21.Count; i++)
-                {
-                    atts22.Add(atts20[i]);
-                    atts22.Add(atts21[i]);
-                }
-            }
-            startElement(this, "layer", atts22.ToArray());
-
-            List<string> atts9 = new List<string>();
-            atts9 = (from item in doc.Descendants("data").FirstOrDefault().Attributes()
-                     select item.Name.ToString()).ToList();
-            List<string> atts10 = new List<string>();
-            atts10 = (from item in doc.Descendants("data").FirstOrDefault().Attributes()
-                     select item.Value.ToString()).ToList();
-            List<string> atts11 = new List<string>();
-            if (atts9.Count==atts10.Count)
-            {
-                for (int i = 0; i < atts10.Count; i++)
-                {
-                    atts11.Add(atts9[i]);
-                    atts11.Add(atts10[i]);
-                }
-            }
-            startElement(this, "data", atts11.ToArray());
-             //str= UnicodeEncoding.UTF8.GetString(data.Date, 0, data.Date.Length);
+            ForeachNode(doc,this);
+        
             endElement(this ,"data",data);
             
 #warning about xml

@@ -510,7 +510,7 @@ namespace cocos2d
 
             // Parse cocos2d properties
             //this.parseInternalProperties();
-
+            int i=0;
             for (int y = 0; y < m_tLayerSize.height; y++)
             {
                 for (int x = 0; x < m_tLayerSize.width; x++)
@@ -527,8 +527,8 @@ namespace cocos2d
                     // XXX: gid == 0 --> empty tile
                     if (gid != 0)
                     {
-                        this.appendTileForGID(gid, new CCPoint((float)x, (float)y));
-
+                     var reusedTile  = this.appendTileForGID(gid, new CCPoint((float)x, (float)y));
+                        addChild(reusedTile, 0, i++);
                         // Optimization: update min and max GID rendered by the layer
                         m_uMinGID = Math.Min(gid, m_uMinGID);
                         m_uMaxGID = Math.Max(gid, m_uMaxGID);
@@ -548,7 +548,8 @@ namespace cocos2d
         /// <param name="tag"></param>
         public override void addChild(CCNode child, int zOrder, int tag)
         {
-            Debug.Assert(false, "addChild: is not supported on CCTMXLayer. Instead use setTileGID:at:/tileAt:");
+            // Debug.Assert(false, "addChild: is not supported on CCTMXLayer. Instead use setTileGID:at:/tileAt:");
+            base.addChild(child, zOrder, tag);
         }
 
         // super method
@@ -638,25 +639,26 @@ namespace cocos2d
         /// <returns></returns>
         private CCSprite appendTileForGID(uint gid, CCPoint pos)
         {
+            CCSprite reusedTile=null;
             CCRect rect = m_pTileSet.rectForGID(gid);
             rect = new CCRect(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width / m_fContentScaleFactor, rect.size.height / m_fContentScaleFactor);
 
             int z = (int)(pos.x + pos.y * m_tLayerSize.width);
 
-            if (m_pReusedTile == null)
+            if (reusedTile == null)
             {
-                m_pReusedTile = new CCSprite();
-                m_pReusedTile.initWithBatchNode(this, rect);
+                reusedTile = new CCSprite();
+                reusedTile.initWithBatchNode(this, rect);
             }
             else
             {
                 m_pReusedTile.initWithBatchNode(this, rect);
             }
 
-            m_pReusedTile.position = positionAt(pos);
-            m_pReusedTile.vertexZ = (float)vertexZForPos(pos);
-            m_pReusedTile.anchorPoint = new CCPoint(0, 0);
-            m_pReusedTile.Opacity = 255;
+            reusedTile.position = positionAt(pos);
+            reusedTile.vertexZ = (float)vertexZForPos(pos);
+            reusedTile.anchorPoint = new CCPoint(0, 0);
+            reusedTile.Opacity = 255;
 
             // optimization:
             // The difference between appendTileForGID and insertTileforGID is that append is faster, since
@@ -664,12 +666,12 @@ namespace cocos2d
             uint indexForZ = m_pAtlasIndexArray.num;
 
             // don't add it using the "standard" way.
-            addQuadFromSprite(m_pReusedTile, indexForZ);
+            addQuadFromSprite(reusedTile, indexForZ);
 
             // append should be after addQuadFromSprite since it modifies the quantity values
-           // ccCArray.ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, z, indexForZ);
+            // ccCArray.ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, z, indexForZ);
 
-            return m_pReusedTile;
+            return reusedTile;
         }
 
         private CCSprite insertTileForGID(uint gid, CCPoint pos)

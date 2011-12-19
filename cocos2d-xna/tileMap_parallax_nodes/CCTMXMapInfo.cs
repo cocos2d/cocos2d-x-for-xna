@@ -324,11 +324,23 @@ namespace cocos2d
                     CCTMXTilesetInfo tileset = new CCTMXTilesetInfo();
                     tileset.m_sName = attributeDict["name"];
                     tileset.m_uFirstGid = uint.Parse(attributeDict["firstgid"]);
-                    tileset.m_uSpacing = uint.Parse(attributeDict["spacing"]);
-                    tileset.m_uMargin = uint.Parse(attributeDict["margin"]);
+                    if (attributeDict.Keys.Contains("spacing"))
+                    {
+                        tileset.m_uSpacing = uint.Parse(attributeDict["spacing"]);
+                    }
+                    if (attributeDict.Keys.Contains("margin"))
+                    {
+                        tileset.m_uMargin = uint.Parse(attributeDict["margin"]);
+                    }
                     CCSize s = new CCSize();
-                    s.width = float.Parse(attributeDict["tilewidth"]);
-                    s.height = float.Parse(attributeDict["tileheight"]);
+                    if (attributeDict.Keys.Contains("tilewidth"))
+                    {
+                        s.width = float.Parse(attributeDict["tilewidth"]);
+                    }
+                    if (attributeDict.Keys.Contains("tileheight"))
+                    {
+                        s.height = float.Parse(attributeDict["tileheight"]);
+                    }
                     tileset.m_tTileSize = s;
 
                     pTMXMapInfo.Tilesets.Add(tileset);
@@ -792,30 +804,30 @@ namespace cocos2d
             CCTMXMapInfo pTMXMapInfo = this;
             string elementName = name;
 
-            int len = 0;
+       
 
             if (elementName == "data" && (pTMXMapInfo.LayerAttribs & (int)TMXLayerAttrib.TMXLayerAttribBase64) != 0)
             {
                 pTMXMapInfo.StoringCharacters = false;
-
-                CCTMXLayerInfo layer = pTMXMapInfo.Layers.LastOrDefault();
-
-
-                //string currentString = pTMXMapInfo.CurrentString;
-                byte[] bs = ((cocos2d.Framework.CCContent)ctx).Date;
-                uint[] bytes = new uint[24 * 24];
-                for (int j = 0; j < 24 * 24; j++)
+                for (int i = 0; i < pTMXMapInfo.Layers.Count; i++)
                 {
-                    bytes[j] = 0;
-                }
-                for (int i = 0; i < bs.Length; i++)
-                {
-                    if (bs[i] > 0)
+                    CCTMXLayerInfo layer = pTMXMapInfo.Layers[i];
+                    byte[] bs = ((cocos2d.Framework.CCContent)ctx).Date[i];
+                    uint[] bytes = new uint[bs.Length];
+                    for (int j = 0; j < bytes.Length; j++)
                     {
-                        bytes[i / 4] = bs[i];
+                        bytes[j] = 0;
                     }
+                    for (int k = 0; k < bs.Length; k++)
+                    {
+                        if (bs[k] > 0)
+                        {
+                            bytes[k / 4] = bs[k];
+                        }
+                    }
+                    layer.m_pTiles = bytes;
                 }
-                layer.m_pTiles = bytes;
+                //int len = 0;
                 //buffer = Convert.FromBase64CharArray(currentString.ToCharArray(), 0, currentString.Length);
                 //len = buffer.Length;
 

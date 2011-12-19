@@ -11,12 +11,28 @@ namespace tests
         static int sceneIdx = -1;
         static readonly int MAX_LAYER = 17;
 
+        public static CCLayer restartTileMapAction()
+        {
+            CCLayer pLayer = createTileMapLayer(sceneIdx);
+            return pLayer;
+        } 
         public static CCLayer nextTileMapAction()
         {
             sceneIdx++;
             sceneIdx = sceneIdx % MAX_LAYER;
 
-            CCLayer pLayer = createTileMapLayer(1);
+            CCLayer pLayer = createTileMapLayer(sceneIdx);
+            return pLayer;
+        }
+        public static CCLayer backTileMapAction()
+        {
+            sceneIdx--;
+            int total = MAX_LAYER;
+            if (sceneIdx < 0)
+                sceneIdx += total;
+
+            CCLayer pLayer = createTileMapLayer(sceneIdx);
+
             return pLayer;
         }
 
@@ -24,9 +40,9 @@ namespace tests
         {
             switch (nIndex)
             {
-                //case 0: return new TMXIsoZorder();
-                case 1: return new TMXOrthoZorder();
-                //case 2: return new TMXIsoVertexZ();
+                case 2: return new TMXIsoTest1();
+                case 0: return new TMXOrthoZorder();
+                case 1: return new TMXOrthoTest2();
                 //case 3: return new TMXOrthoVertexZ();
                 //case 4: return new TMXOrthoTest();
                 //case 5: return new TMXOrthoTest2();

@@ -104,6 +104,9 @@
     <Compile Include="classes\tests\Texture2dTest\Texture2dTest.cs" />
     <Compile Include="classes\tests\TileMapTest\TileDemo.cs" />
     <Compile Include="classes\tests\TileMapTest\TileMapTestScene.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXIsoTest.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXIsoTest1.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXOrthoTest2.cs" />
     <Compile Include="classes\tests\TileMapTest\TMXOrthoZorder.cs" />
     <Compile Include="classes\tests\TouchesTest\Ball.cs" />
     <Compile Include="classes\tests\TouchesTest\Paddle.cs" />
