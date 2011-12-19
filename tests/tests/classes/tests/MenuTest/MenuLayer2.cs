@@ -118,11 +118,11 @@ namespace tests
         }
         public void menuCallback(CCObject pSender)
         {
-            //CCLayerMultiplex m = m_pParent as CCLayerMultiplex;
-            //m.switchTo(0);
-            //((CCLayerMultiplex)m_pParent).switchTo(0);
-
+            CCLayerMultiplex m = m_pParent as CCLayerMultiplex;
+            m.switchTo(0);
             ((CCLayerMultiplex)m_pParent).switchTo(0);
+
+            //((CCLayerMultiplex)m_pParent).switchTo(0);
         }
         public void menuCallbackOpacity(CCObject pSender)
         {

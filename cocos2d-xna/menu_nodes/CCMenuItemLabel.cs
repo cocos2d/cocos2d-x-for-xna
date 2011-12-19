@@ -195,12 +195,12 @@ namespace cocos2d
                 {
                     if (!value)
                     {
-                        //m_tColorBackup = m_pLabel.convertToRGBAProtocol().getColor();
-                        //m_pLabel->convertToRGBAProtocol()->setColor(m_tDisabledColor);
+                        m_tColorBackup = (m_pLabel as ICCRGBAProtocol).Color;
+                        (m_pLabel as ICCRGBAProtocol).Color = DisabledColor;
                     }
                     else
                     {
-                        //m_pLabel->convertToRGBAProtocol()->setColor(m_tColorBackup);
+                        (m_pLabel as ICCRGBAProtocol).Color = m_tColorBackup;
                     }
                 }
                 base.Enabled = value;

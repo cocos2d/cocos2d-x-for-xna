@@ -37,7 +37,7 @@ namespace tests
 {
     public class MenuLayer1 : CCLayer
     {
-        protected CCMenuItem m_disabledItem;
+        protected CCMenuItemLabel m_disabledItem;
         string s_SendScore = "Images/SendScoreButton";
         string s_MenuItem = "Images/menuitemsprite";
         string s_PressSendScore = "Images/SendScoreButtonPressed";
