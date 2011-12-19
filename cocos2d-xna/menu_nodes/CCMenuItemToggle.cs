@@ -89,14 +89,35 @@ namespace cocos2d.menu_nodes
         /// <summary>
         /// returns the selected item
         /// </summary>
-        public int SelectedIndex { get; set; }
+        public int SelectedIndex
+        {
+            get { return m_uSelectedIndex; }
+            set
+            {
+                if (value != m_uSelectedIndex)
+                {
+                    m_uSelectedIndex = value;
+                }
+
+                this.removeChildByTag(CCMenuItem.kCurrentItem, false);
+                CCMenuItem item = m_pSubItems[m_uSelectedIndex];
+                this.addChild(item, 0, CCMenuItem.kCurrentItem);
+                CCSize s = item.contentSize;
+                this.contentSize = s;
+                item.position = new CCPoint(s.width / 2, s.height / 2);
+            }
+        }
 
         public List<CCMenuItem> m_pSubItems;
         /// <summary>
         /// CCMutableArray that contains the subitems. You can add/remove items in runtime, and you can replace the array with a new one.
         /// @since v0.7.2
         /// </summary>
-        public List<CCMenuItem> SubItems { get; set; }
+        public List<CCMenuItem> SubItems
+        {
+            get { return m_pSubItems; }
+            set { m_pSubItems = value; }
+        }
 
         public CCMenuItemToggle()
         { }
@@ -104,17 +125,28 @@ namespace cocos2d.menu_nodes
         /// <summary>
         /// creates a menu item from a list of items with a target/selector
         /// </summary>
-        public static CCMenuItemToggle itemWithTarget(SelectorProtocol target, SEL_MenuHandler selector,params CCMenuItem[] item)
+        public static CCMenuItemToggle itemWithTarget(SelectorProtocol target, SEL_MenuHandler selector, params CCMenuItem[] items)
         {
-            throw new NotImplementedException();
+            CCMenuItemToggle pRet = new CCMenuItemToggle();
+            pRet.initWithTarget(target, selector, items);
+
+            return pRet;
         }
 
         /// <summary>
         /// initializes a menu item from a list of items with a target selector
         /// </summary>
-        public bool initWithTarget(SelectorProtocol target, SEL_MenuHandler selector, CCMenuItem[] item)
+        public bool initWithTarget(SelectorProtocol target, SEL_MenuHandler selector, CCMenuItem[] items)
         {
-            throw new NotImplementedException();
+            base.initWithTarget(target, selector);
+            this.m_pSubItems = new List<CCMenuItem>();
+            foreach (var item in items)
+            {
+                m_pSubItems.Add(item);
+            }
+
+            this.SelectedIndex = 0;
+            return true;
         }
 
         /// <summary>
@@ -123,7 +155,9 @@ namespace cocos2d.menu_nodes
         /// </summary>
         public static CCMenuItemToggle itemWithItem(CCMenuItem item)
         {
-            throw new NotImplementedException();
+            CCMenuItemToggle pRet = new CCMenuItemToggle();
+            pRet.initWithItem(item);
+            return pRet;
         }
 
         /// <summary>
@@ -131,7 +165,11 @@ namespace cocos2d.menu_nodes
         /// </summary>
         public bool initWithItem(CCMenuItem item)
         {
-            throw new NotImplementedException();
+            base.initWithTarget(null, null);
+            this.m_pSubItems = new List<CCMenuItem>();
+            m_pSubItems.Add(item);
+            this.SelectedIndex = 0;
+            return true;
         }
 
         /// <summary>
@@ -139,7 +177,7 @@ namespace cocos2d.menu_nodes
         /// </summary>
         public void addSubItem(CCMenuItem item)
         {
-            throw new NotImplementedException();
+            this.m_pSubItems.Add(item);
         }
 
         /// <summary>
@@ -147,28 +185,43 @@ namespace cocos2d.menu_nodes
         /// </summary>
         public CCMenuItem selectedItem()
         {
-            throw new NotImplementedException();
+            return m_pSubItems[m_uSelectedIndex];
         }
 
         // super methods
         public virtual void activate()
-        { }
+        {
+            // update index
+            if (m_bIsEnabled)
+            {
+                int newIndex = (m_uSelectedIndex + 1) % m_pSubItems.Count;
+                this.SelectedIndex = newIndex;
+            }
+            base.activate();
+        }
 
         public virtual void selected()
-        { }
+        {
+            base.selected();
+            m_pSubItems[m_uSelectedIndex].selected();
+        }
 
         public virtual void unselected()
-        { }
+        {
+            base.unselected();
+            m_pSubItems[m_uSelectedIndex].unselected();
+        }
 
         public override bool Enabled
         {
-            get
-            {
-                return base.Enabled;
-            }
+            get { return base.Enabled; }
             set
             {
                 base.Enabled = value;
+                foreach (var item in m_pSubItems)
+                {
+                    item.Enabled = value;
+                }
             }
         }
     }

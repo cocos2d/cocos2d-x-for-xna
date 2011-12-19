@@ -43,8 +43,8 @@ namespace cocos2d
         protected static string _fontName = "Arial";
         protected static bool _fontNameRelease = false;
 
-        const uint kCurrentItem = 0xc0c05001;
-        const uint kZoomActionTag = 0xc0c05002;
+        public const int kCurrentItem = 32767;
+        public const uint kZoomActionTag = 0xc0c05002;
 
         protected bool m_bIsSelected;
         protected bool m_bIsEnabled;
