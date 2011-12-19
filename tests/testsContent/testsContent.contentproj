@@ -749,35 +749,35 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TileMaps\hexa-test.tmx">
-      <Name>hexa-test</Name>
+    <Compile Include="TileMaps\hexa-test1.tmx">
+      <Name>hexa-test1</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\iso-test-bug787.tmx">
       <Name>iso-test-bug787</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\iso-test-movelayer.tmx">
       <Name>iso-test-movelayer</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\iso-test-objectgroup.tmx">
       <Name>iso-test-objectgroup</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\iso-test-vertexz.tmx">
       <Name>iso-test-vertexz</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\iso-test-zorder.tmx">
       <Name>iso-test-zorder</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\iso-test11.tmx">
       <Name>iso-test11</Name>
@@ -792,68 +792,75 @@
     <Compile Include="TileMaps\iso-test22.tmx">
       <Name>iso-test22</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\ortho-objects.tmx">
       <Name>ortho-objects</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test-movelayer.tmx">
       <Name>orthogonal-test-movelayer</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test-vertexz.tmx">
       <Name>orthogonal-test-vertexz</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test11.tsx">
       <Name>orthogonal-test11</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test2.tmx">
       <Name>orthogonal-test2</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test3.tmx">
       <Name>orthogonal-test3</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test4-hd.tmx">
       <Name>orthogonal-test4-hd</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test4.tmx">
       <Name>orthogonal-test4</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test5.tmx">
       <Name>orthogonal-test5</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test6-hd.tmx">
       <Name>orthogonal-test6-hd</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\orthogonal-test6.tmx">
       <Name>orthogonal-test6</Name>
       <Importer>TMXImporter</Importer>
-      <Processor>TextProcessor</Processor>
+      <Processor>TMXProcessor</Processor>
     </Compile>
     <Compile Include="TileMaps\test-object-layer.tmx">
       <Name>test-object-layer</Name>
       <Importer>TMXImporter</Importer>
       <Processor>TextProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TileMaps\iso-test01.tmx">
+      <Name>iso-test01</Name>
+      <Importer>TMXImporter</Importer>
+      <Processor>TMXProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

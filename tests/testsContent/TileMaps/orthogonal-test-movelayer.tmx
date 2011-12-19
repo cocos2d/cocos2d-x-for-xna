@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
 <map version="1.0" orientation="orthogonal" width="12" height="12" tilewidth="101" tileheight="81">
  <tileset name="Untitled" firstgid="1" tilewidth="101" tileheight="171" spacing="2" margin="2">
   <image source="ortho-test1.png"/>
