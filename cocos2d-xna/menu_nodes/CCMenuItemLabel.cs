@@ -225,11 +225,12 @@ namespace cocos2d
         {
             get
             {
-                throw new NotImplementedException();
+                return (m_pLabel as ICCRGBAProtocol).Color;
+                
             }
             set
             {
-                throw new NotImplementedException();
+                (m_pLabel as ICCRGBAProtocol).Color = value;
             }
         }
 

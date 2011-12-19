@@ -59,8 +59,7 @@ namespace tests
             CCMenuItemToggle item2 = CCMenuItemToggle.itemWithTarget(this,
                                                                         this.menuCallback,
                                                                         CCMenuItemFont.itemFromString("On"),
-                                                                        CCMenuItemFont.itemFromString("Off"),
-                                                                        null);
+                                                                        CCMenuItemFont.itemFromString("Off"));
 
             CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 18;
@@ -71,8 +70,7 @@ namespace tests
             CCMenuItemToggle item3 = CCMenuItemToggle.itemWithTarget(this,
                                                                         this.menuCallback,
                                                                         CCMenuItemFont.itemFromString("High"),
-                                                                        CCMenuItemFont.itemFromString("Low"),
-                                                                        null);
+                                                                        CCMenuItemFont.itemFromString("Low"));
 
             CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 18;
@@ -80,10 +78,9 @@ namespace tests
             title4.Enabled = false;
             CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 34;
-            //CCMenuItemToggle item4 = CCMenuItemToggle.itemWithTarget( this, 
-            //                                                            this.menuCallback), 
-            //                                                            CCMenuItemFont.itemFromString( "Off" ), 
-            //                                                            null );
+            CCMenuItemToggle item4 = CCMenuItemToggle.itemWithTarget(this,
+                                                                     this.menuCallback,
+                                                                     CCMenuItemFont.itemFromString("Off"));
 
             //UxArray* more_items = UxArray::arrayWithObjects(
             //												 CCMenuItemFont::itemFromString( "33%" ),
@@ -91,29 +88,31 @@ namespace tests
             //												 CCMenuItemFont::itemFromString( "100%" ),
             //												 NULL );
             // TIP: you can manipulate the items like any other CCMutableArray
-            //item4.getSubItems().addObject( CCMenuItemFont.itemFromString( "33%" ) ); 
-            //item4.getSubItems().addObject( CCMenuItemFont.itemFromString( "66%" ) ); 
-            //item4.getSubItems().addObject( CCMenuItemFont.itemFromString( "100%" ) ); 
-
+            //item4.SubItems.addObject(CCMenuItemFont.itemFromString("33%"));
+            //item4.SubItems.addObject(CCMenuItemFont.itemFromString("66%"));
+            //item4.SubItems.addObject(CCMenuItemFont.itemFromString("100%"));
+            item4.SubItems.Add(CCMenuItemFont.itemFromString("33%"));
+            item4.SubItems.Add(CCMenuItemFont.itemFromString("66%"));
+            item4.SubItems.Add(CCMenuItemFont.itemFromString("100%"));
             // you can change the one of the items by doing this
             //item4.SelectedIndex(2);
 
             CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 34;
 
-            CCLabelBMFont label = CCLabelBMFont.labelWithString("go back", "fonts/bitmapFontTest3.fnt");
+            CCLabelBMFont label = CCLabelBMFont.labelWithString("go back", "fonts/fnt/bitmapFontTest3");
             CCMenuItemLabel back = CCMenuItemLabel.itemWithLabel(label, this, this.backCallback);
 
-            //CCMenu menu = CCMenu.menuWithItems(
-            //              title1, title2,
-            //              item1, item2,
-            //              title3, title4,
-            //              item3, item4,
-            //              back, null); // 9 items.
+            CCMenu menu = CCMenu.menuWithItems(
+                          title1, title2,
+                          item1, item2,
+                          title3, title4,
+                          item3, item4,
+                          back); // 9 items.
 
-            //menu.alignItemsInColumns(2, 2, 2, 2, 1);
+            menu.alignItemsInColumns(2, 2, 2, 2, 1);
 
-            //addChild(menu);
+            addChild(menu);
         }
 
         public void menuCallback(CCObject pSender)

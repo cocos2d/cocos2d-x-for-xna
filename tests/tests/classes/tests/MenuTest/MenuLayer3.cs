@@ -41,10 +41,10 @@ namespace tests
         string s_MenuItem = "Images/menuitemsprite";
         public MenuLayer3()
         {
-            CCMenuItemFont.FontName = "Marker Felt";
+            CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 28;
 
-            CCLabelBMFont label = CCLabelBMFont.labelWithString("Enable AtlasItem", "fonts/bitmapFontTest3.fnt");
+            CCLabelBMFont label = CCLabelBMFont.labelWithString("Enable AtlasItem", "fonts/fnt/bitmapFontTest3");
             CCMenuItemLabel item1 = CCMenuItemLabel.itemWithLabel(label, this, this.menuCallback2);
             CCMenuItemFont item2 = CCMenuItemFont.itemFromString("--- Go Back ---", this, this.menuCallback);
 
@@ -57,7 +57,7 @@ namespace tests
             m_disabledItem = item3;
             m_disabledItem.Enabled = false;
 
-            CCMenu menu = CCMenu.menuWithItems(item1, item2, item3, null);
+            CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
             menu.position = new CCPoint(0, 0);
 
             CCSize s = CCDirector.sharedDirector().getWinSize();
@@ -67,7 +67,7 @@ namespace tests
             item3.position = new CCPoint(s.width / 2, s.height / 2 - 100);
             CCJumpBy jump = CCJumpBy.actionWithDuration(3, new CCPoint(400, 0), 50, 4);
             item2.runAction(CCRepeatForever.actionWithAction(
-                                        (CCActionInterval)(CCSequence.actions(jump, jump.reverse(), null))
+                                        (CCActionInterval)(CCSequence.actions(jump, jump.reverse()))
                                         )
                             );
             CCActionInterval spin1 = CCRotateBy.actionWithDuration(3, 360);

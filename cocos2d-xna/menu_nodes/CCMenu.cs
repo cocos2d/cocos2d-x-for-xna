@@ -245,7 +245,97 @@ namespace cocos2d
         /** align items in rows of columns */
         public void alignItemsInColumns(params int[] columns)
         {
-            throw new NotImplementedException(); 
+            //    vector<unsigned int> rows;
+            //while (columns != null)
+            //{
+            //    rows.push_back(columns);
+            //    columns = va_arg(args, uint);
+            //}
+
+            //int height = -5;
+            //uint row = 0;
+            //uint rowHeight = 0;
+            //uint columnsOccupied = 0;
+            //uint rowColumns;
+
+            //if (m_pChildren != null  && m_pChildren.Count > 0)
+            //{
+            //    CCObject pObject = null;
+            //    CCARRAY_FOREACH(m_pChildren, pObject)
+            //    {
+            //        CCNode pChild = (CCNode) pObject;
+            //        if (pChild)
+            //        {
+            //            assert(row < rows.size());
+
+            //            rowColumns = rows[row];
+            //            // can not have zero columns on a row
+            //            assert(rowColumns);
+
+            //            float tmp = pChild->getContentSize().height;
+            //            rowHeight = (unsigned int)((rowHeight >= tmp || isnan(tmp)) ? rowHeight : tmp);
+
+            //            ++columnsOccupied;
+            //            if (columnsOccupied >= rowColumns)
+            //            {
+            //                height += rowHeight + 5;
+
+            //                columnsOccupied = 0;
+            //                rowHeight = 0;
+            //                ++row;
+            //            }
+            //        }
+            //    }
+            //}	
+
+            //// check if too many rows/columns for available menu items
+            ////assert(! columnsOccupied);
+
+            //CCSize winSize = CCDirector.sharedDirector().getWinSize();
+
+            //row = 0;
+            //rowHeight = 0;
+            //rowColumns = 0;
+            //float w = 0.0f;
+            //float x = 0.0f;
+            //float y = (float)(height / 2);
+
+            //if (m_pChildren != null && m_pChildren.Count > 0)
+            //{
+            //    CCObject pObject = null;
+            //    CCARRAY_FOREACH(m_pChildren, pObject)
+            //    {
+            //        CCNode pChild = (CCNode) pObject;
+            //        if (pChild != null)
+            //        {
+            //            if (rowColumns == 0)
+            //            {
+            //                rowColumns = rows[row];
+            //                w = winSize.width / (1 + rowColumns);
+            //                x = w;
+            //            }
+
+            //            float tmp = pChild.contentSize.height;
+            //            rowHeight = (uint)((rowHeight >= tmp || isnan(tmp)) ? rowHeight : tmp);
+
+            //            pChild.position = new CCPoint(x - winSize.width / 2,
+            //                                   y - pChild.contentSize.height / 2);
+
+            //            x += w;
+            //            ++columnsOccupied;
+
+            //            if (columnsOccupied >= rowColumns)
+            //            {
+            //                y -= rowHeight + 5;
+
+            //                columnsOccupied = 0;
+            //                rowColumns = 0;
+            //                rowHeight = 0;
+            //                ++row;
+            //            }
+            //        }
+            //    }
+            //}	
         }
 
         /** align items in columns of rows */
@@ -413,11 +503,39 @@ namespace cocos2d
         {
             get
             {
-                throw new NotImplementedException();
+                return m_cOpacity;
             }
             set
             {
-                throw new NotImplementedException();
+                m_cOpacity = value;
+
+                if (m_pChildren != null && m_pChildren.Count > 0)
+                {
+                    //CCObject pObject = null;
+                    //CCARRAY_FOREACH(m_pChildren, pObject)
+                    //{
+                    //    CCNode pChild = (CCNode) pObject;
+                    //    if (pChild != null)
+                    //    {
+                    //        CCRGBAProtocol pRGBAProtocol = pChild.convertToRGBAProtocol();
+                    //        if (pRGBAProtocol)
+                    //        {
+                    //            pRGBAProtocol->setOpacity(m_cOpacity);
+                    //        }
+                    //    }
+                    //}
+                    foreach (CCNode pChild in m_pChildren)
+                    {
+                        if (pChild != null)
+                        {
+                            ICCRGBAProtocol pRGBAProtocol = pChild as ICCRGBAProtocol;
+                            if (pRGBAProtocol != null)
+                            {
+                                pRGBAProtocol.Opacity = m_cOpacity;
+                            }
+                        }
+                    }
+                }
             }
         }
 

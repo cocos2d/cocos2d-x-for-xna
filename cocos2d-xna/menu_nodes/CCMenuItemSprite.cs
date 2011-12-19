@@ -201,7 +201,27 @@ namespace cocos2d
         //// super methods
         public ccColor3B Color { get; set; }
 
-        public byte Opacity { get; set; } // typedef khronos_uint8_t  GLubyte;
+        public byte Opacity
+        {
+            get
+            {
+                return (m_pNormalImage as ICCRGBAProtocol).Opacity;
+            }
+            set
+            {
+                (m_pNormalImage as ICCRGBAProtocol).Opacity = value;
+
+                if (m_pSelectedImage != null)
+                {
+                    (m_pSelectedImage as ICCRGBAProtocol).Opacity = value;
+                }
+
+                if (m_pDisabledImage != null)
+                {
+                    (m_pDisabledImage as ICCRGBAProtocol).Opacity = value;
+                }
+            }
+        } // typedef khronos_uint8_t  GLubyte;
 
         #region override
 
@@ -288,19 +308,6 @@ namespace cocos2d
             return (this as ICCRGBAProtocol);
         }
 
-        #region Interface CCRGBAProtocol
-
-        byte ICCRGBAProtocol.Opacity
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         public bool IsOpacityModifyRGB
         {
@@ -313,7 +320,5 @@ namespace cocos2d
                 throw new NotImplementedException();
             }
         }
-
-        #endregion
     }
 }

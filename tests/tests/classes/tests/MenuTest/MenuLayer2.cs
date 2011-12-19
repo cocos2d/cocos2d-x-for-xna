@@ -101,8 +101,8 @@ namespace tests
                 CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage(s_AboutNormal, s_AboutSelect, this, this.menuCallbackAlign);
 
                 item1.scaleX = 1.5f;
-                item2.scaleX = 0.5f;
-                item3.scaleX = 0.5f;
+                item2.scaleX = 3.5f;
+                item3.scaleX = 6.5f;
 
                 CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
 
@@ -121,15 +121,17 @@ namespace tests
             //CCLayerMultiplex m = m_pParent as CCLayerMultiplex;
             //m.switchTo(0);
             //((CCLayerMultiplex)m_pParent).switchTo(0);
+
+            ((CCLayerMultiplex)m_pParent).switchTo(0);
         }
         public void menuCallbackOpacity(CCObject pSender)
         {
             CCMenu menu = (CCMenu)(((CCNode)(pSender)).parent);
-            //GLubyte opacity = menu->getOpacity();
-            //if (opacity == 128)
-            //    menu->setOpacity(255);
-            //else
-            //    menu->setOpacity(128);	 
+            byte opacity = menu.Opacity;
+            if (opacity == 128)
+                menu.Opacity = 255;
+            else
+                menu.Opacity = 128;
         }
         public void menuCallbackAlign(CCObject pSender)
         {

@@ -189,7 +189,7 @@ namespace cocos2d.menu_nodes
         }
 
         // super methods
-        public virtual void activate()
+        public override void activate()
         {
             // update index
             if (m_bIsEnabled)
@@ -200,13 +200,13 @@ namespace cocos2d.menu_nodes
             base.activate();
         }
 
-        public virtual void selected()
+        public override void selected()
         {
             base.selected();
             m_pSubItems[m_uSelectedIndex].selected();
         }
 
-        public virtual void unselected()
+        public override void unselected()
         {
             base.unselected();
             m_pSubItems[m_uSelectedIndex].unselected();

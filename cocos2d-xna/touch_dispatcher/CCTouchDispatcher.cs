@@ -313,10 +313,10 @@ namespace cocos2d
             if (m_bToRemove)
             {
                 m_bToRemove = false;
-                for (int i = 0; i < m_pHandlersToRemove.Count; ++i)
-                {
-                    forceRemoveDelegate((CCTouchDelegate)m_pHandlersToRemove[i]);
-                }
+                //for (int i = 0; i < m_pHandlersToRemove.Count; ++i)
+                //{
+                //    forceRemoveDelegate((CCTouchDelegate)m_pHandlersToRemove[i]);
+                //}
                 m_pHandlersToRemove.Clear();
             }
 

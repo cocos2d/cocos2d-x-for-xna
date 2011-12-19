@@ -62,10 +62,10 @@ namespace tests
             CCMenuItem item2 = CCMenuItemImage.itemFromNormalImage(s_SendScore, s_PressSendScore, this, this.menuCallback2);
 
             // Label Item (LabelAtlas)
-            //CCLabelAtlas labelAtlas = CCLabelAtlas.labelWithString("0123456789", "fonts/fps_images", 16, 24, '.');
-            //CCMenuItemLabel item3 = CCMenuItemLabel.itemWithLabel(labelAtlas, this, this.menuCallbackDisabled);
-            //item3.DisabledColor = new ccColor3B(32, 32, 64);
-            //item3.Color = new ccColor3B(200, 200, 255);
+            CCLabelAtlas labelAtlas = CCLabelAtlas.labelWithString("0123456789", "Images/fps_images", 16, 24, '.');
+            CCMenuItemLabel item3 = CCMenuItemLabel.itemWithLabel(labelAtlas, this, this.menuCallbackDisabled);
+            item3.DisabledColor = new ccColor3B(32, 32, 64);
+            item3.Color = new ccColor3B(200, 200, 255);
 
             // Font Item
             CCMenuItemFont item4 = CCMenuItemFont.itemFromString("I toggle enable items", this, this.menuCallbackEnable);
@@ -74,11 +74,12 @@ namespace tests
             item4.FontNameObj = "Arial";
 
             // Label Item (CCLabelBMFont)
-           // CCLabelBMFont label = CCLabelBMFont.labelWithString("configuration", "fonts/bitmapFontTest3.fnt");
-          //  CCMenuItemLabel item5 = CCMenuItemLabel.itemWithLabel(label, this, this.menuCallbackConfig);
+            CCLabelBMFont label = CCLabelBMFont.labelWithString("configuration", "fonts/fnt/bitmapFontTest3");
+            CCMenuItemLabel item5 = CCMenuItemLabel.itemWithLabel(label, this, this.menuCallbackConfig);
+            
 
             // Testing issue #500
-         //   item5.scale = 0.8f;
+            item5.scale = 0.8f;
 
             // Font Item
             CCMenuItemFont item6 = CCMenuItemFont.itemFromString("Quit", this, this.onQuit);
@@ -88,7 +89,7 @@ namespace tests
             CCFiniteTimeAction seq = CCSequence.actions(color_action, color_back);
             item6.runAction(CCRepeatForever.actionWithAction((CCActionInterval)seq));
 
-            CCMenu menu = CCMenu.menuWithItems(item1, item2, item4, item6);
+            CCMenu menu = CCMenu.menuWithItems(item1, item2 ,item3, item4, item5, item6);
             menu.alignItemsVertically();
 
             // elastic effect
@@ -112,15 +113,12 @@ namespace tests
                         offset = -offset;
 
                     child.position = new CCPoint(dstPoint.x + offset, dstPoint.y);
-                    child.runAction(
-                                        CCEaseElasticOut.actionWithAction(
-                                                                            CCMoveBy.actionWithDuration(2, new CCPoint(dstPoint.x - offset, 0)), 0.35f)
-                                    );
+                    child.runAction(CCEaseElasticOut.actionWithAction(CCMoveBy.actionWithDuration(2, new CCPoint(dstPoint.x - offset, 0)), 0.35f));
                     i++;
 
                 }
             }
-            //m_disabledItem = item3;
+            m_disabledItem = item3;
             m_disabledItem.Enabled = false;
 
             addChild(menu);
