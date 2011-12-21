@@ -37,8 +37,15 @@ namespace cocos2d
     /// RGB color composed of bytes 3 bytes
     /// @since v0.8
     /// </summary>
-    public struct ccColor3B
+    public class ccColor3B
     {
+        public ccColor3B()
+        {
+            r = 0;
+            g = 0;
+            b = 0;
+        }
+
         public ccColor3B(byte inr, byte ing, byte inb)
         {
             r = inr;
@@ -65,8 +72,16 @@ namespace cocos2d
     /// RGBA color composed of 4 bytes
     /// @since v0.8
     /// </summary>
-    public struct ccColor4B
+    public class ccColor4B
     {
+        public ccColor4B()
+        {
+            r = 0;
+            g = 0;
+            b = 0;
+            a = 0;
+        }
+
         public ccColor4B(byte inr, byte ing, byte inb, byte ina)
         {
             r = inr;
@@ -96,8 +111,16 @@ namespace cocos2d
     /// RGBA color composed of 4 floats
     /// @since v0.8
     /// </summary>
-    public struct ccColor4F
+    public class ccColor4F
     {
+        public ccColor4F()
+        {
+            r = 0.0f;
+            g = 0.0f;
+            b = 0.0f;
+            a = 0.0f;
+        }
+
         public ccColor4F(float inr, float ing, float inb, float ina)
         {
             r = inr;
@@ -116,8 +139,14 @@ namespace cocos2d
     /// A vertex composed of 2 floats: x, y
     /// @since v0.8
     /// </summary>
-    public struct ccVertex2F
+    public class ccVertex2F
     {
+        public ccVertex2F()
+        {
+            x = 0.0f;
+            y = 0.0f;
+        }
+
         public ccVertex2F(float inx, float iny)
         {
             x = inx;
@@ -132,8 +161,15 @@ namespace cocos2d
     /// A vertex composed of 2 floats: x, y
     /// @since v0.8
     /// </summary>
-    public struct ccVertex3F
+    public class ccVertex3F
     {
+        public ccVertex3F()
+        {
+            x = 0.0f;
+            y = 0.0f;
+            z = 0.0f;
+        }
+
         public ccVertex3F(float inx, float iny, float inz)
         {
             x = inx;
@@ -150,8 +186,14 @@ namespace cocos2d
     /// A texcoord composed of 2 floats: u, y
     /// @since v0.8
     /// </summary>
-    public struct ccTex2F
+    public class ccTex2F
     {
+        public ccTex2F()
+        {
+            u = 0.0f;
+            v = 0.0f;
+        }
+
         public ccTex2F(float inu, float inv)
         {
             u = inu;
@@ -165,7 +207,7 @@ namespace cocos2d
     /// <summary>
     /// Point Sprite component
     /// </summary>
-    public struct ccPointSprite
+    public class ccPointSprite
     {
         public ccVertex2F pos;		// 8 bytes
         public ccColor4B color;		// 4 bytes
@@ -175,7 +217,7 @@ namespace cocos2d
     /// <summary>
     /// A 2D Quad. 4 * 2 floats
     /// </summary>
-    public struct ccQuad2
+    public class ccQuad2
     {
         public ccVertex2F tl;
         public ccVertex2F tr;
@@ -186,7 +228,7 @@ namespace cocos2d
     /// <summary>
     /// A 3D Quad. 4 * 3 floats
     /// </summary>
-    public struct ccQuad3
+    public class ccQuad3
     {
         public ccVertex3F bl;
         public ccVertex3F br;
@@ -197,7 +239,7 @@ namespace cocos2d
     /// <summary>
     /// A 2D grid size
     /// </summary>
-    public struct ccGridSize
+    public class ccGridSize
     {
         public ccGridSize(int inx, int iny)
         {
@@ -212,7 +254,7 @@ namespace cocos2d
     /// <summary>
     /// a Point with a vertex point, a tex coord point and a color 4B
     /// </summary>
-    public struct ccV2F_C4B_T2F
+    public class ccV2F_C4B_T2F
     {
         /// <summary>
         /// vertices (2F)
@@ -233,7 +275,7 @@ namespace cocos2d
     /// <summary>
     /// a Point with a vertex point, a tex coord point and a color 4F
     /// </summary>
-    public struct ccV2F_C4F_T2F
+    public class ccV2F_C4F_T2F
     {
         /// <summary>
         /// vertices (2F)
@@ -254,7 +296,7 @@ namespace cocos2d
     /// <summary>
     /// a Point with a vertex point, a tex coord point and a color 4B
     /// </summary>
-    public struct ccV3F_C4B_T2F
+    public class ccV3F_C4B_T2F
     {
         /// <summary>
         /// vertices (3F)
@@ -275,7 +317,7 @@ namespace cocos2d
     /// <summary>
     /// 4 ccVertex2FTex2FColor4B Quad
     /// </summary>
-    public struct ccV2F_C4B_T2F_Quad
+    public class ccV2F_C4B_T2F_Quad
     {
         /// <summary>
         /// bottom left
@@ -301,7 +343,7 @@ namespace cocos2d
     /// <summary>
     /// 4 ccVertex3FTex2FColor4B
     /// </summary>
-    public struct ccV3F_C4B_T2F_Quad
+    public class ccV3F_C4B_T2F_Quad
     {
         /// <summary>
         /// top left
@@ -327,7 +369,7 @@ namespace cocos2d
     /// <summary>
     /// 4 ccVertex2FTex2FColor4F Quad
     /// </summary>
-    public struct ccV2F_C4F_T2F_Quad
+    public class ccV2F_C4F_T2F_Quad
     {
         /// <summary>
         /// bottom left
@@ -353,7 +395,7 @@ namespace cocos2d
     /// <summary>
     /// Blend Function used for textures
     /// </summary>
-    public struct ccBlendFunc
+    public class ccBlendFunc
     {
         public ccBlendFunc(uint src,uint dst) 
         {

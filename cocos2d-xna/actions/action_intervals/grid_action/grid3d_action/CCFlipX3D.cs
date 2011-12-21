@@ -87,7 +87,8 @@ namespace cocos2d
             angle = angle / 2.0f; // x calculates degrees from 0 to 90
             float mx = (float)Math.Cos(angle);
 
-            ccVertex3F v0, v1, v, diff;
+            ccVertex3F v0, v1, v;
+            ccVertex3F diff = new ccVertex3F();
 
             v0 = originalVertex(new ccGridSize(1, 1));
             v1 = originalVertex(new ccGridSize(0, 0));

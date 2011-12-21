@@ -43,7 +43,7 @@ namespace cocos2d
         /// <summary>
         /// Set/Get whether pop-up a message box when the image load failed
         /// </summary>
-        public bool IsPopupNotify
+        public static bool IsPopupNotify
         {
             get
             {

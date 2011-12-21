@@ -231,7 +231,7 @@ namespace cocos2d
         protected ccVertex2F vertexFromTexCoord(CCPoint texCoord)
         {
             CCPoint tmp;
-            ccVertex2F ret;
+            ccVertex2F ret = new ccVertex2F();
 
             CCTexture2D pTexture = m_pSprite.Texture;
             if (pTexture != null)
