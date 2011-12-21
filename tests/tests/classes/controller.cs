@@ -126,8 +126,8 @@ namespace tests
                 //        pScene = new ProgressActionsTestScene(); break;
                 //    case TEST_EFFECTS:
                 //        pScene = new EffectTestScene(); break;
-                //    case TEST_CLICK_AND_MOVE:
-                //        pScene = new ClickAndMoveTestScene(); break;
+                    case (int)TestCases.TEST_CLICK_AND_MOVE:
+                        pScene = new ClickAndMoveTest(); break;
                 //    case TEST_ROTATE_WORLD:
                 //        pScene = new RotateWorldTestScene(); break;
                 //    case TEST_PARTICLE:

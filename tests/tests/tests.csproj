@@ -73,6 +73,7 @@
     <Compile Include="classes\tests\ActionManagerTest\ActionManagerTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\ActionManagerTestScene.cs" />
     <Compile Include="classes\tests\ActionsTest\ActionsTest.cs" />
+    <Compile Include="classes\tests\ClickAndMoveTest\ClickAndMoveTest.cs" />
     <Compile Include="classes\tests\CocosDenshionTest\CocosDenshionTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\CrashTest.cs" />
     <Compile Include="classes\tests\DirectorTest\DirectorTest.cs" />
