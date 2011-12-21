@@ -41,18 +41,18 @@ namespace tests
             CCDirector.sharedDirector().replaceScene(s);
         }
 
-        public void registerWithTouchDispatcher()
+        public override void registerWithTouchDispatcher()
         {
             CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(this, 0, true);
         }
 
-        public bool ccTouchBegan(CCTouch touch, CCEvent parmevent)
+        public override bool ccTouchBegan(CCTouch touch, CCEvent parmevent)
         {
             return true;
         }
-        public void ccTouchEnded(CCTouch touch, CCEvent parmevent) { }
-        public void ccTouchCancelled(CCTouch touch, CCEvent parmevent) { }
-        public void ccTouchMoved(CCTouch touch, CCEvent parmevent)
+        public override void ccTouchEnded(CCTouch touch, CCEvent parmevent) { }
+        public override void ccTouchCancelled(CCTouch touch, CCEvent parmevent) { }
+        public override void ccTouchMoved(CCTouch touch, CCEvent parmevent)
         {
             CCPoint touchLocation = touch.locationInView(touch.view());
             CCPoint prevLocation = touch.previousLocationInView(touch.view());

@@ -79,7 +79,7 @@ namespace cocos2d
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionSlideInL);
-        public CCTransitionSlideInL transitionWithDuration(float t, CCScene scene)
+        public static CCTransitionSlideInL transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionSlideInL pScene = new CCTransitionSlideInL();
             if (pScene != null && pScene.initWithDuration(t, scene))

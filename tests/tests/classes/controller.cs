@@ -144,12 +144,12 @@ namespace tests
                     pScene = new PongScene(); break;
                 case (int)TestCases.TEST_MENU:
                     pScene = new MenuTestScene(); break;
-                //    case TEST_ACTION_MANAGER:
-                //        pScene = new ActionManagerTestScene(); break;
+                case (int)TestCases.TEST_ACTION_MANAGER:
+                    pScene = new ActionManagerTestScene(); break;
                 case (int)TestCases.TEST_LAYER:
                    // pScene = new LayerTestScene(); break;
-                //    case TEST_SCENE:
-                //        pScene = new SceneTestScene(); break;
+                case (int)TestCases.TEST_SCENE:
+                    pScene = new SceneTestScene(); break;
                 //    case TEST_PARALLAX:
                 //        pScene = new ParallaxTestScene(); break;
                 case (int)TestCases.TEST_TILE_MAP:

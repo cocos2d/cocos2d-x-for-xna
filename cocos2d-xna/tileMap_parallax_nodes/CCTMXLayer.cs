@@ -633,7 +633,8 @@ namespace cocos2d
 
         public override void visit()
         {
-            m_pTileSet.m_tImageSize = m_pobTextureAtlas.Texture.ContentSizeInPixels;
+
+                m_pTileSet.m_tImageSize = m_pobTextureAtlas.Texture.ContentSizeInPixels;
             int i = 0;
             for (int y = 0; y < m_tLayerSize.height; y++)
             {
@@ -645,24 +646,28 @@ namespace cocos2d
                     if (gid != 0)
                     {
                         CCSprite reusedTile = getChildByTag((int)gid) as CCSprite;
+
                         CCRect rect = m_pTileSet.rectForGID(gid);
                         rect = new CCRect(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width / m_fContentScaleFactor, rect.size.height / m_fContentScaleFactor);
 
                         int z = (int)(x + y * m_tLayerSize.width);
 
 
-                        reusedTile.position = positionAt(new CCPoint(x, y));
-                        reusedTile.vertexZ = (float)vertexZForPos(new CCPoint(x, y));
-                        reusedTile.anchorPoint = new CCPoint(0, 0);
-                        reusedTile.Opacity = 255;
+                        if (reusedTile!=null)
+                        {
+                            var oldpos = positionAt(new CCPoint(x, y));
+                            reusedTile.position = new CCPoint(oldpos.x + this.parent.position.x, oldpos.y + this.parent.position.y);
+                            reusedTile.vertexZ = (float)vertexZForPos(new CCPoint(x, y));
+                            reusedTile.anchorPoint = new CCPoint(0, 0);
+                            reusedTile.Opacity = 255;
+                            // optimization:
+                            // The difference between appendTileForGID and insertTileforGID is that append is faster, since
+                            // it appends the tile at the end of the texture atlas
+                            uint indexForZ = m_pAtlasIndexArray.num;
 
-                        // optimization:
-                        // The difference between appendTileForGID and insertTileforGID is that append is faster, since
-                        // it appends the tile at the end of the texture atlas
-                        uint indexForZ = m_pAtlasIndexArray.num;
-
-                        // don't add it using the "standard" way.
-                        addQuadFromSprite(reusedTile, indexForZ);
+                            // don't add it using the "standard" way.
+                            addQuadFromSprite(reusedTile, indexForZ);
+                        }
                     }
                 }
             }

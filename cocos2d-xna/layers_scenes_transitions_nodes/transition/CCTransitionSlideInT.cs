@@ -38,7 +38,7 @@ namespace cocos2d
         /// <summary>
         /// initializes the scenes
         /// </summary>
-        public virtual void initScenes()
+        public override void initScenes()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
             m_pInScene.position = new CCPoint(0, s.height - 0.5f);
@@ -48,14 +48,14 @@ namespace cocos2d
         /// returns the action that will be performed by the incomming and outgoing scene
         /// </summary>
         /// <returns></returns>
-        public virtual CCActionInterval action()
+        public override CCActionInterval action()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
             return CCMoveBy.actionWithDuration(m_fDuration, new CCPoint(0, -(s.height - 0.5f)));
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionSlideInT);
-        public CCTransitionSlideInT transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionSlideInT transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionSlideInT pScene = new CCTransitionSlideInT();
             if (pScene != null && pScene.initWithDuration(t, scene))
@@ -66,7 +66,7 @@ namespace cocos2d
             return null;
         }
 
-        protected virtual void sceneOrder()
+        protected override void sceneOrder()
         {
             m_bIsInSceneOnTop = false;
         }
