@@ -163,7 +163,7 @@ namespace cocos2d
 
         public CCAtlasNode()
         {
-
+            m_tBlendFunc = new ccBlendFunc();
         }
 
         /// <summary>

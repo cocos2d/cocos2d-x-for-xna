@@ -209,6 +209,13 @@ namespace cocos2d
     /// </summary>
     public class ccPointSprite
     {
+        public ccPointSprite()
+        {
+            pos = new ccVertex2F();
+            color = new ccColor4B();
+            size = 0.0f;
+        }
+
         public ccVertex2F pos;		// 8 bytes
         public ccColor4B color;		// 4 bytes
         public float size;		// 4 bytes
@@ -219,6 +226,14 @@ namespace cocos2d
     /// </summary>
     public class ccQuad2
     {
+        public ccQuad2()
+        {
+            tl = new ccVertex2F();
+            tr = new ccVertex2F();
+            bl = new ccVertex2F();
+            br = new ccVertex2F();
+        }
+
         public ccVertex2F tl;
         public ccVertex2F tr;
         public ccVertex2F bl;
@@ -230,6 +245,14 @@ namespace cocos2d
     /// </summary>
     public class ccQuad3
     {
+        public ccQuad3()
+        {
+            tl = new ccVertex3F();
+            tr = new ccVertex3F();
+            bl = new ccVertex3F();
+            br = new ccVertex3F();
+        }
+
         public ccVertex3F bl;
         public ccVertex3F br;
         public ccVertex3F tl;
@@ -241,6 +264,12 @@ namespace cocos2d
     /// </summary>
     public class ccGridSize
     {
+        public ccGridSize()
+        {
+            x = 0;
+            y = 0;
+        }
+
         public ccGridSize(int inx, int iny)
         {
             x = inx;
@@ -256,6 +285,13 @@ namespace cocos2d
     /// </summary>
     public class ccV2F_C4B_T2F
     {
+        public ccV2F_C4B_T2F()
+        {
+            vertices = new ccVertex2F();
+            colors = new ccColor4B();
+            texCoords = new ccTex2F();
+        }
+
         /// <summary>
         /// vertices (2F)
         /// </summary>
@@ -277,6 +313,13 @@ namespace cocos2d
     /// </summary>
     public class ccV2F_C4F_T2F
     {
+        public ccV2F_C4F_T2F()
+        {
+            vertices = new ccVertex2F();
+            colors = new ccColor4F();
+            texCoords = new ccTex2F();
+        }
+
         /// <summary>
         /// vertices (2F)
         /// </summary>
@@ -300,9 +343,9 @@ namespace cocos2d
     {
         public ccV3F_C4B_T2F()
         {
-            this.vertices = new ccVertex3F();
-            this.colors = new ccColor4B();
-            this.texCoords = new ccTex2F();
+            vertices = new ccVertex3F();
+            colors = new ccColor4B();
+            texCoords = new ccTex2F();
         }
 
         /// <summary>
@@ -326,6 +369,14 @@ namespace cocos2d
     /// </summary>
     public class ccV2F_C4B_T2F_Quad
     {
+        public ccV2F_C4B_T2F_Quad()
+        {
+            bl = new ccV2F_C4B_T2F();
+            br = new ccV2F_C4B_T2F();
+            tl = new ccV2F_C4B_T2F();
+            tr = new ccV2F_C4B_T2F();
+        }
+
         /// <summary>
         /// bottom left
         /// </summary>
@@ -354,10 +405,10 @@ namespace cocos2d
     {
         public ccV3F_C4B_T2F_Quad()
         {
-            this.tl = new ccV3F_C4B_T2F();
-            this.bl = new ccV3F_C4B_T2F();
-            this.tr = new ccV3F_C4B_T2F();
-            this.br = new ccV3F_C4B_T2F();
+            tl = new ccV3F_C4B_T2F();
+            bl = new ccV3F_C4B_T2F();
+            tr = new ccV3F_C4B_T2F();
+            br = new ccV3F_C4B_T2F();
         }
 
         /// <summary>
@@ -386,6 +437,14 @@ namespace cocos2d
     /// </summary>
     public class ccV2F_C4F_T2F_Quad
     {
+        public ccV2F_C4F_T2F_Quad()
+        {
+            tl = new ccV2F_C4F_T2F();
+            bl = new ccV2F_C4F_T2F();
+            tr = new ccV2F_C4F_T2F();
+            br = new ccV2F_C4F_T2F();
+        }
+
         /// <summary>
         /// bottom left
         /// </summary>
@@ -412,6 +471,12 @@ namespace cocos2d
     /// </summary>
     public class ccBlendFunc
     {
+        public ccBlendFunc()
+        {
+            this.src = 0;
+            this.dst = 0;
+        }
+
         public ccBlendFunc(uint src,uint dst) 
         {
             this.src = src;

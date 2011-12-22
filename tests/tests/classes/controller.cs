@@ -130,8 +130,8 @@ namespace tests
                         pScene = new ClickAndMoveTest(); break;
                 //    case TEST_ROTATE_WORLD:
                 //        pScene = new RotateWorldTestScene(); break;
-                //    case TEST_PARTICLE:
-                //        pScene = new ParticleTestScene(); break;
+                    case (int)TestCases.TEST_PARTICLE:
+                        pScene = new ParticleTestScene(); break;
                 case (int)TestCases.TEST_EASE_ACTIONS:
                     pScene = new EaseActionsTestScene(); break;
                 //    case TEST_MOTION_STREAK:

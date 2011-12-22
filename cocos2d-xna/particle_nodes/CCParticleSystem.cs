@@ -544,7 +544,7 @@ namespace cocos2d
             }
         }
 	    /** start color of each particle */
-	    ccColor4F m_tStartColor;
+	    ccColor4F m_tStartColor = new ccColor4F();
         public ccColor4F StartColor
         {
             get
@@ -557,7 +557,7 @@ namespace cocos2d
             }
         }
 	    /** start color variance of each particle */
-	    ccColor4F m_tStartColorVar;
+	    ccColor4F m_tStartColorVar = new ccColor4F();
         public ccColor4F StartColorVar
         {
             get
@@ -570,7 +570,7 @@ namespace cocos2d
             }
         }
 	    /** end color and end color variation of each particle */
-	    ccColor4F m_tEndColor;
+	    ccColor4F m_tEndColor = new ccColor4F();
         public ccColor4F EndColor
         {
             get
@@ -583,7 +583,7 @@ namespace cocos2d
             }
         }
 	    /** end color variance of each particle */
-	    ccColor4F m_tEndColorVar;
+	    ccColor4F m_tEndColorVar = new ccColor4F();
         public ccColor4F EndColorVar
         {
             get
@@ -688,7 +688,7 @@ namespace cocos2d
         }
 
 	    /** conforms to CocosNodeTexture protocol */
-	    ccBlendFunc m_tBlendFunc;
+	    ccBlendFunc m_tBlendFunc = new ccBlendFunc();
         public ccBlendFunc BlendFunc
         {
             get
@@ -814,8 +814,9 @@ namespace cocos2d
 	        modeB.endRadiusVar = 0;			
 	        modeB.rotatePerSecond = 0;
 	        modeB.rotatePerSecondVar = 0;
+            m_tBlendFunc = new ccBlendFunc();
 	        m_tBlendFunc.src = 0;// CC_BLEND_SRC;
-	        m_tBlendFunc.dst = 0;// CC_BLEND_DST;
+            m_tBlendFunc.dst = 0x0303;// CC_BLEND_DST;
         }
 
 
@@ -991,8 +992,10 @@ namespace cocos2d
 			        {
 				        m_pTexture = tex;
 			        }
-                    //else
-                    //{
+                    else
+                    {
+                        throw new NotImplementedException();
+
                     //    string textureData = valueForKey("textureImageData", dictionary);
                     //    Debug.Assert(textureData != null);
 
@@ -1018,7 +1021,7 @@ namespace cocos2d
 
                     //        m_pTexture = CCTextureCache.sharedTextureCache().addUIImage(image, fullpath);
                     //    }
-                    //}
+                    }
 			        Debug.Assert(m_pTexture != null, "CCParticleSystem: error loading the texture");
 			
 			        if(m_pTexture == null)

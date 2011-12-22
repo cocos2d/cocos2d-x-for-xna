@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace cocos2d
 {
@@ -130,6 +132,7 @@ namespace cocos2d
 
 	        for(uint i=0; i<this.TotalParticles; i++) 
 	        {
+                m_pQuads[i] = new ccV2F_C4B_T2F_Quad();
 		        // bottom-left vertex:
 		        m_pQuads[i].bl.texCoords.u = left;
 		        m_pQuads[i].bl.texCoords.v = bottom;
@@ -315,29 +318,25 @@ namespace cocos2d
 
         public override void draw()
         {
-        //    CCParticleSystem::draw();
+            base.draw();
+
+            CCApplication.sharedApplication().spriteBatch.Begin();
+                for (int i = 0; i < this.ParticleCount; i++)
+                {
+                    Vector2 vecPosition = new Vector2(m_pQuads[i].bl.vertices.x, m_pQuads[i].bl.vertices.y);
+                    Vector2 origin = new Vector2(Texture.getTexture2D().Width/2, Texture.getTexture2D().Height/2);
+                    CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, Color.White, 0, origin, 1.0f, SpriteEffects.None, 0);
+                }
+            CCApplication.sharedApplication().spriteBatch.End();
 
         //    // Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
         //    // Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
         //    // Unneeded states: -
         //    glBindTexture(GL_TEXTURE_2D, m_pTexture->getName());
 
-        //#define kQuadSize sizeof(m_pQuads[0].bl)
+        //    #define kQuadSize sizeof(m_pQuads[0].bl)
 
-        //#if CC_USES_VBO
-        //    glBindBuffer(GL_ARRAY_BUFFER, m_uQuadsID);
-
-        //#if CC_ENABLE_CACHE_TEXTTURE_DATA
-        //    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0])*m_uTotalParticles, m_pQuads, GL_DYNAMIC_DRAW);	
-        //#endif
-
-        //    glVertexPointer(2,GL_FLOAT, kQuadSize, 0);
-
-        //    glColorPointer(4, GL_UNSIGNED_BYTE, kQuadSize, (GLvoid*) offsetof(ccV2F_C4B_T2F,colors) );
-
-        //    glTexCoordPointer(2, GL_FLOAT, kQuadSize, (GLvoid*) offsetof(ccV2F_C4B_T2F,texCoords) );
-        //#else   // vertex array list
-
+    
         //    int offset = (int) m_pQuads;
 
         //    // vertex
@@ -352,7 +351,6 @@ namespace cocos2d
         //    diff = offsetof( ccV2F_C4B_T2F, texCoords);
         //    glTexCoordPointer(2, GL_FLOAT, kQuadSize, (GLvoid*)(offset + diff));		
 
-        //#endif // ! CC_USES_VBO
 
         //    bool newBlend = (m_tBlendFunc.src != CC_BLEND_SRC || m_tBlendFunc.dst != CC_BLEND_DST) ? true : false;
         //    if( newBlend ) 

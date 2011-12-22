@@ -110,6 +110,7 @@
     <Compile Include="classes\tests\ActionManagerTest\PauseTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\RemoveTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\ResumeTest.cs" />
+    <Compile Include="classes\tests\ParticleTest\ParticleTest.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer1.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer2.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer3.cs" />

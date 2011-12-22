@@ -117,8 +117,10 @@ namespace cocos2d
         }
 
         public override void draw()
-        { 
-        //    CCParticleSystem::draw();
+        {
+            throw new NotImplementedException();
+
+        //    base.draw();
 
         //    if (m_uParticleIdx==0)
         //    {

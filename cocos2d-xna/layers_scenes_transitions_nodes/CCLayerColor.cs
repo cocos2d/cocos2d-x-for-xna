@@ -49,6 +49,7 @@ namespace cocos2d
             m_cOpacity = 0;
             m_tColor = new ccColor3B(0, 0, 0);
             // default blend function
+            m_tBlendFunc = new ccBlendFunc();
             m_tBlendFunc.src = 1;
             m_tBlendFunc.dst = 0x0303;
         }
@@ -158,6 +159,7 @@ namespace cocos2d
             m_cOpacity = color.a;
             for (int i = 0; i < m_pSquareVertices.Length; i++)
             {
+                m_pSquareVertices[i] = new ccVertex2F();
                 m_pSquareVertices[i].x = 0.0f;
                 m_pSquareVertices[i].y = 0.0f;
             }
@@ -274,6 +276,7 @@ namespace cocos2d
         {
             for (int i = 0; i < 4; i++)
             {
+                m_pSquareColors[i] = new ccColor4B();
                 m_pSquareColors[i].r = m_tColor.r;
                 m_pSquareColors[i].g = m_tColor.g;
                 m_pSquareColors[i].b = m_tColor.b;
