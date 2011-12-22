@@ -163,7 +163,7 @@ namespace cocos2d
             }
         }
 
-        private ccV3F_C4B_T2F_Quad m_sQuad;
+        private ccV3F_C4B_T2F_Quad m_sQuad = new ccV3F_C4B_T2F_Quad();
         /// <summary>
         /// get the quad (tex coords, vertex coords and color) information
         /// </summary>
@@ -450,7 +450,7 @@ namespace cocos2d
 
             //get the point of cocos2d
             CCPoint cocos2dPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x, position.y - contentSizeInPixels.height * anchorPoint.y);
-            CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), m_tNodeToWorldTransform);
+            CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform1());
             uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
 
             Vector2 vecPosition = new Vector2(uiPoint.x, uiPoint.y - contentSizeInPixels.height);
@@ -458,7 +458,7 @@ namespace cocos2d
             Rectangle? sourceRectangle = new Rectangle((int)m_obRect.origin.x, (int)m_obRect.origin.y, (int)m_obRect.size.width, (int)m_obRect.size.height);
             Color color = new Microsoft.Xna.Framework.Color() { R = m_sColor.r, G = m_sColor.g, B = m_sColor.b, A = m_nOpacity };
             float rotation = m_fRotation;
-            Vector2 origin = new Vector2(anchorPoint.x, anchorPoint.y);
+            Vector2 origin = new Vector2(anchorPoint.x * sourceRectangle.Value.Width, anchorPoint.y * sourceRectangle.Value.Height);
             Vector2 scale = new Vector2(m_fScaleX, m_fScaleY);
             SpriteEffects effects = SpriteEffects.None;
             float layerDepth = 0;
