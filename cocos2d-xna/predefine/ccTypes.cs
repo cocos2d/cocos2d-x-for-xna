@@ -298,6 +298,13 @@ namespace cocos2d
     /// </summary>
     public class ccV3F_C4B_T2F
     {
+        public ccV3F_C4B_T2F()
+        {
+            this.vertices = new ccVertex3F();
+            this.colors = new ccColor4B();
+            this.texCoords = new ccTex2F();
+        }
+
         /// <summary>
         /// vertices (3F)
         /// </summary>
@@ -345,6 +352,14 @@ namespace cocos2d
     /// </summary>
     public class ccV3F_C4B_T2F_Quad
     {
+        public ccV3F_C4B_T2F_Quad()
+        {
+            this.tl = new ccV3F_C4B_T2F();
+            this.bl = new ccV3F_C4B_T2F();
+            this.tr = new ccV3F_C4B_T2F();
+            this.br = new ccV3F_C4B_T2F();
+        }
+
         /// <summary>
         /// top left
         /// </summary>
