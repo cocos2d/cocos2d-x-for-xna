@@ -493,14 +493,7 @@ namespace cocos2d
              */
 
             transform();
-            if (this.parent == null)
-            {
-                this.m_tNodeToWorldTransform = this.nodeToParentTransform();
-            }
-            else
-            {
-                this.m_tNodeToWorldTransform = CCAffineTransform.CCAffineTransformConcat(this.nodeToParentTransform(), this.parent.m_tNodeToWorldTransform);
-            }
+
             CCNode node;
             int i = 0;
 
@@ -913,6 +906,32 @@ namespace cocos2d
 
             return m_tTransform;
         }
+        public CCAffineTransform nodeToParentTransform1()
+        {
+            if (m_bIsTransformDirty)
+            {
+                m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
+
+                if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y);
+                }
+
+                if (!CCPoint.CCPointEqualToPoint(m_tPositionInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tPositionInPixels.x, m_tPositionInPixels.y);
+                }
+
+                if (!CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
+                }
+
+                m_bIsTransformDirty = false;
+            }
+
+            return m_tTransform;
+        }
 
         /// <summary>
         /// Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
@@ -937,6 +956,20 @@ namespace cocos2d
         public CCAffineTransform nodeToWorldTransform()
         {
             CCAffineTransform t = this.nodeToParentTransform();
+
+            CCNode p = m_pParent;
+            while (p != null)
+            {
+                var temp = p.nodeToParentTransform();
+                t = CCAffineTransform.CCAffineTransformConcat(t, temp);
+                p = p.parent;
+            }
+
+            return t;
+        }
+        public CCAffineTransform nodeToWorldTransform1()
+        {
+            CCAffineTransform t = this.nodeToParentTransform1();
 
             CCNode p = m_pParent;
             while (p != null)
