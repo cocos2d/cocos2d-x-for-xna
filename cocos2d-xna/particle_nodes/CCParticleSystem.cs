@@ -85,8 +85,18 @@ namespace cocos2d
     /**
     Structure that contains the values of each particle
     */
-    public struct CCParticle 
+    public class CCParticle 
     {
+        public CCParticle()
+        {
+            pos = new CCPoint();
+            startPos = new CCPoint();
+            color = new ccColor4F();
+            deltaColor = new ccColor4F();
+            modeA = new sModeA();
+            modeB = new sModeB();
+        }
+
 	    public CCPoint     pos;
         public CCPoint startPos;
 
@@ -102,8 +112,13 @@ namespace cocos2d
         public float timeToLive;
 
 	    //! Mode A: gravity, direction, radial accel, tangential accel
-	    public struct sModeA
+	    public class sModeA
         {
+            public sModeA()
+            {
+                dir = new CCPoint();
+            }
+
             public CCPoint dir;
             public float radialAccel;
             public float tangentialAccel;
@@ -111,8 +126,13 @@ namespace cocos2d
         public sModeA modeA;
 
 	    //! Mode B: radius mode
-	    public struct sModeB
+	    public class sModeB
         {
+            public sModeB()
+            { 
+            
+            }
+
             public float angle;
             public float degreesPerSecond;
             public float radius;
@@ -174,7 +194,7 @@ namespace cocos2d
 
 	    // Different modes
 	    //! Mode A:Gravity + Tangential Accel + Radial Accel
-	    public struct sModeA
+	    public class sModeA
         {
 		    /** Gravity value. Only available in 'Gravity' mode. */
 		    public CCPoint gravity;
@@ -194,7 +214,7 @@ namespace cocos2d
         public sModeA modeA;
 
 	    //! Mode B: circular movement (gravity, radial accel and tangential accel don't are not used in this mode)
-	    public struct sModeB
+	    public class sModeB
         {
 		    /** The starting radius of the particles. Only available in 'Radius' mode. */
 		    public float startRadius;
@@ -801,6 +821,7 @@ namespace cocos2d
 	        m_ePositionType = eParticlePositionType.kCCPositionTypeFree;
 	        m_bIsAutoRemoveOnFinish = false;
 	        m_nEmitterMode = (int)eParticleMode.kCCParticleModeGravity;
+            modeA = new sModeA();
 	        modeA.gravity = new CCPoint(0,0);
 	        modeA.speed = 0;
 	        modeA.speedVar = 0;
@@ -808,6 +829,7 @@ namespace cocos2d
 	        modeA.tangentialAccelVar = 0;
 	        modeA.radialAccel = 0;
 	        modeA.radialAccelVar = 0;
+            modeB = new sModeB();
 	        modeB.startRadius = 0;
 	        modeB.startRadiusVar = 0;
 	        modeB.endRadius = 0;
@@ -1045,6 +1067,11 @@ namespace cocos2d
                 return false;
             }
 
+            for (int i = 0; i < m_uTotalParticles; i++)
+            {
+                m_pParticles[i] = new CCParticle();
+            }
+
             // default, active
             m_bIsActive = true;
 
@@ -1097,7 +1124,9 @@ namespace cocos2d
         }
         //! Initializes a particle
         public void initParticle(CCParticle particle)
-        { 
+        {
+            Debug.Assert(null != particle, "particle shouldn't be null.");
+
         	// timeToLive
 	        // no negative life. prevent division by 0
 	        particle.timeToLive = m_fLife + m_fLifeVar * ccMacros.CCRANDOM_MINUS1_1();
