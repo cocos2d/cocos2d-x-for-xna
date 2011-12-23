@@ -323,9 +323,18 @@ namespace cocos2d
             CCApplication.sharedApplication().spriteBatch.Begin();
                 for (int i = 0; i < this.ParticleCount; i++)
                 {
-                    Vector2 vecPosition = new Vector2(m_pQuads[i].bl.vertices.x, m_pQuads[i].bl.vertices.y);
+                    CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform1());
+                    uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
+                    Vector2 vecPosition = new Vector2(uiPoint.x + m_pQuads[i].bl.vertices.x, 
+                                                      uiPoint.y + m_pQuads[i].bl.vertices.y);
+
+                    Color color = new Color(m_pQuads[i].bl.colors.r,
+                                            m_pQuads[i].bl.colors.g,
+                                            m_pQuads[i].bl.colors.b,
+                                            m_pQuads[i].bl.colors.a);
+
                     Vector2 origin = new Vector2(Texture.getTexture2D().Width/2, Texture.getTexture2D().Height/2);
-                    CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, Color.White, 0, origin, 1.0f, SpriteEffects.None, 0);
+                    CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, 0, origin, 1.0f, SpriteEffects.None, 0);
                 }
             CCApplication.sharedApplication().spriteBatch.End();
 
