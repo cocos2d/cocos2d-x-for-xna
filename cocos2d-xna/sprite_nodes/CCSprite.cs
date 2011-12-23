@@ -100,7 +100,7 @@ namespace cocos2d
             }
         }
 
-        private ccColor3B m_sColor;
+        private ccColor3B m_sColor = new ccColor3B();
         /// <summary>
         /// Color: conforms with CCRGBAProtocol protocol
         /// </summary>

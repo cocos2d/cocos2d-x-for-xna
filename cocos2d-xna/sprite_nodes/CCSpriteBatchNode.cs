@@ -60,7 +60,7 @@ namespace cocos2d
         #region property
 
         protected CCTextureAtlas m_pobTextureAtlas;
-        protected ccBlendFunc m_blendFunc;
+        protected ccBlendFunc m_blendFunc = new ccBlendFunc();
         public ccBlendFunc BlendFunc
         {
             get { return m_blendFunc; }
