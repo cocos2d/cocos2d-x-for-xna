@@ -49,7 +49,7 @@ namespace cocos2d
         public Dictionary<int, ccBMFontDef> m_pBitmapFontArray = new Dictionary<int, ccBMFontDef>();
 
         // FNTConfig: Common Height
-        public uint m_uCommonHeight;
+        public int m_uCommonHeight;
 
         // Padding
         public ccBMFontPadding m_tPadding = new ccBMFontPadding();
@@ -279,7 +279,7 @@ namespace cocos2d
             int index = line.IndexOf("lineHeight=");
             int index2 = line.IndexOf(' ', index);
             string value = line.Substring(index, index2 - index);
-            m_uCommonHeight = uint.Parse(value.Replace("lineHeight=", ""));
+            m_uCommonHeight = int.Parse(value.Replace("lineHeight=", ""));
 
             // scaleW. sanity check
             index = line.IndexOf("scaleW=") + "scaleW=".Length;

@@ -32,6 +32,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace cocos2d
 {
@@ -52,9 +53,9 @@ namespace cocos2d
     ///</remarks>
     public class CCTextureAtlas : CCObject
     {
-        protected ushort[] m_pIndices;
+        protected short[] m_pIndices;
 #if CC_USES_VBO
-        ulong[] m_pBuffersVBO; //0: vertex  1: indices
+        int[] m_pBuffersVBO; //0: vertex  1: indices
         bool m_bDirty; //indicates whether or not the array buffer of the VBO needs to be updated
 #endif // CC_USES_VBO
 
@@ -65,9 +66,7 @@ namespace cocos2d
 
         public string description()
         {
-            string[] ret = new string[100];
-            //sprintf(ret, "<CCTextureAtlas | totalQuads = %u>", m_uTotalQuads);
-            return ret.ToString();
+            return string.Format("<CCTextureAtlas | totalQuads = {0}>", m_uTotalQuads);
         }
 
         #region create and init
@@ -79,7 +78,7 @@ namespace cocos2d
         public static CCTextureAtlas textureAtlasWithFile(string file, int capacity)
         {
             CCTextureAtlas pTextureAtlas = new CCTextureAtlas();
-            if (pTextureAtlas != null && pTextureAtlas.initWithFile(file, capacity))
+            if (pTextureAtlas.initWithFile(file, capacity))
             {
                 return pTextureAtlas;
             }
@@ -114,7 +113,7 @@ namespace cocos2d
         public static CCTextureAtlas textureAtlasWithTexture(CCTexture2D texture, int capacity)
         {
             CCTextureAtlas pTextureAtlas = new CCTextureAtlas();
-            if (pTextureAtlas != null && pTextureAtlas.initWithTexture(texture, capacity))
+            if (pTextureAtlas.initWithTexture(texture, capacity))
             {
                 return pTextureAtlas;
             }
@@ -132,25 +131,31 @@ namespace cocos2d
         {
             Debug.Assert(texture != null);
             m_uCapacity = capacity;
+            m_uTotalQuads = 0;
 
             // retained in property
             this.m_pTexture = texture;
 
-            // CC_SAFE_RETAIN(m_pTexture);
-
             // Re-initialization is not allowed
-            Debug.Assert(m_pIndices == null);
+            Debug.Assert(m_pIndices == null && m_pIndices == null);
 
-            //m_pQuads = new List<ccV3F_C4B_T2F_Quad>();
-            //m_pIndices = new ushort[m_uCapacity * 6];
+            m_pQuads = new ccV3F_C4B_T2F_Quad[m_uCapacity];
+            m_pIndices = new short[m_uCapacity * 6];
 
-            //this.initIndices();
+#if CC_USES_VBO
+            // initial binding
+            //glGenBuffers(2, &m_pBuffersVBO[0]);	
+            m_bDirty = true;
+#endif // CC_USES_VBO
+
+            this.initIndices();
+
             return true;
         }
 
         private void initIndices()
         {
-            for (uint i = 0; i < m_uCapacity; i++)
+            for (int i = 0; i < m_uCapacity; i++)
             {
 #if CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
                 m_pIndices[i * 6 + 0] = (ushort)(i * 4 + 0);
@@ -160,14 +165,14 @@ namespace cocos2d
                 m_pIndices[i * 6 + 4] = (ushort)(i * 4 + 3);
                 m_pIndices[i * 6 + 5] = (ushort)(i * 4 + 3);
 #else
-                m_pIndices[i * 6 + 0] = (ushort)(i * 4 + 0);
-                m_pIndices[i * 6 + 1] = (ushort)(i * 4 + 1);
-                m_pIndices[i * 6 + 2] = (ushort)(i * 4 + 2);
+                m_pIndices[i * 6 + 0] = (short)(i * 4 + 0);
+                m_pIndices[i * 6 + 1] = (short)(i * 4 + 1);
+                m_pIndices[i * 6 + 2] = (short)(i * 4 + 2);
 
                 // inverted index. issue #179
-                m_pIndices[i * 6 + 3] = (ushort)(i * 4 + 3);
-                m_pIndices[i * 6 + 4] = (ushort)(i * 4 + 2);
-                m_pIndices[i * 6 + 5] = (ushort)(i * 4 + 1);
+                m_pIndices[i * 6 + 3] = (short)(i * 4 + 3);
+                m_pIndices[i * 6 + 4] = (short)(i * 4 + 2);
+                m_pIndices[i * 6 + 5] = (short)(i * 4 + 1);
 #endif
             }
         }
@@ -181,11 +186,11 @@ namespace cocos2d
         /// index must be between 0 and the atlas capacity - 1
         /// @since v0.8
         /// </summary>
-        public void updateQuad(ccV3F_C4B_T2F_Quad quad, uint index)
+        public void updateQuad(ccV3F_C4B_T2F_Quad quad, int index)
         {
-            //Debug.Assert(index >= 0 && index < m_uCapacity, "updateQuadWithTexture: Invalid index");
-
-            //m_pQuads[(int)index] = quad;
+            Debug.Assert(index >= 0 && index < m_uCapacity, "updateQuadWithTexture: Invalid index");
+            m_uTotalQuads = Math.Max(index + 1, m_uTotalQuads);
+            m_pQuads[index] = quad;
 
 #if CC_USES_VBO
             m_bDirty = true;
@@ -197,11 +202,24 @@ namespace cocos2d
         /// index must be between 0 and the atlas capacity - 1
         /// @since v0.8
         /// </summary>
-        public void insertQuad(ccV3F_C4B_T2F_Quad quad, uint index)
+        public void insertQuad(ccV3F_C4B_T2F_Quad quad, int index)
         {
-           // Debug.Assert(index >= 0 && index < m_uCapacity, "insertQuadWithTexture: Invalid index");
+            Debug.Assert(index < m_uCapacity, "insertQuadWithTexture: Invalid index");
 
-            //m_pQuads.Insert((int)index, quad);
+            m_uTotalQuads++;
+            Debug.Assert(m_uTotalQuads <= m_uCapacity, "invalid totalQuads");
+
+            // issue #575. index can be > totalQuads
+            int remaining = (m_uTotalQuads - 1) - index;
+
+            // last object doesn't need to be moved
+            if (remaining > 0)
+            {
+                // texture coordinates
+                Array.Copy(m_pQuads, index, m_pQuads, index + 1, remaining);
+            }
+
+            m_pQuads[index] = quad;
 
 #if CC_USES_VBO
             m_bDirty = true;
@@ -212,14 +230,37 @@ namespace cocos2d
         /// Removes the quad that is located at a certain index and inserts it at a new index
         /// This operation is faster than removing and inserting in a quad in 2 different steps
         /// @since v0.7.2
-        public void insertQuadFromIndex(uint oldIndex, uint newIndex)
+        public void insertQuadFromIndex(int oldIndex, int newIndex)
         {
-            //Debug.Assert(newIndex >= 0 && newIndex < m_pQuads.Count, "insertQuadFromIndex:atIndex: Invalid index");
-            //Debug.Assert(oldIndex >= 0 && oldIndex < m_pQuads.Count, "insertQuadFromIndex:atIndex: Invalid index");
+            Debug.Assert(newIndex >= 0 && newIndex < m_uTotalQuads, "insertQuadFromIndex:atIndex: Invalid index");
+            Debug.Assert(oldIndex >= 0 && oldIndex < m_uTotalQuads, "insertQuadFromIndex:atIndex: Invalid index");
 
-            //ccV3F_C4B_T2F_Quad quadsBackup = m_pQuads[(int)oldIndex];
-            //m_pQuads.Remove(quadsBackup);
-            //m_pQuads[(int)newIndex] = quadsBackup;
+            if (oldIndex == newIndex)
+                return;
+
+            // because it is ambigious in iphone, so we implement abs ourself
+            // unsigned int howMany = abs( oldIndex - newIndex);
+            int howMany = (oldIndex - newIndex) > 0 ? (oldIndex - newIndex) : (newIndex - oldIndex);
+            int dst = oldIndex;
+            int src = oldIndex + 1;
+            if (oldIndex > newIndex)
+            {
+                dst = newIndex + 1;
+                src = newIndex;
+            }
+
+            ccV3F_C4B_T2F_Quad quadsBackup = m_pQuads[oldIndex];
+
+            if (oldIndex > newIndex)
+            {
+                Array.Copy(m_pQuads, newIndex, m_pQuads, newIndex + 1, howMany);
+                m_pQuads[newIndex] = quadsBackup;
+            }
+            else
+            {
+                Array.Copy(m_pQuads, newIndex + 1, m_pQuads, newIndex, howMany);
+                m_pQuads[newIndex] = quadsBackup;
+            }
 
 #if CC_USES_VBO
             m_bDirty = true;
@@ -231,12 +272,15 @@ namespace cocos2d
         /// The capacity remains the same, but the total number of quads to be drawn is reduced in 1
         /// @since v0.7.2
         /// </summary>
-        public void removeQuadAtIndex(uint index)
+        public void removeQuadAtIndex(int index)
         {
-            //Debug.Assert(index < m_pQuads.Count, "removeQuadAtIndex: Invalid index");
+            Debug.Assert(index < m_uTotalQuads, "removeQuadAtIndex: Invalid index");
 
-            //m_pQuads.RemoveAt((int)index);
-
+            ccV3F_C4B_T2F_Quad[] temp = new ccV3F_C4B_T2F_Quad[m_uTotalQuads - 1];
+            Array.Copy(m_pQuads, temp, index);
+            Array.Copy(m_pQuads, index + 1, temp, index, m_uTotalQuads - index);
+            m_pQuads = temp;
+            m_uTotalQuads--;
 #if CC_USES_VBO
             m_bDirty = true;
 #endif
@@ -250,7 +294,8 @@ namespace cocos2d
         /// </summary>
         public void removeAllQuads()
         {
-            m_pQuads.Clear();
+            m_pQuads = null;
+            m_uTotalQuads = 0;
         }
 
         #endregion
@@ -266,12 +311,15 @@ namespace cocos2d
             if (newCapacity == m_uCapacity)
                 return true;
 
+            m_uTotalQuads = Math.Min(m_uTotalQuads, newCapacity);
             m_uCapacity = newCapacity;
 
-            //m_pQuads = new List<ccV3F_C4B_T2F_Quad>();
-            //m_pIndices = new ushort[m_uCapacity * 6];
+            ccV3F_C4B_T2F_Quad[] temp = new ccV3F_C4B_T2F_Quad[newCapacity];
+            Array.Copy(m_pQuads, temp, m_pQuads.Length);
+            m_pQuads = temp;
+            m_pIndices = new short[m_uCapacity * 6];
 
-            //this.initIndices();
+            this.initIndices();
 
 #if CC_USES_VBO
             m_bDirty = true;
@@ -285,7 +333,7 @@ namespace cocos2d
         /// </summary>
         public void drawQuads()
         {
-            //this.drawNumberOfQuads(m_pQuads.Count, 0);
+            this.drawNumberOfQuads(m_uTotalQuads, 0);
         }
 
         /// <summary>
@@ -305,23 +353,61 @@ namespace cocos2d
         /// </summary>
         public void drawNumberOfQuads(int n, int start)
         {
-            //glBindTexture(GL_TEXTURE_2D, m_pTexture.getName());
+            CCApplication app = CCApplication.sharedApplication();
+            CCSize size = CCDirector.sharedDirector().getWinSize();
 
-            ccV3F_C4B_T2F_Quad quad = m_pQuads[0];
+            //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
+            app.basicEffect.Texture = this.Texture.getTexture2D();
+            app.basicEffect.TextureEnabled = true;
 
-            //CCApplication.sharedApplication().spriteBatch.Begin();
-            //CCApplication.sharedApplication().spriteBatch.Draw(m_pTexture.getTexture2D(), new Microsoft.Xna.Framework.Vector2(0, 0), Color.White);
-            //CCApplication.sharedApplication().spriteBatch.End();
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+            short[] indexes = new short[n * 6];
+            for (int i = start; i < start + n; i++)
+            {
+                ccV3F_C4B_T2F_Quad quad = this.m_pQuads[i];
+                if (quad != null)
+                {
+                    vertices.AddRange(quad.getVertices(ccDirectorProjection.CCDirectorProjection3D).ToList());
+
+                    m_pIndices[i * 6 + 0] = (short)(i * 4 + 0);
+                    m_pIndices[i * 6 + 1] = (short)(i * 4 + 1);
+                    m_pIndices[i * 6 + 2] = (short)(i * 4 + 2);
+
+                    // inverted index. issue #179
+                    m_pIndices[i * 6 + 3] = (short)(i * 4 + 3);
+                    m_pIndices[i * 6 + 4] = (short)(i * 4 + 2);
+                    m_pIndices[i * 6 + 5] = (short)(i * 4 + 1);
+                }
+            }
+
+            VertexDeclaration vertexDeclaration = new VertexDeclaration(new VertexElement[]
+                {
+                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+                    new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Color, 0),
+                    new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
+                });
+
+            foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+                app.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColorTexture>(
+                    PrimitiveType.TriangleList,
+                    vertices.ToArray(), 0, vertices.Count,
+                    indexes, 0, vertices.Count / 2);
+            }
         }
 
         #region properties
+
+        int m_uTotalQuads;
 
         /// <summary>
         /// quantity of quads that are going to be drawn
         /// </summary>
         public int TotalQuads
         {
-            get { return m_pQuads.Count; }
+            get { return m_uTotalQuads; }
         }
 
         protected int m_uCapacity;
@@ -344,11 +430,11 @@ namespace cocos2d
             set { m_pTexture = value; }
         }
 
-        protected List<ccV3F_C4B_T2F_Quad> m_pQuads = new List<ccV3F_C4B_T2F_Quad>();
+        protected ccV3F_C4B_T2F_Quad[] m_pQuads;
         /// <summary>
         /// Quads that are going to be rendered
         /// </summary>
-        public List<ccV3F_C4B_T2F_Quad> Quads
+        public ccV3F_C4B_T2F_Quad[] Quads
         {
             get { return m_pQuads; }
             set { m_pQuads = value; }

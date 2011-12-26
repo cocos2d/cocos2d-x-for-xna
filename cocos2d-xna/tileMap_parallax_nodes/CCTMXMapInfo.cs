@@ -134,11 +134,11 @@ namespace cocos2d
             set { m_nParentElement = value; }
         }
 
-        protected uint m_uParentGID;
+        protected int m_uParentGID;
         /// <summary>
         /// parent GID
         /// </summary>
-        public uint ParentGID
+        public int ParentGID
         {
             get { return m_uParentGID; }
             set { m_uParentGID = value; }
@@ -323,14 +323,14 @@ namespace cocos2d
                 {
                     CCTMXTilesetInfo tileset = new CCTMXTilesetInfo();
                     tileset.m_sName = attributeDict["name"];
-                    tileset.m_uFirstGid = uint.Parse(attributeDict["firstgid"]);
+                    tileset.m_uFirstGid = int.Parse(attributeDict["firstgid"]);
                     if (attributeDict.Keys.Contains("spacing"))
                     {
-                        tileset.m_uSpacing = uint.Parse(attributeDict["spacing"]);
+                        tileset.m_uSpacing = int.Parse(attributeDict["spacing"]);
                     }
                     if (attributeDict.Keys.Contains("margin"))
                     {
-                        tileset.m_uMargin = uint.Parse(attributeDict["margin"]);
+                        tileset.m_uMargin = int.Parse(attributeDict["margin"]);
                     }
                     CCSize s = new CCSize();
                     if (attributeDict.Keys.Contains("tilewidth"))
@@ -350,7 +350,7 @@ namespace cocos2d
             {
                 CCTMXTilesetInfo info = pTMXMapInfo.Tilesets.LastOrDefault();
                 Dictionary<string, string> dict = new Dictionary<string, string>();
-                pTMXMapInfo.ParentGID = info.m_uFirstGid + uint.Parse(attributeDict["id"]);
+                pTMXMapInfo.ParentGID = info.m_uFirstGid + int.Parse(attributeDict["id"]);
                 pTMXMapInfo.TileProperties.Add((int)pTMXMapInfo.ParentGID, dict);
                 //CC_SAFE_RELEASE(dict);
 
@@ -839,7 +839,7 @@ namespace cocos2d
                 {
                     CCTMXLayerInfo layer = pTMXMapInfo.Layers[i];
                     byte[] bs = ((cocos2d.Framework.CCContent)ctx).Date[i];
-                    uint[] bytes = new uint[bs.Length];
+                    int[] bytes = new int[bs.Length];
                     for (int j = 0; j < bytes.Length; j++)
                     {
                         bytes[j] = 0;

@@ -323,7 +323,7 @@ namespace cocos2d
             CCApplication.sharedApplication().spriteBatch.Begin();
                 for (int i = 0; i < this.ParticleCount; i++)
                 {
-                    CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform1());
+                    CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform());
                     uiPoint.x += m_pQuads[i].bl.vertices.x;
                     uiPoint.y += m_pQuads[i].bl.vertices.y;
                     uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);

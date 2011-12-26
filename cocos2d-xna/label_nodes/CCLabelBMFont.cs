@@ -96,7 +96,6 @@ namespace cocos2d
         public CCLabelBMFont()
         {
             m_sString = "";
-            //CC_SAFE_RELEASE(m_pConfiguration);
         }
 
         /// <summary>
@@ -115,7 +114,7 @@ namespace cocos2d
         public static CCLabelBMFont labelWithString(string str, string fntFile)
         {
             CCLabelBMFont pRet = new CCLabelBMFont();
-            if (pRet != null && pRet.initWithString(str, fntFile))
+            if (pRet.initWithString(str, fntFile))
             {
                 return pRet;
             }
@@ -151,6 +150,8 @@ namespace cocos2d
         /// </summary>
         public void createFontChars()
         {
+            this.children.Clear();
+
             int nextFontPositionX = 0;
             int nextFontPositionY = 0;
             short prev = -1;
@@ -159,11 +160,11 @@ namespace cocos2d
             CCSize tmpSize = new CCSize(0, 0);
 
             int longestLine = 0;
-            uint totalHeight = 0;
+            int totalHeight = 0;
 
-            uint quantityOfLines = 1;
+            int quantityOfLines = 1;
 
-            uint stringLen = (uint)m_sString.Length;
+            int stringLen = m_sString.Length;
 
             if (0 == stringLen)
             {
@@ -194,7 +195,7 @@ namespace cocos2d
                     continue;
                 }
 
-                //kerningAmount = this.kerningAmountForFirst(prev, c);
+                kerningAmount = this.kerningAmountForFirst(prev, c);
 
                 ccBMFontDef fontDef = m_pConfiguration.m_pBitmapFontArray[c];
 
@@ -208,7 +209,6 @@ namespace cocos2d
                     fontChar = new CCSprite();
                     fontChar.initWithBatchNodeRectInPixels(this, rect);
                     this.addChild(fontChar, 0, i);
-                    //fontChar.release();
                 }
                 else
                 {
@@ -252,7 +252,7 @@ namespace cocos2d
             tmpSize.width = (float)longestLine;
             tmpSize.height = (float)totalHeight;
 
-            //this.setContentSizeInPixels(tmpSize);
+            this.contentSizeInPixels=tmpSize;
         }
 
         public virtual void setString(string label)
@@ -269,7 +269,6 @@ namespace cocos2d
                     CCNode pNode = (CCNode)child;
                     if (pNode != null)
                     {
-                        // pNode.setIsVisible(false);
                         pNode.visible = false;
                     }
                 }
@@ -322,7 +321,7 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
-        private int kerningAmountForFirst(ushort first, ushort second)
+        private int kerningAmountForFirst(int first, int second)
         {
             int ret = 0;
             int key = (first << 16) | (second & 0xffff);
@@ -363,165 +362,6 @@ namespace cocos2d
         {
             throw new NotImplementedException();
         }
-
-        //public ccColor3B Color
-        //{
-        //    get
-        //    {
-        //        return m_tColor;
-        //    }
-        //    set
-        //    {
-        //        m_tColor = value;
-        //        if (m_pChildren != null && m_pChildren.Count > 0)
-        //        {
-        //            for (int i = 0; i < m_pChildren.Count; i++)
-        //            {
-        //                CCObject child = m_pChildren[i];
-        //                CCSprite pNode = (CCSprite)child;
-        //                if (pNode != null)
-        //                {
-        //                    //pNode.setColor(m_tColor);
-        //                    pNode.Color = m_tColor;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        public void setColor(ccColor3B var)
-        {
-            m_tColor = var;
-            if (m_pChildren != null && m_pChildren.Count > 0)
-            {
-                for (int i = 0; i < m_pChildren.Count; i++)
-                {
-                    CCObject child = m_pChildren[i];
-                    CCSprite pNode = (CCSprite)child;
-                    if (pNode != null)
-                    {
-                        //pNode.setColor(m_tColor);
-                        pNode.Color = m_tColor;
-                    }
-                }
-            }
-        }
-
-        public ccColor3B getColor()
-        {
-            return m_tColor;
-        }
-
-        //public byte Opacity
-        //{
-        //    get
-        //    {
-        //        return m_cOpacity;
-        //    }
-        //    set
-        //    {
-        //        m_cOpacity = value;
-
-        //        if (m_pChildren != null && m_pChildren.Count != 0)
-        //        {
-        //            for (int i = 0; i < m_pChildren.Count; i++)
-        //            {
-        //                CCObject child = m_pChildren[i];
-        //                CCNode pNode = (CCNode)child;
-        //                if (pNode != null)
-        //                {
-        //                    CCRGBAProtocol pRGBAProtocol = pNode.convertToRGBAProtocol();
-        //                    if (pRGBAProtocol != null)
-        //                    {
-        //                        pRGBAProtocol.Opacity = m_cOpacity;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        public void setOpacity(byte var)
-        {
-            m_cOpacity = var;
-
-            if (m_pChildren != null && m_pChildren.Count != 0)
-            {
-                for (int i = 0; i < m_pChildren.Count; i++)
-                {
-                    CCObject child = m_pChildren[i];
-                    CCNode pNode = (CCNode)child;
-                    if (pNode != null)
-                    {
-                        //CCRGBAProtocol pRGBAProtocol = pNode.convertToRGBAProtocol();
-                        //if (pRGBAProtocol != null)
-                        //{
-                        //    pRGBAProtocol.Opacity = m_cOpacity;
-                        //}
-                    }
-                }
-            }
-        }
-
-        public byte getOpacity()
-        {
-            return m_cOpacity;
-        }
-
-        //public bool IsOpacityModifyRGB
-        //{
-        //    get
-        //    {
-        //        return m_bIsOpacityModifyRGB;
-        //    }
-        //    set
-        //    {
-        //        m_bIsOpacityModifyRGB = value;
-        //        if (m_pChildren != null && m_pChildren.Count != 0)
-        //        {
-        //            for (int i = 0; i < m_pChildren.Count; i++)
-        //            {
-        //                CCObject child = m_pChildren[i];
-        //                CCNode pNode = (CCNode)child;
-        //                if (pNode != null)
-        //                {
-        //                    CCRGBAProtocol pRGBAProtocol = pNode.convertToRGBAProtocol();
-        //                    if (pRGBAProtocol != null)
-        //                    {
-        //                        pRGBAProtocol.IsOpacityModifyRGB = m_bIsOpacityModifyRGB;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        public void setIsOpacityModifyRGB(bool var)
-        {
-            m_bIsOpacityModifyRGB = var;
-            if (m_pChildren != null && m_pChildren.Count != 0)
-            {
-                for (int i = 0; i < m_pChildren.Count; i++)
-                {
-                    CCObject child = m_pChildren[i];
-                    CCNode pNode = (CCNode)child;
-                    if (pNode != null)
-                    {
-                        //CCRGBAProtocol pRGBAProtocol = pNode.convertToRGBAProtocol();
-                        //if (pRGBAProtocol != null)
-                        //{
-                        //    pRGBAProtocol.IsOpacityModifyRGB = m_bIsOpacityModifyRGB;
-                        //}
-                    }
-                }
-            }
-        }
-
-        public bool getIsOpacityModifyRGB()
-        {
-            return m_bIsOpacityModifyRGB;
-        }
-
     }
 }
 

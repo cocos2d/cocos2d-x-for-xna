@@ -103,7 +103,7 @@ namespace cocos2d
         {
             if (normalSprite == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException("normalSprite");
             }
 
             initWithTarget(target, selector);
@@ -159,7 +159,7 @@ namespace cocos2d
                 {
                     addChild(value);
                     value.anchorPoint = new CCPoint(0, 0);
-                    value.visible = true;
+                    value.visible = false;
                 }
 
                 if (m_pSelectedImage != null)
@@ -184,7 +184,7 @@ namespace cocos2d
                 {
                     addChild(value);
                     value.anchorPoint = new CCPoint(0, 0);
-                    value.visible = true;
+                    value.visible = false;
                 }
 
                 if (m_pDisabledImage != null)

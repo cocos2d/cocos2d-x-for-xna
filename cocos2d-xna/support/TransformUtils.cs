@@ -2,12 +2,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
     public class TransformUtils
     {
-        public static void CGAffineToGL(CCAffineTransform t, float[] m)
+        public static Matrix CGAffineToMatrix(float[] m)
+        {
+            Matrix mat = new Matrix()
+            {
+                M11 = m[0],M21 = m[4],M31 = m[8],M41 = m[12],
+                M12 = m[1],M22 = m[5],M32 = m[9],M42 = m[13],
+                M13 = m[2],M23 = m[6],M33 = m[10],M43 = m[14],
+                M14 = m[3],M24 = m[7],M34 = m[11],M44 = m[15],
+            };
+
+            return mat;
+        }
+
+        public static Matrix CGAffineToMatrix(CCAffineTransform t)
+        {
+            float[] m = new float[16];
+            CGAffineToGL(t, ref m);
+            return CGAffineToMatrix(m);
+        }
+
+        public static void CGAffineToGL(CCAffineTransform t, ref float[] m)
         {
             // | m[0] m[4] m[8]  m[12] |     | m11 m21 m31 m41 |     | a c 0 tx |
             // | m[1] m[5] m[9]  m[13] |     | m12 m22 m32 m42 |     | b d 0 ty |

@@ -30,6 +30,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
@@ -430,6 +432,72 @@ namespace cocos2d
         /// bottom right
         /// </summary>
         public ccV3F_C4B_T2F br;
+
+        public VertexPositionColorTexture[] getVertices(ccDirectorProjection projection)
+        {
+            VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[4];
+
+            if (projection == ccDirectorProjection.kCCDirectorProjection2D)
+            {
+                vertices[0] = new VertexPositionColorTexture(
+                    new Vector3(this.bl.vertices.x, this.bl.vertices.y, this.bl.vertices.z),
+                    new Color(this.tl.colors.r, this.tl.colors.g, this.tl.colors.b, this.tl.colors.a),
+                    new Vector2(this.bl.texCoords.u, this.bl.texCoords.v));
+
+                vertices[1] = new VertexPositionColorTexture(
+                    new Vector3(this.br.vertices.x, this.br.vertices.y, this.br.vertices.z),
+                    new Color(this.tr.colors.r, this.tr.colors.g, this.tr.colors.b, this.tr.colors.a),
+                    new Vector2(this.br.texCoords.u, this.br.texCoords.v));
+
+                vertices[2] = new VertexPositionColorTexture(
+                    new Vector3(this.tl.vertices.x, this.tl.vertices.y, this.tl.vertices.z),
+                    new Color(this.bl.colors.r, this.bl.colors.g, this.bl.colors.b, this.bl.colors.a),
+                    new Vector2(this.tl.texCoords.u, this.tl.texCoords.v));
+
+                vertices[3] = new VertexPositionColorTexture(
+                    new Vector3(this.tr.vertices.x, this.tr.vertices.y, this.tr.vertices.z),
+                    new Color(this.br.colors.r, this.br.colors.g, this.br.colors.b, this.br.colors.a),
+                    new Vector2(this.tr.texCoords.u, this.tr.texCoords.v));
+            }
+            else
+            {
+                vertices[0] = new VertexPositionColorTexture(
+                    new Vector3(this.tl.vertices.x, this.tl.vertices.y, this.tl.vertices.z),
+                    new Color(this.tl.colors.r, this.tl.colors.g, this.tl.colors.b, this.tl.colors.a),
+                    new Vector2(this.tl.texCoords.u, this.tl.texCoords.v));
+
+                vertices[1] = new VertexPositionColorTexture(
+                    new Vector3(this.tr.vertices.x, this.tr.vertices.y, this.tr.vertices.z),
+                    new Color(this.tr.colors.r, this.tr.colors.g, this.tr.colors.b, this.tr.colors.a),
+                    new Vector2(this.tr.texCoords.u, this.tr.texCoords.v));
+
+                vertices[2] = new VertexPositionColorTexture(
+                    new Vector3(this.bl.vertices.x, this.bl.vertices.y, this.bl.vertices.z),
+                    new Color(this.bl.colors.r, this.bl.colors.g, this.bl.colors.b, this.bl.colors.a),
+                     new Vector2(this.bl.texCoords.u, this.bl.texCoords.v));
+
+                vertices[3] = new VertexPositionColorTexture(
+                    new Vector3(this.br.vertices.x, this.br.vertices.y, this.br.vertices.z),
+                    new Color(this.br.colors.r, this.br.colors.g, this.br.colors.b, this.br.colors.a),
+                    new Vector2(this.br.texCoords.u, this.br.texCoords.v));
+            }
+
+            return vertices;
+        }
+
+        public short[] getIndexes(ccDirectorProjection projection)
+        {
+            short[] indexes = new short[6];
+
+            indexes[0] = 0;
+            indexes[1] = 1;
+            indexes[2] = 2;
+            indexes[3] = 2;
+            indexes[4] = 1;
+            indexes[5] = 3;
+
+            return indexes;
+        }
     }
 
     /// <summary>
@@ -477,7 +545,7 @@ namespace cocos2d
             this.dst = 0;
         }
 
-        public ccBlendFunc(uint src,uint dst) 
+        public ccBlendFunc(uint src, uint dst)
         {
             this.src = src;
             this.dst = dst;

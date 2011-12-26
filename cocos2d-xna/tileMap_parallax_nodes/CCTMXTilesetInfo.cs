@@ -34,22 +34,22 @@ namespace cocos2d
 {
     public class CCTMXTilesetInfo : CCObject
     {
-		public string m_sName;
-		public UInt32	m_uFirstGid;
-		public CCSize	m_tTileSize;
-		public UInt32	m_uSpacing;
-		public UInt32	m_uMargin;
-		//! filename containing the tiles (should be spritesheet / texture atlas)
-		public string m_sSourceImage;
-		//! size in pixels of the image
-		public CCSize m_tImageSize;
+        public string m_sName;
+        public int m_uFirstGid;
+        public CCSize m_tTileSize;
+        public int m_uSpacing;
+        public int m_uMargin;
+        //! filename containing the tiles (should be spritesheet / texture atlas)
+        public string m_sSourceImage;
+        //! size in pixels of the image
+        public CCSize m_tImageSize;
 
-        public CCTMXTilesetInfo() 
+        public CCTMXTilesetInfo()
         {
         }
-        public CCRect rectForGID(UInt32 gid) 
+        public CCRect rectForGID(int gid)
         {
-            CCRect rect=new CCRect();
+            CCRect rect = new CCRect();
             rect.size = m_tTileSize;
             gid = gid - m_uFirstGid;
             int max_x = (int)((m_tImageSize.width - m_uMargin * 2 + m_uSpacing) / (m_tTileSize.width + m_uSpacing));

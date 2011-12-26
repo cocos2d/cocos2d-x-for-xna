@@ -152,7 +152,7 @@ namespace cocos2d
         /*
          * Macros defined in CCSprite.h
          */
-        public static readonly uint CCSpriteIndexNotInitialized = 0xffffffff; // CCSprite invalid index on the CCSpriteBatchode
+        public static readonly int CCSpriteIndexNotInitialized = 320000000;// 0xffffffff; // CCSprite invalid index on the CCSpriteBatchode
 
 
         // The following macros are defined for opengl es, they are not needed.

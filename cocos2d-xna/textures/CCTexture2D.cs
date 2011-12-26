@@ -250,12 +250,7 @@ namespace cocos2d
             texture2D = new Texture2D(app.GraphicsDevice, renderTarget.Width, renderTarget.Height);
             texture2D.SetData(colors1D);
 
-            m_tContentSize.width = texture2D.Width;
-            m_tContentSize.height = texture2D.Height;
-
-            return true;
-
-            // throw new NotImplementedException();
+            return initWithTexture(texture2D);
         }
 
         /// <summary>

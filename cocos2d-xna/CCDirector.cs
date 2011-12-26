@@ -517,50 +517,40 @@ namespace cocos2d
         {
             set
             {
-                //CCSize size = m_obWinSizeInPixels;
-                //float zeye = this->getZEye();
-                //switch (kProjection)
-                //{
-                //    case kCCDirectorProjection2D:
-                //        if (m_pobOpenGLView)
-                //        {
-                //            m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
-                //        }
-                //        glMatrixMode(GL_PROJECTION);
-                //        glLoadIdentity();
-                //        ccglOrtho(0, size.width, 0, size.height, -1024 * CC_CONTENT_SCALE_FACTOR(),
-                //            1024 * CC_CONTENT_SCALE_FACTOR());
-                //        glMatrixMode(GL_MODELVIEW);
-                //        glLoadIdentity();
-                //        break;
+                CCApplication app = CCApplication.sharedApplication();
 
-                //    case kCCDirectorProjection3D:
-                //        if (m_pobOpenGLView)
-                //        {
-                //            m_pobOpenGLView->setViewPortInPoints(0, 0, size.width, size.height);
-                //        }
-                //        glMatrixMode(GL_PROJECTION);
-                //        glLoadIdentity();
-                //        gluPerspective(60, (GLfloat)size.width / size.height, 0.5f, 1500.0f);
+                CCSize size = CCApplication.sharedApplication().getSize();
+                float zeye = this.zEye;
+                switch (value)
+                {
+                    case ccDirectorProjection.kCCDirectorProjection2D:
+                        app.viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 5.0f), Vector3.Zero, Vector3.Up);
+                        app.projectionMatrix = Matrix.CreateOrthographicOffCenter(0, size.width, size.height, 0, 1.0f, 1000.0f);
+                        app.worldMatrix = Matrix.CreateTranslation(0, 0, 0);
 
-                //        glMatrixMode(GL_MODELVIEW);
-                //        glLoadIdentity();
-                //        gluLookAt(size.width / 2, size.height / 2, zeye,
-                //                 size.width / 2, size.height / 2, 0,
-                //                 0.0f, 1.0f, 0.0f);
-                //        break;
+                        break;
 
-                //    case kCCDirectorProjectionCustom:
-                //        if (m_pProjectionDelegate)
-                //        {
-                //            m_pProjectionDelegate->updateProjection();
-                //        }
-                //        break;
+                    case ccDirectorProjection.kCCDirectorProjection3D:
+                        app.viewMatrix = Matrix.CreateLookAt(new Vector3(size.width / 2.0f, size.height / 2.0f, size.height / 1.1566f),
+                            new Vector3(size.width / 2.0f, size.height / 2.0f, 0), Vector3.Up);
 
-                //    default:
-                //        CCLOG("cocos2d: Director: unrecognized projecgtion");
-                //        break;
-                //}
+                        app.projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.Pi / 3.0f, size.width / size.height, 0.5f, 1500.0f);
+
+                        app.worldMatrix = Matrix.Identity;// * Matrix.CreateTranslation(new Vector3(-size.width / 2, -size.height / 2, 0));
+
+                        break;
+
+                    case ccDirectorProjection.kCCDirectorProjectionCustom:
+                        //if (m_pProjectionDelegate)
+                        //{
+                        //    m_pProjectionDelegate->updateProjection();
+                        //}
+                        break;
+
+                    default:
+                        Debug.Assert(true, "cocos2d: Director: unrecognized projecgtion");
+                        break;
+                }
 
                 m_eProjection = value;
             }
@@ -812,7 +802,7 @@ namespace cocos2d
         /// </summary>
         public void setGLDefaultValues()
         {
-
+            Projection = m_eProjection;
         }
         /// <summary>
         /// enables/disables OpenGL alpha blending 
@@ -855,7 +845,7 @@ namespace cocos2d
             // set size
             m_obWinSizeInPoints = CCApplication.sharedApplication().getSize();
             m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * m_fContentScaleFactor, m_obWinSizeInPoints.height * m_fContentScaleFactor);
-            //setGLDefaultValues();
+            setGLDefaultValues();
 
             if (m_fContentScaleFactor != 1)
             {
@@ -928,6 +918,7 @@ namespace cocos2d
                     //added in cocos2d-xna
                     m_obWinSizeInPoints = CCApplication.sharedApplication().getSize();
                     m_obWinSizeInPixels = new CCSize(m_obWinSizeInPoints.width * m_fContentScaleFactor, m_obWinSizeInPoints.height * m_fContentScaleFactor);
+                    Projection = m_eProjection;
                 }
                 else
                 {

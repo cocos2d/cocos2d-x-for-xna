@@ -185,11 +185,11 @@ namespace cocos2d
             get { return m_bRectRotated; }
         }
 
-        private uint m_uAtlasIndex;
+        private int m_uAtlasIndex;
         /// <summary>
         /// The index used on the TextureAtlas. Don't modify this value unless you know what you are doing
         /// </summary>
-        public uint atlasIndex
+        public int atlasIndex
         {
             get
             {
@@ -350,7 +350,7 @@ namespace cocos2d
         public static CCSprite spriteWithFile(string fileName)
         {
             CCSprite sprite = new CCSprite();
-            if (sprite != null && sprite.initWithFile(fileName))
+            if (sprite.initWithFile(fileName))
             {
                 return sprite;
             }
@@ -409,7 +409,6 @@ namespace cocos2d
             Texture = null;
 
             // clean the Quad
-            //memset(&m_sQuad, 0, sizeof(m_sQuad));
             m_sQuad = new ccV3F_C4B_T2F_Quad();
 
             m_bFlipX = m_bFlipY = false;
@@ -424,10 +423,11 @@ namespace cocos2d
             m_bHasChildren = false;
 
             // Atlas: Color
-            m_sQuad.bl.colors = new ccColor4B(255, 255, 255, 255);
-            m_sQuad.br.colors = new ccColor4B(255, 255, 255, 255);
-            m_sQuad.tl.colors = new ccColor4B(255, 255, 255, 255);
-            m_sQuad.tr.colors = new ccColor4B(255, 255, 255, 255);
+            ccColor4B tmpColor = new ccColor4B(255, 255, 255, 255);
+            m_sQuad.bl.colors = tmpColor;
+            m_sQuad.br.colors = tmpColor;
+            m_sQuad.tl.colors = tmpColor;
+            m_sQuad.tr.colors = tmpColor;
 
             // Atlas: Vertex
 
@@ -443,31 +443,32 @@ namespace cocos2d
         public override void draw()
         {
             base.draw();
-            if (m_pobTexture == null)
+            CCApplication app = CCApplication.sharedApplication();
+            CCSize size = CCDirector.sharedDirector().getWinSize();
+
+            //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
+            app.basicEffect.Texture = this.Texture.getTexture2D();
+            app.basicEffect.TextureEnabled = true;
+
+            VertexPositionColorTexture[] vertices = this.m_sQuad.getVertices(ccDirectorProjection.CCDirectorProjection3D);
+            short[] indexes = this.m_sQuad.getIndexes(ccDirectorProjection.CCDirectorProjection3D);
+
+            VertexDeclaration vertexDeclaration = new VertexDeclaration(new VertexElement[]
+                {
+                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+                    new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Color, 0),
+                    new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
+                });
+
+            foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
             {
-                return;
+                pass.Apply();
+
+                app.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColorTexture>(
+                    PrimitiveType.TriangleList,
+                    vertices, 0, 4,
+                    indexes, 0, 2);
             }
-
-            //get the point of cocos2d
-            CCPoint cocos2dPoint = new CCPoint(position.x - contentSizeInPixels.width * anchorPoint.x, position.y - contentSizeInPixels.height * anchorPoint.y);
-            CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform1());
-            uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
-
-            Vector2 vecPosition = new Vector2(uiPoint.x, uiPoint.y - contentSizeInPixels.height);
-            Texture2D texture = m_pobTexture.getTexture2D();
-            Rectangle? sourceRectangle = new Rectangle((int)m_obRect.origin.x, (int)m_obRect.origin.y, (int)m_obRect.size.width, (int)m_obRect.size.height);
-            Color color = new Microsoft.Xna.Framework.Color() { R = m_sColor.r, G = m_sColor.g, B = m_sColor.b, A = m_nOpacity };
-            float rotation = m_fRotation;
-            Vector2 origin = new Vector2(anchorPoint.x * sourceRectangle.Value.Width, anchorPoint.y * sourceRectangle.Value.Height);
-            Vector2 scale = new Vector2(m_fScaleX, m_fScaleY);
-            SpriteEffects effects = SpriteEffects.None;
-            float layerDepth = 0;
-
-            //BlendState blendState = new BlendState();
-
-            CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture, vecPosition, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
-            CCApplication.sharedApplication().spriteBatch.End();
         }
 
         #region add,remove child
@@ -1045,8 +1046,6 @@ namespace cocos2d
                 }
             }
 
-            #region No use in XNA
-
             //
             // calculate the Quad based on the Affine Matrix
             //
@@ -1083,8 +1082,6 @@ namespace cocos2d
 
             m_pobTextureAtlas.updateQuad(m_sQuad, m_uAtlasIndex);
 
-            #endregion
-
             m_bDirty = m_bRecursiveDirty = false;
         }
 
@@ -1096,13 +1093,8 @@ namespace cocos2d
         {
             m_uAtlasIndex = ccMacros.CCSpriteIndexNotInitialized;
             m_bUseBatchNode = false;
-
-            /*
-             * ///@todo
-            m_pobTextureAtlas = NULL;
-            m_pobBatchNode = NULL;
-             */
-            // throw new NotImplementedException();
+            m_pobTextureAtlas = null;
+            m_pobBatchNode = null;
             m_bDirty = m_bRecursiveDirty = false;
 
             float x1 = 0 + m_obOffsetPositionInPixels.x;

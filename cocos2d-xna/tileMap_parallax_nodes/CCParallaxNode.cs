@@ -39,8 +39,8 @@ namespace cocos2d.tileMap_parallax_nodes
         /// <summary>
         /// array that holds the offset / ratio of the children
         /// </summary>
-        protected ccCArray m_pParallaxArray;
-        public ccCArray ParallaxArray
+        protected List<CCPointObject> m_pParallaxArray;
+        public List<CCPointObject> ParallaxArray
         {
             get { return m_pParallaxArray; }
             set { m_pParallaxArray = value; }
@@ -53,7 +53,7 @@ namespace cocos2d.tileMap_parallax_nodes
         /// </summary>
         public CCParallaxNode()
         {
-            m_pParallaxArray = ccCArray.ccCArrayNew(5);
+            m_pParallaxArray = new List<CCPointObject>();
             m_tLastPosition = new CCPoint(-100, -100);
         }
         public static CCParallaxNode node()
@@ -89,9 +89,9 @@ namespace cocos2d.tileMap_parallax_nodes
 
         public virtual void removeChild(CCNode child, bool cleanup)
         {
-            for (int i = 0; i < m_pParallaxArray.num; i++)
+            for (int i = 0; i < m_pParallaxArray.Count; i++)
             {
-                CCPointObject point = (CCPointObject)m_pParallaxArray.arr[i];
+                CCPointObject point = (CCPointObject)m_pParallaxArray[i];
                 if (point.Child == child)
                 {
                     //ccCArray.ccArrayRemoveObjectAtIndex(m_pParallaxArray, i);
@@ -112,9 +112,9 @@ namespace cocos2d.tileMap_parallax_nodes
             CCPoint pos = this.absolutePosition();
             if (!CCPoint.CCPointEqualToPoint(pos, m_tLastPosition))
             {
-                for (int i = 0; i < m_pParallaxArray.num; i++)
+                for (int i = 0; i < m_pParallaxArray.Count; i++)
                 {
-                    CCPointObject point = (CCPointObject)m_pParallaxArray.arr[i];
+                    CCPointObject point = (CCPointObject)(m_pParallaxArray[i]);
                     float x = -pos.x + pos.x * point.Ratio.x + point.Offset.x;
                     float y = -pos.y + pos.y * point.Ratio.y + point.Offset.y;
                     point.Child.position = new CCPoint(x, y);

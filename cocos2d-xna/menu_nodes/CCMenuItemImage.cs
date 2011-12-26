@@ -65,8 +65,7 @@ namespace cocos2d
         public static CCMenuItemImage itemFromNormalImage(string normalImage, string selectedImage, string disabledImage, SelectorProtocol target, SEL_MenuHandler selector)
         {
             CCMenuItemImage pRet = new CCMenuItemImage();
-
-            if (pRet != null && pRet.initFromNormalImage(normalImage, selectedImage, disabledImage, target, selector))
+            if (pRet.initFromNormalImage(normalImage, selectedImage, disabledImage, target, selector))
             {
                 return pRet;
             }
@@ -98,12 +97,12 @@ namespace cocos2d
             CCNode selectedSprite = null;
             CCNode disabledSprite = null;
 
-            if (selectedImage != null && selectedImage.Trim() != "")
+            if (selectedImage != null && !string.IsNullOrEmpty(selectedImage))
             {
                 selectedSprite = CCSprite.spriteWithFile(selectedImage);
             }
 
-            if (disabledImage != null && disabledImage.Trim() != "")
+            if (disabledImage != null && !string.IsNullOrEmpty(disabledImage))
             {
                 disabledSprite = CCSprite.spriteWithFile(disabledImage);
             }

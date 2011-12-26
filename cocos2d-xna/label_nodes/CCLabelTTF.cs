@@ -76,12 +76,11 @@ namespace cocos2d
         public static CCLabelTTF labelWithString(string label, string fontName, float fontSize)
         {
             CCLabelTTF pRet = new CCLabelTTF();
-            if (pRet != null && pRet.initWithString(label, fontName, fontSize))
+            if (pRet.initWithString(label, fontName, fontSize))
             {
-                //pRet->autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet);
+
             return null;
         }
 
@@ -115,12 +114,6 @@ namespace cocos2d
             if (base.init())
             {
                 m_tDimensions = new CCSize(0, 0);
-
-                if (m_pFontName != null)
-                {
-                    //delete m_pFontName;
-                    m_pFontName = null;
-                }
                 m_pFontName = fontName;
 
                 m_fFontSize = fontSize * CCDirector.sharedDirector().ContentScaleFactor;
@@ -136,11 +129,6 @@ namespace cocos2d
         /// </summary>
         public void setString(string label)
         {
-            if (m_pString != null)
-            {
-                //delete m_pString;
-                m_pString = null;
-            }
             m_pString = label;
 
             CCTexture2D texture;
@@ -154,8 +142,7 @@ namespace cocos2d
                 texture = new CCTexture2D();
                 texture.initWithString(label, m_tDimensions, m_eAlignment, m_pFontName.ToString(), m_fFontSize);
             }
-            this.Texture=texture;
-            //texture->release();
+            this.Texture = texture;
 
             CCRect rect = new CCRect(0, 0, 0, 0);
             rect.size = m_pobTexture.getContentSize();

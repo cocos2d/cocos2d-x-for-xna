@@ -95,6 +95,7 @@ namespace cocos2d
         public override void Initialize()
         {
             sm_pSharedApplication = this;
+
             PVRFrameEnableControlWindow(false);
 
             initInstance();
@@ -114,8 +115,13 @@ namespace cocos2d
             base.Update(gameTime);
         }
 
+        VertexDeclaration vertexDeclaration;
         public override void Draw(GameTime gameTime)
         {
+            basicEffect.View = viewMatrix;
+            basicEffect.World = worldMatrix;
+            basicEffect.Projection = projectionMatrix;
+
             CCDirector.sharedDirector().mainLoop(gameTime);
 
             base.Draw(gameTime);
@@ -124,6 +130,10 @@ namespace cocos2d
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            basicEffect = new BasicEffect(GraphicsDevice);
+
+            GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
+
             base.LoadContent();
 
             applicationDidFinishLaunching();
@@ -327,6 +337,15 @@ namespace cocos2d
             private set;
         }
 
+        internal Matrix worldMatrix;
+        internal Matrix viewMatrix;
+        internal Matrix projectionMatrix;
+        internal BasicEffect basicEffect
+        {
+            get;
+            private set;
+        }
+
         #region CCEGLView
 
         bool m_bOrientationReverted;
@@ -337,7 +356,7 @@ namespace cocos2d
             get { return true; }
         }
 
-        private CCSize _size = new CCSize(480, 800);
+        private CCSize _size = new CCSize(800, 480);
         public CCSize getSize()
         {
             return _size;

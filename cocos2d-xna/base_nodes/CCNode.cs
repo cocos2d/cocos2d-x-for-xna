@@ -30,6 +30,7 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
 namespace cocos2d
 {
     enum NodeTag
@@ -479,7 +480,7 @@ namespace cocos2d
             {
                 return;
             }
-
+            m_tCCNodeTransform = Matrix.Identity;
             ///@todo
             // glPushMatrix();
 
@@ -537,9 +538,9 @@ namespace cocos2d
  	           {
  		           m_pGrid->afterDraw(this);
 	           }
- 
-	           glPopMatrix();
-             */
+  */
+            CCApplication.sharedApplication().basicEffect.World = CCApplication.sharedApplication().basicEffect.World * Matrix.Invert(m_tCCNodeTransform);
+            m_tCCNodeTransform = Matrix.Identity;
         }
 
         /// <summary>
@@ -562,18 +563,28 @@ namespace cocos2d
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
             // BEGIN alternative -- using cached transform
             //
-            if (m_bIsTransformGLDirty)
+            //if (m_bIsTransformGLDirty)
+            //{
+            CCAffineTransform t = this.nodeToParentTransform();
+            TransformUtils.CGAffineToGL(t, ref m_pTransformGL);
+            m_bIsTransformGLDirty = false;
+            //}
+
+
+            CCApplication app = CCApplication.sharedApplication();
+            m_tCCNodeTransform = TransformUtils.CGAffineToMatrix(m_pTransformGL);
+            //glMultMatrixf(m_pTransformGL);
+            if (m_fVertexZ > 0)
             {
-                CCAffineTransform t = this.nodeToParentTransform();
-                //TransformUtils.CGAffineToGL(t, m_pTransformGL);
-                m_bIsTransformGLDirty = false;
+                m_tCCNodeTransform *= Matrix.CreateRotationZ(m_fVertexZ);
+                //glTranslatef(0, 0, m_fVertexZ);
             }
 
-            //glMultMatrixf(m_pTransformGL);
-            //if (m_fVertexZ)
-            //{
-            //    glTranslatef(0, 0, m_fVertexZ);
-            //}
+
+            app.basicEffect.World = app.basicEffect.World * m_tCCNodeTransform;
+
+
+            //app.basicEffect.World =  CCApplication.sharedApplication().worldMatrix * m_tCCNodeTransform;
 
             // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
             //if (m_pCamera && !(m_pGrid && m_pGrid->isActive()))
@@ -595,7 +606,6 @@ namespace cocos2d
 
 
             // END alternative
-
 #else
                 // BEGIN original implementation
                 // 
@@ -906,32 +916,6 @@ namespace cocos2d
 
             return m_tTransform;
         }
-        public CCAffineTransform nodeToParentTransform1()
-        {
-            if (m_bIsTransformDirty)
-            {
-                m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
-
-                if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
-                {
-                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y);
-                }
-
-                if (!CCPoint.CCPointEqualToPoint(m_tPositionInPixels, new CCPoint()))
-                {
-                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tPositionInPixels.x, m_tPositionInPixels.y);
-                }
-
-                if (!CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
-                {
-                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
-                }
-
-                m_bIsTransformDirty = false;
-            }
-
-            return m_tTransform;
-        }
 
         /// <summary>
         /// Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
@@ -956,20 +940,6 @@ namespace cocos2d
         public CCAffineTransform nodeToWorldTransform()
         {
             CCAffineTransform t = this.nodeToParentTransform();
-
-            CCNode p = m_pParent;
-            while (p != null)
-            {
-                var temp = p.nodeToParentTransform();
-                t = CCAffineTransform.CCAffineTransformConcat(t, temp);
-                p = p.parent;
-            }
-
-            return t;
-        }
-        public CCAffineTransform nodeToWorldTransform1()
-        {
-            CCAffineTransform t = this.nodeToParentTransform1();
 
             CCNode p = m_pParent;
             while (p != null)
@@ -1249,9 +1219,9 @@ namespace cocos2d
             {
                 m_fRotation = value;
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
-                //#ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                //    m_bIsTransformGLDirty = true;
-                //#endif
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                m_bIsTransformGLDirty = true;
+#endif
             }
         }
 
@@ -1275,8 +1245,7 @@ namespace cocos2d
                 if (!CCPoint.CCPointEqualToPoint(value, m_tAnchorPoint))
                 {
                     m_tAnchorPoint = value;
-                    m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x,
-                        m_tContentSizeInPixels.height * m_tAnchorPoint.y);
+                    m_tAnchorPointInPixels = CCPointExtension.ccp(m_tContentSizeInPixels.width * m_tAnchorPoint.x, m_tContentSizeInPixels.height * m_tAnchorPoint.y);
                     m_bIsTransformDirty = m_bIsInverseDirty = true;
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
                     m_bIsTransformGLDirty = true;
@@ -1582,11 +1551,10 @@ namespace cocos2d
 
         // transform
         protected CCAffineTransform m_tTransform, m_tInverse;
-        //add CCAffineTransform variable in xna,it have the same function as m_pTransformGL in openGL 
-        protected CCAffineTransform m_tNodeToWorldTransform;
+        protected Matrix m_tCCNodeTransform;
 
 #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-        float[] m_pTransformGL;
+        float[] m_pTransformGL = new float[16];
 #endif
 
         // To reduce memory, place bools that are not properties here:

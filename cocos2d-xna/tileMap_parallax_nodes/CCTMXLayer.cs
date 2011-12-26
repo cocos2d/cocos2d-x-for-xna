@@ -33,74 +33,6 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
-    public class ccCArray
-    {
-        public uint num, max;
-        public List<object> arr; //equals CCObject** arr;
-
-        public static ccCArray ccCArrayNew(uint capacity)
-        {
-            if (capacity == 0)
-            {
-                capacity = 1;
-            }
-
-            ccCArray arr = new ccCArray();
-            arr.num = 0;
-            arr.arr = new List<object>();
-            arr.max = capacity;
-
-            return arr;
-        }
-
-        public static void ccCArrayFree(ccCArray arr)
-        {
-            if (arr == null)
-            {
-                return;
-            }
-
-            ccCArrayRemoveAllValues(arr);
-
-            //free(arr.arr);
-            //free(arr);
-        }
-        static void ccCArrayRemoveAllValues(ccCArray arr)
-        {
-            arr.num = 0;
-        }
-
-        public static void ccCArrayRemoveValueAtIndex(ccCArray arr, uint index)
-        {
-            for (uint last = --arr.num; index < last; index++)
-            {
-                arr.arr[(int)index] = arr.arr[(int)index + 1];
-            }
-        }
-
-        public static void ccCArrayInsertValueAtIndex(ccCArray arr, object value, uint index)
-        {
-            Debug.Assert(index < arr.max, "ccCArrayInsertValueAtIndex: invalid index");
-            uint remaining = arr.num - index;
-
-            // make sure it has enough capacity
-            if (arr.num + 1 == arr.max)
-            {
-                //ccCArrayDoubleCapacity(arr);
-            }
-
-            // last Value doesn't need to be moved
-            if (remaining > 0)
-            {
-                // tex coordinates
-                //memmove( &arr->arr[index+1],&arr->arr[index], sizeof(void*) * remaining );
-            }
-
-            arr.num++;
-            arr.arr[(int)index] = value;
-        }
-    }
-
     public class CCTMXLayer : CCSpriteBatchNode
     {
         protected CCSize m_tLayerSize;
@@ -123,11 +55,11 @@ namespace cocos2d
             set { m_tMapTileSize = value; }
         }
 
-        protected UInt32[] m_pTiles;
+        protected int[] m_pTiles;
         /// <summary>
         /// pointer to the map of tiles
         /// </summary>
-        public UInt32[] Tiles
+        public int[] Tiles
         {
             get { return m_pTiles; }
             set { m_pTiles = value; }
@@ -175,8 +107,8 @@ namespace cocos2d
         //! TMX Layer supports opacity
         protected byte m_cOpacity;
 
-        protected uint m_uMinGID;
-        protected uint m_uMaxGID;
+        protected int m_uMinGID;
+        protected int m_uMaxGID;
 
         //! Only used when vertexZ is used
         protected int m_nVertexZvalue;
@@ -185,7 +117,7 @@ namespace cocos2d
 
         //! used for optimization
         protected CCSprite m_pReusedTile;
-        protected ccCArray m_pAtlasIndexArray;
+        protected List<int> m_pAtlasIndexArray;
 
         // used for retina display
         protected float m_fContentScaleFactor;
@@ -258,7 +190,7 @@ namespace cocos2d
                 CCPoint offset = this.calculateLayerOffset(layerInfo.m_tOffset);
                 this.position = offset;
 
-                m_pAtlasIndexArray = ccCArray.ccCArrayNew((uint)totalNumberOfTiles);
+                m_pAtlasIndexArray = new List<int>();
 
                 this.contentSizeInPixels = new CCSize(m_tLayerSize.width * m_tMapTileSize.width, m_tLayerSize.height * m_tMapTileSize.height);
                 m_tMapTileSize.width /= m_fContentScaleFactor;
@@ -287,7 +219,6 @@ namespace cocos2d
 
             if (m_pAtlasIndexArray != null)
             {
-                ccCArray.ccCArrayFree(m_pAtlasIndexArray);
                 m_pAtlasIndexArray = null;
             }
         }
@@ -309,7 +240,7 @@ namespace cocos2d
             Debug.Assert(m_pTiles != null && m_pAtlasIndexArray != null, "TMXLayer: the tiles map has been released");
 
             CCSprite tile = null;
-            uint gid = this.tileGIDAt(pos);
+            int gid = this.tileGIDAt(pos);
 
             // if GID == 0, then no tile is present
             if (gid != 0)
@@ -330,7 +261,7 @@ namespace cocos2d
                     tile.anchorPoint = new CCPoint(0, 0);
                     tile.Opacity = m_cOpacity;
 
-                    uint indexForZ = (uint)atlasIndexForExistantZ(z);
+                    int indexForZ = atlasIndexForExistantZ(z);
                     this.addSpriteWithoutQuad(tile, indexForZ, z);
                     //tile->release();
                 }
@@ -345,7 +276,7 @@ namespace cocos2d
         /// </summary>
         /// <param name="tileCoordinate"></param>
         /// <returns></returns>
-        public uint tileGIDAt(CCPoint pos)
+        public int tileGIDAt(CCPoint pos)
         {
             Debug.Assert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >= 0 && pos.y >= 0, "TMXLayer: invalid position");
             Debug.Assert(m_pTiles != null && m_pAtlasIndexArray != null, "TMXLayer: the tiles map has been released");
@@ -361,14 +292,14 @@ namespace cocos2d
         /// </summary>
         /// <param name="gid"></param>
         /// <param name="tileCoordinate"></param>
-        public void setTileGID(uint gid, CCPoint pos)
+        public void setTileGID(int gid, CCPoint pos)
         {
 
             Debug.Assert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >= 0 && pos.y >= 0, "TMXLayer: invalid position");
             Debug.Assert(m_pTiles != null && m_pAtlasIndexArray != null, "TMXLayer: the tiles map has been released");
             Debug.Assert(gid == 0 || gid >= m_pTileSet.m_uFirstGid, "TMXLayer: invalid gid");
 
-            uint currentGID = tileGIDAt(pos);
+            int currentGID = tileGIDAt(pos);
 
             if (currentGID != gid)
             {
@@ -387,7 +318,7 @@ namespace cocos2d
                 // modifying an existing tile with a non-empty tile
                 else
                 {
-                    uint z = (uint)(pos.x + pos.y * m_tLayerSize.width);
+                    int z = (int)(pos.x + pos.y * m_tLayerSize.width);
                     CCSprite sprite = (CCSprite)getChildByTag((int)z);
                     if (sprite != null)
                     {
@@ -414,18 +345,18 @@ namespace cocos2d
             Debug.Assert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >= 0 && pos.y >= 0, "TMXLayer: invalid position");
             Debug.Assert(m_pTiles != null && m_pAtlasIndexArray != null, "TMXLayer: the tiles map has been released");
 
-            uint gid = tileGIDAt(pos);
+            int gid = tileGIDAt(pos);
 
             if (gid != 0)
             {
                 int z = (int)(pos.x + pos.y * m_tLayerSize.width);
-                uint atlasIndex = (uint)atlasIndexForExistantZ(z);
+                int atlasIndex = atlasIndexForExistantZ(z);
 
                 // remove tile from GID map
                 m_pTiles[z] = 0;
 
                 // remove tile from atlas position array
-                ccCArray.ccCArrayRemoveValueAtIndex(m_pAtlasIndexArray, atlasIndex);
+                m_pAtlasIndexArray.RemoveAt(atlasIndex);
 
                 // remove it from sprites and/or texture atlas
                 CCSprite sprite = (CCSprite)getChildByTag((int)z);
@@ -446,7 +377,7 @@ namespace cocos2d
                             CCSprite pChild = (CCSprite)pObject;
                             if (pChild != null)
                             {
-                                uint ai = pChild.atlasIndex;
+                                int ai = pChild.atlasIndex;
                                 if (ai >= atlasIndex)
                                 {
                                     pChild.atlasIndex = ai - 1;
@@ -515,8 +446,8 @@ namespace cocos2d
             {
                 for (int x = 0; x < m_tLayerSize.width; x++)
                 {
-                    uint pos = (uint)(x + m_tLayerSize.width * y);
-                    uint gid = m_pTiles[pos];
+                    int pos = (int)(x + m_tLayerSize.width * y);
+                    int gid = m_pTiles[pos];
 
                     // gid are stored in little endian.
                     // if host is big endian, then swap
@@ -562,14 +493,14 @@ namespace cocos2d
 
             Debug.Assert(m_pChildren.Contains(sprite), "Tile does not belong to TMXLayer");
 
-            uint atlasIndex = sprite.atlasIndex;
-            uint zz = (uint)m_pAtlasIndexArray.arr[(int)atlasIndex];
+            int atlasIndex = sprite.atlasIndex;
+            int zz = m_pAtlasIndexArray[atlasIndex];
             m_pTiles[zz] = 0;
-            ccCArray.ccCArrayRemoveValueAtIndex(m_pAtlasIndexArray, atlasIndex);
+            m_pAtlasIndexArray.RemoveAt(atlasIndex);
 
         }
 
-        public void draw()
+        public override void draw()
         {
             if (m_bUseAutomaticVertexZ)
             {
@@ -634,14 +565,14 @@ namespace cocos2d
         public override void visit()
         {
 
-                m_pTileSet.m_tImageSize = m_pobTextureAtlas.Texture.ContentSizeInPixels;
+            m_pTileSet.m_tImageSize = m_pobTextureAtlas.Texture.ContentSizeInPixels;
             int i = 0;
             for (int y = 0; y < m_tLayerSize.height; y++)
             {
                 for (int x = 0; x < m_tLayerSize.width; x++)
                 {
-                    uint pos = (uint)(x + m_tLayerSize.width * y);
-                    uint gid = m_pTiles[pos];
+                    int pos = (int)(x + m_tLayerSize.width * y);
+                    int gid = m_pTiles[pos];
 
                     if (gid != 0)
                     {
@@ -653,7 +584,7 @@ namespace cocos2d
                         int z = (int)(x + y * m_tLayerSize.width);
 
 
-                        if (reusedTile!=null)
+                        if (reusedTile != null)
                         {
                             var oldpos = positionAt(new CCPoint(x, y));
                             reusedTile.position = new CCPoint(oldpos.x + this.parent.position.x, oldpos.y + this.parent.position.y);
@@ -663,7 +594,7 @@ namespace cocos2d
                             // optimization:
                             // The difference between appendTileForGID and insertTileforGID is that append is faster, since
                             // it appends the tile at the end of the texture atlas
-                            uint indexForZ = m_pAtlasIndexArray.num;
+                            int indexForZ = m_pAtlasIndexArray.Count;
 
                             // don't add it using the "standard" way.
                             addQuadFromSprite(reusedTile, indexForZ);
@@ -680,7 +611,7 @@ namespace cocos2d
         /// <param name="gid"></param>
         /// <param name="pos"></param>
         /// <returns></returns>
-        private CCSprite appendTileForGID(uint gid, CCPoint pos)
+        private CCSprite appendTileForGID(int gid, CCPoint pos)
         {
             CCSprite reusedTile = null;
             CCRect rect = m_pTileSet.rectForGID(gid);
@@ -706,7 +637,7 @@ namespace cocos2d
             // optimization:
             // The difference between appendTileForGID and insertTileforGID is that append is faster, since
             // it appends the tile at the end of the texture atlas
-            uint indexForZ = m_pAtlasIndexArray.num;
+            int indexForZ = m_pAtlasIndexArray.Count;
 
             // don't add it using the "standard" way.
             addQuadFromSprite(reusedTile, indexForZ);
@@ -717,7 +648,7 @@ namespace cocos2d
             return reusedTile;
         }
 
-        private CCSprite insertTileForGID(uint gid, CCPoint pos)
+        private CCSprite insertTileForGID(int gid, CCPoint pos)
         {
             CCRect rect = m_pTileSet.rectForGID(gid);
             rect = new CCRect(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width / m_fContentScaleFactor, rect.size.height / m_fContentScaleFactor);
@@ -739,13 +670,13 @@ namespace cocos2d
             m_pReusedTile.Opacity = m_cOpacity;
 
             // get atlas index
-            uint indexForZ = atlasIndexForNewZ(z);
+            int indexForZ = atlasIndexForNewZ(z);
 
             // Optimization: add the quad without adding a child
             this.addQuadFromSprite(m_pReusedTile, indexForZ);
 
             // insert it into the local atlasindex array
-            ccCArray.ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, z, indexForZ);
+            m_pAtlasIndexArray.Insert(indexForZ, z);
 
             // update possible children
             if (m_pChildren != null && m_pChildren.Count > 0)
@@ -757,7 +688,7 @@ namespace cocos2d
                     CCSprite pChild = (CCSprite)pObject;
                     if (pChild != null)
                     {
-                        uint ai = pChild.atlasIndex;
+                        int ai = pChild.atlasIndex;
                         if (ai >= indexForZ)
                         {
                             pChild.atlasIndex = ai + 1;
@@ -768,7 +699,7 @@ namespace cocos2d
             m_pTiles[z] = gid;
             return m_pReusedTile;
         }
-        private CCSprite updateTileForGID(uint gid, CCPoint pos)
+        private CCSprite updateTileForGID(int gid, CCPoint pos)
         {
             CCRect rect = m_pTileSet.rectForGID(gid);
             rect = new CCRect(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width / m_fContentScaleFactor, rect.size.height / m_fContentScaleFactor);
@@ -791,7 +722,7 @@ namespace cocos2d
 
             // get atlas index
             int indexForZ = atlasIndexForExistantZ(z);
-            m_pReusedTile.atlasIndex = (uint)indexForZ;
+            m_pReusedTile.atlasIndex = indexForZ;
             m_pReusedTile.dirty = true;
             m_pReusedTile.updateTransform();
             m_pTiles[z] = gid;
@@ -871,17 +802,17 @@ namespace cocos2d
 
             throw new NotImplementedException();
         }
-        private uint atlasIndexForNewZ(int z)
+        private int atlasIndexForNewZ(int z)
         {
             // XXX: This can be improved with a sort of binary search
             int i = 0;
-            for (i = 0; i < m_pAtlasIndexArray.num; i++)
+            for (i = 0; i < m_pAtlasIndexArray.Count; i++)
             {
-                int val = (int)m_pAtlasIndexArray.arr[i];
+                int val = (int)m_pAtlasIndexArray[i];
                 if (z < val)
                     break;
             }
-            return (uint)i;
+            return i;
         }
     }
 }

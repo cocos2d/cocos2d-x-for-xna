@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
@@ -60,15 +61,6 @@ namespace cocos2d
         #region property
 
         protected CCTextureAtlas m_pobTextureAtlas;
-        protected ccBlendFunc m_blendFunc = new ccBlendFunc();
-        public ccBlendFunc BlendFunc
-        {
-            get { return m_blendFunc; }
-            set { m_blendFunc = value; }
-        }
-
-        protected List<CCSprite> m_pobDescendants;
-
         public CCTextureAtlas TextureAtlas
         {
             get { return m_pobTextureAtlas; }
@@ -81,6 +73,14 @@ namespace cocos2d
             }
         }
 
+        protected ccBlendFunc m_blendFunc = new ccBlendFunc();
+        public ccBlendFunc BlendFunc
+        {
+            get { return m_blendFunc; }
+            set { m_blendFunc = value; }
+        }
+
+        protected List<CCSprite> m_pobDescendants;
         /// <summary>
         /// Gets all descendants: chlidren, gran children, etc...
         /// </summary>
@@ -235,7 +235,7 @@ namespace cocos2d
             }
         }
 
-        public void insertChild(CCSprite pobSprite, uint uIndex)
+        public void insertChild(CCSprite pobSprite, int uIndex)
         {
             pobSprite.useBatchNode(this);
             pobSprite.atlasIndex = uIndex;
@@ -247,7 +247,7 @@ namespace cocos2d
             }
 
             ccV3F_C4B_T2F_Quad quad = pobSprite.quad;
-            //m_pobTextureAtlas.insertQuad(quad, uIndex);
+            m_pobTextureAtlas.insertQuad(quad, uIndex);
             m_pobDescendants.Insert((int)uIndex, pobSprite);
 
             // update indices
@@ -339,7 +339,7 @@ namespace cocos2d
             }
         }
 
-        public uint rebuildIndexInOrder(CCSprite pobParent, uint uIndex)
+        public int rebuildIndexInOrder(CCSprite pobParent, int uIndex)
         {
             List<CCNode> pChildren = pobParent.children;
 
@@ -385,7 +385,7 @@ namespace cocos2d
             return uIndex;
         }
 
-        public uint highestAtlasIndexInChild(CCSprite pSprite)
+        public int highestAtlasIndexInChild(CCSprite pSprite)
         {
             List<CCNode> pChildren = pSprite.children;
 
@@ -399,7 +399,7 @@ namespace cocos2d
             }
         }
 
-        public uint lowestAtlasIndexInChild(CCSprite pSprite)
+        public int lowestAtlasIndexInChild(CCSprite pSprite)
         {
             List<CCNode> pChildren = pSprite.children;
 
@@ -413,7 +413,7 @@ namespace cocos2d
             }
         }
 
-        public uint atlasIndexForChild(CCSprite pobSprite, int nZ)
+        public int atlasIndexForChild(CCSprite pobSprite, int nZ)
         {
             List<CCNode> pBrothers = pobSprite.parent.children;
 
@@ -484,70 +484,44 @@ namespace cocos2d
         /// override visit
         //  don't call visit on it's children
         /// </summary>
-//        public override void visit()
-//        {
-//            // CAREFUL:
-//            // This visit is almost identical to CocosNode#visit
-//            // with the exception that it doesn't call visit on it's children
-//            //
-//            // The alternative is to have a void CCSprite#visit, but
-//            // although this is less mantainable, is faster
-//            //
+        public override void visit()
+        {
+            // CAREFUL:
+            // This visit is almost identical to CocosNode#visit
+            // with the exception that it doesn't call visit on it's children
+            //
+            // The alternative is to have a void CCSprite#visit, but
+            // although this is less mantainable, is faster
+            //
+            if (!m_bIsVisible)
+            {
+                return;
+            }
 
-//            if (!m_bIsVisible)
-//            {
-//                return;
-//            }
+            //glPushMatrix();
 
-//            CCNode node;
-//            int i = 0;
+            //if (m_pGrid && m_pGrid->isActive())
+            //{
+            //    m_pGrid->beforeDraw();
+            //    transformAncestors();
+            //}
 
-//            //if (m_pGrid && m_pGrid->isActive())
-//            //{
-//            //    m_pGrid->beforeDraw();
-//            //    transformAncestors();
-//            //}
+            transform();
 
-//            if (m_pChildren != null && m_pChildren.Count > 0)
-//            {
-//                for (; i < m_pChildren.Count; ++i)
-//                {
-//                    node = m_pChildren[i];
-//                    if (node != null && node.zOrder < 0)
-//                    {
-//                        node.visit();
-//                    }
-//                    else
-//                    {
-//                        break;
-//                    }
-//                }
-//                transformAncestors();
-//            }
+            draw();
 
-//            transform();
+            //if (m_pGrid && m_pGrid->isActive())
+            //{
+            //    m_pGrid->afterDraw(this);
+            //}
 
-//            draw();
+            CCApplication.sharedApplication().basicEffect.World = CCApplication.sharedApplication().basicEffect.World * Matrix.Invert(m_tCCNodeTransform);
+            m_tCCNodeTransform = Matrix.Identity;
 
-//            //if (m_pGrid && m_pGrid->isActive())
-//            //{
-//            //    m_pGrid->afterDraw(this);
-//            //}
-//            if (m_pChildren != null && m_pChildren.Count > 0)
-//            {
-//                for (; i < m_pChildren.Count; ++i)
-//                {
-//                    node = m_pChildren[i];
+            //glPopMatrix();
+        }
 
-//                    if (node != null)
-//                    {
-//                        node.visit();
-//                    }
-//                }
-//            }
-//#warning In C# glPopMatrix is not exist
-//            //glPopMatrix();
-//        }
+        #region childen
 
         public override void addChild(CCNode child, int zOrder, int tag)
         {
@@ -564,7 +538,7 @@ namespace cocos2d
 
             base.addChild(child, zOrder, tag);
 
-            uint uIndex = atlasIndexForChild(pSprite, zOrder);
+            int uIndex = atlasIndexForChild(pSprite, zOrder);
             insertChild(pSprite, uIndex);
         }
 
@@ -598,7 +572,7 @@ namespace cocos2d
             // cleanup before removing
             removeSpriteFromAtlas(pSprite);
 
-            removeChild(pSprite, cleanup);
+            base.removeChild(pSprite, cleanup);
         }
 
         public override void removeAllChildrenWithCleanup(bool cleanup)
@@ -626,64 +600,54 @@ namespace cocos2d
             m_pobTextureAtlas.removeAllQuads();
         }
 
-        //        public override void draw()
-        //        {
-        //            base.draw();
+        #endregion
 
-        //            // Optimization: Fast Dispatch	
-        //            if (m_pobTextureAtlas.TotalQuads == 0)
-        //            {
-        //                return;
-        //            }
+        public override void draw()
+        {
+            base.draw();
 
-        //            if (m_pobDescendants != null && m_pobDescendants.Count > 0)
-        //            {
-        //                CCObject pObject = null;
+            // Optimization: Fast Dispatch	
+            if (m_pobTextureAtlas.TotalQuads == 0)
+            {
+                return;
+            }
 
-        //                for (int i = 0; i < m_pobDescendants.Count; i++)
-        //                {
-        //                    pObject = m_pobDescendants[i];
-        //                    CCSprite pChild = pObject as CCSprite;
+            if (m_pobDescendants != null && m_pobDescendants.Count > 0)
+            {
+                foreach (CCSprite pChild in m_pobDescendants)
+                {
+                    // fast dispatch
+                    pChild.updateTransform();
 
-        //                    if (pChild != null)
-        //                    {
-        //                        // fast dispatch
-        //                        pChild.updateTransform();
+#if CC_SPRITEBATCHNODE_DEBUG_DRAW
+                    // issue #528
+                    CCRect rect = pChild->boundingBox();
+                    CCPoint vertices[4]={
+                        ccp(rect.origin.x,rect.origin.y),
+                        ccp(rect.origin.x+rect.size.width,rect.origin.y),
+                        ccp(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height),
+                        ccp(rect.origin.x,rect.origin.y+rect.size.height),
+                    };
+                    ccDrawPoly(vertices, 4, true);
+#endif // CC_SPRITEBATCHNODE_DEBUG_DRAW
+                }
+            }
 
-        //                        //#if CC_SPRITEBATCHNODE_DEBUG_DRAW
-        //                        //                    // issue #528
-        //                        //                    CCRect rect = pChild->boundingBox();
-        //                        //                    CCPoint vertices[4]={
-        //                        //                        ccp(rect.origin.x,rect.origin.y),
-        //                        //                        ccp(rect.origin.x+rect.size.width,rect.origin.y),
-        //                        //                        ccp(rect.origin.x+rect.size.width,rect.origin.y+rect.size.height),
-        //                        //                        ccp(rect.origin.x,rect.origin.y+rect.size.height),
-        //                        //                    };
-        //                        //                    ccDrawPoly(vertices, 4, true);
-        //                        //#endif // CC_SPRITEBATCHNODE_DEBUG_DRAW
-        //                    }
-        //                }
-        //            }
+            // Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
+            // Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
+            // Unneeded states: -
+            //bool newBlend = m_blendFunc.src != CC_BLEND_SRC || m_blendFunc.dst != CC_BLEND_DST;
+            //if (newBlend)
+            //{
+            //    glBlendFunc(m_blendFunc.src, m_blendFunc.dst);
+            //}
 
-        //            //Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
-        //            //Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
-        //            //Unneeded states: -
-        //            bool newBlend = m_blendFunc.src != 1 || m_blendFunc.dst != 0x0303;
-
-        //            if (newBlend)
-        //            {
-        //#warning In C# glBlendFunc is not exist
-        //                //glBlendFunc(m_blendFunc.src, m_blendFunc.dst);
-        //            }
-
-        //            m_pobTextureAtlas.drawQuads();
-
-        //            if (newBlend)
-        //            {
-        //#warning In C# glBlendFunc is not exist
-        //                //glBlendFunc(1, 0x0303);
-        //            }
-        //        }
+            m_pobTextureAtlas.drawQuads();
+            //if (newBlend)
+            //{
+            //    glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+            //}
+        }
 
         /// <summary>
         /// IMPORTANT XXX IMPORTNAT:
@@ -692,9 +656,7 @@ namespace cocos2d
         /// This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
         /// For example: a tile map (CCTMXMap) or a label with lots of characters (BitmapFontAtlas)
         /// </summary>
-        /// <param name="sprite"></param>
-        /// <param name="index"></param>
-        protected void addQuadFromSprite(CCSprite sprite, uint index)
+        protected void addQuadFromSprite(CCSprite sprite, int index)
         {
             Debug.Assert(sprite != null, "Argument must be non-nil");
             /// @todo CCAssert( [sprite isKindOfClass:[CCSprite class]], @"CCSpriteSheet only supports CCSprites as children");
@@ -722,11 +684,7 @@ namespace cocos2d
         /// This is the opposite of "addQuadFromSprite.
         /// It add the sprite to the children and descendants array, but it doesn't update add it to the texture atlas
         /// </summary>
-        /// <param name="child"></param>
-        /// <param name="z"></param>
-        /// <param name="aTag"></param>
-        /// <returns></returns>
-        protected CCSpriteBatchNode addSpriteWithoutQuad(CCSprite child, uint z, int aTag)
+        protected CCSpriteBatchNode addSpriteWithoutQuad(CCSprite child, int z, int aTag)
         {
             Debug.Assert(child != null, "Argument must be non-nil");
             /// @todo CCAssert( [child isKindOfClass:[CCSprite class]], @"CCSpriteSheet only supports CCSprites as children");

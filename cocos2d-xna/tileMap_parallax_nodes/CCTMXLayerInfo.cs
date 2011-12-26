@@ -43,12 +43,12 @@ namespace cocos2d
 
         public string m_sName;
         public CCSize m_tLayerSize;
-        public UInt32[] m_pTiles;
+        public int[] m_pTiles;
         public bool m_bVisible;
         public byte m_cOpacity;
         public bool m_bOwnTiles;
-        public UInt32 m_uMinGID;
-        public UInt32 m_uMaxGID;
+        public int m_uMinGID;
+        public int m_uMaxGID;
         public CCPoint m_tOffset;
 
         public CCTMXLayerInfo()

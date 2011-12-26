@@ -25,6 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System;
+using Microsoft.Xna.Framework;
 namespace cocos2d
 {
     public class CCAffineTransform

@@ -299,12 +299,12 @@ object->propertyNamed(name_of_the_property);
                     tileset = tilesets[i];
                     if (tileset != null)
                     {
-                        for (uint y = 0; y < size.height; y++)
+                        for (int y = 0; y < size.height; y++)
                         {
-                            for (uint x = 0; x < size.width; x++)
+                            for (int x = 0; x < size.width; x++)
                             {
-                                uint pos = (uint)(x + size.width * y);
-                                uint gid = layerInfo.m_pTiles[pos];
+                                int pos = (int)(x + size.width * y);
+                                int gid = layerInfo.m_pTiles[pos];
 
                                 // gid are stored in little endian.
                                 // if host is big endian, then swap
