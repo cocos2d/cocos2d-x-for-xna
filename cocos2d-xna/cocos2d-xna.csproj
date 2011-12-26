@@ -107,6 +107,7 @@
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCLens3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCLiquid.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCOrbitCamera.cs" />
+    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCPageTurn3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCRipple3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCShaky3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCTwirl.cs" />

@@ -30,7 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace cocos2d.actions
+namespace cocos2d
 {
     /** @brief CCRipple3D action */
     public class CCRipple3D : CCGrid3DAction
