@@ -324,9 +324,10 @@ namespace cocos2d
                 for (int i = 0; i < this.ParticleCount; i++)
                 {
                     CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform1());
+                    uiPoint.x += m_pQuads[i].bl.vertices.x;
+                    uiPoint.y += m_pQuads[i].bl.vertices.y;
                     uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
-                    Vector2 vecPosition = new Vector2(uiPoint.x + m_pQuads[i].bl.vertices.x, 
-                                                      uiPoint.y + m_pQuads[i].bl.vertices.y);
+                    Vector2 vecPosition = new Vector2(uiPoint.x, uiPoint.y);
 
                     Color color = new Color(m_pQuads[i].bl.colors.r,
                                             m_pQuads[i].bl.colors.g,

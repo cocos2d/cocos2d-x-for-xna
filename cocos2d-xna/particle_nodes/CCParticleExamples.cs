@@ -138,7 +138,7 @@ namespace cocos2d
 
         public bool init()
         { 
-            return initWithTotalParticles(150); 
+            return initWithTotalParticles(200); 
         }
 
         public override bool initWithTotalParticles(uint numberOfParticles)

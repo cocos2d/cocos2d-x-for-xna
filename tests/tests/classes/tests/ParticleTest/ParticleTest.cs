@@ -23,13 +23,15 @@ namespace tests
 
         public static int sceneIdx = -1; 
 
-        public static int MAX_LAYER = 33;
+        public static int MAX_LAYER = 3;
 
         public static CCLayer createParticleLayer(int nIndex)
         {
 	        switch(nIndex)
 	        {
                 case 0: return new DemoFirework();
+                case 1: return new DemoFire();
+                case 2: return new DemoSun();
 
                 //case 0: return new DemoFlower();
                 //case 1: return new DemoGalaxy();
@@ -158,7 +160,7 @@ namespace tests
 	        // moving background
 	        m_background = CCSprite.spriteWithFile(TestResource.s_back3);
 	        addChild(m_background, 5);
-	        m_background.position = new CCPoint(s.width/2, s.height-180);
+	        m_background.position = new CCPoint(s.width/2, s.height/2 - 180);
 
 	        CCActionInterval move = CCMoveBy.actionWithDuration(4, new CCPoint(300,0) );
 	        CCFiniteTimeAction move_back = move.reverse();
@@ -263,7 +265,7 @@ namespace tests
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
-	        m_emitter.position = new CCPoint(s.width / 2, s.height / 2);
+	        m_emitter.position = new CCPoint(0, s.height / 2);
         }
     };
 
@@ -287,19 +289,46 @@ namespace tests
         }
     };
 
-    //class DemoFire : public ParticleDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string title();
-    //};
+    public class DemoFire : ParticleDemo
+    {
+        public override void onEnter()
+        {
+	        base.onEnter();
 
-    //class DemoSun : public ParticleDemo
-    //{
-    //public:
-    //    virtual void onEnter();
-    //    virtual std::string title();
-    //};
+	        m_emitter = CCParticleFire.node();
+	        m_background.addChild(m_emitter, 10);
+	
+	        m_emitter.Texture = CCTextureCache.sharedTextureCache().addImage(TestResource.s_fire);//.pvr"];
+	        CCPoint p = m_emitter.position;
+	        m_emitter.position = new CCPoint(p.x, 100);
+	
+	        setEmitterPosition();
+        }
+
+        public override string title()
+        {
+	        return "ParticleFire";
+        }
+    };
+
+    public class DemoSun : ParticleDemo
+    {
+        public override void onEnter()
+        {
+	        base.onEnter();
+
+	        m_emitter = CCParticleSun.node();
+	        m_background.addChild(m_emitter, 10);
+
+	        m_emitter.Texture = CCTextureCache.sharedTextureCache().addImage(TestResource.s_fire);
+	
+	        setEmitterPosition();
+        }
+        public override string title()
+        {
+            return "ParticleSun";
+        }
+    };
 
     //class DemoGalaxy : public ParticleDemo
     //{
