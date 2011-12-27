@@ -160,7 +160,7 @@ namespace tests
 	        // moving background
 	        m_background = CCSprite.spriteWithFile(TestResource.s_back3);
 	        addChild(m_background, 5);
-	        m_background.position = new CCPoint(s.width/2, s.height/2 - 180);
+	        m_background.position = new CCPoint(s.width/2, s.height - 240);
 
 	        CCActionInterval move = CCMoveBy.actionWithDuration(4, new CCPoint(300,0) );
 	        CCFiniteTimeAction move_back = move.reverse();
@@ -265,7 +265,7 @@ namespace tests
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
-	        m_emitter.position = new CCPoint(0, s.height / 2);
+            m_emitter.position = new CCPoint(200, 100);
         }
     };
 

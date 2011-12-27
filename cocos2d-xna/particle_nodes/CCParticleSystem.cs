@@ -97,6 +97,45 @@ namespace cocos2d
             modeB = new sModeB();
         }
 
+        public void copy(CCParticle particleCopied)
+        { 
+            pos.x = particleCopied.pos.x;
+            pos.y = particleCopied.pos.y;
+            
+            startPos.x = particleCopied.startPos.x;
+            startPos.y = particleCopied.startPos.y;
+
+            color.r = particleCopied.color.r;
+            color.g = particleCopied.color.g;
+            color.b = particleCopied.color.b;
+            color.a = particleCopied.color.a;
+
+            deltaColor.r = particleCopied.deltaColor.r;
+            deltaColor.g = particleCopied.deltaColor.g;
+            deltaColor.b = particleCopied.deltaColor.b;
+            deltaColor.a = particleCopied.deltaColor.a;
+
+            size = particleCopied.size;
+            deltaSize = particleCopied.deltaSize;
+
+            rotation = particleCopied.rotation;
+            deltaRotation = particleCopied.deltaRotation;
+
+            timeToLive = particleCopied.timeToLive;
+
+            // modeA
+            modeA.dir.x = particleCopied.modeA.dir.x;
+            modeA.dir.y = particleCopied.modeA.dir.y;
+            modeA.radialAccel = particleCopied.modeA.radialAccel;
+            modeA.tangentialAccel = particleCopied.modeA.tangentialAccel;
+
+            // mocdB
+            modeB.angle = particleCopied.modeB.angle;
+            modeB.degreesPerSecond = particleCopied.modeB.degreesPerSecond;
+            modeB.radius = particleCopied.modeB.radius;
+            modeB.deltaRadius = particleCopied.modeB.deltaRadius;
+        }
+
 	    public CCPoint     pos;
         public CCPoint startPos;
 
@@ -1077,7 +1116,7 @@ namespace cocos2d
 
             // default blend function
             m_tBlendFunc.src = 1;// CC_BLEND_SRC;
-            m_tBlendFunc.dst = 1;// CC_BLEND_DST;
+            m_tBlendFunc.dst = 0x0303;// CC_BLEND_DST;
 
             // default movement type;
             m_ePositionType = eParticlePositionType.kCCPositionTypeFree;
@@ -1401,7 +1440,7 @@ namespace cocos2d
                     // life < 0
                     if (m_uParticleIdx != m_uParticleCount - 1)
                     {
-                        m_pParticles[m_uParticleIdx] = m_pParticles[m_uParticleCount - 1];
+                        m_pParticles[m_uParticleIdx].copy(m_pParticles[m_uParticleCount - 1]);
                     }
                     --m_uParticleCount;
 
