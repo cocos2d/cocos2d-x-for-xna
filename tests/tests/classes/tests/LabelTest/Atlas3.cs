@@ -43,7 +43,7 @@ namespace tests
             CCLabelBMFont label2 = CCLabelBMFont.labelWithString("Test", "fonts/fnt/bitmapFontTest2");
             // testing anchors
             label2.anchorPoint = new CCPoint(0.5f, 0.5f);
-            label2.setColor(ccRED);
+            label2.Color=ccRED;
             addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
             label2.runAction((CCAction)(repeat.copy()));
 

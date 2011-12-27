@@ -34,7 +34,7 @@ namespace tests
 
             CCLabelBMFont label = null;
             label = CCLabelBMFont.labelWithString("Blue", "fonts/fnt/bitmapFontTest5");
-            label.setColor(ccBLUE);
+            label.Color = ccBLUE;
             addChild(label);
             label.position = new CCPoint(s.width / 2, s.height / 4);
             label.anchorPoint = new CCPoint(0.5f, 0.5f);
@@ -43,13 +43,13 @@ namespace tests
             addChild(label);
             label.position = new CCPoint(s.width / 2, 2 * s.height / 4);
             label.anchorPoint = new CCPoint(0.5f, 0.5f);
-            label.setColor(ccRED);
+            label.Color = ccRED;
 
             label = CCLabelBMFont.labelWithString("G", "fonts/fnt/bitmapFontTest5");
             addChild(label);
             label.position = new CCPoint(s.width / 2, 3 * s.height / 4);
             label.anchorPoint = new CCPoint(0.5f, 0.5f);
-            label.setColor(ccGREEN);
+            label.Color = ccGREEN;
             label.setString("Green");
         }
 
