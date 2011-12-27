@@ -135,6 +135,17 @@
     <Compile Include="classes\tests\ActionManagerTest\RemoveTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\ResumeTest.cs" />
     <Compile Include="classes\tests\ParticleTest\ParticleTest.cs" />
+    <Compile Include="classes\tests\ProgressActionsTest\ProgressActionsTestScene.cs" />
+    <Compile Include="classes\tests\ProgressActionsTest\SpriteDemo.cs" />
+    <Compile Include="classes\tests\ProgressActionsTest\SpriteProgressToHorizontal.cs" />
+    <Compile Include="classes\tests\ProgressActionsTest\SpriteProgressToRadial.cs" />
+    <Compile Include="classes\tests\ProgressActionsTest\SpriteProgressToVertical.cs" />
+    <Compile Include="classes\tests\RenderTextureTest\RenderTextureIssue937.cs" />
+    <Compile Include="classes\tests\RenderTextureTest\RenderTextureSave.cs" />
+    <Compile Include="classes\tests\RenderTextureTest\RenderTextureScene.cs" />
+    <Compile Include="classes\tests\RenderTextureTest\RenderTextureTest.cs" />
+    <Compile Include="classes\tests\RenderTextureTest\RenderTextureTestDemo.cs" />
+    <Compile Include="classes\tests\RenderTextureTest\RenderTextureZbuffer.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer1.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer2.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer3.cs" />

@@ -108,7 +108,7 @@ namespace cocos2d
             {
                 //remove possible -HD suffix to prevent caching the same image twice (issue #1040)
                 string pathKey = fileimage;
-                //CCFileUtils::ccRemoveHDSuffixFromFile(pathKey);
+                //CCFileUtils.ccRemoveHDSuffixFromFile(pathKey);
 
                 bool isTextureExist = m_pTextures.TryGetValue(pathKey, out texture);
                 if (!isTextureExist)
@@ -119,11 +119,6 @@ namespace cocos2d
 
                     if (isInited)
                     {
-#if CC_ENABLE_CACHE_TEXTTURE_DATA
-                    // cache the texture file name
-                    VolatileTexture::addImageTexture(texture, fullpath.c_str(), CCImage::kFmtPng);
-#endif
-
                         m_pTextures.Add(pathKey, texture);
                     }
                     else

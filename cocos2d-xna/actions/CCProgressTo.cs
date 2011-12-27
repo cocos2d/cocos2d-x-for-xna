@@ -76,7 +76,7 @@ namespace cocos2d
         {
             // CCActionInterval::startWithTarget(pTarget);
             startWithTarget(pTarget);
-            // m_fFrom = ((kProgressTimerCast)(pTarget))->getPercentage();
+            m_fFrom = ((CCProgressTimer)(pTarget)).getPercentage();
             // XXX: Is this correct ?
             // Adding it to support CCRepeat
             if (m_fFrom == 100)
@@ -86,8 +86,8 @@ namespace cocos2d
         }
         public override void update(float time)
         {
-           // ((kProgressTimerCast)(m_pTarget))->setPercentage(m_fFrom + (m_fTo - m_fFrom) * time);
-            throw new NotImplementedException();
+            ((CCProgressTimer)(m_pTarget)).setPercentage(m_fFrom + (m_fTo - m_fFrom) * time);
+            //throw new NotImplementedException();
         }
 
         /** Creates and initializes with a duration and a percent */
