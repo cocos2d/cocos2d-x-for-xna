@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace cocos2d
 {
@@ -43,6 +44,8 @@ namespace cocos2d
     {
         protected ccVertex2F[] m_pSquareVertices = new ccVertex2F[4];
         protected ccColor4B[] m_pSquareColors = new ccColor4B[4];
+        VertexPositionColor[] vertices = new VertexPositionColor[4];
+        short[] indexes = new short[6];
 
         public CCLayerColor()
         {
@@ -54,45 +57,45 @@ namespace cocos2d
             m_tBlendFunc.dst = 0x0303;
         }
 
+        public static CCLayerColor node()
+        {
+            CCLayerColor pRet = new CCLayerColor();
+            if (pRet.init())
+            {
+                return pRet;
+            }
+
+            return null;
+        }
+
         public override void draw()
         {
             base.draw();
 
-            // Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
-            // Needed states: GL_VERTEX_ARRAY, GL_COLOR_ARRAY
-            // Unneeded states: GL_TEXTURE_2D, GL_TEXTURE_COORD_ARRAY
-            //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            //glDisable(GL_TEXTURE_2D);
+            CCApplication app = CCApplication.sharedApplication();
+            CCSize size = CCDirector.sharedDirector().getWinSize();
 
-            //glVertexPointer(2, GL_FLOAT, 0, m_pSquareVertices);
-            //glColorPointer(4, GL_UNSIGNED_BYTE, 0, m_pSquareColors);
+            //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
+            //app.basicEffect.Texture = this.Texture.getTexture2D();
+            app.basicEffect.VertexColorEnabled = true;
+            app.basicEffect.TextureEnabled = false;
+            app.basicEffect.Alpha = (float)this.m_cOpacity / 255.0f;
+            VertexDeclaration vertexDeclaration = new VertexDeclaration(new VertexElement[]
+                {
+                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+                    new VertexElement(12, VertexElementFormat.Vector4, VertexElementUsage.Color, 0)
+                });
 
-
-            //@to change to draw an rect color aera,maybe use 3D 
-            CCApplication.sharedApplication().GraphicsDevice.Clear(
-                new Microsoft.Xna.Framework.Color(m_tColor.r, m_tColor.g, m_tColor.b, m_cOpacity));
-
-            bool newBlend = false;
-            if (m_tBlendFunc.src != 1 || m_tBlendFunc.dst != 0x0303)
+            foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
             {
-                newBlend = true;
-                //glBlendFunc(m_tBlendFunc.src, m_tBlendFunc.dst);
-            }
-            else if (m_cOpacity != 255)
-            {
-                newBlend = true;
-                //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                pass.Apply();
+
+                app.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+                    PrimitiveType.TriangleStrip,
+                    vertices, 0, 2);
             }
 
-            //glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-            if (newBlend)
-            {
-                //glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
-            }
-            // restore default GL state
-            //glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            //glEnable(GL_TEXTURE_2D);
+            app.basicEffect.Alpha = 1;
         }
 
         /// <summary>
@@ -110,6 +113,11 @@ namespace cocos2d
                 m_pSquareVertices[3].x = value.width * factor;
                 m_pSquareVertices[3].y = value.height * factor;
 
+                vertices[0].Position = new Microsoft.Xna.Framework.Vector3(0, value.height * factor, 0);
+                vertices[1].Position = new Microsoft.Xna.Framework.Vector3(value.width * factor, value.height * factor, 0);
+                vertices[2].Position = new Microsoft.Xna.Framework.Vector3(0, 0, 0);
+                vertices[3].Position = new Microsoft.Xna.Framework.Vector3(value.width * factor, 0, 0);
+
                 base.contentSize = value;
             }
         }
@@ -122,11 +130,11 @@ namespace cocos2d
         public static CCLayerColor layerWithColorWidthHeight(ccColor4B color, float width, float height)
         {
             CCLayerColor pLayer = new CCLayerColor();
-            if (pLayer != null && pLayer.initWithColorWidthHeight(color, width, height))
+            if (pLayer.initWithColorWidthHeight(color, width, height))
             {
                 return pLayer;
             }
-            pLayer = null;
+
             return null;
         }
 
@@ -136,11 +144,11 @@ namespace cocos2d
         public static CCLayerColor layerWithColor(ccColor4B color)
         {
             CCLayerColor pLayer = new CCLayerColor();
-            if (pLayer != null && pLayer.initWithColor(color))
+            if (pLayer.initWithColor(color))
             {
                 return pLayer;
             }
-            pLayer = null;
+
             return null;
         }
 
@@ -162,7 +170,16 @@ namespace cocos2d
                 m_pSquareVertices[i] = new ccVertex2F();
                 m_pSquareVertices[i].x = 0.0f;
                 m_pSquareVertices[i].y = 0.0f;
+
+                vertices[i] = new VertexPositionColor();
             }
+
+            indexes[0] = 0;
+            indexes[0] = 1;
+            indexes[0] = 2;
+            indexes[0] = 2;
+            indexes[0] = 1;
+            indexes[0] = 3;
 
             this.updateColor();
             this.contentSize = new CCSize(width, height);
@@ -223,7 +240,11 @@ namespace cocos2d
         public virtual byte Opacity
         {
             get { return m_cOpacity; }
-            set { m_cOpacity = value; }
+            set
+            {
+                m_cOpacity = value;
+                updateColor();
+            }
         }
 
         protected ccColor3B m_tColor;
@@ -233,7 +254,11 @@ namespace cocos2d
         public virtual ccColor3B Color
         {
             get { return m_tColor; }
-            set { m_tColor = value; }
+            set
+            {
+                m_tColor = value;
+                updateColor();
+            }
         }
 
         public bool IsOpacityModifyRGB
@@ -241,8 +266,6 @@ namespace cocos2d
             get { return false; }
             set { }
         }
-
-        #endregion
 
         protected ccBlendFunc m_tBlendFunc;
         /// <summary>
@@ -258,19 +281,8 @@ namespace cocos2d
         {
             return (ICCRGBAProtocol)this;
         }
-        public static CCLayerColor node()
-        {
-            CCLayerColor pRet = new CCLayerColor();
-            if (pRet != null && pRet.init())
-            {
-                return pRet;
-            }
-            else
-            {
-                pRet = null;
-                return pRet;
-            }
-        }
+
+        #endregion
 
         protected virtual void updateColor()
         {
@@ -281,6 +293,8 @@ namespace cocos2d
                 m_pSquareColors[i].g = m_tColor.g;
                 m_pSquareColors[i].b = m_tColor.b;
                 m_pSquareColors[i].a = m_cOpacity;
+
+                vertices[i].Color = new Microsoft.Xna.Framework.Color(m_tColor.r, m_tColor.g, m_tColor.b, m_cOpacity);
             }
         }
     }

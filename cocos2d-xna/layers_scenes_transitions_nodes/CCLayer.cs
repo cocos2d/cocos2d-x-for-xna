@@ -52,12 +52,8 @@ namespace cocos2d
             {
                 return ret;
             }
-            else
-            {
-                ret = null;
-            }
 
-            return ret;
+            return null;
         }
 
         public virtual bool init()
