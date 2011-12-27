@@ -248,18 +248,16 @@ namespace cocos2d
 
             ccV3F_C4B_T2F_Quad quad = pobSprite.quad;
             m_pobTextureAtlas.insertQuad(quad, uIndex);
-            m_pobDescendants.Insert((int)uIndex, pobSprite);
+            m_pobDescendants.Insert(uIndex, pobSprite);
 
             // update indices
             uint i = 0;
 
             if (m_pobDescendants != null && m_pobDescendants.Count > 0)
             {
-                CCObject pObject = null;
-
                 for (int j = 0; j < m_pobDescendants.Count; j++)
                 {
-                    pObject = m_pobDescendants[j];
+                    CCObject pObject = m_pobDescendants[j];
                     CCSprite pChild = pObject as CCSprite;
 
                     if (pChild != null)
@@ -279,11 +277,9 @@ namespace cocos2d
 
             if (pChildren != null && pChildren.Count > 0)
             {
-                CCObject pObject = null;
-
                 for (int j = 0; j < pChildren.Count; j++)
                 {
-                    pObject = pChildren[j];
+                    CCObject pObject = pChildren[j];
                     CCSprite pChild = pObject as CCSprite;
 
                     if (pChild != null)

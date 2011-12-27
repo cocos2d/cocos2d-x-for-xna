@@ -369,14 +369,14 @@ namespace cocos2d
                 {
                     vertices.AddRange(quad.getVertices(ccDirectorProjection.CCDirectorProjection3D).ToList());
 
-                    m_pIndices[i * 6 + 0] = (short)(i * 4 + 0);
-                    m_pIndices[i * 6 + 1] = (short)(i * 4 + 1);
-                    m_pIndices[i * 6 + 2] = (short)(i * 4 + 2);
+                    indexes[i * 6 + 0] = (short)(i * 4 + 0);
+                    indexes[i * 6 + 1] = (short)(i * 4 + 1);
+                    indexes[i * 6 + 2] = (short)(i * 4 + 2);
 
                     // inverted index. issue #179
-                    m_pIndices[i * 6 + 3] = (short)(i * 4 + 3);
-                    m_pIndices[i * 6 + 4] = (short)(i * 4 + 2);
-                    m_pIndices[i * 6 + 5] = (short)(i * 4 + 1);
+                    indexes[i * 6 + 3] = (short)(i * 4 + 2);
+                    indexes[i * 6 + 4] = (short)(i * 4 + 1);
+                    indexes[i * 6 + 5] = (short)(i * 4 + 3);
                 }
             }
 

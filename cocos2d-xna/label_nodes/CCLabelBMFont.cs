@@ -43,7 +43,6 @@ namespace cocos2d
 
         #region CCRGBAProtocol members
 
-        //** conforms to CCRGBAProtocol protocol */
         private byte m_cOpacity;
         public byte Opacity
         {
@@ -57,8 +56,6 @@ namespace cocos2d
             }
         }
 
-        //** conforms to CCRGBAProtocol protocol */
-        //CC_PROPERTY_PASS_BY_REF(ccColor3B, m_tColor, Color)
         private ccColor3B m_tColor;
         public ccColor3B Color
         {
@@ -72,8 +69,6 @@ namespace cocos2d
             }
         }
 
-        //** conforms to CCRGBAProtocol protocol */
-        //CC_PROPERTY(bool, m_bIsOpacityModifyRGB, IsOpacityModifyRGB)
         private bool m_bIsOpacityModifyRGB;
         public bool IsOpacityModifyRGB
         {
@@ -90,22 +85,12 @@ namespace cocos2d
         #endregion
 
         // string to render
-        protected string m_sString;
+        protected string m_sString = "";
         protected CCBMFontConfiguration m_pConfiguration;
 
         public CCLabelBMFont()
         {
-            m_sString = "";
-        }
 
-        /// <summary>
-        /// Purges the cached data.
-        /// Removes from memory the cached configurations and the atlas name dictionary.
-        /// @since v0.99.3
-        /// </summary>
-        public static void purgeCachedData()
-        {
-            FNTConfigRemoveCache();
         }
 
         /// <summary>
@@ -145,16 +130,38 @@ namespace cocos2d
             return false;
         }
 
+        public virtual void setString(string label)
+        {
+            m_sString = label;
+
+            if (m_pChildren != null && m_pChildren.Count != 0)
+            {
+                for (int i = 0; i < m_pChildren.Count; i++)
+                {
+                    CCNode pNode = m_pChildren[i];
+                    if (pNode != null)
+                    {
+                        pNode.visible = false;
+                    }
+                }
+            }
+
+            this.createFontChars();
+        }
+
+        public virtual string getString()
+        {
+            return m_sString;
+        }
+
         /// <summary>
         /// updates the font chars based on the string to render
         /// </summary>
         public void createFontChars()
         {
-            this.children.Clear();
-
             int nextFontPositionX = 0;
             int nextFontPositionY = 0;
-            short prev = -1;
+            int prev = -1;
             int kerningAmount = 0;
 
             CCSize tmpSize = new CCSize(0, 0);
@@ -181,7 +188,7 @@ namespace cocos2d
             }
 
             totalHeight = m_pConfiguration.m_uCommonHeight * quantityOfLines;
-            nextFontPositionY = -(int)(m_pConfiguration.m_uCommonHeight - m_pConfiguration.m_uCommonHeight * quantityOfLines);
+            nextFontPositionY = -(m_pConfiguration.m_uCommonHeight - m_pConfiguration.m_uCommonHeight * quantityOfLines);
 
             for (int i = 0; i < stringLen; i++)
             {
@@ -201,9 +208,7 @@ namespace cocos2d
 
                 CCRect rect = fontDef.rect;
 
-                CCSprite fontChar;
-
-                fontChar = (CCSprite)(this.getChildByTag(i));
+                CCSprite fontChar = (CCSprite)(this.getChildByTag(i));
                 if (fontChar == null)
                 {
                     fontChar = new CCSprite();
@@ -213,7 +218,7 @@ namespace cocos2d
                 else
                 {
                     // reusing fonts
-                    fontChar = new CCSprite();
+                    //fontChar = new CCSprite();
                     fontChar.setTextureRectInPixels(rect, false, rect.size);
 
                     // restore to default in case they were modified
@@ -229,7 +234,7 @@ namespace cocos2d
 
                 // update kerning
                 nextFontPositionX += m_pConfiguration.m_pBitmapFontArray[c].xAdvance + kerningAmount;
-                //prev = c;
+                prev = c;
 
                 // Apply label properties
                 fontChar.IsOpacityModifyRGB = m_bIsOpacityModifyRGB;
@@ -252,38 +257,7 @@ namespace cocos2d
             tmpSize.width = (float)longestLine;
             tmpSize.height = (float)totalHeight;
 
-            this.contentSizeInPixels=tmpSize;
-        }
-
-        public virtual void setString(string label)
-        {
-            m_sString = label;
-
-            m_pChildren.Clear();
-
-            if (m_pChildren != null && m_pChildren.Count > 0)
-            {
-                for (int i = 0; i < m_pChildren.Count; i++)
-                {
-                    CCObject child = m_pChildren[i];
-                    CCNode pNode = (CCNode)child;
-                    if (pNode != null)
-                    {
-                        pNode.visible = false;
-                    }
-                }
-            }
-            this.createFontChars();
-        }
-
-        public virtual string getString()
-        {
-            return m_sString;
-        }
-
-        public virtual void setCString(string label)
-        {
-            setString(label);
+            this.contentSizeInPixels = tmpSize;
         }
 
         public override CCPoint anchorPoint
@@ -316,6 +290,8 @@ namespace cocos2d
 		virtual void draw();
 #endif // CC_LABELBMFONT_DEBUG_DRAW
 
+        #region generate CCBMFontConfiguration
+
         private char atlasNameFromFntFile(string fntFile)
         {
             throw new NotImplementedException();
@@ -328,10 +304,12 @@ namespace cocos2d
 
             if (m_pConfiguration.m_pKerningDictionary != null)
             {
-                tKerningHashElement element = null;
-                //HASH_FIND_INT(m_pConfiguration.m_pKerningDictionary, key, element);		
-                if (element != null)
-                    ret = element.amount;
+                if (m_pConfiguration.m_pKerningDictionary.ContainsKey(key))
+                {
+                    tKerningHashElement element = m_pConfiguration.m_pKerningDictionary[key];
+                    if (element != null)
+                        ret = element.amount;
+                }
             }
             return ret;
         }
@@ -362,6 +340,18 @@ namespace cocos2d
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Purges the cached data.
+        /// Removes from memory the cached configurations and the atlas name dictionary.
+        /// @since v0.99.3
+        /// </summary>
+        public static void purgeCachedData()
+        {
+            FNTConfigRemoveCache();
+        }
+
+        #endregion
     }
 }
 
