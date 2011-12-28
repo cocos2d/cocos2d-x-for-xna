@@ -323,19 +323,46 @@ namespace cocos2d
             CCApplication.sharedApplication().spriteBatch.Begin();
                 for (int i = 0; i < this.ParticleCount; i++)
                 {
+                    CCParticle particle = m_pParticles[i];
+
                     CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform());
-                    uiPoint.x += m_pQuads[i].bl.vertices.x;
-                    uiPoint.y += m_pQuads[i].bl.vertices.y;
+                    uiPoint = CCPointExtension.ccpAdd(uiPoint, particle.pos);
                     uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
+                    
                     Vector2 vecPosition = new Vector2(uiPoint.x, uiPoint.y);
 
-                    Color color = new Color(m_pQuads[i].bl.colors.r,
-                                            m_pQuads[i].bl.colors.g,
-                                            m_pQuads[i].bl.colors.b,
-                                            m_pQuads[i].bl.colors.a);
+                    Color color = new Color(particle.color.r,
+                                            particle.color.g,
+                                            particle.color.b,
+                                            particle.color.a);
 
-                    Vector2 origin = new Vector2(Texture.getTexture2D().Width/2, Texture.getTexture2D().Height/2);
-                    CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, 0, origin, 1.0f, SpriteEffects.None, 0);
+                    float scale = 1.0f;
+                    if (Texture.getTexture2D().Width > Texture.getTexture2D().Height)
+                    {
+                        scale = particle.size / Texture.getTexture2D().Height;
+                    }
+                    else
+                    {
+                        scale = particle.size / Texture.getTexture2D().Width;
+                    }
+
+                    Vector2 origin = new Vector2(Texture.getTexture2D().Width / 2, Texture.getTexture2D().Height / 2);
+                    CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, 0, origin, scale, SpriteEffects.None, 0);
+
+
+                    //CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform());
+                    //uiPoint.x += m_pQuads[i].bl.vertices.x;
+                    //uiPoint.y += m_pQuads[i].bl.vertices.y;
+                    //uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
+                    //Vector2 vecPosition = new Vector2(uiPoint.x, uiPoint.y);
+
+                    //Color color = new Color(m_pQuads[i].bl.colors.r,
+                    //                        m_pQuads[i].bl.colors.g,
+                    //                        m_pQuads[i].bl.colors.b,
+                    //                        m_pQuads[i].bl.colors.a);
+
+                    //Vector2 origin = new Vector2(Texture.getTexture2D().Width/2, Texture.getTexture2D().Height/2);
+                    //CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, 0, origin, 1.0f, SpriteEffects.None, 0);
                 }
             CCApplication.sharedApplication().spriteBatch.End();
 
