@@ -485,62 +485,62 @@ namespace cocos2d
         }
 
         // ParticleSystem - Properties of Radius Mode
-        void setStartRadius(float startRadius)
+        public void setStartRadius(float startRadius)
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        modeB.startRadius = startRadius;
         }
-        float getStartRadius()
+        public float getStartRadius()
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        return modeB.startRadius;
         }
-        void setStartRadiusVar(float startRadiusVar)
+        public void setStartRadiusVar(float startRadiusVar)
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        modeB.startRadiusVar = startRadiusVar;
         }
-        float getStartRadiusVar()
+        public float getStartRadiusVar()
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        return modeB.startRadiusVar;
         }
-        void setEndRadius(float endRadius)
+        public void setEndRadius(float endRadius)
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        modeB.endRadius = endRadius;
         }
-        float getEndRadius()
+        public float getEndRadius()
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        return modeB.endRadius;
         }
-        void setEndRadiusVar(float endRadiusVar)
+        public void setEndRadiusVar(float endRadiusVar)
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        modeB.endRadiusVar = endRadiusVar;
         }
-        float getEndRadiusVar()
+        public float getEndRadiusVar()
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        return modeB.endRadiusVar;
         }
-        void setRotatePerSecond(float degrees)
+        public void setRotatePerSecond(float degrees)
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        modeB.rotatePerSecond = degrees;
         }
-        float getRotatePerSecond()
+        public float getRotatePerSecond()
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        return modeB.rotatePerSecond;
         }
-        void setRotatePerSecondVar(float degrees)
+        public void setRotatePerSecondVar(float degrees)
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        modeB.rotatePerSecondVar = degrees;
         }
-        float getRotatePerSecondVar()
+        public float getRotatePerSecondVar()
         {
 	        Debug.Assert( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius, "Particle Mode should be Radius");
 	        return modeB.rotatePerSecondVar;

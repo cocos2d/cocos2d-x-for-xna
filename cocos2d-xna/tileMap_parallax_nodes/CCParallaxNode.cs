@@ -31,7 +31,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace cocos2d.tileMap_parallax_nodes
+namespace cocos2d
 {
 
     public class CCParallaxNode : CCNode

@@ -31,7 +31,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.IO;
-using cocos2d.tileMap_parallax_nodes;
+using cocos2d;
 
 
 namespace cocos2d
