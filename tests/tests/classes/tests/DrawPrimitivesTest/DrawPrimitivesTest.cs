@@ -12,10 +12,12 @@ namespace tests
         {
 
         }
-        public virtual void draw()
+
+        public override void draw()
         {
             base.draw();
 
+            CCApplication app = CCApplication.sharedApplication();
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             // draw a simple line
@@ -24,7 +26,7 @@ namespace tests
             // color: 255,255,255,255 (white, non-transparent)
             // Anti-Aliased
             //glEnable(GL_LINE_SMOOTH);
-            //ccDrawLine( CCPointMake(0, 0), CCPointMake(s.width, s.height) );
+            CCDrawingPrimitives.ccDrawLine(new CCPoint(0, 0), new CCPoint(s.width, s.height), new ccColor4F(255, 255, 255, 255));
 
             // line: color, width, aliased
             // glLineWidth > 1 and GL_LINE_SMOOTH are not compatible
@@ -33,7 +35,7 @@ namespace tests
             //glLineWidth( 5.0f );
             /*glColor4ub(255,0,0,255);*/
             //glColor4f(1.0, 0.0, 0.0, 1.0);
-            //ccDrawLine( CCPointMake(0, s.height), CCPointMake(s.width, 0) );
+            CCDrawingPrimitives.ccDrawLine(new CCPoint(0, s.height), new CCPoint(s.width, 0), new ccColor4F(255, 0, 0, 255));
 
             // TIP:
             // If you are going to use always the same color or width, you don't
@@ -58,34 +60,41 @@ namespace tests
             //glLineWidth(16);
             /*glColor4ub(0, 255, 0, 255);*/
             //glColor4f(0.0, 1.0, 0.0, 1.0);
-            //ccDrawCircle( CCPointMake(s.width/2,  s.height/2), 100, 0, 10, false);
+            CCDrawingPrimitives.ccDrawCircle(new CCPoint(s.width / 2, s.height / 2), 100, 0, 10, false, new ccColor4B(0, 255, 0, 255));
 
             // draw a green circle with 50 segments with line to center
             //glLineWidth(2);
             /*glColor4ub(0, 255, 255, 255);*/
             //glColor4f(0.0, 1.0, 1.0, 1.0);
-            //ccDrawCircle( CCPointMake(s.width/2, s.height/2), 50, CC_DEGREES_TO_RADIANS(90), 50, true);	
+            CCDrawingPrimitives.ccDrawCircle(new CCPoint(s.width / 2, s.height / 2), 50, ccMacros.CC_DEGREES_TO_RADIANS(90), 50, true, new ccColor4B(0, 255, 255, 255));
 
             // open yellow poly
             /*glColor4ub(255, 255, 0, 255);*/
             //glColor4f(1.0, 1.0, 0.0, 1.0);
             //glLineWidth(10);
             CCPoint[] vertices = { new CCPoint(0, 0), new CCPoint(50, 50), new CCPoint(100, 50), new CCPoint(100, 100), new CCPoint(50, 100) };
-            //ccDrawPoly( vertices, 5, false);
+            CCDrawingPrimitives.ccDrawPoly(vertices, 5, false, new ccColor4F(255, 255, 0, 255));
 
             // closed purble poly
             /*glColor4ub(255, 0, 255, 255);*/
             //glColor4f(1.0, 0.0, 1.0, 1.0);
             //glLineWidth(2);
             CCPoint[] vertices2 = { new CCPoint(30, 130), new CCPoint(30, 230), new CCPoint(50, 200) };
-            //ccDrawPoly( vertices2, 3, true);
+            CCDrawingPrimitives.ccDrawPoly(vertices2, 3, true, new ccColor4F(255, 0, 255, 255));
 
             // draw quad bezier path
-            //ccDrawQuadBezier(new CCPoint(0, s.height), new CCPoint(s.width / 2, s.height / 2), new CCPoint(s.width, s.height), 50);
+            CCDrawingPrimitives.ccDrawQuadBezier(new CCPoint(0, s.height), 
+                new CCPoint(s.width / 2, s.height / 2),
+                new CCPoint(s.width, s.height), 
+                50, 
+                new ccColor4F(255, 255, 0, 255));
 
             // draw cubic bezier path
-            //ccDrawCubicBezier(new CCPoint(s.width / 2, s.height / 2), new CCPoint(s.width / 2 + 30, s.height / 2 + 50), new CCPoint(s.width / 2 + 60, s.height / 2 - 50), new CCPoint(s.width, s.height / 2), 100);
-
+            CCDrawingPrimitives.ccDrawCubicBezier(new CCPoint(s.width / 2, s.height / 2),
+                new CCPoint(s.width / 2 + 30, s.height / 2 + 50),
+                new CCPoint(s.width / 2 + 60, s.height / 2 - 50),
+                new CCPoint(s.width, s.height / 2), 100,
+                new ccColor4F(255, 0, 255, 255));
 
             // restore original values
             //glLineWidth(1);
