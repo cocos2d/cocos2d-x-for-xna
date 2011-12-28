@@ -40,7 +40,7 @@ namespace cocos2d
             return CCSplitCols.actionWithCols(3, m_fDuration / 2.0f);
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
             m_pInScene.visible = false;
@@ -70,7 +70,7 @@ namespace cocos2d
         }
 
         //public   DECLEAR_TRANSITIONWITHDURATION(CCTransitionSplitCols);
-        public CCTransitionSplitCols transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionSplitCols transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionSplitCols pScene = new CCTransitionSplitCols();
             if (pScene != null && pScene.initWithDuration(t, scene))

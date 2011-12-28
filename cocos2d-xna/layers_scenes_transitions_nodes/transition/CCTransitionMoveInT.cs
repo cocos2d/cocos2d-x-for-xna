@@ -42,7 +42,7 @@ namespace cocos2d
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionMoveInT);
-        public CCTransitionMoveInR transitionWithDuration(float t, CCScene scene)
+        public static CCTransitionMoveInR transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionMoveInR pScene = new CCTransitionMoveInR();
             if (pScene != null && pScene.initWithDuration(t, scene))

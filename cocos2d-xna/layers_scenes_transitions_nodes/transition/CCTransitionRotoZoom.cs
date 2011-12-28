@@ -70,7 +70,7 @@ namespace cocos2d
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionRotoZoom);
-        public CCTransitionRotoZoom transitionWithDuration(float t, CCScene scene)
+        public static CCTransitionRotoZoom transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionRotoZoom pScene = new CCTransitionRotoZoom();
             if (pScene != null && pScene.initWithDuration(t, scene))

@@ -34,7 +34,7 @@ namespace cocos2d
 {
     public class CCTransitionTurnOffTiles : CCTransitionScene, ICCTransitionEaseScene
     {
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
             CCSize s = CCDirector.sharedDirector().getWinSize();
@@ -61,7 +61,7 @@ namespace cocos2d
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionTurnOffTiles);
-        public CCTransitionTurnOffTiles transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionTurnOffTiles transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionTurnOffTiles pScene = new CCTransitionTurnOffTiles();
             if (pScene != null && pScene.initWithDuration(t, scene))
@@ -72,7 +72,7 @@ namespace cocos2d
             return null;
         }
 
-        protected virtual void sceneOrder()
+        protected override void sceneOrder()
         {
             m_bIsInSceneOnTop = false;
         }

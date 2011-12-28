@@ -34,13 +34,13 @@ namespace cocos2d
 {
     public class CCTransitionSplitRows : CCTransitionSplitCols
     {
-        public virtual CCActionInterval action()
+        public override CCActionInterval action()
         {
             return CCSplitRows.actionWithRows(3, m_fDuration / 2.0f);
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionSplitRows)
-        public CCTransitionSplitRows transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionSplitRows transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionSplitRows pScene = new CCTransitionSplitRows();
             if (pScene != null && pScene.initWithDuration(t, scene))

@@ -65,7 +65,7 @@ namespace cocos2d
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionShrinkGrow);
-        public CCTransitionShrinkGrow transitionWithDuration(float t, CCScene scene)
+        public static CCTransitionShrinkGrow transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionShrinkGrow pScene = new CCTransitionShrinkGrow();
             if (pScene != null && pScene.initWithDuration(t, scene))

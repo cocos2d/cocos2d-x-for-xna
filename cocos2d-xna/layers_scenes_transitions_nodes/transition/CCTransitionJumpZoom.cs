@@ -34,7 +34,7 @@ namespace cocos2d
 {
     public class CCTransitionJumpZoom : CCTransitionScene
     {
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
             CCSize s = CCDirector.sharedDirector().getWinSize();
@@ -67,7 +67,7 @@ namespace cocos2d
         }
 
         //public DECLEAR_TRANSITIONWITHDURATION(CCTransitionJumpZoom);
-        public CCTransitionJumpZoom transitionWithDuration(float t, CCScene scene)
+        public static CCTransitionJumpZoom transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionJumpZoom pScene = new CCTransitionJumpZoom();
             if (pScene != null && pScene.initWithDuration(t, scene))

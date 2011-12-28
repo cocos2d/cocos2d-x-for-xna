@@ -35,14 +35,14 @@ namespace cocos2d
     public class CCTransitionMoveInB : CCTransitionMoveInL
     {
 
-        public virtual void initScenes()
+        public override void initScenes()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
             m_pInScene.position = new CCPoint(0, -s.height);
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionMoveInB);
-        public CCTransitionMoveInB transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionMoveInB transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionMoveInB pScene = new CCTransitionMoveInB();
             if (pScene != null && pScene.initWithDuration(t, scene))
