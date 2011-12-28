@@ -30,52 +30,109 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// CCProgresstimer is a subclass of CCNode.
+    /// It renders the inner sprite according to the percentage.
+    /// The progress can be Radial, Horizontal or vertical.
+    /// @since v0.99.1
+    /// </summary>
     public class CCProgressTimer : CCNode
     {
         private const int kProgressTextureCoordsCount = 4;
         const int kProgressTextureCoords = 0x1e;
 
-        public enum CCProgressTimerType
+        #region properties
+
+        /// <summary>
+        /// Change the percentage to change progress.
+        /// </summary>
+        public CCProgressTimerType Type
         {
-            /// Radial Counter-Clockwise 
-            kCCProgressTimerTypeRadialCCW,
-            /// Radial ClockWise
-            kCCProgressTimerTypeRadialCW,
-            /// Horizontal Left-Right
-            kCCProgressTimerTypeHorizontalBarLR,
-            /// Horizontal Right-Left
-            kCCProgressTimerTypeHorizontalBarRL,
-            /// Vertical Bottom-top
-            kCCProgressTimerTypeVerticalBarBT,
-            /// Vertical Top-Bottom
-            kCCProgressTimerTypeVerticalBarTB,
+            get { return m_eType; }
+            set
+            {
+                if (value != m_eType)
+                {
+                    //	release all previous information
+                    if (m_pVertexData == null)
+                    {
+                        // delete[] m_pVertexData;
+                        m_pVertexData = null;
+                        m_nVertexDataCount = 0;
+                    }
+
+                    m_eType = value;
+                }
+            }
         }
 
-        public CCProgressTimer()
+        /// <summary>
+        /// Percentages are from 0 to 100
+        /// </summary>
+        public float Percentage
         {
-            // CC_SAFE_DELETE_ARRAY(m_pVertexData);
-            // CC_SAFE_RELEASE(m_pSprite);
+            get { return m_fPercentage; }
+            set
+            {
+                if (m_fPercentage != value)
+                {
+                    m_fPercentage = CCPointExtension.clampf(value, 0, 100);
+                    updateProgress();
+                }
+            }
         }
 
-        /**	Change the percentage to change progress. */
-        CCProgressTimerType getType()
+        /// <summary>
+        /// The image to show the progress percentage, retain
+        /// </summary>
+        public CCSprite Sprite
         {
-            return m_eType;
+            get { return m_pSprite; }
+            set
+            {
+                if (m_pSprite != value)
+                {
+                    m_pSprite = value;
+                    contentSize = m_pSprite.contentSize;
+
+                    //	Everytime we set a new sprite, we free the current vertex data
+                    if (m_pVertexData != null)
+                    {
+                        m_pVertexData = null;
+                        m_nVertexDataCount = 0;
+                    }
+                }
+            }
         }
 
-        /** Percentages are from 0 to 100 */
-        public float getPercentage()
+        #endregion
+
+        #region init
+
+        public static CCProgressTimer progressWithFile(string pszFileName)
         {
-            return m_fPercentage;
+            CCProgressTimer pProgressTimer = new CCProgressTimer();
+            if (pProgressTimer.initWithFile(pszFileName))
+            {
+                return pProgressTimer;
+            }
+
+            return null;
         }
 
-        /** The image to show the progress percentage, retain */
-        public CCSprite getSprite()
+        public static CCProgressTimer progressWithTexture(CCTexture2D pTexture)
         {
-            return m_pSprite;
+            CCProgressTimer pProgressTimer = new CCProgressTimer();
+            if (pProgressTimer.initWithTexture(pTexture))
+            {
+                return pProgressTimer;
+            }
+
+            return null;
         }
 
         public bool initWithFile(string pszFileName)
@@ -86,149 +143,169 @@ namespace cocos2d
         public bool initWithTexture(CCTexture2D pTexture)
         {
             m_pSprite = CCSprite.spriteWithTexture(pTexture);
-            // CC_SAFE_RETAIN(m_pSprite);
             m_fPercentage = 0;
             m_pVertexData = null;
             m_nVertexDataCount = 0;
-            CCNode ccnode = new CCNode();
-
-            // ccnode.setAnchorPoint(new CCPoint(0.5f, 0.5f));
-            ccnode.anchorPoint = new CCPoint(0.5f, .05f);
-
-            // setContentSize(m_pSprite.contentSize);
-            ccnode.contentSize = m_pSprite.contentSize;
+            anchorPoint = new CCPoint(0.5f, 0.5f);
+            contentSize = m_pSprite.contentSize;
             m_eType = CCProgressTimerType.kCCProgressTimerTypeRadialCCW;
 
             return true;
         }
 
-        public void setPercentage(float fPercentage)
-        {
-            if (m_fPercentage != fPercentage)
-            {
-                m_fPercentage = CCPointExtension.clampf(fPercentage, 0, 100);
-                updateProgress();
-            }
-        }
+        #endregion
 
-        public void setSprite(CCSprite pSprite)
+        private void getIndexes()
         {
-            if (m_pSprite != pSprite)
+            if (indexes == null)
             {
-                // CC_SAFE_RETAIN(pSprite);
-                // CC_SAFE_RELEASE(m_pSprite);
-                m_pSprite = pSprite;
-                CCNode ccnode = new CCNode();
-                ccnode.contentSize = m_pSprite.contentSize;
-
-                //	Everytime we set a new sprite, we free the current vertex data
-                if (m_pVertexData != null)
+                switch (m_eType)
                 {
-                    //delete[] m_pVertexData;
-                    m_pVertexData = null;
-                    m_nVertexDataCount = 0;
-                }
-            }
-        }
+                    case CCProgressTimerType.kCCProgressTimerTypeRadialCCW:
+                        indexes = new short[15];
 
-        public void setType(CCProgressTimerType type)
-        {
-            if (type != m_eType)
-            {
-                //	release all previous information
-                if (m_pVertexData == null)
-                {
-                    // delete[] m_pVertexData;
-                    m_pVertexData = null;
-                    m_nVertexDataCount = 0;
-                    m_eType = type;
+                        indexes[0] = 1;
+                        indexes[1] = 0;
+                        indexes[2] = 2;
+
+                        indexes[3] = 2;
+                        indexes[4] = 0;
+                        indexes[5] = 3;
+
+                        indexes[6] = 3;
+                        indexes[7] = 0;
+                        indexes[8] = 4;
+
+                        indexes[9] = 4;
+                        indexes[10] = 0;
+                        indexes[11] = 5;
+
+                        indexes[12] = 5;
+                        indexes[13] = 0;
+                        indexes[14] = 6;
+
+                        break;
+                    case CCProgressTimerType.kCCProgressTimerTypeRadialCW:
+                        indexes = new short[15];
+                        indexes[0] = 0;
+                        indexes[1] = 1;
+                        indexes[2] = 2;
+
+                        indexes[3] = 0;
+                        indexes[4] = 2;
+                        indexes[5] = 3;
+
+                        indexes[6] = 0;
+                        indexes[7] = 3;
+                        indexes[8] = 4;
+
+                        indexes[9] = 0;
+                        indexes[10] = 4;
+                        indexes[11] = 5;
+
+                        indexes[12] = 0;
+                        indexes[13] = 5;
+                        indexes[14] = 6;
+
+                        break;
+                    case CCProgressTimerType.kCCProgressTimerTypeHorizontalBarRL:
+                        indexes = new short[6];
+                        indexes[0] = 0;
+                        indexes[1] = 1;
+                        indexes[2] = 2;
+                        indexes[3] = 2;
+                        indexes[4] = 1;
+                        indexes[5] = 3;
+                        break;
+
+                    case CCProgressTimerType.kCCProgressTimerTypeHorizontalBarLR:
+                        indexes = new short[6];
+                        indexes[0] = 1;
+                        indexes[1] = 0;
+                        indexes[2] = 2;
+                        indexes[3] = 1;
+                        indexes[4] = 2;
+                        indexes[5] = 3;
+
+                        break;
+
+                    case CCProgressTimerType.kCCProgressTimerTypeVerticalBarBT:
+                        indexes = new short[6];
+                        indexes[0] = 1;
+                        indexes[1] = 0;
+                        indexes[2] = 2;
+                        indexes[3] = 1;
+                        indexes[4] = 2;
+                        indexes[5] = 3;
+
+                        break;
+
+                    case CCProgressTimerType.kCCProgressTimerTypeVerticalBarTB:
+                        indexes = new short[6];
+                        indexes[0] = 1;
+                        indexes[1] = 0;
+                        indexes[2] = 2;
+                        indexes[3] = 1;
+                        indexes[4] = 2;
+                        indexes[5] = 3;
+                        break;
                 }
             }
         }
 
         public override void draw()
         {
-            // CCNode::draw();
             base.draw();
 
-            if (m_pVertexData != null)
+            if (m_pVertexData == null)
             {
                 return;
             }
 
-            if (m_pSprite != null)
+            if (m_pSprite == null)
             {
                 return;
             }
 
-            ccBlendFunc bf = m_pSprite.BlendFunc;
-            bool newBlend = (bf.src != 1 || bf.dst != 0x0303) ? true : false; // CC_BLEND_SRC = 1 CC_BLEND_DST = 0x0303
-            //if (newBlend)
-            //{
-            //    glBlendFunc(bf.src, bf.dst);
-            //}
+            vertices = new VertexPositionColorTexture[m_pVertexData.Length];
+            getIndexes();
 
-            ///	========================================================================
-            //	Replaced [texture_ drawAtPoint:CCPointZero] with my own vertexData
-            //	Everything above me and below me is copied from CCTextureNode's draw
-            //glBindTexture(GL_TEXTURE_2D, m_pSprite->getTexture()->getName());
-            //glVertexPointer(2, GL_FLOAT, sizeof(ccV2F_C4B_T2F), m_pVertexData[0].vertices);
-            //glTexCoordPointer(2, GL_FLOAT, sizeof(ccV2F_C4B_T2F), m_pVertexData[0].texCoords);
-            //glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(ccV2F_C4B_T2F), m_pVertexData[0].colors);
+            for (int i = 0; i < m_pVertexData.Length; i++)
+            {
+                ccV2F_C4B_T2F temp = m_pVertexData[i];
 
-            //if (m_eType == kCCProgressTimerTypeRadialCCW || m_eType == kCCProgressTimerTypeRadialCW)
-            //{
-            //    glDrawArrays(GL_TRIANGLE_FAN, 0, m_nVertexDataCount);
-            //}
-            //else
-            //    if (m_eType == CCProgressTimerType.kCCProgressTimerTypeHorizontalBarLR ||
-            //        m_eType == CCProgressTimerType.kCCProgressTimerTypeHorizontalBarRL ||
-            //        m_eType == CCProgressTimerType.kCCProgressTimerTypeVerticalBarBT ||
-            //        m_eType == CCProgressTimerType.kCCProgressTimerTypeVerticalBarTB)
-            //    {
-            //        glDrawArrays(GL_TRIANGLE_STRIP, 0, m_nVertexDataCount);
-            //    }
-            ////glDrawElements(GL_TRIANGLES, indicesCount_, GL_UNSIGNED_BYTE, indices_);
-            /////	========================================================================
+                vertices[i] = new VertexPositionColorTexture(
+                    new Microsoft.Xna.Framework.Vector3(temp.vertices.x, temp.vertices.y, 0),
+                    new Microsoft.Xna.Framework.Color(temp.colors.r, temp.colors.g, temp.colors.b, temp.colors.a),
+                    new Microsoft.Xna.Framework.Vector2(temp.texCoords.u, temp.texCoords.v));
+            }
 
-            //if (newBlend)
-            //{
-            //    glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
-            //}
+            CCApplication app = CCApplication.sharedApplication();
+
+            app.basicEffect.Texture = m_pSprite.Texture.getTexture2D();
+            app.basicEffect.TextureEnabled = true;
+
+            VertexDeclaration vertexDeclaration = new VertexDeclaration(new VertexElement[]
+                {
+                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+                    new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Color, 0),
+                    new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
+                });
+
+            foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+                app.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColorTexture>(
+                    PrimitiveType.TriangleList,
+                    vertices, 0, m_nVertexDataCount,
+                    indexes, 0, m_nVertexDataCount - 2);
+            }
         }
 
-        public static CCProgressTimer progressWithFile(string pszFileName)
-        {
-            CCProgressTimer pProgressTimer = new CCProgressTimer();
-            if (pProgressTimer.initWithFile(pszFileName))
-            {
-                // pProgressTimer->autorelease();
-            }
-            else
-            {
-                // delete pProgressTimer;
-                pProgressTimer = null;
-            }
-
-            return pProgressTimer;
-        }
-
-        public static CCProgressTimer progressWithTexture(CCTexture2D pTexture)
-        {
-            CCProgressTimer pProgressTimer = new CCProgressTimer();
-            if (pProgressTimer.initWithTexture(pTexture))
-            {
-                // pProgressTimer->autorelease();
-            }
-            else
-            {
-                // delete pProgressTimer;
-                pProgressTimer = null;
-            }
-
-            return pProgressTimer;
-        }
-
+        /// <summary>
+        /// the vertex position from the texture coordinate
+        /// </summary>
         protected ccVertex2F vertexFromTexCoord(CCPoint texCoord)
         {
             CCPoint tmp;
@@ -278,7 +355,15 @@ namespace cocos2d
             }
         }
 
-
+        /// <summary>
+        /// Update does the work of mapping the texture onto the triangles for the bar
+        //	It now doesn't occur the cost of free/alloc data every update cycle.
+        //	It also only changes the percentage point but no other points if they have not
+        //	been modified.
+        //	
+        //	It now deals with flipped texture. If you run into this problem, just use the
+        //	sprite property and enable the methods flipX, flipY.
+        /// </summary>
         protected void updateBar()
         {
             float alpha = m_fPercentage / 100.0f;
@@ -290,131 +375,138 @@ namespace cocos2d
             CCPoint tMax = new CCPoint(fXMax, fYMax);
             CCPoint tMin = new CCPoint(fXMin, fYMin);
 
-            char[] vIndexes = null;
-            char index;
-            ccTex2F t = new ccTex2F { u = tMin.x, v = tMin.y };//tex2(tMin.x, tMin.y)
-            ccTex2F t1 = new ccTex2F { u = tMax.x, v = tMax.y };//tex2(tMax.x, tMax.y)
-            ccTex2F t2 = new ccTex2F { u = tMax.x, v = tMax.y };//tex2(tMax.x, tMax.y)
-            ccTex2F t3 = new ccTex2F { u = tMax.x, v = tMin.y };//tex2(tMax.x, tMin.y)
-            ccTex2F t4 = new ccTex2F { u = tMin.x, v = tMax.y };//tex2(tMin.x, tMax.y)
-            ccTex2F t5 = new ccTex2F { u = tMin.x, v = tMin.y };//tex2(tMin.x, tMin.y)
+            int[] vIndexes = new int[2] { 0, 0 };
+            int index = 0;
 
             //	We know vertex data is always equal to the 4 corners
             //	If we don't have vertex data then we create it here and populate
             //	the side of the bar vertices that won't ever change.
-            if (m_pVertexData != null)
+            if (m_pVertexData == null)
             {
-
                 m_nVertexDataCount = kProgressTextureCoordsCount;
-                ccV2F_C4B_T2F[] m_pVertexData1 = new ccV2F_C4B_T2F[m_nVertexDataCount];
-                // assert(m_pVertexData);
+                m_pVertexData = new ccV2F_C4B_T2F[m_nVertexDataCount];
+                for (int i = 0; i < m_nVertexDataCount; i++)
+                {
+                    m_pVertexData[i] = new ccV2F_C4B_T2F();
+                }
+
+
+                Debug.Assert(m_pVertexData != null);
 
                 if (m_eType == CCProgressTimerType.kCCProgressTimerTypeHorizontalBarLR)
                 {
-                    m_pVertexData1[0].texCoords = t;
-                    m_pVertexData1[1].texCoords = t;
+                    m_pVertexData[vIndexes[0] = 0].texCoords = new ccTex2F(tMin.x, tMin.y);
+                    m_pVertexData[vIndexes[1] = 1].texCoords = new ccTex2F(tMin.x, tMax.y);
                 }
                 else
                     if (m_eType == CCProgressTimerType.kCCProgressTimerTypeHorizontalBarRL)
                     {
-                        m_pVertexData1[2].texCoords = t2;
-                        m_pVertexData1[3].texCoords = t3;
+                        m_pVertexData[vIndexes[0] = 2].texCoords = new ccTex2F(tMax.x, tMax.y);
+                        m_pVertexData[vIndexes[1] = 3].texCoords = new ccTex2F(tMax.x, tMin.y);
                     }
                     else
                         if (m_eType == CCProgressTimerType.kCCProgressTimerTypeVerticalBarBT)
                         {
-                            m_pVertexData1[1].texCoords = t4;
-                            m_pVertexData1[3].texCoords = t1;
+                            m_pVertexData[vIndexes[0] = 1].texCoords = new ccTex2F(tMin.x, tMax.y);
+                            m_pVertexData[vIndexes[1] = 3].texCoords = new ccTex2F(tMax.x, tMax.y);
                         }
                         else
                             if (m_eType == CCProgressTimerType.kCCProgressTimerTypeVerticalBarTB)
                             {
-                                m_pVertexData1[0].texCoords = t5;
-                                m_pVertexData1[2].texCoords = t3;
+                                m_pVertexData[vIndexes[0] = 0].texCoords = new ccTex2F(tMin.x, tMin.y);
+                                m_pVertexData[vIndexes[1] = 2].texCoords = new ccTex2F(tMax.x, tMin.y);
                             }
 
                 index = vIndexes[0];
-                m_pVertexData1[index].vertices = vertexFromTexCoord(new CCPoint(m_pVertexData1[index].texCoords.u,
-                                                                       m_pVertexData1[index].texCoords.v));
+                m_pVertexData[index].vertices = vertexFromTexCoord(new CCPoint(m_pVertexData[index].texCoords.u,
+                                                                       m_pVertexData[index].texCoords.v));
 
                 index = vIndexes[1];
-                m_pVertexData1[index].vertices = vertexFromTexCoord(new CCPoint(m_pVertexData1[index].texCoords.u,
-                                                                       m_pVertexData1[index].texCoords.v));
+                m_pVertexData[index].vertices = vertexFromTexCoord(new CCPoint(m_pVertexData[index].texCoords.u,
+                                                                       m_pVertexData[index].texCoords.v));
 
                 if (m_pSprite.IsFlipY || m_pSprite.IsFlipX)
                 {
                     if (m_pSprite.IsFlipX)
                     {
                         index = vIndexes[0];
-                        m_pVertexData1[index].texCoords.u = tMin.x + tMax.x - m_pVertexData1[index].texCoords.u;
+                        m_pVertexData[index].texCoords.u = tMin.x + tMax.x - m_pVertexData[index].texCoords.u;
                         index = vIndexes[1];
-                        m_pVertexData1[index].texCoords.u = tMin.x + tMax.x - m_pVertexData1[index].texCoords.u;
+                        m_pVertexData[index].texCoords.u = tMin.x + tMax.x - m_pVertexData[index].texCoords.u;
                     }
 
-                    if (m_pSprite.IsFlipY != null)
+                    if (m_pSprite.IsFlipY)
                     {
                         index = vIndexes[0];
-                        m_pVertexData1[index].texCoords.v = tMin.y + tMax.y - m_pVertexData1[index].texCoords.v;
+                        m_pVertexData[index].texCoords.v = tMin.y + tMax.y - m_pVertexData[index].texCoords.v;
                         index = vIndexes[1];
-                        m_pVertexData1[index].texCoords.v = tMin.y + tMax.y - m_pVertexData1[index].texCoords.v;
+                        m_pVertexData[index].texCoords.v = tMin.y + tMax.y - m_pVertexData[index].texCoords.v;
                     }
                 }
 
                 updateColor();
-                //}
+            }
 
-                //if (m_eType == CCProgressTimerType.kCCProgressTimerTypeHorizontalBarLR)
-                //{
-                //    m_pVertexData[vIndexes[0] = 3].texCoords = tex2(tMin.x + (tMax.x - tMin.x) * alpha, tMax.y);
-                //    m_pVertexData[vIndexes[1] = 2].texCoords = tex2(tMin.x + (tMax.x - tMin.x) * alpha, tMin.y);
-                //}
-                //else
-                //    if (m_eType == CCProgressTimerType.kCCProgressTimerTypeHorizontalBarRL)
-                //    {
-                //        m_pVertexData[vIndexes[0] = 1].texCoords = tex2(tMin.x + (tMax.x - tMin.x) * (1.0f - alpha), tMin.y);
-                //        m_pVertexData[vIndexes[1] = 0].texCoords = tex2(tMin.x + (tMax.x - tMin.x) * (1.0f - alpha), tMax.y);
-                //    }
-                //    else
-                //        if (m_eType == CCProgressTimerType.kCCProgressTimerTypeVerticalBarBT)
-                //        {
-                //            m_pVertexData[vIndexes[0] = 0].texCoords = tex2(tMin.x, tMin.y + (tMax.y - tMin.y) * (1.0f - alpha));
-                //            m_pVertexData[vIndexes[1] = 2].texCoords = tex2(tMax.x, tMin.y + (tMax.y - tMin.y) * (1.0f - alpha));
-                //        }
-                //        else
-                //            if (m_eType == CCProgressTimerType.kCCProgressTimerTypeVerticalBarTB)
-                //            {
-                //                m_pVertexData[vIndexes[0] = 1].texCoords = tex2(tMin.x, tMin.y + (tMax.y - tMin.y) * alpha);
-                //                m_pVertexData[vIndexes[1] = 3].texCoords = tex2(tMax.x, tMin.y + (tMax.y - tMin.y) * alpha);
-                //            }
+            if (m_eType == CCProgressTimerType.kCCProgressTimerTypeHorizontalBarLR)
+            {
+                m_pVertexData[vIndexes[0] = 3].texCoords = new ccTex2F(tMin.x + (tMax.x - tMin.x) * alpha, tMax.y);
+                m_pVertexData[vIndexes[1] = 2].texCoords = new ccTex2F(tMin.x + (tMax.x - tMin.x) * alpha, tMin.y);
+            }
+            else
+                if (m_eType == CCProgressTimerType.kCCProgressTimerTypeHorizontalBarRL)
+                {
+                    m_pVertexData[vIndexes[0] = 1].texCoords = new ccTex2F(tMin.x + (tMax.x - tMin.x) * (1.0f - alpha), tMin.y);
+                    m_pVertexData[vIndexes[1] = 0].texCoords = new ccTex2F(tMin.x + (tMax.x - tMin.x) * (1.0f - alpha), tMax.y);
+                }
+                else
+                    if (m_eType == CCProgressTimerType.kCCProgressTimerTypeVerticalBarBT)
+                    {
+                        m_pVertexData[vIndexes[0] = 0].texCoords = new ccTex2F(tMin.x, tMin.y + (tMax.y - tMin.y) * (1.0f - alpha));
+                        m_pVertexData[vIndexes[1] = 2].texCoords = new ccTex2F(tMax.x, tMin.y + (tMax.y - tMin.y) * (1.0f - alpha));
+                    }
+                    else
+                        if (m_eType == CCProgressTimerType.kCCProgressTimerTypeVerticalBarTB)
+                        {
+                            m_pVertexData[vIndexes[0] = 1].texCoords = new ccTex2F(tMin.x, tMin.y + (tMax.y - tMin.y) * alpha);
+                            m_pVertexData[vIndexes[1] = 3].texCoords = new ccTex2F(tMax.x, tMin.y + (tMax.y - tMin.y) * alpha);
+                        }
 
-                //index = vIndexes[0];
-                //m_pVertexData[index].vertices = vertexFromTexCoord(new CCPoint(m_pVertexData[index].texCoords.u,
-                //                                                       m_pVertexData[index].texCoords.v));
-                //index = vIndexes[1];
-                //m_pVertexData[index].vertices = vertexFromTexCoord(new CCPoint(m_pVertexData[index].texCoords.u,
-                //                                                       m_pVertexData[index].texCoords.v));
+            index = vIndexes[0];
+            m_pVertexData[index].vertices = vertexFromTexCoord(new CCPoint(m_pVertexData[index].texCoords.u,
+                                                                   m_pVertexData[index].texCoords.v));
+            index = vIndexes[1];
+            m_pVertexData[index].vertices = vertexFromTexCoord(new CCPoint(m_pVertexData[index].texCoords.u,
+                                                                   m_pVertexData[index].texCoords.v));
 
-                //if (m_pSprite.isFlipY() || m_pSprite.isFlipX())
-                //{
-                //    if (m_pSprite.isFlipX())
-                //    {
-                //        index = vIndexes[0];
-                //        m_pVertexData[index].texCoords.u = tMin.x + tMax.x - m_pVertexData[index].texCoords.u;
-                //        index = vIndexes[1];
-                //        m_pVertexData[index].texCoords.u = tMin.x + tMax.x - m_pVertexData[index].texCoords.u;
-                //    }
+            if (m_pSprite.IsFlipY || m_pSprite.IsFlipX)
+            {
+                if (m_pSprite.IsFlipX)
+                {
+                    index = vIndexes[0];
+                    m_pVertexData[index].texCoords.u = tMin.x + tMax.x - m_pVertexData[index].texCoords.u;
+                    index = vIndexes[1];
+                    m_pVertexData[index].texCoords.u = tMin.x + tMax.x - m_pVertexData[index].texCoords.u;
+                }
 
-                //    if (m_pSprite.isFlipY())
-                //    {
-                //        index = vIndexes[0];
-                //        m_pVertexData[index].texCoords.v = tMin.y + tMax.y - m_pVertexData[index].texCoords.v;
-                //        index = vIndexes[1];
-                //        m_pVertexData[index].texCoords.v = tMin.y + tMax.y - m_pVertexData[index].texCoords.v;
-                //    }
-                //}
+                if (m_pSprite.IsFlipY)
+                {
+                    index = vIndexes[0];
+                    m_pVertexData[index].texCoords.v = tMin.y + tMax.y - m_pVertexData[index].texCoords.v;
+                    index = vIndexes[1];
+                    m_pVertexData[index].texCoords.v = tMin.y + tMax.y - m_pVertexData[index].texCoords.v;
+                }
             }
         }
 
+        /// <summary>
+        /// Update does the work of mapping the texture onto the triangles
+        //	It now doesn't occur the cost of free/alloc data every update cycle.
+        //	It also only changes the percentage point but no other points if they have not
+        //	been modified.
+        //	
+        //	It now deals with flipped texture. If you run into this problem, just use the
+        //	sprite property and enable the methods flipX, flipY.
+        /// </summary>
         protected void updateRadial()
         {
             //	Texture Max is the actual max coordinates to deal with non-power of 2 textures
@@ -426,7 +518,7 @@ namespace cocos2d
             CCPoint tMin = new CCPoint(fXMin, fYMin);
 
             //	Grab the midpoint
-            CCPoint midpoint = new CCPoint(tMin.x + new CCPoint(m_tAnchorPoint.x * new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).x, m_tAnchorPoint.y * new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).y).x, tMin.y - new CCPoint(m_tAnchorPoint.x * new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).x, m_tAnchorPoint.y * new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).y).y);
+            CCPoint midpoint = CCPointExtension.ccpAdd(tMin, CCPointExtension.ccpCompMult(m_tAnchorPoint, CCPointExtension.ccpSub(tMax, tMin)));
 
             float alpha = m_fPercentage / 100.0f;
 
@@ -440,9 +532,9 @@ namespace cocos2d
             CCPoint percentagePt = CCPointExtension.ccpRotateByAngle(topMid, midpoint, angle);
 
             int index = 0;
-            CCPoint hit = new CCPoint(0, 0);
+            CCPoint hit = new CCPoint();
 
-            if (alpha == 0)
+            if (alpha == 0.0f)
             {
                 //	More efficient since we don't always need to check intersection
                 //	If the alpha is zero then the hit point is top mid and the index is 0.
@@ -463,34 +555,25 @@ namespace cocos2d
                     //	intersection point
                     //	We loop through five points since the top is split in half
 
-                    float min_t = 3.402823466e+38F;
+                    float min_t = float.MaxValue;
 
                     for (int i = 0; i <= kProgressTextureCoordsCount; ++i)
                     {
                         int pIndex = (i + (kProgressTextureCoordsCount - 1)) % kProgressTextureCoordsCount;
 
-                        CCPoint edgePtA = new CCPoint(tMin.x + new CCPoint(boundaryTexCoord(Convert.ToChar(i % kProgressTextureCoordsCount)).x * new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).x, boundaryTexCoord(Convert.ToChar(i % kProgressTextureCoordsCount)).y * new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).y).x, tMin.y + new CCPoint(boundaryTexCoord(Convert.ToChar(i % kProgressTextureCoordsCount)).x * new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).x, boundaryTexCoord(Convert.ToChar(i % kProgressTextureCoordsCount)).y * new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).y).y);
-
-
-
-                        CCPoint edgePtB = new CCPoint(tMin.x + new CCPoint(boundaryTexCoord(Convert.ToChar(pIndex)).x *
-                            new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).x, boundaryTexCoord(Convert.ToChar(pIndex)).y *
-                            new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).y).x, tMin.y + new CCPoint(boundaryTexCoord(Convert.ToChar(pIndex)).x *
-                                new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).x, boundaryTexCoord(Convert.ToChar(pIndex)).y *
-                                new CCPoint(tMax.x - tMin.x, tMax.y - tMin.y).y).y);
+                        CCPoint edgePtA = CCPointExtension.ccpAdd(tMin, CCPointExtension.ccpCompMult(boundaryTexCoord(i % kProgressTextureCoordsCount), CCPointExtension.ccpSub(tMax, tMin)));
+                        CCPoint edgePtB = CCPointExtension.ccpAdd(tMin, CCPointExtension.ccpCompMult(boundaryTexCoord(pIndex), CCPointExtension.ccpSub(tMax, tMin)));
 
                         //	Remember that the top edge is split in half for the 12 o'clock position
                         //	Let's deal with that here by finding the correct endpoints
                         if (i == 0)
                         {
-                            edgePtB = new CCPoint(new CCPoint(edgePtA.x * 0.5f, edgePtA.y * 0.5f).x + new CCPoint(edgePtB.x * 0.5f, edgePtB.y * 0.5f).x,
-                                new CCPoint(edgePtA.x * 0.5f, edgePtA.y * 0.5f).y + new CCPoint(edgePtB.x * 0.5f, edgePtB.y * 0.5f).y);
+                            edgePtB = CCPointExtension.ccpLerp(edgePtA, edgePtB, 0.5f);
                         }
                         else
                             if (i == 4)
                             {
-                                edgePtA = new CCPoint(new CCPoint(edgePtA.x * 0.5f, edgePtA.y * 0.5f).x + new CCPoint(edgePtB.x * 0.5f, edgePtB.y * 0.5f).x,
-                                new CCPoint(edgePtA.x * 0.5f, edgePtA.y * 0.5f).y + new CCPoint(edgePtB.x * 0.5f, edgePtB.y * 0.5f).y);
+                                edgePtA = CCPointExtension.ccpLerp(edgePtA, edgePtB, 0.5f);
                             }
 
                         //	s and t are returned by ccpLineIntersect
@@ -503,7 +586,7 @@ namespace cocos2d
                             if (i == 0 || i == 4)
                             {
                                 //	s represents the point between edgePtA--edgePtB
-                                if (!(0 <= s && s <= 1.0f))
+                                if (!(0.0f <= s && s <= 1.0f))
                                 {
                                     continue;
                                 }
@@ -511,7 +594,7 @@ namespace cocos2d
 
                             //	As long as our t isn't negative we are at least finding a 
                             //	correct hitpoint from midpoint to percentagePt.
-                            if (t >= 0)
+                            if (t >= 0.0f)
                             {
                                 //	Because the percentage line and all the texture edges are
                                 //	rays we should only account for the shortest intersection
@@ -526,10 +609,7 @@ namespace cocos2d
                     }
 
                     //	Now that we have the minimum magnitude we can use that to find our intersection
-                    hit = new CCPoint(midpoint.x + new CCPoint(new CCPoint(percentagePt.x - midpoint.x, percentagePt.y - midpoint.y).x * min_t,
-                        new CCPoint(percentagePt.x - midpoint.x, percentagePt.y - midpoint.y).y * min_t).x, midpoint.y +
-                        new CCPoint(new CCPoint(percentagePt.x - midpoint.x, percentagePt.y - midpoint.y).x * min_t,
-                            new CCPoint(percentagePt.x - midpoint.x, percentagePt.y - midpoint.y).y * min_t).y);
+                    hit = CCPointExtension.ccpAdd(midpoint, CCPointExtension.ccpMult(CCPointExtension.ccpSub(percentagePt, midpoint), min_t));
                 }
 
             //	The size of the vertex data is the index from the hitpoint
@@ -541,99 +621,103 @@ namespace cocos2d
                 sameIndexCount = false;
                 if (m_pVertexData != null)
                 {
-                    // delete[] m_pVertexData;
                     m_pVertexData = null;
                     m_nVertexDataCount = 0;
                 }
             }
 
-            if (m_pVertexData != null)
+            if (m_pVertexData == null)
             {
                 m_nVertexDataCount = index + 3;
-                ccV2F_C4B_T2F[] m_pVertexData2 = new ccV2F_C4B_T2F[m_nVertexDataCount];
-                // Debug.Assert(m_pVertexData);
+                m_pVertexData = new ccV2F_C4B_T2F[m_nVertexDataCount];
+                for (int i = 0; i < m_nVertexDataCount; i++)
+                {
+                    m_pVertexData[i] = new ccV2F_C4B_T2F();
+                }
+
+
+                Debug.Assert(m_pVertexData != null);
 
                 updateColor();
             }
 
             if (!sameIndexCount)
             {
-                ////	First we populate the array with the midpoint, then all 
-                ////	vertices/texcoords/colors of the 12 'o clock start and edges and the hitpoint
-                //m_pVertexData[0].texCoords = tex2(midpoint.x, midpoint.y);
-                //m_pVertexData[0].vertices = vertexFromTexCoord(midpoint);
+                //	First we populate the array with the midpoint, then all 
+                //	vertices/texcoords/colors of the 12 'o clock start and edges and the hitpoint
+                m_pVertexData[0].texCoords = new ccTex2F(midpoint.x, midpoint.y);
+                m_pVertexData[0].vertices = vertexFromTexCoord(midpoint);
 
-                //m_pVertexData[1].texCoords = tex2(midpoint.x, tMin.y);
-                //m_pVertexData[1].vertices = vertexFromTexCoord(new CCPoint(midpoint.x, tMin.y));
+                m_pVertexData[1].texCoords = new ccTex2F(midpoint.x, tMin.y);
+                m_pVertexData[1].vertices = vertexFromTexCoord(new CCPoint(midpoint.x, tMin.y));
 
-                //for (int i = 0; i < index; ++i)
-                //{
-                //    CCPoint texCoords = ccpAdd(tMin, ccpCompMult(boundaryTexCoord(i), ccpSub(tMax, tMin)));
+                for (int i = 0; i < index; ++i)
+                {
+                    CCPoint texCoords = CCPointExtension.ccpAdd(tMin, CCPointExtension.ccpCompMult(boundaryTexCoord(i), CCPointExtension.ccpSub(tMax, tMin)));
 
-                //    m_pVertexData[i + 2].texCoords = tex2(texCoords.x, texCoords.y);
-                //    m_pVertexData[i + 2].vertices = vertexFromTexCoord(texCoords);
-                //}
+                    m_pVertexData[i + 2].texCoords = new ccTex2F(texCoords.x, texCoords.y);
+                    m_pVertexData[i + 2].vertices = vertexFromTexCoord(texCoords);
+                }
 
-                ////	Flip the texture coordinates if set
-                //if (m_pSprite.IsFlipX || m_pSprite.IsFlipY)
-                //{
-                //    for (int i = 0; i < m_nVertexDataCount - 1; ++i)
-                //    {
-                //        if (m_pSprite.IsFlipX)
-                //        {
-                //            m_pVertexData[i].texCoords.u = tMin.x + tMax.x - m_pVertexData[i].texCoords.u;
-                //        }
+                //	Flip the texture coordinates if set
+                if (m_pSprite.IsFlipX || m_pSprite.IsFlipY)
+                {
+                    for (int i = 0; i < m_nVertexDataCount - 1; ++i)
+                    {
+                        if (m_pSprite.IsFlipX)
+                        {
+                            m_pVertexData[i].texCoords.u = tMin.x + tMax.x - m_pVertexData[i].texCoords.u;
+                        }
 
-                //        if (m_pSprite.IsFlipY)
-                //        {
-                //            m_pVertexData[i].texCoords.v = tMin.y + tMax.y - m_pVertexData[i].texCoords.v;
-                //        }
-                //    }
-                //}
+                        if (m_pSprite.IsFlipY)
+                        {
+                            m_pVertexData[i].texCoords.v = tMin.y + tMax.y - m_pVertexData[i].texCoords.v;
+                        }
+                    }
+                }
             }
 
             //	hitpoint will go last
-            //m_pVertexData[m_nVertexDataCount - 1].texCoords = tex2(hit.x, hit.y);
-            //m_pVertexData[m_nVertexDataCount - 1].vertices = vertexFromTexCoord(hit);
+            m_pVertexData[m_nVertexDataCount - 1].texCoords = new ccTex2F(hit.x, hit.y);
+            m_pVertexData[m_nVertexDataCount - 1].vertices = vertexFromTexCoord(hit);
 
-            //if (m_pSprite.IsFlipX || m_pSprite.IsFlipY)
-            //{
-            //    if (m_pSprite.IsFlipX)
-            //    {
-            //        m_pVertexData[m_nVertexDataCount - 1].texCoords.u = tMin.x + tMax.x - m_pVertexData[m_nVertexDataCount - 1].texCoords.u;
-            //    }
+            if (m_pSprite.IsFlipX || m_pSprite.IsFlipY)
+            {
+                if (m_pSprite.IsFlipX)
+                {
+                    m_pVertexData[m_nVertexDataCount - 1].texCoords.u = tMin.x + tMax.x - m_pVertexData[m_nVertexDataCount - 1].texCoords.u;
+                }
 
-            //    if (m_pSprite.IsFlipY)
-            //    {
-            //        m_pVertexData[m_nVertexDataCount - 1].texCoords.v = tMin.y + tMax.y - m_pVertexData[m_nVertexDataCount - 1].texCoords.v;
-            //    }
-            //}
+                if (m_pSprite.IsFlipY)
+                {
+                    m_pVertexData[m_nVertexDataCount - 1].texCoords.v = tMin.y + tMax.y - m_pVertexData[m_nVertexDataCount - 1].texCoords.v;
+                }
+            }
         }
 
         protected void updateColor()
         {
-            // GLubyte op = m_pSprite->getOpacity();
             byte op = m_pSprite.Opacity;
             ccColor3B c3b = m_pSprite.Color;
 
-            //ccColor4B color = { c3b.r, c3b.g, c3b.b, op };
-            //if (m_pSprite.Texture.HasPremultipliedAlpha)
-            //{
-            //    color.r *= op / 255;
-            //    color.g *= op / 255;
-            //    color.b *= op / 255;
-            //}
+            ccColor4B color = new ccColor4B { r = c3b.r, g = c3b.g, b = c3b.b, a = op };
+            if (m_pSprite.Texture.HasPremultipliedAlpha)
+            {
+                color.r *= (byte)(op / 255);
+                color.g *= (byte)(op / 255);
+                color.b *= (byte)(op / 255);
+            }
 
-            ////if (m_pVertexData)
-            ////{
-            //for (int i = 0; i < m_nVertexDataCount; ++i)
-            //{
-            //    m_pVertexData[i].colors = color;
-            //}
-            //}
+            if (m_pVertexData != null)
+            {
+                for (int i = 0; i < m_nVertexDataCount; ++i)
+                {
+                    m_pVertexData[i].colors = color;
+                }
+            }
         }
 
-        protected CCPoint boundaryTexCoord(char index)
+        protected CCPoint boundaryTexCoord(int index)
         {
             if (index < kProgressTextureCoordsCount)
             {
@@ -655,6 +739,28 @@ namespace cocos2d
         protected float m_fPercentage;
         protected CCSprite m_pSprite;
         protected int m_nVertexDataCount;
-        protected ccV2F_C4B_T2F m_pVertexData;
+        protected ccV2F_C4B_T2F[] m_pVertexData;
+        protected VertexPositionColorTexture[] vertices;
+        protected short[] indexes;
+    }
+
+    /// <summary>
+    /// Types of progress
+    /// @since v0.99.1
+    /// </summary>
+    public enum CCProgressTimerType
+    {
+        /// Radial Counter-Clockwise 
+        kCCProgressTimerTypeRadialCCW,
+        /// Radial ClockWise
+        kCCProgressTimerTypeRadialCW,
+        /// Horizontal Left-Right
+        kCCProgressTimerTypeHorizontalBarLR,
+        /// Horizontal Right-Left
+        kCCProgressTimerTypeHorizontalBarRL,
+        /// Vertical Bottom-top
+        kCCProgressTimerTypeVerticalBarBT,
+        /// Vertical Top-Bottom
+        kCCProgressTimerTypeVerticalBarTB,
     }
 }

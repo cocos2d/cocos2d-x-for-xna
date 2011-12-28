@@ -32,13 +32,18 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// Progress to percentage
+    /// @since v0.99.1
+    /// </summary>
     public class CCProgressTo : CCActionInterval
     {
-        /** Initializes with a duration and a percent */
+        /// <summary>
+        /// Initializes with a duration and a percent
+        /// </summary>
         public bool initWithDuration(float duration, float fPercent)
         {
-            // if (CCActionInterval::initWithDuration(duration))
-            if (initWithDuration(duration))
+            if (base.initWithDuration(duration))
             {
                 m_fTo = fPercent;
 
@@ -63,20 +68,17 @@ namespace cocos2d
                 pZone = pNewZone = new CCZone(pCopy);
             }
 
-            // CCActionInterval::copyWithZone(pZone);
-            copyWithZone(pZone);
+            base.copyWithZone(pZone);
 
             pCopy.initWithDuration(m_fDuration, m_fTo);
 
-            // CC_SAFE_DELETE(pNewZone);
             return pCopy;
         }
 
         public override void startWithTarget(CCNode pTarget)
         {
-            // CCActionInterval::startWithTarget(pTarget);
-            startWithTarget(pTarget);
-            m_fFrom = ((CCProgressTimer)(pTarget)).getPercentage();
+            base.startWithTarget(pTarget);
+            m_fFrom = ((CCProgressTimer)(pTarget)).Percentage;
             // XXX: Is this correct ?
             // Adding it to support CCRepeat
             if (m_fFrom == 100)
@@ -86,16 +88,17 @@ namespace cocos2d
         }
         public override void update(float time)
         {
-            ((CCProgressTimer)(m_pTarget)).setPercentage(m_fFrom + (m_fTo - m_fFrom) * time);
+            ((CCProgressTimer)m_pTarget).Percentage = m_fFrom + (m_fTo - m_fFrom) * time;
             //throw new NotImplementedException();
         }
 
-        /** Creates and initializes with a duration and a percent */
+        /// <summary>
+        /// Creates and initializes with a duration and a percent
+        /// </summary>
         public static CCProgressTo actionWithDuration(float duration, float fPercent)
         {
             CCProgressTo pProgressTo = new CCProgressTo();
             pProgressTo.initWithDuration(duration, fPercent);
-            // pProgressTo->autorelease();
 
             return pProgressTo;
         }

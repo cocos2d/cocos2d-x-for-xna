@@ -118,7 +118,7 @@ namespace cocos2d
         VertexDeclaration vertexDeclaration;
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            //GraphicsDevice.Clear(Color.Black);
 
             basicEffect.View = viewMatrix;
             basicEffect.World = worldMatrix;
