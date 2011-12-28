@@ -21,13 +21,13 @@ namespace tests
             CCProgressTo to2 = CCProgressTo.actionWithDuration(2, 100);
 
             CCProgressTimer left = CCProgressTimer.progressWithFile(s_pPathSister1);
-            left.setType(CCProgressTimer.CCProgressTimerType.kCCProgressTimerTypeRadialCW);
+            left.Type = CCProgressTimerType.kCCProgressTimerTypeRadialCW;
             addChild(left);
             left.position = new CCPoint(100, s.height / 2);
             left.runAction(CCRepeatForever.actionWithAction(to1));
 
             CCProgressTimer right = CCProgressTimer.progressWithFile(s_pPathBlock);
-            right.setType(CCProgressTimer.CCProgressTimerType.kCCProgressTimerTypeRadialCCW);
+            right.Type = CCProgressTimerType.kCCProgressTimerTypeRadialCCW;
             addChild(right);
             right.position = new CCPoint(s.width - 100, s.height / 2);
             right.runAction(CCRepeatForever.actionWithAction(to2));
