@@ -8,7 +8,6 @@ namespace tests
 {
     public class CocosNodeTestScene : TestScene
     {
-
         static int sceneIdx = -1;
 
         static int MAX_LAYER = 12;

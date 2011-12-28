@@ -12,12 +12,13 @@ namespace tests
         int kTagLayer = 1;
         public LayerGradient()
         {
-            //CCLayerGradient layer1 = CCLayerGradient.layerWithColor(new ccColor4B(255,0,0,255), new ccColor4B(0,255,0,255),new CCPoint(0.9f, 0.9f));
-            //addChild(layer1, 0, kTagLayer);
-            this.isKeypadEnabled = true;
+            CCLayerGradient layer1 = CCLayerGradient.layerWithColor(new ccColor4B(255, 0, 0, 255), new ccColor4B(0, 255, 0, 255), new CCPoint(0.9f, 0.9f));
+            addChild(layer1, 0, kTagLayer);
 
-            CCLabelTTF label1 = CCLabelTTF.labelWithString("Compressed Interpolation: Enabled", "Marker Felt", 26);
-            CCLabelTTF label2 = CCLabelTTF.labelWithString("Compressed Interpolation: Disabled", "Marker Felt", 26);
+            this.isTouchEnabled = true;
+
+            CCLabelTTF label1 = CCLabelTTF.labelWithString("Compressed Interpolation: Enabled", "Arial", 26);
+            CCLabelTTF label2 = CCLabelTTF.labelWithString("Compressed Interpolation: Disabled", "Arial", 26);
             CCMenuItemLabel item1 = CCMenuItemLabel.itemWithLabel(label1);
             CCMenuItemLabel item2 = CCMenuItemLabel.itemWithLabel(label2);
             CCMenuItemToggle item = CCMenuItemToggle.itemWithTarget(this, (toggleItem), item1, item2);
@@ -38,22 +39,19 @@ namespace tests
             start = CCDirector.sharedDirector().convertToGL(start);
 
             CCPoint diff = new CCPoint(s.width / 2 - start.x, s.height / 2 - start.y);
-            //diff = ccpNormalize(diff);
+            diff = CCPointExtension.ccpNormalize(diff);
 
             CCLayerGradient gradient = (CCLayerGradient)getChildByTag(1);
-            //gradient.setVector(diff);
+            gradient.Vector = diff;
         }
-        //static CCPoint ccpNormalize(CCPoint v)
-        //{
-        //    return new CCPoint(v.x * 1.0f / v., v.y * 1.0f / ccpLength(v));
-        //}
 
-        public virtual string title()
+
+        public override string title()
         {
             return "LayerGradient";
         }
 
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "Touch the screen and move your finger";
         }
@@ -61,7 +59,7 @@ namespace tests
         public void toggleItem(object sender)
         {
             CCLayerGradient gradient = (CCLayerGradient)getChildByTag(kTagLayer);
-            //gradient.setIsCompressedInterpolation(!gradient.getIsCompressedInterpolation());
+            gradient.IsCompressedInterpolation = !gradient.IsCompressedInterpolation;
         }
     }
 }

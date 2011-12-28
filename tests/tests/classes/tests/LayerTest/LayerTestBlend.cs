@@ -29,6 +29,7 @@ namespace tests
             schedule(newBlend, 1.0f);
         }
         uint GL_ZERO = 0;
+
         public void newBlend(float dt)
         {
             CCLayerColor layer = (CCLayerColor)getChildByTag(kTagLayer);
@@ -51,7 +52,7 @@ namespace tests
             layer.BlendFunc = (bf);
         }
 
-        public string title()
+        public override string title()
         {
             return "ColorLayer: blend";
         }

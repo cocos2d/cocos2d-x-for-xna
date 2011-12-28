@@ -32,7 +32,7 @@ namespace tests
             return "";
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 

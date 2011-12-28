@@ -14,6 +14,7 @@ namespace tests
         public override void onEnter()
         {
             base.onEnter();
+
             this.isTouchEnabled = true;
 
             CCSize s = CCDirector.sharedDirector().getWinSize();
@@ -29,7 +30,7 @@ namespace tests
             return "ColorLayer resize (tap & move)";
         }
 
-        public void registerWithTouchDispatcher()
+        public override void registerWithTouchDispatcher()
         {
             CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(this, kCCMenuTouchPriority + 1, true);
         }
@@ -47,7 +48,7 @@ namespace tests
         public override bool ccTouchBegan(CCTouch touche, CCEvent events)
         {
             updateSize(touche);
-            return true;
+            return false;
         }
 
         public override void ccTouchMoved(CCTouch touche, CCEvent events)

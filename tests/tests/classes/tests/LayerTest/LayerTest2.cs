@@ -34,7 +34,7 @@ namespace tests
             layer2.runAction(seq2);
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "ColorLayer: fade and tint";
         }
