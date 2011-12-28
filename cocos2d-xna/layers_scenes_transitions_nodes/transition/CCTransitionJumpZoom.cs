@@ -60,14 +60,13 @@ namespace cocos2d
                 (
                     delay,
                     jumpZoomIn,
-                    CCCallFunc.actionWithTarget(this, base.finish),
-                    null
+                    CCCallFunc.actionWithTarget(this, base.finish)
                 )
             );
         }
 
         //public DECLEAR_TRANSITIONWITHDURATION(CCTransitionJumpZoom);
-        public static CCTransitionJumpZoom transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionJumpZoom transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionJumpZoom pScene = new CCTransitionJumpZoom();
             if (pScene != null && pScene.initWithDuration(t, scene))

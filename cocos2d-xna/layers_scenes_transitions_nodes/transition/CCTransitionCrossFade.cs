@@ -34,12 +34,13 @@ namespace cocos2d
 {
     public class CCTransitionCrossFade : CCTransitionScene
     {
-        public virtual void draw()
+        public override void draw()
         {
             // override draw since both scenes (textures) are rendered in 1 scene
+            base.draw();
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -111,14 +112,14 @@ namespace cocos2d
             //addChild(layer, 2, kSceneFade);
         }
 
-        public virtual void onExit()
+        public override void onExit()
         {
             // remove our layer and release all containing objects 
             //this.removeChildByTag(kSceneFade, false);
             base.onExit();
         }
 
-        public static CCTransitionCrossFade transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionCrossFade transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionCrossFade pScene = new CCTransitionCrossFade();
             if (pScene != null && pScene.initWithDuration(t, scene))

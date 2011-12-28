@@ -65,7 +65,7 @@ namespace cocos2d
             return null;
         }
 
-        protected virtual void sceneOrder()
+        protected override void sceneOrder()
         {
             m_bIsInSceneOnTop = true;
         }

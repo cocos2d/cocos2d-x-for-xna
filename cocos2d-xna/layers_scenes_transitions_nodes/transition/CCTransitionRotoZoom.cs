@@ -35,7 +35,7 @@ namespace cocos2d
     public class CCTransitionRotoZoom : CCTransitionScene
     {
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 

@@ -45,7 +45,7 @@ namespace cocos2d
         {
         }
 
-        public virtual void draw()
+        public override void draw()
         {
             base.draw();
 
@@ -61,13 +61,13 @@ namespace cocos2d
             }
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
             m_pInScene.onEnter();
         }
 
-        public virtual void onExit()
+        public override void onExit()
         {
             base.onExit();
             m_pOutScene.onExit();
@@ -77,7 +77,7 @@ namespace cocos2d
             m_pInScene.onEnterTransitionDidFinish();
         }
 
-        public virtual void cleanup()
+        public override void cleanup()
         {
             base.cleanup();
 

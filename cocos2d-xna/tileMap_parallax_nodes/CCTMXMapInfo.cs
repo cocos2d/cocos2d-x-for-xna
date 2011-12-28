@@ -285,14 +285,14 @@ namespace cocos2d
                 }
 
                 string orientationStr = attributeDict["orientation"];
-                //if( orientationStr == "orthogonal")
-                //    pTMXMapInfo->setOrientation(CCTMXOrientationOrtho);
-                //else if ( orientationStr  == "isometric")
-                //    pTMXMapInfo->setOrientation(CCTMXOrientationIso);
-                //else if( orientationStr == "hexagonal")
-                //    pTMXMapInfo->setOrientation(CCTMXOrientationHex);
-                //else
-                //    CCLOG("cocos2d: TMXFomat: Unsupported orientation: %d", pTMXMapInfo->getOrientation());
+                if (orientationStr == "orthogonal")
+                    pTMXMapInfo.Orientation =(int) CCTMXOrientatio.CCTMXOrientationOrtho;
+                else if (orientationStr == "isometric")
+                    pTMXMapInfo.Orientation=(int) CCTMXOrientatio.CCTMXOrientationIso;
+                else if (orientationStr == "hexagonal")
+                    pTMXMapInfo.Orientation=(int) CCTMXOrientatio.CCTMXOrientationHex;
+                else
+                    Debug.WriteLine("cocos2d: TMXFomat: Unsupported orientation: {0}", pTMXMapInfo.Orientation);
 
                 CCSize s = new CCSize();
                 s.width = float.Parse(attributeDict["width"]);

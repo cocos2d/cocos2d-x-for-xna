@@ -34,7 +34,7 @@ namespace cocos2d
 {
     public class CCTransitionShrinkGrow : CCTransitionScene, ICCTransitionEaseScene
     {
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -65,7 +65,7 @@ namespace cocos2d
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionShrinkGrow);
-        public static CCTransitionShrinkGrow transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionShrinkGrow transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionShrinkGrow pScene = new CCTransitionShrinkGrow();
             if (pScene != null && pScene.initWithDuration(t, scene))

@@ -54,7 +54,7 @@ namespace cocos2d
             return CCMoveBy.actionWithDuration(m_fDuration, new CCPoint(s.width - 0.5f, 0));
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
             this.initScenes();
@@ -79,7 +79,7 @@ namespace cocos2d
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionSlideInL);
-        public static CCTransitionSlideInL transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionSlideInL transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionSlideInL pScene = new CCTransitionSlideInL();
             if (pScene != null && pScene.initWithDuration(t, scene))
@@ -90,7 +90,7 @@ namespace cocos2d
             return null;
         }
 
-        protected virtual void sceneOrder()
+        protected override void sceneOrder()
         {
             m_bIsInSceneOnTop = false;
         }

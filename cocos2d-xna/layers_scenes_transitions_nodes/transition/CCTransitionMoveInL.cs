@@ -52,7 +52,7 @@ namespace cocos2d
             return CCMoveTo.actionWithDuration(m_fDuration, new CCPoint(0, 0));
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
             this.initScenes();
@@ -71,7 +71,7 @@ namespace cocos2d
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionMoveInL);
-        public static CCTransitionMoveInL transitionWithDuration(float t, CCScene scene)
+        public static new CCTransitionMoveInL transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionMoveInL pScene = new CCTransitionMoveInL();
             if (pScene != null && pScene.initWithDuration(t, scene))
