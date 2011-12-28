@@ -76,7 +76,24 @@
     <Compile Include="classes\tests\ClickAndMoveTest\ClickAndMoveTest.cs" />
     <Compile Include="classes\tests\CocosDenshionTest\CocosDenshionTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\CrashTest.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\CameraCenterTest.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\CameraOrbitTest.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\CameraZoomTest.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\CocosNodeTestScene.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\CocosNodeTestStaticLibrary.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\ConvertToNode.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\NodeToWorld.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\SchedulerTest1.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\StressTest1.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\StressTest2.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\Test2.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\Test4.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\Test5.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\Test6.cs" />
+    <Compile Include="classes\tests\CocosNodeTest\TestCocosNodeDemo.cs" />
     <Compile Include="classes\tests\DirectorTest\DirectorTest.cs" />
+    <Compile Include="classes\tests\DrawPrimitivesTest\DrawPrimitivesTest.cs" />
+    <Compile Include="classes\tests\DrawPrimitivesTest\DrawPrimitivesTestScene.cs" />
     <Compile Include="classes\tests\EaseActionTest\EaseActionsTest.cs" />
     <Compile Include="classes\tests\EffectsTest\EffectTestScene.cs" />
     <Compile Include="classes\tests\EffectsTest\FadeOutBLTilesDemo.cs" />
@@ -102,6 +119,12 @@
     <Compile Include="classes\tests\EffectsTest\Waves3DDemo.cs" />
     <Compile Include="classes\tests\EffectsTest\WavesDemo.cs" />
     <Compile Include="classes\tests\EffectsTest\WavesTiles3DDemo.cs" />
+    <Compile Include="classes\tests\HiResTest\HiResDemo.cs" />
+    <Compile Include="classes\tests\HiResTest\HiResTest1.cs" />
+    <Compile Include="classes\tests\HiResTest\HiResTest2.cs" />
+    <Compile Include="classes\tests\HiResTest\HiResTestScene.cs" />
+    <Compile Include="classes\tests\IntervalTest\IntervalLayer.cs" />
+    <Compile Include="classes\tests\IntervalTest\IntervalTestScene.cs" />
     <Compile Include="classes\tests\LabelTest\Atlas1.cs" />
     <Compile Include="classes\tests\LabelTest\Atlas3.cs" />
     <Compile Include="classes\tests\LabelTest\Atlas4.cs" />
@@ -122,11 +145,21 @@
     <Compile Include="classes\tests\LabelTest\LabelTTFMultiline.cs" />
     <Compile Include="classes\tests\LabelTest\LabelTTFTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\LogicTest.cs" />
+    <Compile Include="classes\tests\LayerTest\LayerGradient.cs" />
+    <Compile Include="classes\tests\LayerTest\Layertest.cs" />
+    <Compile Include="classes\tests\LayerTest\LayerTest1.cs" />
+    <Compile Include="classes\tests\LayerTest\LayerTest2.cs" />
+    <Compile Include="classes\tests\LayerTest\LayerTestBlend.cs" />
+    <Compile Include="classes\tests\LayerTest\LayerTestScene.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer1.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer2.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer3.cs" />
     <Compile Include="classes\tests\MenuTest\MenuLayer4.cs" />
     <Compile Include="classes\tests\MenuTest\MenuTestScene.cs" />
+    <Compile Include="classes\tests\MotionStreakTest\MotionStreakTest.cs" />
+    <Compile Include="classes\tests\MotionStreakTest\MotionStreakTest1.cs" />
+    <Compile Include="classes\tests\MotionStreakTest\MotionStreakTest2.cs" />
+    <Compile Include="classes\tests\MotionStreakTest\MotionStreakTestScene.cs" />
     <Compile Include="classes\tests\ParallaxTest\Parallax1.cs" />
     <Compile Include="classes\tests\ParallaxTest\Parallax2.cs" />
     <Compile Include="classes\tests\ParallaxTest\ParallaxDemo.cs" />
@@ -150,6 +183,18 @@
     <Compile Include="classes\tests\SceneTest\SceneTestLayer2.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer3.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestScene.cs" />
+    <Compile Include="classes\tests\SchedulerTest\RescheduleSelector.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerAutoremove.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerPauseResume.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerSchedulesAndRemove.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerTestLayer.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerTestScene.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerUnscheduleAll.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerUnscheduleAllHard.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerUpdate.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerUpdateAndCustom.cs" />
+    <Compile Include="classes\tests\SchedulerTest\SchedulerUpdateFromCustom.cs" />
+    <Compile Include="classes\tests\SchedulerTest\TestNode.cs" />
     <Compile Include="classes\tests\SpriteTest\Sprite1.cs" />
     <Compile Include="classes\tests\SpriteTest\SpriteTestDemo.cs" />
     <Compile Include="classes\tests\SpriteTest\SpriteTestScene.cs" />
@@ -179,6 +224,26 @@
     <Compile Include="classes\tests\TouchesTest\Paddle.cs" />
     <Compile Include="classes\tests\TouchesTest\PongLayer.cs" />
     <Compile Include="classes\tests\TouchesTest\PongScene.cs" />
+    <Compile Include="classes\tests\TransitionsTest\FadeWhiteTransition.cs" />
+    <Compile Include="classes\tests\TransitionsTest\FlipAngularLeftOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\FlipAngularRightOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\FlipXLeftOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\FlipXRightOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\FlipYDownOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\FlipYUpOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\PageTransitionBackward.cs" />
+    <Compile Include="classes\tests\TransitionsTest\PageTransitionForward.cs" />
+    <Compile Include="classes\tests\TransitionsTest\TestLayer1.cs" />
+    <Compile Include="classes\tests\TransitionsTest\TestLayer2.cs" />
+    <Compile Include="classes\tests\TransitionsTest\TransitionsTestScene.cs" />
+    <Compile Include="classes\tests\TransitionsTest\ZoomFlipAngularLeftOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\ZoomFlipAngularRightOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\ZoomFlipXLeftOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\ZoomFlipXRightOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\ZoomFlipYDownOver.cs" />
+    <Compile Include="classes\tests\TransitionsTest\ZoomFlipYUpOver.cs" />
+    <Compile Include="classes\tests\UserDefaultTest\UserDefaultTest.cs" />
+    <Compile Include="classes\tests\UserDefaultTest\UserDefaultTestScene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Properties\AppManifest.xml">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -213,10 +278,7 @@
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="classes\tests\CocosNodeTest\" />
-    <Folder Include="classes\tests\LayerTest\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

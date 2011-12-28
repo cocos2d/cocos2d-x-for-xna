@@ -6,21 +6,9 @@ using cocos2d;
 
 namespace tests
 {
-    public class LayerTest : CCLayer
+    public class TestCocosNodeDemo : CCLayer
     {
-        string s_pPathB1 = "Images/b1";
-        string s_pPathB2 = "Images/b2";
-        string s_pPathR1 = "Images/r1";
-        string s_pPathR2 = "Images/r2";
-        string s_pPathF1 = "Images/f1";
-        string s_pPathF2 = "Images/f2";
-
-        protected string m_strTitle;
-
-        public LayerTest()
-        {
-
-        }
+        public TestCocosNodeDemo() { }
 
         public virtual string title()
         {
@@ -32,7 +20,7 @@ namespace tests
             return "";
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -42,17 +30,17 @@ namespace tests
             addChild(label, 1);
             label.position = (new CCPoint(s.width / 2, s.height - 50));
 
-            string subtitle_ = subtitle();
-            if (subtitle_.Length > 0)
+            string strSubtitle = subtitle();
+            if (!string.IsNullOrEmpty(strSubtitle))
             {
-                CCLabelTTF l = CCLabelTTF.labelWithString(subtitle_, "Arial", 16);
+                CCLabelTTF l = CCLabelTTF.labelWithString(strSubtitle, "Arial", 16);
                 addChild(l, 1);
                 l.position = (new CCPoint(s.width / 2, s.height - 80));
             }
 
-            CCMenuItemImage item1 = CCMenuItemImage.itemFromNormalImage(s_pPathB1, s_pPathB2, this, (backCallback));
-            CCMenuItemImage item2 = CCMenuItemImage.itemFromNormalImage(s_pPathR1, s_pPathR2, this, (restartCallback));
-            CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage(s_pPathF1, s_pPathF2, this, (nextCallback));
+            CCMenuItemImage item1 = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathB1, TestResource.s_pPathB2, this, new SEL_MenuHandler(this.backCallback));
+            CCMenuItemImage item2 = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathR1, TestResource.s_pPathR2, this, new SEL_MenuHandler(this.restartCallback));
+            CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage(TestResource.s_pPathF1, TestResource.s_pPathF2, this, new SEL_MenuHandler(this.nextCallback));
 
             CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
 
@@ -66,22 +54,21 @@ namespace tests
 
         public void restartCallback(CCObject pSender)
         {
-            CCScene s = new LayerTestScene();
-            s.addChild(LayerTestScene.restartTestAction());
+            CCScene s = new CocosNodeTestScene();//CCScene.node();
+            s.addChild(CocosNodeTestScene.restartCocosNodeAction());
+
             CCDirector.sharedDirector().replaceScene(s);
         }
-
         public void nextCallback(CCObject pSender)
         {
-            CCScene s = new LayerTestScene();
-            s.addChild(LayerTestScene.nextTestAction());
+            CCScene s = new CocosNodeTestScene();//CCScene.node();
+            s.addChild(CocosNodeTestScene.nextCocosNodeAction());
             CCDirector.sharedDirector().replaceScene(s);
         }
-
         public void backCallback(CCObject pSender)
         {
-            CCScene s = new LayerTestScene();
-            s.addChild(LayerTestScene.backTestAction());
+            CCScene s = new CocosNodeTestScene();//CCScene.node();
+            s.addChild(CocosNodeTestScene.backCocosNodeAction());
             CCDirector.sharedDirector().replaceScene(s);
         }
     }
