@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
@@ -44,7 +45,7 @@ namespace cocos2d
     {
         protected ccVertex2F[] m_pSquareVertices = new ccVertex2F[4];
         protected ccColor4B[] m_pSquareColors = new ccColor4B[4];
-        VertexPositionColor[] vertices = new VertexPositionColor[4];
+        protected VertexPositionColor[] vertices = new VertexPositionColor[4];
         short[] indexes = new short[6];
 
         public CCLayerColor()
@@ -75,8 +76,6 @@ namespace cocos2d
             CCApplication app = CCApplication.sharedApplication();
             CCSize size = CCDirector.sharedDirector().getWinSize();
 
-            //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
-            //app.basicEffect.Texture = this.Texture.getTexture2D();
             app.basicEffect.VertexColorEnabled = true;
             app.basicEffect.TextureEnabled = false;
             app.basicEffect.Alpha = (float)this.m_cOpacity / 255.0f;

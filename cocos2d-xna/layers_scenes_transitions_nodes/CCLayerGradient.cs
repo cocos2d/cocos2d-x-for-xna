@@ -36,6 +36,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
@@ -102,6 +103,7 @@ namespace cocos2d
         /// </summary>
         public virtual bool initWithColor(ccColor4B start, ccColor4B end, CCPoint v)
         {
+            m_endColor = new ccColor3B();
             m_endColor.r = end.r;
             m_endColor.g = end.g;
             m_endColor.b = end.b;
@@ -248,6 +250,11 @@ namespace cocos2d
             m_pSquareColors[3].g = (byte)(E.g + (S.g - E.g) * ((c - u.x - u.y) / (2.0f * c)));
             m_pSquareColors[3].b = (byte)(E.b + (S.b - E.b) * ((c - u.x - u.y) / (2.0f * c)));
             m_pSquareColors[3].a = (byte)(E.a + (S.a - E.a) * ((c - u.x - u.y) / (2.0f * c)));
+
+            vertices[0].Color = new Color(m_pSquareColors[0].r, m_pSquareColors[0].g, m_pSquareColors[0].b, m_pSquareColors[0].a);
+            vertices[1].Color = new Color(m_pSquareColors[1].r, m_pSquareColors[1].g, m_pSquareColors[1].b, m_pSquareColors[1].a);
+            vertices[2].Color = new Color(m_pSquareColors[2].r, m_pSquareColors[2].g, m_pSquareColors[2].b, m_pSquareColors[2].a);
+            vertices[3].Color = new Color(m_pSquareColors[3].r, m_pSquareColors[3].g, m_pSquareColors[3].b, m_pSquareColors[3].a);
         }
     }
 }

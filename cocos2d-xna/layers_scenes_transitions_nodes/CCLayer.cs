@@ -101,8 +101,7 @@ namespace cocos2d
             // add this layer to concern the kaypad msg
             if (m_bIsKeypadEnabled)
             {
-                ///@todo
-                throw new NotImplementedException();
+               
             }
         }
         public override void onExit()
@@ -122,8 +121,7 @@ namespace cocos2d
             // remove this layer from the delegates who concern the kaypad msg
             if (m_bIsKeypadEnabled)
             {
-                ///@todo
-                throw new NotImplementedException();
+                
             }
 
             base.onExit();
