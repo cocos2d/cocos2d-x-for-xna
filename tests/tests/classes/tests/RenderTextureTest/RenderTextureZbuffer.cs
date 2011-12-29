@@ -10,32 +10,125 @@ namespace tests
     {
         public RenderTextureZbuffer()
         {
+            //this->setIsTouchEnabled(true);
+            isTouchEnabled = true;
+            CCSize size = CCDirector.sharedDirector().getWinSize();
+            CCLabelTTF label = CCLabelTTF.labelWithString("vertexZ = 50", "Marker Felt", 64);
+            label.position = new CCPoint(size.width / 2, size.height * 0.25f);
+            this.addChild(label);
 
+            CCLabelTTF label2 = CCLabelTTF.labelWithString("vertexZ = 0", "Marker Felt", 64);
+            label2.position = new CCPoint(size.width / 2, size.height * 0.5f);
+            this.addChild(label2);
+
+            CCLabelTTF label3 = CCLabelTTF.labelWithString("vertexZ = -50", "Marker Felt", 64);
+            label3.position = new CCPoint(size.width / 2, size.height * 0.75f);
+            this.addChild(label3);
+
+            label.vertexZ = 50;
+            label2.vertexZ = 0;
+            label3.vertexZ = -50;
+
+#warning "CCSpriteFrameCache is not exist! "
+            //CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFramesWithFile("Images/bugs/circle.plist");
+            mgr = CCSpriteBatchNode.batchNodeWithFile("Images/bugs/circle.png", 9);
+            this.addChild(mgr);
+            sp1 = CCSprite.spriteWithSpriteFrameName("circle.png");
+            sp2 = CCSprite.spriteWithSpriteFrameName("circle.png");
+            sp3 = CCSprite.spriteWithSpriteFrameName("circle.png");
+            sp4 = CCSprite.spriteWithSpriteFrameName("circle.png");
+            sp5 = CCSprite.spriteWithSpriteFrameName("circle.png");
+            sp6 = CCSprite.spriteWithSpriteFrameName("circle.png");
+            sp7 = CCSprite.spriteWithSpriteFrameName("circle.png");
+            sp8 = CCSprite.spriteWithSpriteFrameName("circle.png");
+            sp9 = CCSprite.spriteWithSpriteFrameName("circle.png");
+
+            mgr.addChild(sp1, 9);
+            mgr.addChild(sp2, 8);
+            mgr.addChild(sp3, 7);
+            mgr.addChild(sp4, 6);
+            mgr.addChild(sp5, 5);
+            mgr.addChild(sp6, 4);
+            mgr.addChild(sp7, 3);
+            mgr.addChild(sp8, 2);
+            mgr.addChild(sp9, 1);
+
+            sp1.vertexZ = 400;
+            sp2.vertexZ = 300;
+            sp3.vertexZ = 200;
+            sp4.vertexZ = 100;
+            sp5.vertexZ = 0;
+            sp6.vertexZ = -100;
+            sp7.vertexZ = -200;
+            sp8.vertexZ = -300;
+            sp9.vertexZ = -400;
+
+            sp9.scale = 2;
+            sp9.Color = new ccColor3B { r = 255, g = 255, b = 0 };
         }
 
-        public virtual void ccTouchesMoved(List<CCObject> touches, CCEvent events)
+        public override void ccTouchesMoved(List<CCTouch> touches, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            //CCSetIterator iter;
+            //CCTouch *touch;
+            //for (iter = touches->begin(); iter != touches->end(); ++iter)
+            //{
+            foreach (var touch in touches)
+            {
+                CCPoint location = touch.locationInView(touch.view());
+
+                location = CCDirector.sharedDirector().convertToGL(location);
+                sp1.position = location;
+                sp2.position = location;
+                sp3.position = location;
+                sp4.position = location;
+                sp5.position = location;
+                sp6.position = location;
+                sp7.position = location;
+                sp8.position = location;
+                sp9.position = location;
+            }
+            //touch = (CCTouch *)(*iter);
+            //}
         }
 
-        public virtual void ccTouchesBegan(List<CCObject> touches, CCEvent events)
+        public override void ccTouchesBegan(List<CCTouch> touches, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            //CCSetIterator iter;
+            //CCTouch touch;
+            //for (iter = touches.begin(); iter != touches.end(); ++iter)
+            //{
+            foreach (var touch in touches)
+            {
+                CCPoint location = touch.locationInView(touch.view());
+
+                location = CCDirector.sharedDirector().convertToGL(location);
+                sp1.position = location;
+                sp2.position = location;
+                sp3.position = location;
+                sp4.position = location;
+                sp5.position = location;
+                sp6.position = location;
+                sp7.position = location;
+                sp8.position = location;
+                sp9.position = location;
+            }
+            //}
         }
 
-        public virtual void ccTouchesEnded(List<CCObject> touches, CCEvent events)
+        public override void ccTouchesEnded(List<CCTouch> touches, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            this.renderScreenShot();
         }
 
         public override string title()
         {
-            throw new NotFiniteNumberException();
+            return "Testing Z Buffer in Render Texture";
         }
 
         public override string subtitle()
         {
-            throw new NotFiniteNumberException();
+            return "Touch screen. It should be green";
         }
 
         public void renderScreenShot()

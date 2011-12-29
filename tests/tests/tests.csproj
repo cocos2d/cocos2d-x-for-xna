@@ -95,6 +95,14 @@
     <Compile Include="classes\tests\DrawPrimitivesTest\DrawPrimitivesTest.cs" />
     <Compile Include="classes\tests\DrawPrimitivesTest\DrawPrimitivesTestScene.cs" />
     <Compile Include="classes\tests\EaseActionTest\EaseActionsTest.cs" />
+    <Compile Include="classes\tests\EffectsAdvancedTest\Effect1.cs" />
+    <Compile Include="classes\tests\EffectsAdvancedTest\Effect2.cs" />
+    <Compile Include="classes\tests\EffectsAdvancedTest\Effect3.cs" />
+    <Compile Include="classes\tests\EffectsAdvancedTest\Effect4.cs" />
+    <Compile Include="classes\tests\EffectsAdvancedTest\Effect5.cs" />
+    <Compile Include="classes\tests\EffectsAdvancedTest\EffectAdvanceScene.cs" />
+    <Compile Include="classes\tests\EffectsAdvancedTest\EffectAdvanceTextLayer.cs" />
+    <Compile Include="classes\tests\EffectsAdvancedTest\Issue631.cs" />
     <Compile Include="classes\tests\EffectsTest\EffectTestScene.cs" />
     <Compile Include="classes\tests\EffectsTest\FadeOutBLTilesDemo.cs" />
     <Compile Include="classes\tests\EffectsTest\FadeOutDownTilesDemo.cs" />

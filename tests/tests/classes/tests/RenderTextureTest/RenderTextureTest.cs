@@ -19,7 +19,7 @@ namespace tests
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             // create a render texture, this is what we're going to draw into
-            //m_target = CCRenderTexture.renderTextureWithWidthAndHeight(s.width, s.height);
+            m_target = CCRenderTexture.renderTextureWithWidthAndHeight((int)s.width, (int)s.height);
 
             if (null == m_target)
             {
@@ -42,11 +42,11 @@ namespace tests
             isTouchEnabled = true;
         }
 
-        public virtual void ccTouchesMoved(List<CCObject> touches, CCEvent events)
+        public override void ccTouchesMoved(List<CCTouch> touches, CCEvent events)
         {
             foreach (var it in touches)
             {
-                CCTouch touch = (CCTouch)(it);
+                CCTouch touch = it;
                 CCPoint start = touch.locationInView(touch.view());
                 start = CCDirector.sharedDirector().convertToGL(start);
                 CCPoint end = touch.previousLocationInView(touch.view());
@@ -57,32 +57,32 @@ namespace tests
 
                 // for extra points, we'll draw this smoothly from the last position and vary the sprite's
                 // scale/rotation/offset
-                //float distance = ccpDistance(start, end);
-                //if (distance > 1)
-                //{
-                //    int d = (int)distance;
-                //    Random rand = new Random();
-                //    ;
-                //    for (int i = 0; i < d; i++)
-                //    {
-                //        float difx = end.x - start.x;
-                //        float dify = end.y - start.y;
-                //        float delta = (float)i / distance;
-                //        m_brush.position = new CCPoint(start.x + (difx * delta), start.y + (dify * delta));
-                //        m_brush.rotation = rand.Next() % 360;
-                //        float r = ((float)(rand.Next() % 50) / 50.0f) + 0.25f;
-                //        m_brush.scale = r;
-                //        // Call visit to draw the brush, don't call draw..
-                //        m_brush.visit();
-                //    }
-                //}
+                float distance = CCPointExtension.ccpDistance(start, end);
+                if (distance > 1)
+                {
+                    int d = (int)distance;
+                    Random rand = new Random();
+                    ;
+                    for (int i = 0; i < d; i++)
+                    {
+                        float difx = end.x - start.x;
+                        float dify = end.y - start.y;
+                        float delta = (float)i / distance;
+                        m_brush.position = new CCPoint(start.x + (difx * delta), start.y + (dify * delta));
+                        m_brush.rotation = rand.Next() % 360;
+                        float r = ((float)(rand.Next() % 50) / 50.0f) + 0.25f;
+                        m_brush.scale = r;
+                        // Call visit to draw the brush, don't call draw..
+                        m_brush.visit();
+                    }
+                }
                 // finish drawing and return context back to the screen
                 //m_target->end(false);
             }
         }
 
 
-        public virtual void ccTouchesEnded(List<CCObject> touches, CCEvent events)
+        public override void ccTouchesEnded(List<CCTouch> touches, CCEvent events)
         {
 #if CC_ENABLE_CACHE_TEXTTURE_DATA
 
