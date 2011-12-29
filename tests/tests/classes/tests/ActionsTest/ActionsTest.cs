@@ -12,14 +12,14 @@ namespace tests
         ACTION_MOVE_LAYER,
         ACTION_SCALE_LAYER,
         ACTION_ROTATE_LAYER,
-        //ACTION_SKEW_LAYER,
-        //ACTION_SKEWROTATE_LAYER,
+        ACTION_SKEW_LAYER,
+        ACTION_SKEWROTATE_LAYER,
         ACTION_JUMP_LAYER,
         ACTION_BEZIER_LAYER,
         ACTION_BLINK_LAYER,
         ACTION_FADE_LAYER,
         ACTION_TINT_LAYER,
-        //ACTION_ANIMATE_LAYER,
+        ACTION_ANIMATE_LAYER,
         ACTION_SEQUENCE_LAYER,
         ACTION_SEQUENCE2_LAYER,
         ACTION_SPAWN_LAYER,
@@ -33,7 +33,7 @@ namespace tests
         ACTION_CALLFUNCND_LAYER,
         ACTION_REVERSESEQUENCE_LAYER,
         ACTION_REVERSESEQUENCE2_LAYER,
-        //ACTION_ORBIT_LAYER,
+        ACTION_ORBIT_LAYER,
         ACTION_FLLOW_LAYER,
         ACTION_LAYER_COUNT,
     };
@@ -60,10 +60,10 @@ namespace tests
                     pLayer = new ActionScale(); break;
                 case (int)ActionTest.ACTION_ROTATE_LAYER:
                     pLayer = new ActionRotate(); break;
-                //case (int)ActionTest.ACTION_SKEW_LAYER:
-                //    pLayer = new ActionSkew(); break;
-                //case (int)ActionTest.ACTION_SKEWROTATE_LAYER:
-                //    pLayer = new ActionSkewRotateScale(); break;
+                case (int)ActionTest.ACTION_SKEW_LAYER:
+                    pLayer = new ActionSkew(); break;
+                case (int)ActionTest.ACTION_SKEWROTATE_LAYER:
+                    pLayer = new ActionSkewRotateScale(); break;
                 case (int)ActionTest.ACTION_JUMP_LAYER:
                     pLayer = new ActionJump(); break;
                 case (int)ActionTest.ACTION_BEZIER_LAYER:
@@ -74,8 +74,8 @@ namespace tests
                     pLayer = new ActionFade(); break;
                 case (int)ActionTest.ACTION_TINT_LAYER:
                     pLayer = new ActionTint(); break;
-                //case (int)ActionTest.ACTION_ANIMATE_LAYER:
-                //    pLayer = new ActionAnimate(); break;
+                case (int)ActionTest.ACTION_ANIMATE_LAYER:
+                    pLayer = new ActionAnimate(); break;
                 case (int)ActionTest.ACTION_SEQUENCE_LAYER:
                     pLayer = new ActionSequence(); break;
                 case (int)ActionTest.ACTION_SEQUENCE2_LAYER:
@@ -102,8 +102,8 @@ namespace tests
                     pLayer = new ActionReverseSequence(); break;
                 case (int)ActionTest.ACTION_REVERSESEQUENCE2_LAYER:
                     pLayer = new ActionReverseSequence2(); break;
-                //case (int)ActionTest.ACTION_ORBIT_LAYER:
-                //    pLayer = new ActionOrbit(); break;
+                case (int)ActionTest.ACTION_ORBIT_LAYER:
+                    pLayer = new ActionOrbit(); break;
                 case (int)ActionTest.ACTION_FLLOW_LAYER:
                     pLayer = new ActionFollow(); break;
             default:
@@ -401,48 +401,49 @@ namespace tests
 
     public class ActionSkewRotateScale : ActionsDemo
     {
+        static float markrside = 10.0f;
+
         public override void onEnter()
         {
             // todo: CCLayerColor hasn't been implemented
 
-            //base.onEnter();
+            base.onEnter();
 
-            //m_tamara.removeFromParentAndCleanup(true);
-            //m_grossini.removeFromParentAndCleanup(true);
-            //m_kathia.removeFromParentAndCleanup(true);
+            m_tamara.removeFromParentAndCleanup(true);
+            m_grossini.removeFromParentAndCleanup(true);
+            m_kathia.removeFromParentAndCleanup(true);
 
-            //CCSize boxSize = new CCSize(100.0f, 100.0f);
+            CCSize boxSize = new CCSize(100.0f, 100.0f);
 
-            //CCLayerColor box = CCLayerColor.layerWithColor(new ccColor4B(255, 255, 0, 255));
-            //box.anchorPoint = new CCPoint(0, 0);
-            //box.position = new CCPoint(190, 110);
-            //box.contentSize = boxSize;
+            CCLayerColor box = CCLayerColor.layerWithColor(new ccColor4B(255, 255, 0, 255));
+            box.anchorPoint = new CCPoint(0, 0);
+            box.position = new CCPoint(190, 110);
+            box.contentSize = boxSize;
 
-            //static float markrside = 10.0f;
-            //CCLayerColor *uL = CCLayerColor::layerWithColor(ccc4(255, 0, 0, 255));
-            //box->addChild(uL);
-            //uL->setContentSize(CCSizeMake(markrside, markrside));
-            //uL->setPosition(ccp(0.f, boxSize.height - markrside));
-            //uL->setAnchorPoint(ccp(0, 0));
+            CCLayerColor uL = CCLayerColor.layerWithColor(new ccColor4B(255, 0, 0, 255));
+            box.addChild(uL);
+            uL.contentSize = new CCSize(markrside, markrside);
+            uL.position = new CCPoint(0.0f, boxSize.height - markrside);
+            uL.anchorPoint = new CCPoint(0, 0);
 
-            //CCLayerColor *uR = CCLayerColor::layerWithColor(ccc4(0, 0, 255, 255));
-            //box->addChild(uR);
-            //uR->setContentSize(CCSizeMake(markrside, markrside));
-            //uR->setPosition(ccp(boxSize.width - markrside, boxSize.height - markrside));
-            //uR->setAnchorPoint(ccp(0, 0));
-            //addChild(box);
+            CCLayerColor uR = CCLayerColor.layerWithColor(new ccColor4B(0, 0, 255, 255));
+            box.addChild(uR);
+            uR.contentSize = new CCSize(markrside, markrside);
+            uR.position = new CCPoint(boxSize.width - markrside, boxSize.height - markrside);
+            uR.anchorPoint = new CCPoint(0, 0);
+            addChild(box);
 
-            //CCActionInterval *actionTo = CCSkewTo::actionWithDuration(2, 0.f, 2.f);
-            //CCActionInterval *rotateTo = CCRotateTo::actionWithDuration(2, 61.0f);
-            //CCActionInterval *actionScaleTo = CCScaleTo::actionWithDuration(2, -0.44f, 0.47f);
+            CCActionInterval actionTo = CCSkewTo.actionWithDuration(2, 0.0f, 2.0f);
+            CCActionInterval rotateTo = CCRotateTo.actionWithDuration(2, 61.0f);
+            CCActionInterval actionScaleTo = CCScaleTo.actionWithDuration(2, -0.44f, 0.47f);
 
-            //CCActionInterval *actionScaleToBack = CCScaleTo::actionWithDuration(2, 1.0f, 1.0f);
-            //CCActionInterval *rotateToBack = CCRotateTo::actionWithDuration(2, 0);
-            //CCActionInterval *actionToBack = CCSkewTo::actionWithDuration(2, 0, 0);
+            CCActionInterval actionScaleToBack = CCScaleTo.actionWithDuration(2, 1.0f, 1.0f);
+            CCActionInterval rotateToBack = CCRotateTo.actionWithDuration(2, 0);
+            CCActionInterval actionToBack = CCSkewTo.actionWithDuration(2, 0, 0);
 
-            //box->runAction(CCSequence::actions(actionTo, actionToBack, NULL));
-            //box->runAction(CCSequence::actions(rotateTo, rotateToBack, NULL));
-            //box->runAction(CCSequence::actions(actionScaleTo, actionScaleToBack, NULL));
+            box.runAction(CCSequence.actions(actionTo, actionToBack));
+            box.runAction(CCSequence.actions(rotateTo, rotateToBack));
+            box.runAction(CCSequence.actions(actionScaleTo, actionScaleToBack));
         }
 
         public override string subtitle()
@@ -1054,39 +1055,39 @@ namespace tests
         {
             // todo : CCOrbitCamera hasn't been implement
 
-            //base.onEnter();
+            base.onEnter();
 
-            //centerSprites(3);
+            centerSprites(3);
 
-            //CCActionInterval orbit1 = CCOrbitCamera.actionWithDuration(2,1, 0, 0, 180, 0, 0);
-            //CCFiniteTimeAction action1 = CCSequence.actions(
-            //    orbit1,
-            //    orbit1.reverse(),
-            //    null);
+            CCOrbitCamera orbit1 = CCOrbitCamera.actionWithDuration(2, 1, 0, 0, 180, 0, 0);
+            CCFiniteTimeAction action1 = CCSequence.actions(
+                orbit1,
+                orbit1.reverse(),
+                null);
 
-            //CCActionInterval orbit2 = CCOrbitCamera.actionWithDuration(2,1, 0, 0, 180, -45, 0);
-            //CCFiniteTimeAction action2 = CCSequence.actions(
-            //    orbit2,
-            //    orbit2.reverse(),
-            //    null);
+            CCOrbitCamera orbit2 = CCOrbitCamera.actionWithDuration(2, 1, 0, 0, 180, -45, 0);
+            CCFiniteTimeAction action2 = CCSequence.actions(
+                orbit2,
+                orbit2.reverse(),
+                null);
 
-            //CCActionInterval orbit3 = CCOrbitCamera.actionWithDuration(2,1, 0, 0, 180, 90, 0);
-            //CCFiniteTimeAction action3 = CCSequence.actions(
-            //    orbit3,
-            //    orbit3.reverse(),
-            //    null);
+            CCOrbitCamera orbit3 = CCOrbitCamera.actionWithDuration(2, 1, 0, 0, 180, 90, 0);
+            CCFiniteTimeAction action3 = CCSequence.actions(
+                orbit3,
+                orbit3.reverse(),
+                null);
 
-            //m_kathia.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action1));
-            //m_tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action2));
-            //m_grossini.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action3));
+            m_kathia.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action1));
+            m_tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action2));
+            m_grossini.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action3));
 
-            //CCActionInterval move = CCMoveBy.actionWithDuration(3, new CCPoint(100,-100));
-            //CCFiniteTimeAction move_back = move.reverse();
-            //CCFiniteTimeAction seq = CCSequence.actions(move, move_back, null);
-            //CCAction rfe = CCRepeatForever.actionWithAction((CCActionInterval)seq);
-            //m_kathia.runAction(rfe);
-            //m_tamara.runAction((CCAction)(rfe.copy()));
-            //m_grossini.runAction((CCAction)(rfe.copy()));
+            CCActionInterval move = CCMoveBy.actionWithDuration(3, new CCPoint(100, -100));
+            CCFiniteTimeAction move_back = move.reverse();
+            CCFiniteTimeAction seq = CCSequence.actions(move, move_back, null);
+            CCAction rfe = CCRepeatForever.actionWithAction((CCActionInterval)seq);
+            m_kathia.runAction(rfe);
+            m_tamara.runAction((CCAction)(rfe.copy()));
+            m_grossini.runAction((CCAction)(rfe.copy()));
         }
 
         public override string subtitle()

@@ -320,7 +320,7 @@ namespace cocos2d
         public static CCSprite spriteWithTexture(CCTexture2D texture, CCRect rect, CCPoint offset)
         {
             // not implement
-            throw new NotImplementedException();
+            return null;
         }
 
         /// <summary>
@@ -328,7 +328,12 @@ namespace cocos2d
         /// </summary>
         public static CCSprite spriteWithSpriteFrame(CCSpriteFrame pSpriteFrame)
         {
-            throw new NotImplementedException();
+            CCSprite pobSprite = new CCSprite();
+            if (pobSprite != null && pobSprite.initWithSpriteFrame(pSpriteFrame))
+            {
+                return pobSprite;
+            }
+            return null;
         }
 
         /// <summary>
@@ -340,6 +345,12 @@ namespace cocos2d
         public static CCSprite spriteWithSpriteFrameName(string pszSpriteFrameName)
         {
             throw new NotImplementedException();
+
+            //CCSpriteFrame pFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(pszSpriteFrameName);
+
+            //string msg = string.Format("Invalid spriteFrameName: {0}", pszSpriteFrameName);
+            //Debug.Assert(pFrame != null, msg);
+            //return spriteWithSpriteFrame(pFrame);
         }
 
         /// <summary>
@@ -851,7 +862,12 @@ namespace cocos2d
         /// </summary>
         public bool initWithSpriteFrame(CCSpriteFrame pSpriteFrame)
         {
-            throw new NotImplementedException();
+            Debug.Assert(pSpriteFrame != null);
+
+            bool bRet = initWithTexture(pSpriteFrame.getTexture(), pSpriteFrame.getRect());
+            setDisplayFrame(pSpriteFrame);
+
+            return bRet;
         }
 
         /// <summary>
@@ -863,6 +879,11 @@ namespace cocos2d
         public bool initWithSpriteFrameName(string spriteFrameName)
         {
             throw new NotImplementedException();
+
+            //Debug.Assert(spriteFrameName != null);
+
+            //CCSpriteFrame pFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(spriteFrameName);
+            //return initWithSpriteFrame(pFrame);
         }
 
         /// <summary>
@@ -1180,12 +1201,22 @@ namespace cocos2d
         #region Frames
 
         /// <summary>
-        /// gets or sets a new display frame to the CCSprite.
+        /// sets a new display frame to the CCSprite.
         /// </summary>
-        public CCSpriteFrame DisplayFrame
+        public void setDisplayFrame(CCSpriteFrame pNewFrame)
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+	        m_obUnflippedOffsetPositionFromCenter = pNewFrame.getOffsetInPixels();
+
+	        CCTexture2D pNewTexture = pNewFrame.getTexture();
+	        // update texture before updating texture rect
+            if (pNewTexture != m_pobTexture)
+            {
+                this.Texture = pNewTexture;
+            }
+
+	        // update rect
+	        m_bRectRotated = pNewFrame.isRotated();
+	        setTextureRectInPixels(pNewFrame.getRectInPixels(), pNewFrame.isRotated(), pNewFrame.getOriginalSizeInPixels());
         }
 
         /// <summary>
@@ -1193,8 +1224,21 @@ namespace cocos2d
         /// </summary>
         public bool isFrameDisplayed(CCSpriteFrame pFrame)
         {
-            throw new NotImplementedException();
+	        CCRect r = pFrame.getRect();
+
+	        return (CCRect.CCRectEqualToRect(r, m_obRect) &&
+		        pFrame.getTexture().Name == m_pobTexture.Name);
         }
+
+        public CCSpriteFrame displayedFrame()
+        {
+	        return CCSpriteFrame.frameWithTexture(m_pobTexture,
+                                                   m_obRectInPixels,
+                                                   m_bRectRotated,
+                                                   m_obUnflippedOffsetPositionFromCenter,
+                                                   m_tContentSizeInPixels);
+        }
+
 
         #endregion
 
@@ -1207,7 +1251,17 @@ namespace cocos2d
         /// </summary>
         public void setDisplayFrameWithAnimationName(string animationName, int frameIndex)
         {
-            throw new NotImplementedException();
+	        Debug.Assert(animationName != null);
+
+	        CCAnimation a = CCAnimationCache.sharedAnimationCache().animationByName(animationName);
+
+	        Debug.Assert(a != null);
+
+	        CCSpriteFrame frame = a.getFrames()[frameIndex];
+
+            Debug.Assert(frame != null);
+
+            setDisplayFrame(frame);
         }
 
         protected void updateTextureCoords(CCRect rect)

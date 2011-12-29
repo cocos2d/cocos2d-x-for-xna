@@ -133,7 +133,7 @@ namespace cocos2d
             if (m_bRestoreOriginalFrame)
             {
                 // original code : m_pOrigFrame = pSprite->displayedFrame();
-                m_pOrigFrame = pSprite.DisplayFrame;
+                m_pOrigFrame = pSprite.displayedFrame();
             }
         }
 
@@ -142,7 +142,7 @@ namespace cocos2d
             if (m_bRestoreOriginalFrame && m_pTarget != null)
             {
                 // original code: ((CCSprite*)(m_pTarget))->setDisplayFrame(m_pOrigFrame);
-                ((CCSprite)(m_pTarget)).DisplayFrame = m_pOrigFrame;
+                ((CCSprite)(m_pTarget)).setDisplayFrame(m_pOrigFrame);
             }
 
             base.stop();
@@ -163,7 +163,7 @@ namespace cocos2d
             CCSprite pSprite = (CCSprite)(m_pTarget);
             if (! pSprite.isFrameDisplayed(pFrames[idx]))
             {
-                pSprite.DisplayFrame = pFrames[idx];
+                pSprite.setDisplayFrame(pFrames[idx]);
             }
         }
 

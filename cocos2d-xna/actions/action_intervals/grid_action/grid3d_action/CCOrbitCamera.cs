@@ -53,7 +53,7 @@ namespace cocos2d
         // initializes a CCOrbitCamera action with radius, delta-radius,  z, deltaZ, x, deltaX 
         public bool initWithDuration(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
         {
-            //if (initWithDuration(t))
+            //if (base.initWithDuration(t))
             //{
             //    m_fRadius = radius;
             //    m_fDeltaRadius = deltaRadius;
