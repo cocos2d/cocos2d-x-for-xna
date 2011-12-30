@@ -124,7 +124,7 @@ namespace cocos2d
 
         public override void startWithTarget(CCNode pTarget)
         {
-            startWithTarget(pTarget);
+            base.startWithTarget(pTarget);
             float r, zenith, azimuth;
             this.sphericalRadius(out r, out zenith, out azimuth);
             if (float.IsNaN(m_fRadius))

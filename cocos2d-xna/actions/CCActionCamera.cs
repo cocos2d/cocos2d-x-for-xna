@@ -41,7 +41,7 @@ namespace cocos2d
 
         public override void startWithTarget(CCNode pTarget)
         {
-            startWithTarget(pTarget);
+            base.startWithTarget(pTarget);
 
             CCCamera camera = pTarget.Camera;
             camera.getCenterXYZ(out m_fCenterXOrig, out m_fCenterYOrig, out m_fCenterZOrig);
