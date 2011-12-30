@@ -38,7 +38,7 @@ namespace tests
             }
 
             float x = 0, y = 0, z = 0;
-            map.Camera.getEyeXYZ(x, y, z);
+            map.Camera.getEyeXYZ(out x, out y, out z);
             map.Camera.setEyeXYZ(x - 200, y, z + 300);
         }
 

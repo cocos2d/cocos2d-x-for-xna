@@ -53,55 +53,52 @@ namespace cocos2d
         // initializes a CCOrbitCamera action with radius, delta-radius,  z, deltaZ, x, deltaX 
         public bool initWithDuration(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
         {
-            //if (base.initWithDuration(t))
-            //{
-            //    m_fRadius = radius;
-            //    m_fDeltaRadius = deltaRadius;
-            //    m_fAngleZ = angleZ;
-            //    m_fDeltaAngleZ = deltaAngleZ;
-            //    m_fAngleX = angleX;
-            //    m_fDeltaAngleX = deltaAngleX;
+            CCActionInterval actInt = this as CCActionInterval;
+            if (actInt.initWithDuration(t))
+            {
+                m_fRadius = radius;
+                m_fDeltaRadius = deltaRadius;
+                m_fAngleZ = angleZ;
+                m_fDeltaAngleZ = deltaAngleZ;
+                m_fAngleX = angleX;
+                m_fDeltaAngleX = deltaAngleX;
 
-            //    m_fRadDeltaZ = (CGFloat)CC_DEGREES_TO_RADIANS(deltaAngleZ);
-            //    m_fRadDeltaX = (CGFloat)CC_DEGREES_TO_RADIANS(deltaAngleX);
-            //    return true;
-            //}
-            //return false;
-            throw new NotImplementedException();
+                m_fRadDeltaZ = ccMacros.CC_DEGREES_TO_RADIANS(deltaAngleZ);
+                m_fRadDeltaX = ccMacros.CC_DEGREES_TO_RADIANS(deltaAngleX);
+                return true;
+            }
+            return false;
         }
 
         // positions the camera according to spherical coordinates 
-        public void sphericalRadius(float newRadius, float zenith, float azimuth)
+        public void sphericalRadius(out float newRadius, out float zenith, out float azimuth)
         {
-            //float ex, ey, ez, cx, cy, cz, x, y, z;
-            //float r; // radius
-            //float s;
+            float ex, ey, ez, cx, cy, cz, x, y, z;
+            float r; // radius
+            float s;
 
-            //CCCamera pCamera = m_pTarget.Camera;
-            // pCamera.getEyeXYZ(ex, ey, ez);
-            // pCamera.getCenterXYZ(cx, cy, cz);
+            CCCamera pCamera = m_pTarget.Camera;
+            pCamera.getEyeXYZ(out ex, out ey, out ez);
+            pCamera.getCenterXYZ(out cx, out cy, out cz);
 
-            // x = ex - cx;
-            // y = ey - cy;
-            // z = ez - cz;
+            x = ex - cx;
+            y = ey - cy;
+            z = ez - cz;
 
-            //r = (float)Math.Sqrt((float)Math.Pow(x, 2) + (float)Math.Pow(y, 2) + (float)Math.Pow(z, 2));
-            //s = (float)Math.Sqrt((float)Math.Pow(x, 2) + (float)Math.Pow(y, 2));
-            ////if (s == 0.0f)
-            ////    s = FLT_EPSILON;
-            ////if (r == 0.0f)
-            ////    r = FLT_EPSILON;
+            r = (float)Math.Sqrt((float)Math.Pow(x, 2) + (float)Math.Pow(y, 2) + (float)Math.Pow(z, 2));
+            s = (float)Math.Sqrt((float)Math.Pow(x, 2) + (float)Math.Pow(y, 2));
+            if (s == 0.0f)
+                s = 1.192092896e-07F;
+            if (r == 0.0f)
+                r = 1.192092896e-07F;
 
-            //zenith = (float)Math.Acos(z / r);
-            //if (x < 0)
-            //    //azimuth = (CGFloat)M_PI - asinf(y / s);
-            //    azimuth = (float)Math.PI - (float)Math.Sin(y / s);
-            //else
-            //    //azimuth = asinf(y/s);
-            //    azimuth = (float)Math.Sin(y / s);
+            zenith = (float)Math.Acos(z / r);
+            if (x < 0)
+                azimuth = (float)Math.PI - (float)Math.Asin(y / s);
+            else
+                azimuth = (float)Math.Asin(y / s);
 
-            //newRadius = r / CCCamera.getZEye();
-            throw new NotImplementedException();
+            newRadius = r / CCCamera.getZEye();
         }
 
         // super methods
@@ -129,16 +126,16 @@ namespace cocos2d
         {
             startWithTarget(pTarget);
             float r, zenith, azimuth;
-            //this.sphericalRadius(r, zenith, azimuth);
-            //if (isnan(m_fRadius))
-            //    m_fRadius = r;
-            //if (isnan(m_fAngleZ))
-            //    m_fAngleZ = (CGFloat)CC_RADIANS_TO_DEGREES(zenith);
-            //if (isnan(m_fAngleX))
-            //    m_fAngleX = (CGFloat)CC_RADIANS_TO_DEGREES(azimuth);
+            this.sphericalRadius(out r, out zenith, out azimuth);
+            if (float.IsNaN(m_fRadius))
+                m_fRadius = r;
+            if (float.IsNaN(m_fAngleZ))
+                m_fAngleZ = ccMacros.CC_RADIANS_TO_DEGREES(zenith);
+            if (float.IsNaN(m_fAngleX))
+                m_fAngleX = ccMacros.CC_RADIANS_TO_DEGREES(azimuth);
 
-            //m_fRadZ = (CGFloat)CC_DEGREES_TO_RADIANS(m_fAngleZ);
-            //m_fRadX = (CGFloat)CC_DEGREES_TO_RADIANS(m_fAngleX);
+            m_fRadZ = ccMacros.CC_DEGREES_TO_RADIANS(m_fAngleZ);
+            m_fRadX = ccMacros.CC_DEGREES_TO_RADIANS(m_fAngleX);
         }
 
         public override void update(float dt)

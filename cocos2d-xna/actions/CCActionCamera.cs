@@ -32,7 +32,7 @@ using System.Text;
 
 namespace cocos2d
 {
-    public class CCActionCamera : CCActionInstant
+    public class CCActionCamera : CCActionInterval
     {
         public CCActionCamera()
         {
@@ -44,9 +44,9 @@ namespace cocos2d
             startWithTarget(pTarget);
 
             CCCamera camera = pTarget.Camera;
-            camera.getCenterXYZ(m_fCenterXOrig, m_fCenterYOrig, m_fCenterZOrig);
-            camera.getEyeXYZ(m_fEyeXOrig, m_fEyeYOrig, m_fEyeZOrig);
-            camera.getUpXYZ(m_fUpXOrig, m_fUpYOrig, m_fUpZOrig);
+            camera.getCenterXYZ(out m_fCenterXOrig, out m_fCenterYOrig, out m_fCenterZOrig);
+            camera.getEyeXYZ(out m_fEyeXOrig, out m_fEyeYOrig, out m_fEyeZOrig);
+            camera.getUpXYZ(out m_fUpXOrig, out m_fUpYOrig, out m_fUpZOrig);
         }
 
         public virtual CCActionInterval reverse()

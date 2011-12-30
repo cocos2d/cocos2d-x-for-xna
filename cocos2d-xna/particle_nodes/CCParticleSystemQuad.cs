@@ -259,7 +259,7 @@ namespace cocos2d
                 float x = newPosition.x;
                 float y = newPosition.y;
 
-                float r =  - particle.rotation * (float)System.Math.PI / 180;
+                float r = - ccMacros.CC_DEGREES_TO_RADIANS(particle.rotation); 
                 float cr = (float)System.Math.Cos(r);
                 float sr = (float)System.Math.Sin(r);
                 float ax = x1 * cr - y1 * sr + x;

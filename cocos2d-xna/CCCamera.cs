@@ -154,7 +154,7 @@ namespace cocos2d
         /// <param name="pEyeX"></param>
         /// <param name="pEyeY"></param>
         /// <param name="pEyeZ"></param>
-        public void getEyeXYZ(float pEyeX, float pEyeY, float pEyeZ)
+        public void getEyeXYZ(out float pEyeX, out float pEyeY, out float pEyeZ)
         {
             pEyeX = m_fEyeX / CCDirector.sharedDirector().ContentScaleFactor;
             pEyeY = m_fEyeY / CCDirector.sharedDirector().ContentScaleFactor;
@@ -167,7 +167,7 @@ namespace cocos2d
         /// <param name="pCenterX"></param>
         /// <param name="pCenterY"></param>
         /// <param name="pCenterZ"></param>
-        public void getCenterXYZ(float pCenterX, float pCenterY, float pCenterZ)
+        public void getCenterXYZ(out float pCenterX, out float pCenterY, out float pCenterZ)
         {
             pCenterX = m_fCenterX / CCDirector.sharedDirector().ContentScaleFactor;
             pCenterY = m_fCenterY / CCDirector.sharedDirector().ContentScaleFactor;
@@ -180,7 +180,7 @@ namespace cocos2d
         /// <param name="pUpX"></param>
         /// <param name="pUpY"></param>
         /// <param name="pUpZ"></param>
-        public void getUpXYZ(float pUpX, float pUpY, float pUpZ)
+        public void getUpXYZ(out float pUpX, out float pUpY, out float pUpZ)
         {
             pUpX = m_fUpX;
             pUpY = m_fUpY;

@@ -1233,7 +1233,7 @@ namespace cocos2d
             }
 
 	        // direction
-	        float a = (m_fAngle + m_fAngleVar * ccMacros.CCRANDOM_MINUS1_1()) * (float)System.Math.PI / 180;	
+            float a = ccMacros.CC_DEGREES_TO_RADIANS(m_fAngle + m_fAngleVar * ccMacros.CCRANDOM_MINUS1_1());
 
 	        // Mode Gravity: A
 	        if( m_nEmitterMode == (int)eParticleMode.kCCParticleModeGravity ) 
@@ -1270,7 +1270,7 @@ namespace cocos2d
 			        particle.modeB.deltaRadius = (endRadius - startRadius) / particle.timeToLive;
 
 		        particle.modeB.angle = a;
-		        particle.modeB.degreesPerSecond = (modeB.rotatePerSecond + modeB.rotatePerSecondVar * ccMacros.CCRANDOM_MINUS1_1()) * (float)System.Math.PI / 180;
+                particle.modeB.degreesPerSecond = ccMacros.CC_DEGREES_TO_RADIANS(modeB.rotatePerSecond + modeB.rotatePerSecondVar * ccMacros.CCRANDOM_MINUS1_1());
 	        }	
         }
 

@@ -1062,20 +1062,17 @@ namespace tests
             CCOrbitCamera orbit1 = CCOrbitCamera.actionWithDuration(2, 1, 0, 0, 180, 0, 0);
             CCFiniteTimeAction action1 = CCSequence.actions(
                 orbit1,
-                orbit1.reverse(),
-                null);
+                orbit1.reverse());
 
             CCOrbitCamera orbit2 = CCOrbitCamera.actionWithDuration(2, 1, 0, 0, 180, -45, 0);
             CCFiniteTimeAction action2 = CCSequence.actions(
                 orbit2,
-                orbit2.reverse(),
-                null);
+                orbit2.reverse());
 
             CCOrbitCamera orbit3 = CCOrbitCamera.actionWithDuration(2, 1, 0, 0, 180, 90, 0);
             CCFiniteTimeAction action3 = CCSequence.actions(
                 orbit3,
-                orbit3.reverse(),
-                null);
+                orbit3.reverse());
 
             m_kathia.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action1));
             m_tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)action2));
@@ -1083,7 +1080,7 @@ namespace tests
 
             CCActionInterval move = CCMoveBy.actionWithDuration(3, new CCPoint(100, -100));
             CCFiniteTimeAction move_back = move.reverse();
-            CCFiniteTimeAction seq = CCSequence.actions(move, move_back, null);
+            CCFiniteTimeAction seq = CCSequence.actions(move, move_back);
             CCAction rfe = CCRepeatForever.actionWithAction((CCActionInterval)seq);
             m_kathia.runAction(rfe);
             m_tamara.runAction((CCAction)(rfe.copy()));
