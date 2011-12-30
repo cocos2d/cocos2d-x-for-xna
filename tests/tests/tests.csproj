@@ -187,6 +187,10 @@
     <Compile Include="classes\tests\RenderTextureTest\RenderTextureTest.cs" />
     <Compile Include="classes\tests\RenderTextureTest\RenderTextureTestDemo.cs" />
     <Compile Include="classes\tests\RenderTextureTest\RenderTextureZbuffer.cs" />
+    <Compile Include="classes\tests\RotateWorldTest\RotateWorldMainLayer.cs" />
+    <Compile Include="classes\tests\RotateWorldTest\RotateWorldTestScene.cs" />
+    <Compile Include="classes\tests\RotateWorldTest\SpriteLayer.cs" />
+    <Compile Include="classes\tests\RotateWorldTest\TestLayer.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer1.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer2.cs" />
     <Compile Include="classes\tests\SceneTest\SceneTestLayer3.cs" />
