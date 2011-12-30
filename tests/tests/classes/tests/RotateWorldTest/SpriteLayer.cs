@@ -55,7 +55,7 @@ namespace tests
             spriteSister2.runAction(CCRepeat.actionWithAction(CCSequence.actions((CCFiniteTimeAction)(rot2.copy()), (CCFiniteTimeAction)(rot1.copy())), 5));
         }
 
-        public static SpriteLayer node()
+        public static new SpriteLayer node()
         {
             SpriteLayer pNode = new SpriteLayer();
             return pNode;

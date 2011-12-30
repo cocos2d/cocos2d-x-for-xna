@@ -8,7 +8,7 @@ namespace tests
 {
     public class RotateWorldMainLayer : CCLayer
     {
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -50,7 +50,7 @@ namespace tests
             white.runAction((CCAction)(rot.copy()));
         }
 
-        public static RotateWorldMainLayer node()
+        public static new RotateWorldMainLayer node()
         {
             RotateWorldMainLayer pNode = new RotateWorldMainLayer();
             return pNode;

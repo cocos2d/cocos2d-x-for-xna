@@ -23,7 +23,7 @@ namespace tests
             addChild(label);
         }
 
-        public static TestLayer node()
+        public static new TestLayer node()
         {
             TestLayer pNode = new TestLayer();
             return pNode;
