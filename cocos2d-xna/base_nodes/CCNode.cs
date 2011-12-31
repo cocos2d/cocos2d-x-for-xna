@@ -481,6 +481,7 @@ namespace cocos2d
                 return;
             }
             m_tCCNodeTransform = Matrix.Identity;
+            Matrix origin = CCApplication.sharedApplication().worldMatrix;
             ///@todo
             // glPushMatrix();
 
@@ -539,7 +540,7 @@ namespace cocos2d
  		           m_pGrid->afterDraw(this);
 	           }
   */
-            CCApplication.sharedApplication().basicEffect.World = CCApplication.sharedApplication().basicEffect.World * Matrix.Invert(m_tCCNodeTransform);
+            CCApplication.sharedApplication().basicEffect.World = Matrix.Invert(m_tCCNodeTransform) * CCApplication.sharedApplication().basicEffect.World;
             m_tCCNodeTransform = Matrix.Identity;
         }
 
@@ -553,6 +554,8 @@ namespace cocos2d
 
         #region transformations
 
+        //CCAffineTransform temp = new CCAffineTransform();
+
         /// <summary>
         /// performs OpenGL view-matrix transformation based on position, scale, rotation and other attributes.
         /// </summary>
@@ -563,28 +566,22 @@ namespace cocos2d
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
             // BEGIN alternative -- using cached transform
             //
-            //if (m_bIsTransformGLDirty)
-            //{
-            CCAffineTransform t = this.nodeToParentTransform();
-            TransformUtils.CGAffineToGL(t, ref m_pTransformGL);
-            m_bIsTransformGLDirty = false;
-            //}
-
+            if (m_bIsTransformGLDirty)
+            {
+                CCAffineTransform t = this.nodeToParentTransform();
+                TransformUtils.CGAffineToGL(t, ref m_pTransformGL);
+                m_bIsTransformGLDirty = false;
+            }
 
             CCApplication app = CCApplication.sharedApplication();
             m_tCCNodeTransform = TransformUtils.CGAffineToMatrix(m_pTransformGL);
-            //glMultMatrixf(m_pTransformGL);
+
             if (m_fVertexZ > 0)
             {
                 m_tCCNodeTransform *= Matrix.CreateRotationZ(m_fVertexZ);
-                //glTranslatef(0, 0, m_fVertexZ);
             }
 
-
-            app.basicEffect.World = app.basicEffect.World * m_tCCNodeTransform;
-
-
-            //app.basicEffect.World =  CCApplication.sharedApplication().worldMatrix * m_tCCNodeTransform;
+            app.basicEffect.World = m_tCCNodeTransform * app.basicEffect.World;
 
             // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
             //if (m_pCamera && !(m_pGrid && m_pGrid->isActive()))
@@ -872,47 +869,47 @@ namespace cocos2d
         /// </summary>
         public CCAffineTransform nodeToParentTransform()
         {
-            if (m_bIsTransformDirty)
+            //if (m_bIsTransformDirty)
+            //{
+            m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
+
+            if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
             {
-                m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
-
-                if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
-                {
-                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y);
-                }
-
-                if (!CCPoint.CCPointEqualToPoint(m_tPositionInPixels, new CCPoint()))
-                {
-                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tPositionInPixels.x, m_tPositionInPixels.y);
-                }
-
-                if (m_fRotation != 0)
-                {
-                    m_tTransform = CCAffineTransform.CCAffineTransformRotate(m_tTransform, -ccMacros.CC_DEGREES_TO_RADIANS(m_fRotation));
-                }
-
-                if (m_fSkewX != 0 || m_fSkewY != 0)
-                {
-                    // create a skewed coordinate system
-                    CCAffineTransform skew = CCAffineTransform.CCAffineTransformMake(1.0f,
-                        (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewY)),
-                          (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewX)), 1.0f, 0.0f, 0.0f);
-                    // apply the skew to the transform
-                    m_tTransform = CCAffineTransform.CCAffineTransformConcat(skew, m_tTransform);
-                }
-
-                if (!(m_fScaleX == 1 && m_fScaleY == 1))
-                {
-                    m_tTransform = CCAffineTransform.CCAffineTransformScale(m_tTransform, m_fScaleX, m_fScaleY);
-                }
-
-                if (!CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
-                {
-                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
-                }
-
-                m_bIsTransformDirty = false;
+                m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y);
             }
+
+            if (!CCPoint.CCPointEqualToPoint(m_tPositionInPixels, new CCPoint()))
+            {
+                m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tPositionInPixels.x, m_tPositionInPixels.y);
+            }
+
+            if (m_fRotation != 0)
+            {
+                m_tTransform = CCAffineTransform.CCAffineTransformRotate(m_tTransform, -ccMacros.CC_DEGREES_TO_RADIANS(m_fRotation));
+            }
+
+            if (m_fSkewX != 0 || m_fSkewY != 0)
+            {
+                // create a skewed coordinate system
+                CCAffineTransform skew = CCAffineTransform.CCAffineTransformMake(1.0f,
+                    (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewY)),
+                      (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewX)), 1.0f, 0.0f, 0.0f);
+                // apply the skew to the transform
+                m_tTransform = CCAffineTransform.CCAffineTransformConcat(skew, m_tTransform);
+            }
+
+            if (!(m_fScaleX == 1 && m_fScaleY == 1))
+            {
+                m_tTransform = CCAffineTransform.CCAffineTransformScale(m_tTransform, m_fScaleX, m_fScaleY);
+            }
+
+            if (!CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+            {
+                m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
+            }
+
+            m_bIsTransformDirty = false;
+            //}
 
             return m_tTransform;
         }
