@@ -23,7 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
+using System;
 using System.Diagnostics;
 namespace cocos2d
 {
@@ -36,8 +36,6 @@ namespace cocos2d
     public class CCSpeed : CCAction
     {
         public CCSpeed() { }
-
-        ~CCSpeed() { }
 
         /** initializes the action */
         public bool initWithAction(CCActionInterval action, float fRate)
@@ -52,7 +50,7 @@ namespace cocos2d
 
         public override CCObject copyWithZone(CCZone zone)
         {
-            CCZone tmpZone = zone;
+            CCZone tmpZone = null;
             CCSpeed ret = null;
             if (tmpZone != null && tmpZone.m_pCopyObject != null)
             {
@@ -63,6 +61,8 @@ namespace cocos2d
                 ret = new CCSpeed();
                 tmpZone = new CCZone(ret);
             }
+
+            base.copyWithZone(zone);
 
             ret.initWithAction((CCActionInterval)m_pInnerAction.copy(), m_fSpeed);
 
@@ -83,7 +83,7 @@ namespace cocos2d
 
         public override void step(float dt)
         {
-            
+            m_pInnerAction.step(dt * m_fSpeed);
         }
 
         public override bool isDone()
