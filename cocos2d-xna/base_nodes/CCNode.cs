@@ -869,47 +869,47 @@ namespace cocos2d
         /// </summary>
         public CCAffineTransform nodeToParentTransform()
         {
-            //if (m_bIsTransformDirty)
-            //{
-            m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
-
-            if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+            if (m_bIsTransformDirty)
             {
-                m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y);
-            }
+                m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
 
-            if (!CCPoint.CCPointEqualToPoint(m_tPositionInPixels, new CCPoint()))
-            {
-                m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tPositionInPixels.x, m_tPositionInPixels.y);
-            }
+                if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y);
+                }
 
-            if (m_fRotation != 0)
-            {
-                m_tTransform = CCAffineTransform.CCAffineTransformRotate(m_tTransform, -ccMacros.CC_DEGREES_TO_RADIANS(m_fRotation));
-            }
+                if (!CCPoint.CCPointEqualToPoint(m_tPositionInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tPositionInPixels.x, m_tPositionInPixels.y);
+                }
 
-            if (m_fSkewX != 0 || m_fSkewY != 0)
-            {
-                // create a skewed coordinate system
-                CCAffineTransform skew = CCAffineTransform.CCAffineTransformMake(1.0f,
-                    (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewY)),
-                      (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewX)), 1.0f, 0.0f, 0.0f);
-                // apply the skew to the transform
-                m_tTransform = CCAffineTransform.CCAffineTransformConcat(skew, m_tTransform);
-            }
+                if (m_fRotation != 0)
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformRotate(m_tTransform, -ccMacros.CC_DEGREES_TO_RADIANS(m_fRotation));
+                }
 
-            if (!(m_fScaleX == 1 && m_fScaleY == 1))
-            {
-                m_tTransform = CCAffineTransform.CCAffineTransformScale(m_tTransform, m_fScaleX, m_fScaleY);
-            }
+                if (m_fSkewX != 0 || m_fSkewY != 0)
+                {
+                    // create a skewed coordinate system
+                    CCAffineTransform skew = CCAffineTransform.CCAffineTransformMake(1.0f,
+                        (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewY)),
+                          (float)Math.Tan(ccMacros.CC_DEGREES_TO_RADIANS(m_fSkewX)), 1.0f, 0.0f, 0.0f);
+                    // apply the skew to the transform
+                    m_tTransform = CCAffineTransform.CCAffineTransformConcat(skew, m_tTransform);
+                }
 
-            if (!CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
-            {
-                m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
-            }
+                if (!(m_fScaleX == 1 && m_fScaleY == 1))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformScale(m_tTransform, m_fScaleX, m_fScaleY);
+                }
 
-            m_bIsTransformDirty = false;
-            //}
+                if (!CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+                {
+                    m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
+                }
+
+                m_bIsTransformDirty = false;
+            }
 
             return m_tTransform;
         }
