@@ -506,7 +506,7 @@ namespace tests
             // rotate and jump
             CCActionInterval jump1 = CCJumpBy.actionWithDuration(4, new CCPoint(-400, 0), 100, 4);
             CCActionInterval jump2 = jump1.reverse() as CCActionInterval;
-            CCActionInterval rot1 = CCRotateBy.actionWithDuration(4, 3602);
+            CCActionInterval rot1 = CCRotateBy.actionWithDuration(4, 360 * 2);
             CCActionInterval rot2 = rot1.reverse() as CCActionInterval;
 
             CCFiniteTimeAction seq3_1 = CCSequence.actions(jump2, jump1);
