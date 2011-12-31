@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using cocos2d;
+using cocos2d.actions.action_intervals.action_ease;
 
 namespace tests
 {
@@ -303,39 +304,39 @@ namespace tests
             return "Elastic In - Out actions";
         }
     }
-    /*
-        public class SpriteEaseElasticInOut : EaseSpriteDemo
-        {
-            public override void onEnter()
-            {
-                base.onEnter();
-	
-                CCActionInterval move = CCMoveBy.actionWithDuration(3, new CCPoint(350,0));
 
-                CCActionInterval move_ease_inout1 = CCEaseElasticInOut.actionWithAction((CCActionInterval)(move.copy().autorelease()), 0.3f);
-                CCActionInterval move_ease_inout_back1 = move_ease_inout1.reverse() as CCActionInterval;
-	
-                CCActionInterval move_ease_inout2 = CCEaseElasticInOut.actionWithAction((CCActionInterval)(move.copy().autorelease()), 0.45f);
-                CCActionInterval move_ease_inout_back2 = move_ease_inout2.reverse() as CCActionInterval;
-	
-                CCActionInterval move_ease_inout3 = CCEaseElasticInOut.actionWithAction((CCActionInterval)(move.copy().autorelease()), 0.6f);
-                CCActionInterval move_ease_inout_back3 = move_ease_inout3.reverse() as CCActionInterval;
-	
-	
-                CCFiniteTimeAction seq1 = CCSequence.actions( move_ease_inout1, move_ease_inout_back1);
-                CCFiniteTimeAction seq2 = CCSequence.actions( move_ease_inout2, move_ease_inout_back2);
-                CCFiniteTimeAction seq3 = CCSequence.actions( move_ease_inout3, move_ease_inout_back3);
-	
-                m_tamara.runAction( CCRepeatForever.actionWithAction((CCActionInterval)seq1));
-                m_kathia.runAction( CCRepeatForever.actionWithAction((CCActionInterval)seq2));
-                m_grossini.runAction( CCRepeatForever.actionWithAction((CCActionInterval)seq3)); 
-            }
-            public override String title()
-            {
-                return "EaseElasticInOut action";
-            }
+    public class SpriteEaseElasticInOut : EaseSpriteDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+
+            CCActionInterval move = CCMoveBy.actionWithDuration(3, new CCPoint(350, 0));
+
+            CCActionInterval move_ease_inout1 = CCEaseElasticInOut.actionWithAction((CCActionInterval)(move.copy()), 0.3f);
+            CCActionInterval move_ease_inout_back1 = move_ease_inout1.reverse() as CCActionInterval;
+
+            CCActionInterval move_ease_inout2 = CCEaseElasticInOut.actionWithAction((CCActionInterval)(move.copy()), 0.45f);
+            CCActionInterval move_ease_inout_back2 = move_ease_inout2.reverse() as CCActionInterval;
+
+            CCActionInterval move_ease_inout3 = CCEaseElasticInOut.actionWithAction((CCActionInterval)(move.copy()), 0.6f);
+            CCActionInterval move_ease_inout_back3 = move_ease_inout3.reverse() as CCActionInterval;
+
+
+            CCFiniteTimeAction seq1 = CCSequence.actions(move_ease_inout1, move_ease_inout_back1);
+            CCFiniteTimeAction seq2 = CCSequence.actions(move_ease_inout2, move_ease_inout_back2);
+            CCFiniteTimeAction seq3 = CCSequence.actions(move_ease_inout3, move_ease_inout_back3);
+
+            m_tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)seq1));
+            m_kathia.runAction(CCRepeatForever.actionWithAction((CCActionInterval)seq2));
+            m_grossini.runAction(CCRepeatForever.actionWithAction((CCActionInterval)seq3));
         }
-        */
+        public override String title()
+        {
+            return "EaseElasticInOut action";
+        }
+    }
+
     public class SpriteEaseBounce : EaseSpriteDemo
     {
         public override void onEnter()
@@ -453,7 +454,7 @@ namespace tests
             // rotate and jump
             CCActionInterval jump1 = CCJumpBy.actionWithDuration(4, new CCPoint(-400, 0), 100, 4);
             CCActionInterval jump2 = (CCActionInterval)jump1.reverse();
-            CCActionInterval rot1 = CCRotateBy.actionWithDuration(4, 360*2);
+            CCActionInterval rot1 = CCRotateBy.actionWithDuration(4, 360 * 2);
             CCActionInterval rot2 = (CCActionInterval)rot1.reverse();
 
             CCFiniteTimeAction seq3_1 = CCSequence.actions(jump2, jump1);
@@ -474,7 +475,7 @@ namespace tests
             //m_grossini.runAction(CCRepeat.actionWithAction(CCSequence.actions(jump2, jump1), 5));
             m_tamara.runAction(action3);
             m_kathia.runAction(action);
-            
+
             this.schedule(new SEL_SCHEDULE(altertime), 1.0f);//:@selector(altertime:) interval:1.0f];
         }
 
@@ -566,13 +567,13 @@ namespace tests
                 case 4: return new SpriteEaseSine();
                 case 5: return new SpriteEaseSineInOut();
                 case 6: return new SpriteEaseElastic();
-                //case 7: return new SpriteEaseElasticInOut();
-                case 7: return new SpriteEaseBounce();
-                case 8: return new SpriteEaseBounceInOut();
-                case 9: return new SpriteEaseBack();
-                case 10: return new SpriteEaseBackInOut();
-                case 11: return new SpeedTest();
-                case 12: return new SchedulerTest();
+                case 7: return new SpriteEaseElasticInOut();
+                case 8: return new SpriteEaseBounce();
+                case 9: return new SpriteEaseBounceInOut();
+                case 10: return new SpriteEaseBack();
+                case 11: return new SpriteEaseBackInOut();
+                case 12: return new SpeedTest();
+                case 13: return new SchedulerTest();
             }
             return null;
         }
