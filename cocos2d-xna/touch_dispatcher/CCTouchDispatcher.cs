@@ -50,7 +50,7 @@ namespace cocos2d
 
  @since v0.8.0
  */
-    public class CCTouchDispatcher : EGLTouchDelegate
+    public class CCTouchDispatcher : IEGLTouchDelegate
     {
         #region singleton
 
@@ -212,7 +212,7 @@ namespace cocos2d
                 pMutableTouches = pTouches;
             }
 
-            CCTouchType sHelper = (CCTouchType)(uIndex);
+            CCTouchType sHelper = (CCTouchType)uIndex;
 
             // process the target handlers 1st
             if (uTargetedHandlersCount > 0)
@@ -313,10 +313,10 @@ namespace cocos2d
             if (m_bToRemove)
             {
                 m_bToRemove = false;
-                //for (int i = 0; i < m_pHandlersToRemove.Count; ++i)
-                //{
-                //    forceRemoveDelegate((CCTouchDelegate)m_pHandlersToRemove[i]);
-                //}
+                for (int i = 0; i < m_pHandlersToRemove.Count; ++i)
+                {
+                    forceRemoveDelegate((CCTouchDelegate)m_pHandlersToRemove[i]);
+                }
                 m_pHandlersToRemove.Clear();
             }
 
@@ -325,12 +325,7 @@ namespace cocos2d
                 m_bToAdd = false;
                 foreach (CCTouchHandler pHandler in m_pHandlersToAdd)
                 {
-                    if (pHandler == null)
-                    {
-                        break;
-                    }
-
-                    if (pHandler.Delegate is ICCStandardTouchDelegate)
+                    if (pHandler.Delegate is ICCTargetedTouchDelegate)
                     {
                         forceAddHandler(pHandler, m_pTargetedHandlers);
                     }
@@ -418,7 +413,7 @@ namespace cocos2d
             {
                 if (pHandler != null && pHandler.Delegate == pDelegate)
                 {
-                    m_pStandardHandlers.Remove(pHandler);
+                    m_pTargetedHandlers.Remove(pHandler);
                     break;
                 }
             }
@@ -426,8 +421,10 @@ namespace cocos2d
         protected void forceAddHandler(CCTouchHandler pHandler, List<CCTouchHandler> pArray)
         {
             int u = 0;
-            foreach (CCTouchHandler h in pArray)
+            for (int i = 0; i < pArray.Count; i++)
             {
+                CCTouchHandler h = pArray[i];
+
                 if (h != null)
                 {
                     if (h.Priority < pHandler.Priority)

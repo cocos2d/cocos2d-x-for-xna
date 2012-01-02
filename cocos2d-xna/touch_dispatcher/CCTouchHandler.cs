@@ -51,12 +51,20 @@ namespace cocos2d
         /// <summary>
         /// priority
         /// </summary>
-        public int Priority { get; set; }
+        public int Priority
+        {
+            get { return m_nPriority; }
+            set { m_nPriority = value; }
+        }
 
         /// <summary>
         /// enabled selectors 
         /// </summary>
-        public int getEnabledSelectors { get; set; }
+        public int getEnabledSelectors 
+        {
+            get { return m_nEnabledSelectors; }
+            set { m_nEnabledSelectors = value; }
+        }
 
         /// <summary>
         /// initializes a TouchHandler with a delegate and a priority 
