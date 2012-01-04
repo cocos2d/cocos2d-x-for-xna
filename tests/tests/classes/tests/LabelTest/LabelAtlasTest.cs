@@ -44,7 +44,7 @@ namespace tests
             CCLabelAtlas label2 = (CCLabelAtlas)getChildByTag((int)TagSprite.kTagSprite2);
             //sprintf(Stepstring, "%d", (int)m_time);
             Stepstring = m_time.ToString();
-            //Stepstring.format("%d", (int)m_time);
+            Stepstring = string.Format("{0:d}", (int)m_time);
             label2.setString(Stepstring);
         }
 

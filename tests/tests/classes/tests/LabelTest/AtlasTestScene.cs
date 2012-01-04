@@ -60,8 +60,8 @@ namespace tests
                 // Not a label test. Should be moved to Atlas test
                 //case 13: return new Atlas1();
                 case 13: return new LabelTTFTest();
-                case 14: return new LabelTTFMultiline();
-                case 15: return new LabelTTFChinese();
+                //case 14: return new LabelTTFMultiline();
+                //case 15: return new LabelTTFChinese();
                 default:
                     break;
             }
