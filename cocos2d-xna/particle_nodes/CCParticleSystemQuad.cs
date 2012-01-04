@@ -326,9 +326,9 @@ namespace cocos2d
                     CCParticle particle = m_pParticles[i];
 
                     CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform());
-                    uiPoint = CCPointExtension.ccpAdd(uiPoint, particle.pos);
+                    uiPoint = CCPointExtension.ccpAdd(uiPoint, new CCPoint(m_pQuads[i].bl.vertices.x, m_pQuads[i].bl.vertices.y));
                     uiPoint = CCDirector.sharedDirector().convertToUI(uiPoint);
-                    
+
                     Vector2 vecPosition = new Vector2(uiPoint.x, uiPoint.y);
 
                     Color color = new Color(particle.color.r,

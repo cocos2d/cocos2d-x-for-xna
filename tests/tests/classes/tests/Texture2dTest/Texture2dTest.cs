@@ -17,7 +17,7 @@ namespace tests
     public class TextureTestScene : TestScene
     {
 
-        static int TEST_CASE_COUNT = 1;
+        static int TEST_CASE_COUNT = 2;
 
         static int sceneIdx = -1;
 
@@ -27,6 +27,11 @@ namespace tests
 
             switch (index)
             {
+            case 0:
+                pLayer = new TextureCache1(); break;
+            case 1:
+                pLayer = new TextureSizeTest(); break;
+
             //case 0:
             //    pLayer = new TextureAlias(); break;
             //case 1:
@@ -83,8 +88,8 @@ namespace tests
             //    pLayer = new TextureGlClamp(); break;
             //case 27:
             //    pLayer = new TextureGlRepeat(); break;
-            case 0:
-                pLayer = new TextureSizeTest(); break;
+            //case 28:
+            //    pLayer = new TextureSizeTest(); break;
             //case 29:
             //    pLayer = new TextureCache1(); break;
             default:
@@ -938,60 +943,62 @@ namespace tests
     //    return "Loading a 81x121 RGBA8888 texture.";
     //}
 
-    ////------------------------------------------------------------------
-    ////
-    //// TextureAlias
-    ////
-    ////------------------------------------------------------------------
-    //void TextureAlias::onEnter()
-    //{
-    //    TextureDemo::onEnter();
-    //    CCSize s = CCDirector::sharedDirector()->getWinSize();
+    //------------------------------------------------------------------
+    //
+    // TextureAlias
+    //
+    //------------------------------------------------------------------
+    public class TextureAlias : TextureDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
+            CCSize s = CCDirector.sharedDirector().getWinSize();
 	
-    //    //
-    //    // Sprite 1: GL_LINEAR
-    //    //
-    //    // Default filter is GL_LINEAR
+            //
+            // Sprite 1: GL_LINEAR
+            //
+            // Default filter is GL_LINEAR
 	
-    //    CCSprite *sprite = CCSprite::spriteWithFile("Images/grossinis_sister1.png");
-    //    sprite->setPosition(ccp( s.width/3.0f, s.height/2.0f));
-    //    addChild(sprite);
+            CCSprite sprite = CCSprite.spriteWithFile("Images/grossinis_sister1");
+            sprite.position = new CCPoint( s.width/3.0f, s.height/2.0f);
+            addChild(sprite);
 	
-    //    // this is the default filterting
-    //    sprite->getTexture()->setAntiAliasTexParameters();
+            // this is the default filterting
+            sprite.Texture.setAntiAliasTexParameters();
 	
-    //    //
-    //    // Sprite 1: GL_NEAREST
-    //    //	
+            //
+            // Sprite 1: GL_NEAREST
+            //	
 	
-    //    CCSprite *sprite2 = CCSprite::spriteWithFile("Images/grossinis_sister2.png");
-    //    sprite2->setPosition(ccp( 2*s.width/3.0f, s.height/2.0f));
-    //    addChild(sprite2);
+            CCSprite sprite2 = CCSprite.spriteWithFile("Images/grossinis_sister2");
+            sprite2.position = new CCPoint(2*s.width/3.0f, s.height/2.0f);
+            addChild(sprite2);
 	
-    //    // Use Nearest in this one
-    //    sprite2->getTexture()->setAliasTexParameters();
+            // Use Nearest in this one
+            sprite2.Texture.setAliasTexParameters();
 		
-    //    // scale them to show
-    //    CCScaleBy* sc = CCScaleBy::actionWithDuration(3, 8.0f);
-    //    CCScaleBy* sc_back = (CCScaleBy*) (sc->reverse());
-    //    CCRepeatForever* scaleforever = CCRepeatForever::actionWithAction((CCActionInterval*) (CCSequence::actions(sc, sc_back, NULL)));
-    //    CCRepeatForever* scaleToo = (CCRepeatForever*) (scaleforever->copy());
-    //    scaleToo->autorelease();
+            // scale them to show
+            CCScaleBy sc = CCScaleBy.actionWithDuration(3, 8.0f);
+            CCScaleBy sc_back = (CCScaleBy) (sc.reverse());
+            CCRepeatForever scaleforever = CCRepeatForever.actionWithAction((CCActionInterval) (CCSequence.actions(sc, sc_back)));
+            CCRepeatForever scaleToo = (CCRepeatForever) (scaleforever.copy());
 
-    //    sprite2->runAction(scaleforever);
-    //    sprite->runAction(scaleToo);
-    //    CCTextureCache::sharedTextureCache()->dumpCachedTextureInfo();
-    //}
+            sprite2.runAction(scaleforever);
+            sprite.runAction(scaleToo);
+            CCTextureCache.sharedTextureCache().dumpCachedTextureInfo();
+        }
 
-    //std::string TextureAlias::title()
-    //{
-    //    return "AntiAlias / Alias textures";
-    //}
+        public override string title()
+        {
+            return "AntiAlias / Alias textures";
+        }
 
-    //std::string TextureAlias::subtitle()
-    //{
-    //    return "Left image is antialiased. Right image is aliases";
-    //}
+        public override string subtitle()
+        {
+            return "Left image is antialiased. Right image is aliases";
+        }
+    }
 
     ////------------------------------------------------------------------
     ////
@@ -1213,60 +1220,65 @@ namespace tests
     //    CCTextureCache::sharedTextureCache()->removeUnusedTextures();
     //}
 
-    ////------------------------------------------------------------------
-    ////
-    //// TextureCache1
-    ////
-    ////------------------------------------------------------------------
-    //void TextureCache1::onEnter()
-    //{
-    //    TextureDemo::onEnter();
+    //------------------------------------------------------------------
+    //
+    // TextureCache1
+    //
+    //------------------------------------------------------------------
+    public class TextureCache1 : TextureDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
 
-    //    CCSize s = CCDirector::sharedDirector()->getWinSize();
+            CCSize s = CCDirector.sharedDirector().getWinSize();
 	
-    //    CCSprite *sprite;
+            CCSprite sprite;
 
-    //    sprite = CCSprite::spriteWithFile("Images/grossinis_sister1.png");
-    //    sprite->setPosition(ccp(s.width/5*1, s.height/2));
-    //    sprite->getTexture()->setAliasTexParameters();
-    //    sprite->setScale(2);
-    //    addChild(sprite);
+            sprite = CCSprite.spriteWithFile("Images/grossinis_sister1");
+            sprite.position = new CCPoint(s.width/5*1, s.height/2);
+            sprite.Texture.setAliasTexParameters();
+            sprite.scale = 2;
+            addChild(sprite);
 
-    //    CCTextureCache::sharedTextureCache()->removeTexture(sprite->getTexture());
+            CCTextureCache.sharedTextureCache().removeTexture(sprite.Texture);
 	
-    //    sprite = CCSprite::spriteWithFile("Images/grossinis_sister1.png");
-    //    sprite->setPosition(ccp(s.width/5*2, s.height/2));
-    //    sprite->getTexture()->setAntiAliasTexParameters();
-    //    sprite->setScale(2);
-    //    addChild(sprite);
+            sprite = CCSprite.spriteWithFile("Images/grossinis_sister1");
+            sprite.position = new CCPoint(s.width/5*2, s.height/2);
+            sprite.Texture.setAntiAliasTexParameters();
+            sprite.scale = 2;
+            addChild(sprite);
 
-    //    // 2nd set of sprites
+            // 2nd set of sprites
 	
-    //    sprite = CCSprite::spriteWithFile("Images/grossinis_sister2.png");
-    //    sprite->setPosition(ccp(s.width/5*3, s.height/2));
-    //    sprite->getTexture()->setAliasTexParameters();
-    //    sprite->setScale(2);
-    //    addChild(sprite);
+            sprite = CCSprite.spriteWithFile("Images/grossinis_sister2");
+            sprite.position = new CCPoint(s.width/5*3, s.height/2);
+            sprite.Texture.setAliasTexParameters();
+            sprite.scale = 2;
+            addChild(sprite);
 	
-    //    CCTextureCache::sharedTextureCache()->removeTextureForKey("Images/grossinis_sister2.png");
+            CCTextureCache.sharedTextureCache().removeTextureForKey("Images/grossinis_sister2");
 
-    //    sprite = CCSprite::spriteWithFile("Images/grossinis_sister2.png");
-    //    sprite->setPosition(ccp(s.width/5*4, s.height/2));
-    //    sprite->getTexture()->setAntiAliasTexParameters();
-    //    sprite->setScale(2);
-    //    addChild(sprite);
-    //}
+            sprite = CCSprite.spriteWithFile("Images/grossinis_sister2");
+            sprite.position = new CCPoint(s.width/5*4, s.height/2);
+            sprite.Texture.setAntiAliasTexParameters();
+            sprite.scale = 2;
+            addChild(sprite);
+        }
 
-    //std::string TextureCache1::title()
-    //{
-    //    return "CCTextureCache: remove";
-    //}
+        public override string title()
+        {
+            return "CCTextureCache: remove";
+        }
 
-    //std::string TextureCache1::subtitle()
-    //{
-    //    return "4 images should appear: alias, antialias, alias, antilias";
-    //}
+        public override string subtitle()
+        {
+            // temp to remove: for prealpha version
+            return "4 images should appear";
 
+            // return "4 images should appear: alias, antialias, alias, antilias";
+        }
+    }
 
 
 

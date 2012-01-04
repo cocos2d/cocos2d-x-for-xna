@@ -61,7 +61,7 @@ namespace tests
                 case 16: return new RadiusMode2();
                 case 17: return new Issue704();
                 //case 31: return new Issue870();
-                //case 32: return new DemoParticleFromFile("Phoenix");
+                //case 18: return new DemoParticleFromFile("Phoenix");
                 
                 //case 0: return new DemoFlower();
                 //case 1: return new DemoGalaxy();
@@ -907,46 +907,46 @@ namespace tests
 
     };
 
-    // todo: it is incorrect to load plist file
-    //public class DemoParticleFromFile : ParticleDemo
-    //{
-    //    string m_title;
-        
-    //    public DemoParticleFromFile()
-    //    { 
-    //    }
+    public class DemoParticleFromFile : ParticleDemo
+    {
+        string m_title;
 
-    //    public DemoParticleFromFile(string file)
-    //    {	
-    //        m_title = file;
-    //    }
-    //    public override void onEnter()
-    //    {
-    //        base.onEnter();
+        public DemoParticleFromFile()
+        {
+        }
 
-    //        Color = new ccColor3B(0,0,0);
-    //        removeChild(m_background, true);
-    //        m_background = null;
+        public DemoParticleFromFile(string file)
+        {
+            m_title = file;
+        }
+        public override void onEnter()
+        {
+            base.onEnter();
 
-    //        m_emitter = new CCParticleSystemQuad();
-    //        string filename = "Images/" + m_title + ".plist";
-    //        m_emitter.initWithFile(filename);
-    //        addChild(m_emitter, 10);
+            Color = new ccColor3B(0, 0, 0);
+            removeChild(m_background, true);
+            m_background = null;
 
-    //        setEmitterPosition();
-    //    }
-    //    public override string title()
-    //    {
-    //        if (null != m_title)
-    //        {
-    //            return m_title;
-    //        }
-    //        else
-    //        {
-    //            return "ParticleFromFile";
-    //        }
-    //    }
-    //};
+            m_emitter = new CCParticleSystemQuad();
+            // string filename = "Images/" + m_title + ".plist";
+            string filename = "Images/" + m_title;
+            m_emitter.initWithFile(filename);
+            addChild(m_emitter, 10);
+
+            setEmitterPosition();
+        }
+        public override string title()
+        {
+            if (null != m_title)
+            {
+                return m_title;
+            }
+            else
+            {
+                return "ParticleFromFile";
+            }
+        }
+    };
 
     public class RadiusMode1 : ParticleDemo
     {

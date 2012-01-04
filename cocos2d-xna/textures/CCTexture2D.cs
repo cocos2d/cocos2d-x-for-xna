@@ -358,7 +358,8 @@ namespace cocos2d
         */
         public void setAntiAliasTexParameters()
         {
-            throw new NotImplementedException();
+            // ccTexParams texParams = { GL_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
+            // this->setTexParameters(&texParams);
         }
 
         /** sets alias texture parameters:
@@ -369,7 +370,8 @@ namespace cocos2d
         */
         public void setAliasTexParameters()
         {
-            throw new NotImplementedException();
+            // ccTexParams texParams = { GL_NEAREST, GL_NEAREST, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
+            // this->setTexParameters(&texParams);
         }
 
 
