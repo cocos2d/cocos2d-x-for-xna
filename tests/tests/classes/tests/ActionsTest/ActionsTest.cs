@@ -33,8 +33,8 @@ namespace tests
         ACTION_CALLFUNCND_LAYER,
         ACTION_REVERSESEQUENCE_LAYER,
         ACTION_REVERSESEQUENCE2_LAYER,
-        ACTION_ORBIT_LAYER,
-        ACTION_FLLOW_LAYER,
+        //ACTION_ORBIT_LAYER,
+        //ACTION_FLLOW_LAYER,
         ACTION_LAYER_COUNT,
     };
 
@@ -102,10 +102,10 @@ namespace tests
                     pLayer = new ActionReverseSequence(); break;
                 case (int)ActionTest.ACTION_REVERSESEQUENCE2_LAYER:
                     pLayer = new ActionReverseSequence2(); break;
-                case (int)ActionTest.ACTION_ORBIT_LAYER:
-                    pLayer = new ActionOrbit(); break;
-                case (int)ActionTest.ACTION_FLLOW_LAYER:
-                    pLayer = new ActionFollow(); break;
+                //case (int)ActionTest.ACTION_ORBIT_LAYER:
+                //    pLayer = new ActionOrbit(); break;
+                //case (int)ActionTest.ACTION_FLLOW_LAYER:
+                //    pLayer = new ActionFollow(); break;
             default:
                 break;
             }

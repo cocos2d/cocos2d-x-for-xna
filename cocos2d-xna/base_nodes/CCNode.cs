@@ -1156,9 +1156,9 @@ namespace cocos2d
             {
                 m_fScaleX = m_fScaleY = value;
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
-                //#ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                //    m_bIsTransformGLDirty = true;
-                //#endif
+                #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                    m_bIsTransformGLDirty = true;
+                #endif
             }
         }
 
@@ -1176,9 +1176,9 @@ namespace cocos2d
             {
                 m_fScaleX = value;
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
-                //#ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                //    m_bIsTransformGLDirty = true;
-                //#endif
+                #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                    m_bIsTransformGLDirty = true;
+                #endif
             }
         }
 
@@ -1196,9 +1196,9 @@ namespace cocos2d
             {
                 m_fScaleY = value;
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
-                //#ifdef CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                //    m_bIsTransformGLDirty = true;
-                //#endif
+                #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                    m_bIsTransformGLDirty = true;
+                #endif
             }
         }
 
@@ -1410,15 +1410,15 @@ namespace cocos2d
         {
             get
             {
-                m_bIsTransformDirty = m_bIsInverseDirty = true;
                 return m_fSkewX;
-                //#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                //                m_bIsTransformGLDirty = true;
-                //#endif
             }
             set
             {
                 m_fSkewX = value;
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                m_bIsTransformGLDirty = true;
+#endif
             }
         }
 
@@ -1433,16 +1433,15 @@ namespace cocos2d
         {
             get
             {
-                m_bIsTransformDirty = m_bIsInverseDirty = true;
                 return m_fSkewY;
-
-                //#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                //                m_bIsTransformGLDirty = true;
-                //#endif
             }
             set
             {
                 m_fSkewY = value;
+                m_bIsTransformDirty = m_bIsInverseDirty = true;
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                m_bIsTransformGLDirty = true;
+#endif
             }
         }
 
