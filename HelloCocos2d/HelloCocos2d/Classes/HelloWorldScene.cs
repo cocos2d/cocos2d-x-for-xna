@@ -45,7 +45,7 @@ namespace HelloCocos2d
 
 	        // add a label shows "Hello World"
 	        // create and initialize a label
-            CCLabelTTF pLabel = CCLabelTTF.labelWithString("Hello World", "Arial", 24);
+            CCLabelTTF pLabel = CCLabelTTF.labelWithString("$welcome$", "Arial", 24);
 	        // ask director the window size
 	        CCSize size = CCDirector.sharedDirector().getWinSize();
 

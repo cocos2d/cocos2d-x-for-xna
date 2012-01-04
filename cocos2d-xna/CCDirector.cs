@@ -208,7 +208,7 @@ namespace cocos2d
             // m_pNextScene.retain();
             m_pNextScene = null;
 
-            if (!(m_pRunningScene is CCTransitionScene) && m_pRunningScene != null)
+            if (m_pRunningScene != null)
             {
                 m_pRunningScene.onEnter();
                 m_pRunningScene.onEnterTransitionDidFinish();

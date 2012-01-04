@@ -106,7 +106,7 @@
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCFlipY3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCLens3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCLiquid.cs" />
-    <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCOrbitCamera.cs" />
+    <Compile Include="actions\CCOrbitCamera.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCPageTurn3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCRipple3D.cs" />
     <Compile Include="actions\action_intervals\grid_action\grid3d_action\CCShaky3D.cs" />
@@ -197,6 +197,7 @@
     <Compile Include="layers_scenes_transitions_nodes\transition\CCTransitionMoveInL.cs" />
     <Compile Include="layers_scenes_transitions_nodes\transition\CCTransitionMoveInR.cs" />
     <Compile Include="layers_scenes_transitions_nodes\transition\CCTransitionMoveInT.cs" />
+    <Compile Include="layers_scenes_transitions_nodes\transition\CCTransitionPageTurn.cs" />
     <Compile Include="layers_scenes_transitions_nodes\transition\CCTransitionRotoZoom.cs" />
     <Compile Include="layers_scenes_transitions_nodes\transition\CCTransitionSceneOriented.cs" />
     <Compile Include="layers_scenes_transitions_nodes\transition\CCTransitionShrinkGrow.cs" />
@@ -280,7 +281,7 @@
     <Compile Include="touch_dispatcher\CCTouchDelegate.cs" />
     <Compile Include="touch_dispatcher\CCTouchDispatcher.cs" />
     <Compile Include="touch_dispatcher\CCTouchHandler.cs" />
-    <Compile Include="touch_dispatcher\EGLTouchDelegate.cs" />
+    <Compile Include="touch_dispatcher\IEGLTouchDelegate.cs" />
     <Compile Include="touch_dispatcher\ICCStandardTouchDelegate.cs" />
     <Compile Include="touch_dispatcher\ICCTargetedTouchDelegate.cs" />
     <Compile Include="touch_dispatcher\ICCTouchDelegate.cs" />

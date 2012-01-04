@@ -6,7 +6,6 @@ using cocos2d;
 
 namespace tests
 {
-
     public class TestLayer1 : CCLayer
     {
         static int s_nSceneIdx = 0;

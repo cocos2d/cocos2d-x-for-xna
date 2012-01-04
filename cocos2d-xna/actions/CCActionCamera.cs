@@ -32,11 +32,24 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// Base class for CCCamera actions
+    /// </summary>
     public class CCActionCamera : CCActionInterval
     {
         public CCActionCamera()
         {
+            this.m_fCenterXOrig = 0;
+            this.m_fCenterYOrig = 0;
+            this.m_fCenterZOrig = 0;
 
+            this.m_fEyeXOrig = 0;
+            this.m_fEyeYOrig = 0;
+            this.m_fEyeZOrig = 0;
+
+            this.m_fUpXOrig = 0;
+            this.m_fUpYOrig = 0;
+            this.m_fUpZOrig = 0;
         }
 
         public override void startWithTarget(CCNode pTarget)
@@ -49,7 +62,7 @@ namespace cocos2d
             camera.getUpXYZ(out m_fUpXOrig, out m_fUpYOrig, out m_fUpZOrig);
         }
 
-        public virtual CCActionInterval reverse()
+        public override CCFiniteTimeAction reverse()
         {
             return CCReverseTime.actionWithAction(this);
         }

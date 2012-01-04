@@ -48,7 +48,7 @@ namespace tests
         public override bool ccTouchBegan(CCTouch touche, CCEvent events)
         {
             updateSize(touche);
-            return false;
+            return true;
         }
 
         public override void ccTouchMoved(CCTouch touche, CCEvent events)

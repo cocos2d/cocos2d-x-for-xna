@@ -62,7 +62,7 @@ namespace cocos2d
         CCTouch m_pTouch;
         internal GraphicsDeviceManager graphics;
         Rectangle m_rcViewPort;
-        EGLTouchDelegate m_pDelegate;
+        IEGLTouchDelegate m_pDelegate;
         List<CCTouch> m_pSet;
 
         bool m_bCaptured;
@@ -145,7 +145,7 @@ namespace cocos2d
 
         #region Touch Methods
 
-        public EGLTouchDelegate TouchDelegate
+        public IEGLTouchDelegate TouchDelegate
         {
             set { m_pDelegate = value; }
         }

@@ -42,11 +42,12 @@ namespace tests
 
             switch (nIndex)
             {
-                case 3: return CCTransitionJumpZoom.transitionWithDuration(t, s);
-                case 4: return CCTransitionFade.transitionWithDuration(t, s);
+                case 0: return CCTransitionJumpZoom.transitionWithDuration(t, s);
+                case 1: return CCTransitionFade.transitionWithDuration(t, s);
                 case 2: return FadeWhiteTransition.transitionWithDuration(t, s);
-                case 17: return FlipXLeftOver.transitionWithDuration(t, s);
-                case 18: return FlipXRightOver.transitionWithDuration(t, s);
+
+                case 3: return FlipXLeftOver.transitionWithDuration(t, s);
+                case 4: return FlipXRightOver.transitionWithDuration(t, s);
                 case 5: return FlipYUpOver.transitionWithDuration(t, s);
                 case 6: return FlipYDownOver.transitionWithDuration(t, s);
                 case 7: return FlipAngularLeftOver.transitionWithDuration(t, s);
@@ -59,8 +60,8 @@ namespace tests
                 case 14: return ZoomFlipAngularRightOver.transitionWithDuration(t, s);
                 case 15: return CCTransitionShrinkGrow.transitionWithDuration(t, s);
                 case 16: return CCTransitionRotoZoom.transitionWithDuration(t, s);
-                case 0: return CCTransitionMoveInL.transitionWithDuration(t, s);
-                case 1: return CCTransitionMoveInR.transitionWithDuration(t, s);
+                case 17: return CCTransitionMoveInL.transitionWithDuration(t, s);
+                case 18: return CCTransitionMoveInR.transitionWithDuration(t, s);
                 case 19: return CCTransitionMoveInT.transitionWithDuration(t, s);
                 case 20: return CCTransitionMoveInB.transitionWithDuration(t, s);
                 case 21: return CCTransitionSlideInL.transitionWithDuration(t, s);
@@ -106,8 +107,8 @@ namespace tests
                         }
                     }
                     break;
-                //case 28: return PageTransitionForward.transitionWithDuration(t, s);
-                //case 29: return PageTransitionBackward.transitionWithDuration(t, s);
+                case 28: return PageTransitionForward.transitionWithDuration(t, s);
+                case 29: return PageTransitionBackward.transitionWithDuration(t, s);
                 case 30: return CCTransitionFadeTR.transitionWithDuration(t, s);
                 case 31: return CCTransitionFadeBL.transitionWithDuration(t, s);
                 case 32: return CCTransitionFadeUp.transitionWithDuration(t, s);

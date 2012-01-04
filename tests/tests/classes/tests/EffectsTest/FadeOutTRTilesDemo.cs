@@ -11,7 +11,7 @@ namespace tests
         public static CCActionInterval actionWithDuration(float t)
         {
             CCFadeOutTRTiles fadeout = CCFadeOutTRTiles.actionWithSize(new ccGridSize(16, 12), t);
-            CCActionInterval back = fadeout.reverse();
+            CCFiniteTimeAction back = fadeout.reverse();
             CCDelayTime delay = CCDelayTime.actionWithDuration(0.5f);
 
             return (CCActionInterval)(CCSequence.actions(fadeout, delay, back));

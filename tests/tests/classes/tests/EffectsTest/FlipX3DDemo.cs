@@ -11,7 +11,7 @@ namespace tests
         public static CCActionInterval actionWithDuration(float t)
         {
             CCFlipX3D flipx = CCFlipX3D.actionWithDuration(t);
-            CCActionInterval flipx_back = flipx.reverse();
+            CCFiniteTimeAction flipx_back = flipx.reverse();
             CCDelayTime delay = CCDelayTime.actionWithDuration(2);
 
             return (CCActionInterval)(CCSequence.actions(flipx, delay, flipx_back));

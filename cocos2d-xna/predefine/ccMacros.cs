@@ -69,7 +69,7 @@ namespace cocos2d
             return angle * 57.29577951f; // PI * 180
         }
 
-        public static readonly double FLT_EPSILON = 1.192092896e-07F;
+        public static readonly float FLT_EPSILON = 1.192092896e-07F;
 
         // Retina is only supported on iOS.
 #if CC_IS_RETINA_DISPLAY_SUPPORTED
