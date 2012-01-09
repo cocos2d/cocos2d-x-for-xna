@@ -29,19 +29,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
+
 using cocos2d.Framework;
+using System.IO;
 using System.Xml.Linq;
 
 namespace cocos2d
 {
     public class CCSAXParser
     {
-        //g:\cocos2d\cocos2d-1.0.1-x-0.9.2\cocos2d-1.0.1-x-0.9.2\cocos2dx\platform\ccsaxparser.h
         ICCSAXDelegator m_pDelegator;
 
         public CCSAXParser()
         {
-            m_pDelegator = null;
+
         }
 
         public bool init(string pszEncoding)
@@ -62,7 +67,7 @@ namespace cocos2d
             return atts;
         }
 
-        static void ForeachNode(XElement doc,object ctx)
+        static void ForeachNode(XElement doc, object ctx)
         {
             List<string> atts = new List<string>();
             if (doc.Elements() != null)
@@ -71,7 +76,7 @@ namespace cocos2d
                 {
                     atts = ParseAttribute(item);
                     startElement(ctx, item.Name.ToString(), atts.ToArray());
-                    ForeachNode(item,ctx);
+                    ForeachNode(item, ctx);
                 }
             }
         }
@@ -84,14 +89,87 @@ namespace cocos2d
             {
                 return false;
             }
-            XElement doc = XElement.Parse(str);
-            List<string> atts=new List<string>();
-            atts=ParseAttribute(doc);
-            startElement(this, "map", atts.ToArray());
-            ForeachNode(doc,this);
-        
-            endElement(this ,"data",data);
-            
+
+            TextReader textReader = new StringReader(str);
+            XmlReader xmlReader = XmlReader.Create(textReader);
+            int dataindex = 0;
+
+            int Width = 0;
+            int Height = 0; ;
+
+            while (xmlReader.Read())
+            {
+                string name = xmlReader.Name;
+
+                switch (xmlReader.NodeType)
+                {
+                    case XmlNodeType.Element:
+
+                        if (name == "map")
+                        {
+                            Width = int.Parse(xmlReader.GetAttribute("width"));
+                            Height = int.Parse(xmlReader.GetAttribute("height"));
+                        }
+
+                        if (xmlReader.HasAttributes)
+                        {
+                            string[] attrs = new string[xmlReader.AttributeCount * 2];
+                            xmlReader.MoveToFirstAttribute();
+                            int i = 0;
+                            attrs[0] = xmlReader.Name;
+                            attrs[1] = xmlReader.Value;
+                            i += 2;
+
+                            while (xmlReader.MoveToNextAttribute())
+                            {
+                                attrs[i] = xmlReader.Name;
+                                attrs[i + 1] = xmlReader.Value;
+                                i += 2;
+                            }
+
+                            //GZipStream
+
+                            // Move the reader back to the element node.
+                            xmlReader.MoveToElement();
+                            startElement(this, name, attrs);
+                        }
+                        else
+                        {
+                            startElement(this, name, null);
+                        }
+
+                        if (name == "data")
+                        {
+                            int dataSize = (Width * Height * 4) + 1024;
+                            var buffer = new byte[dataSize];
+                            xmlReader.ReadElementContentAsBase64(buffer, 0, dataSize);
+
+                            textHandler(this, buffer, buffer.Length);
+                            endElement(this, name);
+                        }
+
+                        break;
+
+                    case XmlNodeType.EndElement:
+                        endElement(this, xmlReader.Name);
+                        dataindex++;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+
+
+            //XElement doc = XElement.Parse(str);
+            //List<string> atts = new List<string>();
+            //atts = ParseAttribute(doc);
+            //startElement(this, "map", atts.ToArray());
+            //ForeachNode(doc, this);
+
+            //endElement(this, "data", data);
+
 #warning about xml
             /// * this initialize the library and check potential ABI mismatches
             /// * between the version it was compiled for and the actual shared
@@ -131,14 +209,14 @@ namespace cocos2d
             ((CCSAXParser)(ctx)).m_pDelegator.startElement(ctx, name, atts);
         }
 
-        public static void endElement(object ctx, string name,object o)
+        public static void endElement(object ctx, string name)
         {
-            ((CCSAXParser)(ctx)).m_pDelegator.endElement(o, name);
+            ((CCSAXParser)(ctx)).m_pDelegator.endElement(ctx, name);
         }
 
-        public static void textHandler(object ctx, string name, int len)
+        public static void textHandler(object ctx, byte[] ch, int len)
         {
-            ((CCSAXParser)(ctx)).m_pDelegator.textHandler(ctx, name, len);
+            ((CCSAXParser)(ctx)).m_pDelegator.textHandler(ctx, ch, len);
         }
     }
 }

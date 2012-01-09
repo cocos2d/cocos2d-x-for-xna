@@ -36,6 +36,6 @@ namespace cocos2d
     {
         void startElement(object ctx, string name, string[] atts);
         void endElement(object ctx, string name);
-        void textHandler(object ctx, string s, int len);
+        void textHandler(object ctx, byte[] ch, int len);
     }
 }

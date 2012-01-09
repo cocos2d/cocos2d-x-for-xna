@@ -52,8 +52,8 @@ namespace cocos2d
         public CCSAXState m_tState;
         public List<Object> m_pArray;
 
-        Stack<List<Object>> m_tArrayStack=null;
-        Stack<CCSAXState> m_tStateStack=null;
+        Stack<List<Object>> m_tArrayStack = null;
+        Stack<CCSAXState> m_tStateStack = null;
 
         public CCDictMaker()
         {
@@ -206,7 +206,7 @@ namespace cocos2d
             m_tState = CCSAXState.SAX_NONE;
         }
 
-        public void textHandler(object ctx, string s, int len)
+        public void textHandler(object ctx, byte[] s, int len)
         {
             if (m_tState == CCSAXState.SAX_NONE)
             {
@@ -215,7 +215,7 @@ namespace cocos2d
 
             CCSAXState curState = m_tStateStack.Count == 0 ? CCSAXState.SAX_DICT : m_tStateStack.FirstOrDefault();
             string m_sString = string.Empty;
-            m_sString = s.Substring(0, len);
+            m_sString = System.Text.UTF8Encoding.UTF8.GetString(s, 0, len);
 
             switch (m_tState)
             {

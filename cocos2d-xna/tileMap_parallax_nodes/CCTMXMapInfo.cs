@@ -32,6 +32,8 @@ using System.Text;
 using System.Diagnostics;
 using System.IO;
 using cocos2d;
+using WP7Contrib.Communications.Compression;
+using ICSharpCode.SharpZipLib.GZip;
 
 
 namespace cocos2d
@@ -51,17 +53,6 @@ namespace cocos2d
     /// </summary>
     public class CCTMXMapInfo : CCObject, ICCSAXDelegator
     {
-        public static byte[] ToByte(string str)
-        {
-            byte[] bytes = new byte[str.Length / 2];
-            for (int i = 0; i < str.Length / 2; i++)
-            {
-                int btvalue = Convert.ToInt32(str.Substring(i * 2, 2), 16);
-                bytes[i] = (byte)btvalue;
-            }
-            return bytes;
-        }
-
         #region properties
 
         protected int m_nOrientation;
@@ -184,11 +175,11 @@ namespace cocos2d
             set { m_sTMXFileName = value; }
         }
 
-        protected string m_sCurrentString;
+        protected byte[] m_sCurrentString;
         /// <summary>
         /// ! current string
         /// </summary>
-        public string CurrentString
+        public byte[] CurrentString
         {
             get { return m_sCurrentString; }
             set { m_sCurrentString = value; }
@@ -237,7 +228,7 @@ namespace cocos2d
             m_pTileProperties = new Dictionary<int, Dictionary<string, string>>();
 
             // tmp vars
-            m_sCurrentString = "";
+            m_sCurrentString = null;
             m_bStoringCharacters = false;
             m_nLayerAttribs = (int)TMXLayerAttrib.TMXLayerAttribNone;
             m_nParentElement = (int)TMXProperty.TMXPropertyNone;
@@ -248,11 +239,8 @@ namespace cocos2d
         /// <summary>
         /// initalises parsing of an XML file, either a tmx (Map) file or tsx (Tileset) file
         /// </summary>
-        /// <param name="?"></param>
-        /// <returns></returns>
         public bool parseXMLFile(string xmlFilename)
         {
-            //g:\cocos2d\cocos2d-1.0.1-x-0.9.2\cocos2d-1.0.1-x-0.9.2\cocos2dx\platform\ccsaxparser.cpp
             CCSAXParser parser = new CCSAXParser();
 
             if (false == parser.init("UTF-8"))
@@ -264,6 +252,8 @@ namespace cocos2d
 
             return parser.parse(xmlFilename); ;
         }
+
+        // the XML parser calls here with all the elements
         public void startElement(object ctx, string name, string[] atts)
         {
             CCTMXMapInfo pTMXMapInfo = this;
@@ -271,9 +261,11 @@ namespace cocos2d
             Dictionary<string, string> attributeDict = new Dictionary<string, string>();
             if (atts != null && atts[0] != null)
             {
-                for (int i = 0; i < atts.Length; i += 2)
+                for (int i = 0; i + 1 < atts.Length; i += 2)
                 {
-                    attributeDict.Add(atts[i], atts[i + 1]);
+                    string key = atts[i];
+                    string value = atts[i + 1];
+                    attributeDict.Add(key, value);
                 }
             }
             if (elementName == "map")
@@ -281,16 +273,15 @@ namespace cocos2d
                 string version = attributeDict["version"];
                 if (version != "1.0")
                 {
-                    Debug.WriteLine("cocos2d: TMXFormat: Unsupported TMX version:{0}", version);
+                    Debug.WriteLine("cocos2d: TMXFormat: Unsupported TMX version: {0}", version);
                 }
-
                 string orientationStr = attributeDict["orientation"];
                 if (orientationStr == "orthogonal")
-                    pTMXMapInfo.Orientation =(int) CCTMXOrientatio.CCTMXOrientationOrtho;
+                    pTMXMapInfo.Orientation = (int)(CCTMXOrientatio.CCTMXOrientationOrtho);
                 else if (orientationStr == "isometric")
-                    pTMXMapInfo.Orientation=(int) CCTMXOrientatio.CCTMXOrientationIso;
+                    pTMXMapInfo.Orientation = (int)(CCTMXOrientatio.CCTMXOrientationIso);
                 else if (orientationStr == "hexagonal")
-                    pTMXMapInfo.Orientation=(int) CCTMXOrientatio.CCTMXOrientationHex;
+                    pTMXMapInfo.Orientation = (int)(CCTMXOrientatio.CCTMXOrientationHex);
                 else
                     Debug.WriteLine("cocos2d: TMXFomat: Unsupported orientation: {0}", pTMXMapInfo.Orientation);
 
@@ -304,43 +295,33 @@ namespace cocos2d
                 pTMXMapInfo.TileSize = s;
 
                 // The parent element is now "map"
-                pTMXMapInfo.ParentElement = 1;
+                pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyMap;
             }
-
             else if (elementName == "tileset")
             {
                 // If this is an external tileset then start parsing that
+
                 if (attributeDict.Keys.Contains("source"))
                 {
                     string externalTilesetFilename = attributeDict["source"];
-                    if (externalTilesetFilename != "")
-                    {
-                        externalTilesetFilename = CCFileUtils.fullPathFromRelativeFile(externalTilesetFilename, pTMXMapInfo.TMXFileName);
-                        pTMXMapInfo.parseXMLFile(externalTilesetFilename);
-                    }
+
+                    externalTilesetFilename = CCFileUtils.fullPathFromRelativeFile(externalTilesetFilename, pTMXMapInfo.TMXFileName);
+                    pTMXMapInfo.parseXMLFile(externalTilesetFilename);
                 }
                 else
                 {
                     CCTMXTilesetInfo tileset = new CCTMXTilesetInfo();
                     tileset.m_sName = attributeDict["name"];
                     tileset.m_uFirstGid = int.Parse(attributeDict["firstgid"]);
+
                     if (attributeDict.Keys.Contains("spacing"))
-                    {
                         tileset.m_uSpacing = int.Parse(attributeDict["spacing"]);
-                    }
+
                     if (attributeDict.Keys.Contains("margin"))
-                    {
-                        tileset.m_uMargin = int.Parse(attributeDict["margin"]);
-                    }
+                    tileset.m_uMargin = int.Parse(attributeDict["margin"]);
                     CCSize s = new CCSize();
-                    if (attributeDict.Keys.Contains("tilewidth"))
-                    {
-                        s.width = float.Parse(attributeDict["tilewidth"]);
-                    }
-                    if (attributeDict.Keys.Contains("tileheight"))
-                    {
-                        s.height = float.Parse(attributeDict["tileheight"]);
-                    }
+                    s.width = float.Parse(attributeDict["tilewidth"]);
+                    s.height = float.Parse(attributeDict["tileheight"]);
                     tileset.m_tTileSize = s;
 
                     pTMXMapInfo.Tilesets.Add(tileset);
@@ -350,11 +331,11 @@ namespace cocos2d
             {
                 CCTMXTilesetInfo info = pTMXMapInfo.Tilesets.LastOrDefault();
                 Dictionary<string, string> dict = new Dictionary<string, string>();
-                pTMXMapInfo.ParentGID = info.m_uFirstGid + int.Parse(attributeDict["id"]);
-                pTMXMapInfo.TileProperties.Add((int)pTMXMapInfo.ParentGID, dict);
-                //CC_SAFE_RELEASE(dict);
+                pTMXMapInfo.ParentGID = (info.m_uFirstGid + int.Parse(attributeDict["id"]));
+                pTMXMapInfo.TileProperties.Add(pTMXMapInfo.ParentGID, dict);
 
-                pTMXMapInfo.ParentElement = 5;
+                pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyTile;
+
             }
             else if (elementName == "layer")
             {
@@ -366,44 +347,36 @@ namespace cocos2d
                 s.height = float.Parse(attributeDict["height"]);
                 layer.m_tLayerSize = s;
 
-                foreach (var item in attributeDict.Keys)
-                {
-                    if (item == "visible")
-                    {
-                        string visible = attributeDict["visible"];
-                        layer.m_bVisible = !(visible == "0");
-                    }
-                    if (item == "opacity")
-                    {
-                        string opacity = attributeDict["opacity"];
-                        if (opacity != "")
-                        {
-                            layer.m_cOpacity = (byte)(255 * float.Parse(opacity));
-                        }
-                        else
-                        {
-                            layer.m_cOpacity = 255;
-                        }
-                    }
-                    float x = 0;
-                    if (item == "x")
-                    {
-                        x = float.Parse(attributeDict["x"]);
+                layer.m_pTiles = new int[(int)s.width * (int)s.height];
 
-                    }
-                    float y = 0;
-                    if (item == "y")
-                    {
-                        y = float.Parse(attributeDict["y"]);
-                        layer.m_tOffset = new CCPoint(x, y);
-                    }
+                if (attributeDict.Keys.Contains("visible"))
+                {
+                    string visible = attributeDict["visible"];
+                    layer.m_bVisible = !(visible == "0");
+                }
+                else
+                {
+                    layer.m_bVisible = true;
                 }
 
+                if (attributeDict.Keys.Contains("opacity"))
+                {
+                    string opacity = attributeDict["opacity"];
+                    layer.m_cOpacity = (byte)(255 * float.Parse(opacity));
+                }
+                else
+                {
+                    layer.m_cOpacity = 255;
+                }
+
+                float x = attributeDict.Keys.Contains("x") ? float.Parse(attributeDict["x"]) : 0;
+                float y = attributeDict.Keys.Contains("y") ? float.Parse(attributeDict["y"]) : 0;
+                layer.m_tOffset = new CCPoint(x, y);
 
                 pTMXMapInfo.Layers.Add(layer);
 
                 // The parent element is now "layer"
-                pTMXMapInfo.ParentElement = 2;
+                pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyLayer;
 
             }
             else if (elementName == "objectgroup")
@@ -411,20 +384,16 @@ namespace cocos2d
                 CCTMXObjectGroup objectGroup = new CCTMXObjectGroup();
                 objectGroup.GroupName = attributeDict["name"];
                 CCPoint positionOffset = new CCPoint();
-                if (attributeDict.Keys.Contains("x"))
-                    positionOffset.x = float.Parse(attributeDict["x"]) * pTMXMapInfo.TileSize.width;
-                if (attributeDict.Keys.Contains("y"))
-                    positionOffset.y = float.Parse(attributeDict["y"]) * pTMXMapInfo.TileSize.height;
-             
+                positionOffset.x = float.Parse(attributeDict["x"]) * pTMXMapInfo.TileSize.width;
+                positionOffset.y = float.Parse(attributeDict["y"]) * pTMXMapInfo.TileSize.height;
                 objectGroup.PositionOffset = positionOffset;
 
                 pTMXMapInfo.ObjectGroups.Add(objectGroup);
 
                 // The parent element is now "objectgroup"
-                pTMXMapInfo.ParentElement = 3;
+                pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyObjectGroup;
 
             }
-
             else if (elementName == "image")
             {
                 CCTMXTilesetInfo tileset = pTMXMapInfo.Tilesets.LastOrDefault();
@@ -442,253 +411,25 @@ namespace cocos2d
                 if (encoding == "base64")
                 {
                     int layerAttribs = pTMXMapInfo.LayerAttribs;
-                    pTMXMapInfo.LayerAttribs = layerAttribs | 1 << 1;
+                    pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribBase64;
                     pTMXMapInfo.StoringCharacters = true;
 
                     if (compression == "gzip")
                     {
                         layerAttribs = pTMXMapInfo.LayerAttribs;
-                        pTMXMapInfo.LayerAttribs = layerAttribs | 4;
+                        pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribGzip;
                     }
                     else
                         if (compression == "zlib")
                         {
                             layerAttribs = pTMXMapInfo.LayerAttribs;
-                            pTMXMapInfo.LayerAttribs = layerAttribs | 8;
+                            pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribZlib;
                         }
                     Debug.Assert(compression == "" || compression == "gzip" || compression == "zlib", "TMX: unsupported compression method");
                 }
-                Debug.Assert(pTMXMapInfo.LayerAttribs != 1, "TMX tile map: Only base64 and/or gzip/zlib maps are supported");
+                Debug.Assert(pTMXMapInfo.LayerAttribs != (int)TMXLayerAttrib.TMXLayerAttribNone, "TMX tile map: Only base64 and/or gzip/zlib maps are supported");
 
             }
-            //else if (elementName == "object")
-            //{
-            //    byte[] buffer = new byte[32];
-            //    CCTMXObjectGroup objectGroup = pTMXMapInfo.ObjectGroups.LastOrDefault();
-
-            //    // The value for "type" was blank or not a valid class name
-            //    // Create an instance of TMXObjectInfo to store the object and its properties
-            //    Dictionary<string, string> dict = new Dictionary<string, string>();
-
-            //    // Set the name of the object to the value for "name"
-            //    string key;
-            //     string value;
-            //    if (attributeDict.Keys.Contains("name"))
-            //    {
-            //        key = "name";
-            //        value = attributeDict["name"];
-            //        dict.Add(key, value);
-            //    }
-            
-
-            //    // Assign all the attributes as key/name pairs in the properties dictionary
-            //    if (attributeDict.Keys.Contains("type"))
-            //    {
-            //        key = "type";
-            //        value = attributeDict["type"];
-            //        dict.Add(key, value);
-            //    }
-            //    if (attributeDict.Keys.Contains("x"))
-            //    {
-            //        int x = int.Parse(attributeDict["x"]) + (int)objectGroup.PositionOffset.x;
-            //    }
-            //    //key = "x";
-            //    //sprintf(buffer, "%d", x);
-            //    //value = new CCString(buffer);
-            //    //dict->setObject(value, key);
-            //    //value->release();
-
-            //    //int y = atoi(valueForKey("y", attributeDict)) + (int)objectGroup->getPositionOffset().y;
-            //    //// Correct y position. (Tiled uses Flipped, cocos2d uses Standard)
-            //    //y = (int)(pTMXMapInfo->getMapSize().height * pTMXMapInfo->getTileSize().height) - y - atoi(valueForKey("height", attributeDict));
-            //    //key = "y";
-            //    //sprintf(buffer, "%d", y);
-            //    //value = new CCString(buffer);
-            //    //dict->setObject(value, key);
-            //    //value->release();
-
-            //    //key = "width";
-            //    //value = new CCString(valueForKey("width", attributeDict));
-            //    //dict->setObject(value, key);
-            //    //value->release();
-
-            //    //key = "height";
-            //    //value = new CCString(valueForKey("height", attributeDict));
-            //    //dict->setObject(value, key);
-            //    //value->release();
-
-            //    //// Add the object to the objectGroup
-            //    //objectGroup->getObjects()->addObject(dict);
-            //    //dict->release();
-
-            //    //// The parent element is now "object"
-            //    //pTMXMapInfo->setParentElement(TMXPropertyObject);
-
-            //}
-            #region
-            // implement pure virtual methods of CCSAXDelegator
-            //public void startElement(object ctx, string name, string[] atts)
-            //{
-            //    //CC_UNUSED_PARAM(ctx);
-            //    CCTMXMapInfo pTMXMapInfo = this;
-            //    string elementName = name;
-            //    Dictionary<string, string> attributeDict = new Dictionary<string, string>();
-            //    if (atts != null && atts[0] != null)
-            //    {
-            //        for (int i = 0; i < atts.Length; i += 2)
-            //        {
-            //            string key = (string)atts[i];
-            //            string value = (string)atts[i + 1];
-            //            attributeDict.Add(key, value);
-            //        }
-            //    }
-            //    if (elementName == "map")
-            //    {
-            //        string version = attributeDict["version"];
-            //        if (version != "1.0")
-            //        {
-            //            Debug.WriteLine("cocos2d: TMXFormat: Unsupported TMX version: {0}", version);
-            //        }
-            //        string orientationStr = attributeDict["orientation"];
-            //        if (orientationStr == "orthogonal")
-            //            pTMXMapInfo.Orientation = (int)CCTMXOrientatio.CCTMXOrientationOrtho;
-            //        else if (orientationStr == "isometric")
-            //            pTMXMapInfo.Orientation = (int)CCTMXOrientatio.CCTMXOrientationIso;
-            //        else if (orientationStr == "hexagonal")
-            //            pTMXMapInfo.Orientation = (int)CCTMXOrientatio.CCTMXOrientationHex;
-            //        else
-            //            Debug.WriteLine("cocos2d: TMXFomat: Unsupported orientation: {0}", pTMXMapInfo.Orientation);
-
-            //        CCSize s = new CCSize();
-            //        s.width = float.Parse(attributeDict["width"]);
-            //        s.height = (float.Parse(attributeDict["height"]));
-            //        pTMXMapInfo.MapSize = s;
-
-            //        s.width = float.Parse(attributeDict["tilewidth"]);
-            //        s.height = float.Parse(attributeDict["tileheight"]);
-            //        pTMXMapInfo.TileSize = s;
-
-            //        // The parent element is now "map"
-            //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyMap;
-            //    }
-            //    else if (elementName == "tileset")
-            //    {
-            //        // If this is an external tileset then start parsing that
-            //        string externalTilesetFilename = attributeDict["source"];
-            //        if (externalTilesetFilename != "")
-            //        {
-            //            externalTilesetFilename = CCFileUtils.fullPathFromRelativeFile(externalTilesetFilename, pTMXMapInfo.TMXFileName);
-            //            pTMXMapInfo.parseXMLFile(externalTilesetFilename);
-            //        }
-            //        else
-            //        {
-            //            CCTMXTilesetInfo tileset = new CCTMXTilesetInfo();
-            //            tileset.m_sName = attributeDict["name"];
-            //            tileset.m_uFirstGid = uint.Parse(attributeDict["firstgid"]);
-            //            tileset.m_uSpacing = uint.Parse(attributeDict["spacing"]);
-            //            tileset.m_uMargin = uint.Parse(attributeDict["margin"]);
-            //            CCSize s = new CCSize();
-            //            s.width = float.Parse(attributeDict["tilewidth"]);
-            //            s.height = float.Parse(attributeDict["tileheight"]);
-            //            tileset.m_tTileSize = s;
-
-            //            pTMXMapInfo.Tilesets.Add(tileset);
-            //            //tileset->release();
-            //        }
-            //    }
-            //    else if (elementName == "tile")
-            //    {
-            //        CCTMXTilesetInfo info = pTMXMapInfo.Tilesets.LastOrDefault();
-            //        Dictionary<string, string> dict = new Dictionary<string, string>();
-            //        pTMXMapInfo.ParentGID = info.m_uFirstGid + uint.Parse(attributeDict["id"]);
-            //        pTMXMapInfo.TileProperties.Add((int)pTMXMapInfo.ParentGID, dict);
-            //        //CC_SAFE_RELEASE(dict);
-
-            //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyTile;
-            //    }
-            //    else if (elementName == "layer")
-            //    {
-            //        CCTMXLayerInfo layer = new CCTMXLayerInfo();
-            //        layer.m_sName = attributeDict["name"];
-
-            //        CCSize s = new CCSize();
-            //        s.width = float.Parse(attributeDict["width"]);
-            //        s.height = float.Parse(attributeDict["height"]);
-            //        layer.m_tLayerSize = s;
-
-            //        string visible = attributeDict["visible"];
-            //        layer.m_bVisible = !(visible == "0");
-
-            //        string opacity = attributeDict["opacity"];
-            //        if (opacity != "")
-            //        {
-            //            layer.m_cOpacity = (byte)(255 * int.Parse(opacity));
-            //        }
-            //        else
-            //        {
-            //            layer.m_cOpacity = 255;
-            //        }
-
-            //        float x = float.Parse(attributeDict["x"]);
-            //        float y = float.Parse(attributeDict["y"]);
-            //        layer.m_tOffset = new CCPoint(x, y);
-
-            //        pTMXMapInfo.Layers.Add(layer);
-            //        //layer->release();
-
-            //        // The parent element is now "layer"
-            //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyLayer;
-            //    }
-            //    else if (elementName == "objectgroup")
-            //    {
-            //        CCTMXObjectGroup objectGroup = new CCTMXObjectGroup();
-            //        objectGroup.GroupName = attributeDict["name"];
-            //        CCPoint positionOffset = new CCPoint();
-            //        positionOffset.x = float.Parse(attributeDict["x"]) * pTMXMapInfo.TileSize.width;
-            //        positionOffset.y = float.Parse(attributeDict["y"]) * pTMXMapInfo.TileSize.height;
-            //        objectGroup.PositionOffset = positionOffset;
-
-            //        pTMXMapInfo.ObjectGroups.Add(objectGroup);
-            //        //objectGroup->release();
-
-            //        // The parent element is now "objectgroup"
-            //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyObjectGroup;
-
-            //    }
-            //    else if (elementName == "image")
-            //    {
-            //        CCTMXTilesetInfo tileset = pTMXMapInfo.Tilesets.LastOrDefault();
-
-            //        // build full path
-            //        string imagename = attributeDict["source"];
-            //        tileset.m_sSourceImage = CCFileUtils.fullPathFromRelativeFile(imagename, pTMXMapInfo.TMXFileName);
-            //    }
-            //    else if (elementName == "data")
-            //    {
-            //        string encoding = attributeDict["encoding"];
-            //        string compression = attributeDict["compression"];
-
-            //        if (encoding == "base64")
-            //        {
-            //            int layerAttribs = pTMXMapInfo.LayerAttribs;
-            //            pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribBase64;
-            //            pTMXMapInfo.StoringCharacters = true;
-
-            //            if (compression == "gzip")
-            //            {
-            //                layerAttribs = pTMXMapInfo.LayerAttribs;
-            //                pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribGzip;
-            //            }
-            //            else
-            //                if (compression == "zlib")
-            //                {
-            //                    layerAttribs = pTMXMapInfo.LayerAttribs;
-            //                    pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribZlib;
-            //                }
-            //            Debug.Assert(compression == "" || compression == "gzip" || compression == "zlib", "TMX: unsupported compression method");
-            //        }
-            //        Debug.Assert(pTMXMapInfo.LayerAttribs != (int)TMXLayerAttrib.TMXLayerAttribNone, "TMX tile map: Only base64 and/or gzip/zlib maps are supported");
-            //    }
             else if (elementName == "object")
             {
                 char[] buffer = new char[32];
@@ -701,60 +442,35 @@ namespace cocos2d
                 // Set the name of the object to the value for "name"
                 string key = "name";
                 string value = attributeDict["name"];
-                dict.Add(value, key);
-                //value->release();
+                dict.Add(key, value);
 
                 // Assign all the attributes as key/name pairs in the properties dictionary
-                if (attributeDict.Keys.Contains("type"))
-                {
-                    key = "type";
-                    value = attributeDict["type"];
-                    dict.Add(value, key);
-                    //value->release();
-
-                }
-            
+                key = "type";
+                value = attributeDict["type"];
+                dict.Add(key, value);
 
                 int x = int.Parse(attributeDict["x"]) + (int)objectGroup.PositionOffset.x;
                 key = "x";
-                buffer = x.ToString().ToArray();
-                //string.Format(buffer, "%d", x);
-                value = buffer.ToString();
+                value = x.ToString();
                 dict.Add(key, value);
-                //value->release();
 
                 int y = int.Parse(attributeDict["y"]) + (int)objectGroup.PositionOffset.y;
                 // Correct y position. (Tiled uses Flipped, cocos2d uses Standard)
-                if (attributeDict.Keys.Contains("y") && attributeDict.Keys.Contains("height"))
-                {
-                    y = (int)(pTMXMapInfo.MapSize.height * pTMXMapInfo.TileSize.height) - y - int.Parse(attributeDict["height"]);
-                    key = "y";
-                    buffer = x.ToString().ToArray();
-                    value = buffer.ToString();
-                    //sprintf(buffer, "%d", y);
-                    //value = new CCString(buffer);
-                    dict.Add(key, value);
-                    //value->release();
+                y = (int)(pTMXMapInfo.MapSize.height * pTMXMapInfo.TileSize.height) - y - int.Parse(attributeDict["height"]);
+                key = "y";
+                value = y.ToString();
+                dict.Add(key, value);
 
-                }
-                if (attributeDict.Keys.Contains("width"))
-                {
-                    key = "width";
-                    value = attributeDict["width"];
-                    dict.Add(key, value);
-                    //value->release();
-                }
-                if (attributeDict.Keys.Contains("height"))
-                {
-                    key = "height";
-                    value = attributeDict["height"];
-                    dict.Add(key, value);
-                    //value->release();
-                }
-           
+                key = "width";
+                value = attributeDict["width"];
+                dict.Add(key, value);
+
+                key = "height";
+                value = attributeDict["height"];
+                dict.Add(key, value);
+
                 // Add the object to the objectGroup
                 objectGroup.Objects.Add(dict);
-                //dict->release();
 
                 // The parent element is now "object"
                 pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyObject;
@@ -773,7 +489,6 @@ namespace cocos2d
                     string value = attributeDict["value"];
                     string key = attributeDict["name"];
                     pTMXMapInfo.Properties.Add(key, value);
-                    //value->release();
 
                 }
                 else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyLayer)
@@ -784,17 +499,14 @@ namespace cocos2d
                     string key = attributeDict["name"];
                     // Add the property to the layer
                     layer.Properties.Add(key, value);
-                    //value->release();
-
                 }
-                else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyLayer)
+                else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyObjectGroup)
                 {
                     // The parent element is the last object group
                     CCTMXObjectGroup objectGroup = pTMXMapInfo.ObjectGroups.LastOrDefault();
                     string value = attributeDict["value"];
                     string key = attributeDict["name"];
                     objectGroup.Properties.Add(key, value);
-                    //value->release();
                 }
                 else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyObject)
                 {
@@ -805,92 +517,50 @@ namespace cocos2d
                     string propertyName = attributeDict["name"];
                     string propertyValue = attributeDict["value"];
                     dict.Add(propertyName, propertyValue);
-                    //propertyValue->release();
                 }
                 else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyTile)
                 {
-                    Dictionary<string, string> dict;
-                    dict = pTMXMapInfo.TileProperties[(int)pTMXMapInfo.ParentGID];
+                    Dictionary<string, string> dict = pTMXMapInfo.TileProperties[pTMXMapInfo.ParentGID];
 
                     string propertyName = attributeDict["name"];
                     string propertyValue = attributeDict["value"];
                     dict.Add(propertyName, propertyValue);
-                    //propertyValue->release();
                 }
-            } 
-            #endregion
+            }
             if (attributeDict != null)
             {
-                attributeDict.Clear();
-                //delete attributeDict;
+                attributeDict = null;
             }
         }
 
-        public void endElement(object ctx, string name)
+        public void endElement(object ctx, string elementName)
         {
-            //CC_UNUSED_PARAM(ctx);
             CCTMXMapInfo pTMXMapInfo = this;
-            string elementName = name;
 
             if (elementName == "data" && (pTMXMapInfo.LayerAttribs & (int)TMXLayerAttrib.TMXLayerAttribBase64) != 0)
             {
                 pTMXMapInfo.StoringCharacters = false;
-                for (int i = 0; i < pTMXMapInfo.Layers.Count; i++)
+                CCTMXLayerInfo layer = pTMXMapInfo.Layers.LastOrDefault();
+                if ((pTMXMapInfo.LayerAttribs & ((int)(TMXLayerAttrib.TMXLayerAttribGzip) | (int)TMXLayerAttrib.TMXLayerAttribZlib)) != 0)
                 {
-                    CCTMXLayerInfo layer = pTMXMapInfo.Layers[i];
-                    byte[] bs = ((cocos2d.Framework.CCContent)ctx).Date[i];
-                    int[] bytes = new int[bs.Length];
-                    for (int j = 0; j < bytes.Length; j++)
+                    byte[] buffer = pTMXMapInfo.CurrentString;
+
+                    MemoryStream ms = new MemoryStream(buffer, false);
+                    using (GZipInputStream inStream = new GZipInputStream(ms))
                     {
-                        bytes[j] = 0;
-                    }
-                    for (int k = 0; k < bs.Length; k++)
-                    {
-                        if (bs[k] > 0)
+                        using (var br = new BinaryReader(inStream))
                         {
-                            bytes[k / 4] = bs[k];
+                            for (int i = 0; i < layer.m_pTiles.Length; i++)
+                                layer.m_pTiles[i] = br.ReadInt32();
                         }
                     }
-                    layer.m_pTiles = bytes;
                 }
-                //int len = 0;
-                //buffer = Convert.FromBase64CharArray(currentString.ToCharArray(), 0, currentString.Length);
-                //len = buffer.Length;
+                else
+                {
+                    //layer->m_pTiles = (unsigned int*) buffer;
+                }
 
-                //if (buffer == null)
-                //{
-                //    Debug.WriteLine("cocos2d: TiledMap: decode data error");
-                //    return;
-                //}
-
-                //if ((pTMXMapInfo.LayerAttribs & ((int)TMXLayerAttrib.TMXLayerAttribGzip | (int)TMXLayerAttrib.TMXLayerAttribZlib)) != 0)
-                //{
-                //    byte[] deflated = null;
-                //    CCSize s = layer.m_tLayerSize;
-                //    int sizeHint = (int)(s.width * s.height * sizeof(uint));
-
-                //    int inflatedLen = ZipUtils.ccInflateMemoryWithHint(buffer, len, deflated, sizeHint);
-                //    Debug.Assert(inflatedLen == sizeHint);
-
-                //    // this.inflatedLen =inflatedLen; // XXX: to avoid warings in compiler
-
-                //    buffer = null;
-
-                //    if (deflated == null)
-                //    {
-                //        Debug.WriteLine("cocos2d: TiledMap: inflate data error");
-                //        return;
-                //    }
-
-                //    //layer.m_pTiles =deflated;
-                //}
-                //else
-                //{
-                //    //layer.m_pTiles = (uint[]) buffer;
-                //}
-
-                //pTMXMapInfo.CurrentString = "";
-
+                pTMXMapInfo.CurrentString = null;
             }
             else if (elementName == "map")
             {
@@ -910,309 +580,22 @@ namespace cocos2d
             else if (elementName == "object")
             {
                 // The object element has ended
-                pTMXMapInfo.ParentElement = (int)(int)TMXProperty.TMXPropertyNone;
+                pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyNone;
             }
         }
 
-        public void textHandler(object ctx, string ch, int len)
+        public void textHandler(object ctx, byte[] ch, int len)
         {
             //CC_UNUSED_PARAM(ctx);
             CCTMXMapInfo pTMXMapInfo = this;
-            string pText = new string(ch.ToArray(), 0, len);
+            //string pText = System.Text.UTF8Encoding.UTF8.GetString(ch, 0, len);
 
             if (pTMXMapInfo.StoringCharacters)
             {
-                string currentString = pTMXMapInfo.CurrentString;
-                currentString += pText;
-                pTMXMapInfo.CurrentString = currentString;
+                //string currentString = pTMXMapInfo.CurrentString;
+                //currentString += pText;
+                pTMXMapInfo.CurrentString = ch;
             }
         }
-
-        //public void startElement(object ctx, string name, string[] atts)
-        //{
-        //    //CC_UNUSED_PARAM(ctx);
-        //    CCTMXMapInfo pTMXMapInfo = this;
-        //    string elementName = name;
-        //    Dictionary<string, string> attributeDict = new Dictionary<string, string>();
-        //    if (atts != null && atts[0] != null)
-        //    {
-        //        for (int i = 0; i < atts.Length; i += 2)
-        //        {
-        //            string key = atts[i].ToString();
-        //            string value = atts[i + 1].ToString();
-        //            attributeDict.Add(key, value);
-        //        }
-        //    }
-        //    if (elementName == "map")
-        //    {
-        //        string version = attributeDict["version"];
-        //        if (version != "1.0")
-        //        {
-        //            Debug.WriteLine("cocos2d: TMXFormat: Unsupported TMX version: {0}", version);
-        //        }
-        //        string orientationStr = attributeDict["orientation"];
-        //        if (orientationStr == "orthogonal")
-        //            pTMXMapInfo.Orientation = (int)CCTMXOrientatio.CCTMXOrientationOrtho;
-        //        else if (orientationStr == "isometric")
-        //            pTMXMapInfo.Orientation = (int)CCTMXOrientatio.CCTMXOrientationIso;
-        //        else if (orientationStr == "hexagonal")
-        //            pTMXMapInfo.Orientation = (int)CCTMXOrientatio.CCTMXOrientationHex;
-        //        else
-        //            Debug.WriteLine("cocos2d: TMXFomat: Unsupported orientation:{0}", pTMXMapInfo.Orientation);
-
-        //        CCSize s = new CCSize();
-        //        s.width = float.Parse(attributeDict["width"]);
-        //        s.height = float.Parse(attributeDict["height"]);
-        //        pTMXMapInfo.MapSize = s;
-
-        //        s.width = float.Parse(attributeDict["tilewidth"]);
-        //        s.height = float.Parse(attributeDict["tileheight"]);
-        //        pTMXMapInfo.TileSize = s;
-
-        //        // The parent element is now "map"
-        //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyMap;
-        //    }
-        //    else if (elementName == "tileset")
-        //    {
-        //        // If this is an external tileset then start parsing that
-        //        string externalTilesetFilename = attributeDict["source"];
-        //        if (externalTilesetFilename != "")
-        //        {
-        //            externalTilesetFilename = CCFileUtils.fullPathFromRelativeFile(externalTilesetFilename, pTMXMapInfo.TMXFileName);
-        //            pTMXMapInfo.parseXMLFile(externalTilesetFilename);
-        //        }
-        //        else
-        //        {
-        //            CCTMXTilesetInfo tileset = new CCTMXTilesetInfo();
-        //            tileset.m_sName = attributeDict["name"];
-        //            tileset.m_uFirstGid = uint.Parse(attributeDict["firstgid"]);
-        //            tileset.m_uSpacing = uint.Parse(attributeDict["spacing"]);
-        //            tileset.m_uMargin = uint.Parse(attributeDict["margin"]);
-        //            CCSize s = new CCSize();
-        //            s.width = float.Parse(attributeDict["tilewidth"]);
-        //            s.height = float.Parse(attributeDict["tileheight"]);
-        //            tileset.m_tTileSize = s;
-
-        //            pTMXMapInfo.Tilesets.Add(tileset);
-        //            //tileset->release();
-        //        }
-        //    }
-        //    else if (elementName == "tile")
-        //    {
-        //        CCTMXTilesetInfo info = pTMXMapInfo.Tilesets.LastOrDefault();
-        //        Dictionary<string, string> dict = new Dictionary<string, string>();
-        //        pTMXMapInfo.ParentGID = info.m_uFirstGid + uint.Parse(attributeDict["id"]);
-        //        pTMXMapInfo.TileProperties.Add((int)pTMXMapInfo.ParentGID, dict);
-        //        //CC_SAFE_RELEASE(dict);
-
-        //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyTile;
-
-        //    }
-        //    else if (elementName == "layer")
-        //    {
-        //        CCTMXLayerInfo layer = new CCTMXLayerInfo();
-        //        layer.m_sName = attributeDict["name"];
-
-        //        CCSize s = new CCSize();
-        //        s.width = float.Parse(attributeDict["width"]);
-        //        s.height = float.Parse(attributeDict["height"]);
-        //        layer.m_tLayerSize = s;
-
-        //        string visible = attributeDict["visible"];
-        //        layer.m_bVisible = !(visible == "0");
-
-        //        string opacity = attributeDict["opacity"];
-        //        if (opacity != "")
-        //        {
-        //            layer.m_cOpacity = (byte)(255 * float.Parse(opacity));
-        //        }
-        //        else
-        //        {
-        //            layer.m_cOpacity = 255;
-        //        }
-
-        //        float x = float.Parse(attributeDict["x"]);
-        //        float y = float.Parse(attributeDict["y"]);
-        //        layer.m_tOffset = new CCPoint(x, y);
-
-        //        pTMXMapInfo.Layers.Add(layer);
-        //        //layer->release();
-
-        //        // The parent element is now "layer"
-        //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyLayer;
-
-        //    }
-        //    else if (elementName == "objectgroup")
-        //    {
-        //        CCTMXObjectGroup objectGroup = new CCTMXObjectGroup();
-        //        objectGroup.GroupName = attributeDict["name"];
-        //        CCPoint positionOffset = new CCPoint();
-        //        positionOffset.x = float.Parse(attributeDict["x"]) * pTMXMapInfo.TileSize.width;
-        //        positionOffset.y = float.Parse(attributeDict["y"]) * pTMXMapInfo.TileSize.height;
-        //        objectGroup.PositionOffset = positionOffset;
-
-        //        pTMXMapInfo.ObjectGroups.Add(objectGroup);
-        //        //objectGroup->release();
-
-        //        // The parent element is now "objectgroup"
-        //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyObjectGroup;
-
-        //    }
-        //    else if (elementName == "image")
-        //    {
-        //        CCTMXTilesetInfo tileset = pTMXMapInfo.Tilesets.LastOrDefault();
-
-        //        // build full path
-        //        string imagename = attributeDict["source"];
-        //        tileset.m_sSourceImage = CCFileUtils.fullPathFromRelativeFile(imagename, pTMXMapInfo.TMXFileName);
-
-        //    }
-        //    else if (elementName == "data")
-        //    {
-        //        string encoding = attributeDict["encoding"];
-        //        string compression = attributeDict["compression"];
-
-        //        if (encoding == "base64")
-        //        {
-        //            int layerAttribs = pTMXMapInfo.LayerAttribs;
-        //            pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribBase64;
-        //            pTMXMapInfo.StoringCharacters = true;
-
-        //            if (compression == "gzip")
-        //            {
-        //                layerAttribs = pTMXMapInfo.LayerAttribs;
-        //                pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribGzip;
-        //            }
-        //            else
-        //                if (compression == "zlib")
-        //                {
-        //                    layerAttribs = pTMXMapInfo.LayerAttribs;
-        //                    pTMXMapInfo.LayerAttribs = layerAttribs | (int)TMXLayerAttrib.TMXLayerAttribZlib;
-        //                }
-        //            Debug.Assert(compression == "" || compression == "gzip" || compression == "zlib", "TMX: unsupported compression method");
-        //        }
-        //        Debug.Assert(pTMXMapInfo.LayerAttribs != (int)TMXLayerAttrib.TMXLayerAttribNone, "TMX tile map: Only base64 and/or gzip/zlib maps are supported");
-
-        //    }
-        //    else if (elementName == "object")
-        //    {
-        //        char[] buffer = new char[32];
-        //        CCTMXObjectGroup objectGroup = pTMXMapInfo.ObjectGroups.LastOrDefault();
-
-        //        // The value for "type" was blank or not a valid class name
-        //        // Create an instance of TMXObjectInfo to store the object and its properties
-        //        Dictionary<string, string> dict = new Dictionary<string, string>();
-
-        //        // Set the name of the object to the value for "name"
-        //        string key = "name";
-        //        string value = attributeDict["name"];
-        //        dict.Add(key, value);
-        //        //value->release();
-
-        //        // Assign all the attributes as key/name pairs in the properties dictionary
-        //        key = "type";
-        //        value = attributeDict["type"];
-        //        dict.Add(key, value);
-        //        //value->release();
-
-        //        int x = int.Parse(attributeDict["x"]) + (int)objectGroup.PositionOffset.x;
-        //        key = "x";
-        //        //sprintf(buffer, "%d", x);
-        //        value = buffer.ToString();
-        //        dict.Add(key, value);
-        //        //value->release();
-
-        //        int y = int.Parse(attributeDict["y"]) + (int)objectGroup.PositionOffset.y;
-        //        // Correct y position. (Tiled uses Flipped, cocos2d uses Standard)
-        //        y = (int)(pTMXMapInfo.MapSize.height * pTMXMapInfo.TileSize.height) - y - int.Parse(attributeDict["height"]);
-        //        key = "y";
-        //        //sprintf(buffer, "%d", y);
-        //        value = buffer.ToString();
-        //        dict.Add(key, value);
-        //        //value->release();
-
-        //        key = "width";
-        //        value = attributeDict["width"];
-        //        dict.Add(key, value);
-        //        //value->release();
-
-        //        key = "height";
-        //        value = attributeDict["height"];
-        //        dict.Add(key, value);
-        //        //value->release();
-
-        //        // Add the object to the objectGroup
-        //        objectGroup.Objects.Add(dict);
-        //        //dict->release();
-
-        //        // The parent element is now "object"
-        //        pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyObject;
-
-        //    }
-        //    else if (elementName == "property")
-        //    {
-        //        if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyNone)
-        //        {
-        //            Debug.WriteLine("TMX tile map: Parent element is unsupported. Cannot add property named '{0}' with value '{1}'",
-        //                attributeDict["name"], attributeDict["value"]);
-        //        }
-        //        else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyMap)
-        //        {
-        //            // The parent element is the map
-        //            string value = attributeDict["value"];
-        //            string key = attributeDict["name"];
-        //            pTMXMapInfo.Properties.Add(key, value);
-        //            //value->release();
-
-        //        }
-        //        else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyLayer)
-        //        {
-        //            // The parent element is the last layer
-        //            CCTMXLayerInfo layer = pTMXMapInfo.Layers.LastOrDefault();
-        //            string value = attributeDict["value"];
-        //            string key = attributeDict["name"];
-        //            // Add the property to the layer
-        //            layer.Properties.Add(key, value);
-        //            //value->release();
-
-        //        }
-        //        else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyObjectGroup)
-        //        {
-        //            // The parent element is the last object group
-        //            CCTMXObjectGroup objectGroup = pTMXMapInfo.ObjectGroups.LastOrDefault();
-        //            string value = attributeDict["value"];
-        //            string key = attributeDict["name"];
-        //            objectGroup.Properties.Add(key, value);
-        //            //value->release();
-
-        //        }
-        //        else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyObject)
-        //        {
-        //            // The parent element is the last object
-        //            CCTMXObjectGroup objectGroup = pTMXMapInfo.ObjectGroups.LastOrDefault();
-        //            Dictionary<string, string> dict = objectGroup.Objects.LastOrDefault();
-
-        //            string propertyName = attributeDict["name"];
-        //            string propertyValue = attributeDict["value"];
-        //            dict.Add(propertyName, propertyValue);
-        //            //propertyValue->release();
-        //        }
-        //        else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyTile)
-        //        {
-        //            Dictionary<string, string> dict;
-        //            dict = pTMXMapInfo.TileProperties[(int)pTMXMapInfo.ParentGID];
-
-        //            string propertyName = attributeDict["name"];
-        //            string propertyValue = attributeDict["value"];
-        //            dict.Add(propertyValue, propertyName);
-        //            //propertyValue->release();
-        //        }
-        //    }
-        //    if (attributeDict != null)
-        //    {
-        //        attributeDict.Clear();
-        //        attributeDict = null;
-        //    }
-        //}
     }
 }

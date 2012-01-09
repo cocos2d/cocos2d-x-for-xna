@@ -144,6 +144,8 @@ object->propertyNamed(name_of_the_property);
         {
         }
 
+        #region public
+
         /// <summary>
         /// creates a TMX Tiled Map with a TMX file.
         /// </summary>
@@ -179,9 +181,7 @@ object->propertyNamed(name_of_the_property);
             m_nMapOrientation = mapInfo.Orientation;
             ObjectGroups = mapInfo.ObjectGroups;
             Properties = mapInfo.Properties;
-            m_pTileProperties = null;
             m_pTileProperties = mapInfo.TileProperties;
-            //CC_SAFE_RETAIN(m_pTileProperties);
 
             int idx = 0;
 
@@ -195,14 +195,13 @@ object->propertyNamed(name_of_the_property);
                     Debug.Assert(m_pTMXLayers != null, "Allocate memory failed!");
                 }
 
-                CCTMXLayerInfo layerInfo = null;
                 for (int i = 0; i < layers.Count; i++)
                 {
-                    layerInfo = layers[i];
-                    if (layerInfo != null /*&& layerInfo.m_bVisible*/)
+                    CCTMXLayerInfo layerInfo = layers[i];
+                    if (layerInfo != null && layerInfo.m_bVisible)
                     {
                         CCTMXLayer child = parseLayer(layerInfo, mapInfo);
-                        addChild((CCNode)child, idx, idx);
+                        addChild(child, idx, idx);
 
                         // record the CCTMXLayer object by it's name
                         string layerName = child.LayerName;
@@ -219,6 +218,7 @@ object->propertyNamed(name_of_the_property);
                     }
                 }
             }
+
             return true;
         }
 
@@ -227,9 +227,7 @@ object->propertyNamed(name_of_the_property);
         /// </summary>
         public CCTMXLayer layerNamed(string layerName)
         {
-            string sLayerName = layerName;
-            CCTMXLayer pRet = m_pTMXLayers[sLayerName];
-            return pRet;
+            return m_pTMXLayers[layerName];
         }
 
         /// <summary>
@@ -237,15 +235,12 @@ object->propertyNamed(name_of_the_property);
         /// </summary>
         public CCTMXObjectGroup objectGroupNamed(string groupName)
         {
-            string sGroupName = groupName;
             if (m_pObjectGroups != null && m_pObjectGroups.Count > 0)
             {
-                CCTMXObjectGroup objectGroup;
-
                 for (int i = 0; i < m_pObjectGroups.Count; i++)
                 {
-                    objectGroup = m_pObjectGroups[i] as CCTMXObjectGroup;
-                    if (objectGroup != null && objectGroup.GroupName == sGroupName)
+                    CCTMXObjectGroup objectGroup = m_pObjectGroups[i];
+                    if (objectGroup != null && objectGroup.GroupName == groupName)
                     {
                         return objectGroup;
                     }
@@ -272,7 +267,10 @@ object->propertyNamed(name_of_the_property);
             return m_pTileProperties[GID];
         }
 
-        //private
+        #endregion
+
+        #region private
+
         private CCTMXLayer parseLayer(CCTMXLayerInfo layerInfo, CCTMXMapInfo mapInfo)
         {
             CCTMXTilesetInfo tileset = tilesetForLayer(layerInfo, mapInfo);
@@ -284,7 +282,6 @@ object->propertyNamed(name_of_the_property);
 
             return layer;
         }
-
         private CCTMXTilesetInfo tilesetForLayer(CCTMXLayerInfo layerInfo, CCTMXMapInfo mapInfo)
         {
             CCSize size = layerInfo.m_tLayerSize;
@@ -292,11 +289,9 @@ object->propertyNamed(name_of_the_property);
 
             if (tilesets != null && tilesets.Count > 0)
             {
-                CCTMXTilesetInfo tileset = null;
-
                 for (int i = 0; i < tilesets.Count; i++)
                 {
-                    tileset = tilesets[i];
+                    CCTMXTilesetInfo tileset = tilesets[i];
                     if (tileset != null)
                     {
                         for (int y = 0; y < size.height; y++)
@@ -331,8 +326,14 @@ object->propertyNamed(name_of_the_property);
             return null;
         }
 
+        #endregion
+
+        #region protected
+
         //! tile properties
         protected Dictionary<int, Dictionary<string, string>> m_pTileProperties;
         protected Dictionary<string, CCTMXLayer> m_pTMXLayers;
+
+        #endregion
     }
 }
