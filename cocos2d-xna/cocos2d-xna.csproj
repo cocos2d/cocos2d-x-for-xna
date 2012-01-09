@@ -154,6 +154,7 @@
     <Compile Include="actions\action_intervals\grid_action\tiledgrid3d_action\Tile.cs" />
     <Compile Include="actions\CCProgressFromTo.cs" />
     <Compile Include="actions\CCProgressTo.cs" />
+    <Compile Include="CCAcceleration.cs" />
     <Compile Include="CCDrawingPrimitives.cs" />
     <Compile Include="cocoa\CCData.cs" />
     <Compile Include="effects\CCTiledGrid3D.cs" />
