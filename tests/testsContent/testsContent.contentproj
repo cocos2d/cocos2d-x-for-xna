@@ -620,11 +620,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="fonts\fnt\arial16.fnt">
-      <Name>arial16</Name>
-      <Importer>TextImporter</Importer>
-      <Processor>TextProcessor</Processor>
-    </Compile>
     <Compile Include="fonts\fnt\bitmapFontTest.fnt">
       <Name>bitmapFontTest</Name>
       <Importer>TextImporter</Importer>
@@ -650,18 +645,8 @@
       <Importer>TextImporter</Importer>
       <Processor>TextProcessor</Processor>
     </Compile>
-    <Compile Include="fonts\fnt\futura-48.fnt">
-      <Name>futura-48</Name>
-      <Importer>TextImporter</Importer>
-      <Processor>TextProcessor</Processor>
-    </Compile>
     <Compile Include="fonts\fnt\konqa32-hd.fnt">
       <Name>konqa32-hd</Name>
-      <Importer>TextImporter</Importer>
-      <Processor>TextProcessor</Processor>
-    </Compile>
-    <Compile Include="fonts\fnt\konqa32.fnt">
-      <Name>konqa32</Name>
       <Importer>TextImporter</Importer>
       <Processor>TextProcessor</Processor>
     </Compile>
