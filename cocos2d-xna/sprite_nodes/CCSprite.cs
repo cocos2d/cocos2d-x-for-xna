@@ -344,13 +344,14 @@ namespace cocos2d
         /// </summary>
         public static CCSprite spriteWithSpriteFrameName(string pszSpriteFrameName)
         {
+
+
+            CCSpriteFrame pFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(pszSpriteFrameName);
+
+            string msg = string.Format("Invalid spriteFrameName: {0}", pszSpriteFrameName);
+            Debug.Assert(pFrame != null, msg);
+            return spriteWithSpriteFrame(pFrame);
             throw new NotImplementedException();
-
-            //CCSpriteFrame pFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(pszSpriteFrameName);
-
-            //string msg = string.Format("Invalid spriteFrameName: {0}", pszSpriteFrameName);
-            //Debug.Assert(pFrame != null, msg);
-            //return spriteWithSpriteFrame(pFrame);
         }
 
         /// <summary>
@@ -458,9 +459,12 @@ namespace cocos2d
             CCSize size = CCDirector.sharedDirector().getWinSize();
 
             //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
-            app.basicEffect.Texture = this.Texture.getTexture2D();
-            app.basicEffect.TextureEnabled = true;
-
+            if (this.Texture!=null)
+            {
+                app.basicEffect.Texture = this.Texture.getTexture2D();
+                app.basicEffect.TextureEnabled = true;
+            }
+      
             VertexPositionColorTexture[] vertices = this.m_sQuad.getVertices(ccDirectorProjection.CCDirectorProjection3D);
             short[] indexes = this.m_sQuad.getIndexes(ccDirectorProjection.CCDirectorProjection3D);
 
@@ -553,7 +557,12 @@ namespace cocos2d
                 //assert(((CCSprite*)pChild)->getTexture()->getName() == m_pobTextureAtlas->getTexture()->getName());
                 //unsigned int index = m_pobBatchNode->atlasIndexForChild((CCSprite*)(pChild), zOrder);
                 //m_pobBatchNode->insertChild((CCSprite*)(pChild), index);
-                throw new NotImplementedException();
+#warning Sprite的时候注释掉了下面那个抛空实现，由于AddChild的问题test效果不完整
+                //throw new NotImplementedException();
+
+                //Debug.Assert(((CCSprite)child).Texture.Name == m_pobTextureAtlas.Texture.Name);
+                //int index = m_pobBatchNode.atlasIndexForChild((CCSprite)(child), zOrder);
+                //m_pobBatchNode.insertChild((CCSprite)(child), index);
             }
 
             m_bHasChildren = true;
@@ -1205,18 +1214,18 @@ namespace cocos2d
         /// </summary>
         public void setDisplayFrame(CCSpriteFrame pNewFrame)
         {
-	        m_obUnflippedOffsetPositionFromCenter = pNewFrame.getOffsetInPixels();
+            m_obUnflippedOffsetPositionFromCenter = pNewFrame.getOffsetInPixels();
 
-	        CCTexture2D pNewTexture = pNewFrame.getTexture();
-	        // update texture before updating texture rect
+            CCTexture2D pNewTexture = pNewFrame.getTexture();
+            // update texture before updating texture rect
             if (pNewTexture != m_pobTexture)
             {
                 this.Texture = pNewTexture;
             }
 
-	        // update rect
-	        m_bRectRotated = pNewFrame.isRotated();
-	        setTextureRectInPixels(pNewFrame.getRectInPixels(), pNewFrame.isRotated(), pNewFrame.getOriginalSizeInPixels());
+            // update rect
+            m_bRectRotated = pNewFrame.isRotated();
+            setTextureRectInPixels(pNewFrame.getRectInPixels(), pNewFrame.isRotated(), pNewFrame.getOriginalSizeInPixels());
         }
 
         /// <summary>
@@ -1224,15 +1233,15 @@ namespace cocos2d
         /// </summary>
         public bool isFrameDisplayed(CCSpriteFrame pFrame)
         {
-	        CCRect r = pFrame.getRect();
+            CCRect r = pFrame.getRect();
 
-	        return (CCRect.CCRectEqualToRect(r, m_obRect) &&
-		        pFrame.getTexture().Name == m_pobTexture.Name);
+            return (CCRect.CCRectEqualToRect(r, m_obRect) &&
+                pFrame.getTexture().Name == m_pobTexture.Name);
         }
 
         public CCSpriteFrame displayedFrame()
         {
-	        return CCSpriteFrame.frameWithTexture(m_pobTexture,
+            return CCSpriteFrame.frameWithTexture(m_pobTexture,
                                                    m_obRectInPixels,
                                                    m_bRectRotated,
                                                    m_obUnflippedOffsetPositionFromCenter,
@@ -1251,13 +1260,13 @@ namespace cocos2d
         /// </summary>
         public void setDisplayFrameWithAnimationName(string animationName, int frameIndex)
         {
-	        Debug.Assert(animationName != null);
+            Debug.Assert(animationName != null);
 
-	        CCAnimation a = CCAnimationCache.sharedAnimationCache().animationByName(animationName);
+            CCAnimation a = CCAnimationCache.sharedAnimationCache().animationByName(animationName);
 
-	        Debug.Assert(a != null);
+            Debug.Assert(a != null);
 
-	        CCSpriteFrame frame = a.getFrames()[frameIndex];
+            CCSpriteFrame frame = a.getFrames()[frameIndex];
 
             Debug.Assert(frame != null);
 

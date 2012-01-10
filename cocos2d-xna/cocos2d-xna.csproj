@@ -157,6 +157,7 @@
     <Compile Include="CCAcceleration.cs" />
     <Compile Include="CCDrawingPrimitives.cs" />
     <Compile Include="cocoa\CCData.cs" />
+    <Compile Include="cocoa\CCNS.cs" />
     <Compile Include="effects\CCTiledGrid3D.cs" />
     <Compile Include="effects\CCGrabber.cs" />
     <Compile Include="actions\CCAction.cs" />
@@ -258,6 +259,7 @@
     <Compile Include="sprite_nodes\CCSprite.cs" />
     <Compile Include="sprite_nodes\CCSpriteBatchNode.cs" />
     <Compile Include="sprite_nodes\CCSpriteFrame.cs" />
+    <Compile Include="sprite_nodes\CCSpriteFrameCache.cs" />
     <Compile Include="support\ccUtils.cs" />
     <Compile Include="support\Compression\Adler.cs" />
     <Compile Include="support\Compression\Crc32.cs" />

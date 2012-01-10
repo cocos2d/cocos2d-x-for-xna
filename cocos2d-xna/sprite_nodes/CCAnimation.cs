@@ -66,9 +66,9 @@ namespace cocos2d
         */
         public bool initWithFrames(List<CCSpriteFrame> pFrames, float delay)
         {
-             m_fDelay = delay;
-             m_pobFrames = pFrames;
-             return true;
+            m_fDelay = delay;
+            m_pobFrames = pFrames;
+            return true;
             throw new NotFiniteNumberException();
         }
 
@@ -84,13 +84,13 @@ namespace cocos2d
         */
         public void addFrameWithFileName(string pszFileName)
         {
-             CCTexture2D pTexture = CCTextureCache.sharedTextureCache().addImage(pszFileName);
-             //CCRect rect = CCRectZero;
-             CCRect rect = new CCRect(0,0,0,0);
-             rect.size = pTexture.getContentSize();
-             CCSpriteFrame pFrame = CCSpriteFrame.frameWithTexture(pTexture, rect);
-             //// m_pobFrames.addObject(pFrame);
-             m_pobFrames.Add(pFrame);
+            CCTexture2D pTexture = CCTextureCache.sharedTextureCache().addImage(pszFileName);
+            //CCRect rect = CCRectZero;
+            CCRect rect = new CCRect(0, 0, 0, 0);
+            rect.size = pTexture.getContentSize();
+            CCSpriteFrame pFrame = CCSpriteFrame.frameWithTexture(pTexture, rect);
+            //// m_pobFrames.addObject(pFrame);
+            m_pobFrames.Add(pFrame);
         }
 
         /** Adds a frame with a texture and a rect. Internally it will create a CCSpriteFrame and it will add it.
@@ -146,40 +146,40 @@ namespace cocos2d
         }
 
         /** get name of the animation */
-		public string getName()
-        { 
+        public string getName()
+        {
             return m_nameStr;
         }
-		
+
         /** set name of the animation */
-		public void setName(string pszName)
-        { 
-            m_nameStr = pszName; 
+        public void setName(string pszName)
+        {
+            m_nameStr = pszName;
         }
 
-		/** get delay between frames in seconds */
-		public float getDelay() 
-        { 
-            return m_fDelay; 
+        /** get delay between frames in seconds */
+        public float getDelay()
+        {
+            return m_fDelay;
         }
 
 
-		/** set delay between frames in seconds */
-		public void setDelay(float fDelay) 
-        { 
-            m_fDelay = fDelay; 
+        /** set delay between frames in seconds */
+        public void setDelay(float fDelay)
+        {
+            m_fDelay = fDelay;
         }
 
-		/** get array of frames */
-		public List<CCSpriteFrame> getFrames() 
-        { 
-            return m_pobFrames; 
+        /** get array of frames */
+        public List<CCSpriteFrame> getFrames()
+        {
+            return m_pobFrames;
         }
 
-		/** set array of frames, the Frames is retained */
+        /** set array of frames, the Frames is retained */
         public void setFrames(List<CCSpriteFrame> pFrames)
-		{
-			m_pobFrames = pFrames;
-		}
+        {
+            m_pobFrames = pFrames;
+        }
     }
 }

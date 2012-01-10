@@ -381,7 +381,8 @@ namespace cocos2d
         */
         public void generateMipmap()
         {
-            throw new NotImplementedException();
+#warning SpriteTest”√µΩ¡À
+           // throw new NotImplementedException();
         }
 
         /** returns the bits-per-pixel of the in-memory OpenGL texture

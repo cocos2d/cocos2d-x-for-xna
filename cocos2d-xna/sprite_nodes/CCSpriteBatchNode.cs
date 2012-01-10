@@ -416,7 +416,8 @@ namespace cocos2d
             uint uChildIndex = (uint)pBrothers.IndexOf(pobSprite);
 
             // ignore parent Z if parent is spriteSheet
-            bool bIgnoreParent = (CCSpriteBatchNode)(pobSprite.parent) == this;
+            bool bIgnoreParent = (((CCSpriteBatchNode)(pobSprite.parent)) == this);
+
             CCSprite pPrevious = null;
 
             if (uChildIndex > 0 &&
@@ -530,7 +531,7 @@ namespace cocos2d
                 return;
             }
             // check CCSprite is using the same texture id
-            Debug.Assert(pSprite.Texture == m_pobTextureAtlas.Texture);
+            Debug.Assert(pSprite.Texture.Name == m_pobTextureAtlas.Texture.Name);
 
             base.addChild(child, zOrder, tag);
 

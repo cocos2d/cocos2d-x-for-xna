@@ -131,6 +131,7 @@ namespace cocos2d
 
                             // Move the reader back to the element node.
                             xmlReader.MoveToElement();
+
                             startElement(this, name, attrs);
                         }
                         else
@@ -147,7 +148,14 @@ namespace cocos2d
                             textHandler(this, buffer, buffer.Length);
                             endElement(this, name);
                         }
-
+                        else
+                            if (name == "key" || name == "integer" || name == "real" || name == "string")
+                            {
+                                string value = xmlReader.ReadElementContentAsString();
+                                byte[] buffer = Encoding.UTF8.GetBytes(value);
+                                textHandler(this, buffer, buffer.Length);
+                                endElement(this, name);
+                            }
                         break;
 
                     case XmlNodeType.EndElement:

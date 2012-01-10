@@ -113,6 +113,23 @@ namespace cocos2d
                 bool isTextureExist = m_pTextures.TryGetValue(pathKey, out texture);
                 if (!isTextureExist)
                 {
+                    //int lastPos = fileimage.LastIndexOf("1");
+                    //if (lastPos>0)
+                    //{
+                    //    fileimage = fileimage.Substring(0, lastPos);
+                    //}
+                    //if (fileimage=="Images/b")
+                    //{
+                    //    fileimage = fileimage + "1";
+                    //}
+                    //if (fileimage=="Images/r")
+                    //{
+                    //    fileimage = fileimage + "1";
+                    //}
+                    //if (fileimage=="Images/f")
+                    //{
+                    //    fileimage = fileimage + "1";
+                    //}
                     Texture2D textureXna = CCApplication.sharedApplication().content.Load<Texture2D>(fileimage);
                     texture = new CCTexture2D();
                     bool isInited = texture.initWithTexture(textureXna);

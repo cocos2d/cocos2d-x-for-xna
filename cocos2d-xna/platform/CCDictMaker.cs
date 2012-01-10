@@ -47,13 +47,13 @@ namespace cocos2d
     {
         public Dictionary<string, Object> m_pRootDict;
         public Dictionary<string, Object> m_pCurDict;
-        public Stack<Dictionary<string, Object>> m_tDictStack;
+        public Stack<Dictionary<string, Object>> m_tDictStack=new Stack<Dictionary<string,object>>();
         public string m_sCurKey;///< parsed key
         public CCSAXState m_tState;
         public List<Object> m_pArray;
 
-        Stack<List<Object>> m_tArrayStack = null;
-        Stack<CCSAXState> m_tStateStack = null;
+        Stack<List<Object>> m_tArrayStack = new Stack<List<object>>();
+        Stack<CCSAXState> m_tStateStack = new Stack<CCSAXState>();
 
         public CCDictMaker()
         {
