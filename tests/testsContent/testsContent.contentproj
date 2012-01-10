@@ -863,6 +863,91 @@
       <Processor>TMXProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="animations\images\dragon_animation-hd.png">
+      <Name>dragon_animation-hd</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\images\dragon_animation.png">
+      <Name>dragon_animation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\images\ghosts.png">
+      <Name>ghosts</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\images\grossini-aliases.png">
+      <Name>grossini-aliases</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <None Include="animations\grossini.plist.xml">
+      <Name>grossini.plist</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
+    <Compile Include="animations\images\grossini.png">
+      <Name>grossini</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\images\grossini_blue.png">
+      <Name>grossini_blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\images\grossini_family.png">
+      <Name>grossini_family</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\images\grossini_gray.png">
+      <Name>grossini_gray</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="animations\ghosts.plist">
+      <Name>ghosts</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\grossini-aliases.plist">
+      <Name>grossini-aliases</Name>
+      <Processor>TextProcessor</Processor>
+      <Importer>TextImporter</Importer>
+    </Compile>
+    <Compile Include="animations\grossini.plist">
+      <Name>grossini</Name>
+      <Processor>TextProcessor</Processor>
+      <Importer>TextImporter</Importer>
+      <SubType>Designer</SubType>
+    </Compile>
+    <Compile Include="animations\grossini..ztp">
+      <Name>grossini.</Name>
+      <Importer>TMXImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\grossini_blue.plist">
+      <Name>grossini_blue</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\grossini_family.plist">
+      <Name>grossini_family</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="animations\grossini_gray.plist">
+      <Name>grossini_gray</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

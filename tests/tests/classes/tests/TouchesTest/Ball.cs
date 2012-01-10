@@ -44,8 +44,8 @@ namespace tests
         //virtual void setTexture(CCTexture2D* newTexture);
         public void move(float delta)
         {
-            this.position = new CCPoint(position.x + m_velocity.x * delta, position.y + m_velocity.y * delta);
-
+            this.position = 
+            CCPointExtension.ccpAdd(position, CCPointExtension.ccpMult(m_velocity, delta));
             if (position.x > 320 - radius())
             {
                 position = new CCPoint(320 - radius(), position.y);

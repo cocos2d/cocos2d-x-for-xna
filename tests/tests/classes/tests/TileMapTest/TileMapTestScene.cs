@@ -9,7 +9,7 @@ namespace tests
     public class TileMapTestScene : TestScene
     {
         static int sceneIdx = -1;
-        static readonly int MAX_LAYER = 17;
+        static readonly int MAX_LAYER = 3;
 
         public static CCLayer restartTileMapAction()
         {
@@ -41,16 +41,16 @@ namespace tests
             switch (nIndex)
             {
                 case 10: return new TMXBug787();
-                case 1: return new TMXOrthoTest2();
-                case 2: return new TMXIsoTest1();
-                case 3: return new TMXHexTest();
-                case 4: return new TMXOrthoTest();
+                case 2: return new TMXOrthoTest2();
+                case 1: return new TMXIsoTest1();
+                case 0: return new TMXHexTest();
+                case 9: return new TMXOrthoTest();
                 case 5: return new TMXIsoMoveLayer();
                 case 6: return new TMXOrthoMoveLayer();
                 case 7: return new TMXBug987();
                 case 8: return new TMXIsoTest();
-                case 9: return new TMXIsoTest2();
-                case 0: return new TMXOrthoZorder();
+                case 4: return new TMXIsoTest2();
+                case 12: return new TMXOrthoZorder();//1
                 case 111111: return new TMXGIDObjectsTest();
                 case 1111: return new TMXIsoObjectsTest();
                 case 11111: return new TMXOrthoObjectsTest();

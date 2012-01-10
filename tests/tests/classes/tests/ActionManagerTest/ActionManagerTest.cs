@@ -91,11 +91,11 @@ namespace tests
         {
             switch (nIndex)
             {
-                case 4: return new CrashTest();
-                case 3: return new LogicTest();
+                case 0: return new CrashTest();
+                case 1: return new LogicTest();
                 case 2: return new PauseTest();
-                case 1: return new RemoveTest();
-                case 0: return new ResumeTest();
+                case 3: return new RemoveTest();
+                case 4: return new ResumeTest();
             }
 
             return null;

@@ -120,8 +120,8 @@ namespace tests
             {
                 case (int)TestCases.TEST_ACTIONS:
                     pScene = new ActionsTestScene(); break;
-                case (int)TestCases.TEST_TRANSITIONS:
-                    pScene = new TransitionsTestScene(); break;
+                //case (int)TestCases.TEST_TRANSITIONS:
+                //    pScene = new TransitionsTestScene(); break;
                 case (int)TestCases.TEST_PROGRESS_ACTIONS:
                     pScene = new ProgressActionsTestScene(); break;
                 //    case TEST_EFFECTS:
@@ -134,12 +134,12 @@ namespace tests
                     pScene = new ParticleTestScene(); break;
                 case (int)TestCases.TEST_EASE_ACTIONS:
                     pScene = new EaseActionsTestScene(); break;
-                case (int)TestCases.TEST_MOTION_STREAK:
-                    pScene = new MotionStreakTestScene(); break;
+                //case (int)TestCases.TEST_MOTION_STREAK:
+                //    pScene = new MotionStreakTestScene(); break;
                 case (int)TestCases.TEST_DRAW_PRIMITIVES:
                     pScene = new DrawPrimitivesTestScene(); break;
-                case (int)TestCases.TEST_COCOSNODE:
-                    pScene = new CocosNodeTestScene(); break;
+                //case (int)TestCases.TEST_COCOSNODE:
+                //    pScene = new CocosNodeTestScene(); break;
                 case (int)TestCases.TEST_TOUCHES:
                     pScene = new PongScene(); break;
                 case (int)TestCases.TEST_MENU:
@@ -150,8 +150,8 @@ namespace tests
                     pScene = new LayerTestScene(); break;
                 case (int)TestCases.TEST_SCENE:
                     pScene = new SceneTestScene(); break;
-                case (int)TestCases.TEST_PARALLAX:
-                    pScene = new ParallaxTestScene(); break;
+                //case (int)TestCases.TEST_PARALLAX:
+                //    pScene = new ParallaxTestScene(); break;
                 case (int)TestCases.TEST_TILE_MAP:
                     pScene = new TileMapTestScene(); break;
                 case (int)TestCases.TEST_INTERVAL:
@@ -176,8 +176,8 @@ namespace tests
                     pScene = new SpriteTestScene(); break;
                 case (int)TestCases.TEST_SCHEDULER:
                     pScene = new SchedulerTestScene(); break;
-                case (int)TestCases.TEST_RENDERTEXTURE:
-                    pScene = new RenderTextureScene(); break;
+                //case (int)TestCases.TEST_RENDERTEXTURE:
+                //    pScene = new RenderTextureScene(); break;
                 case (int)TestCases.TEST_TEXTURE2D:
                     pScene = new TextureTestScene(); break;
                 //    case TEST_BOX2D:
@@ -186,8 +186,8 @@ namespace tests
                 //        pScene = new Box2dTestBedScene(); break;
                 //case TEST_EFFECT_ADVANCE:
                 //    pScene = new EffectAdvanceScene(); break;
-                case (int)TestCases.TEST_HIRES:
-                    pScene = new HiResTestScene(); break;
+                //case (int)TestCases.TEST_HIRES:
+                //    pScene = new HiResTestScene(); break;
                 //#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
                 //    case TEST_ACCELEROMRTER:
                 //        pScene = new AccelerometerTestScene(); break;
@@ -203,8 +203,8 @@ namespace tests
                 //#if (CC_TARGET_PLATFORM != CC_PLATFORM_AIRPLAY)
                 //    case TEST_CURL:
                 //        pScene = new CurlTestScene(); break;
-                case (int)TestCases.TEST_USERDEFAULT:
-                    pScene = new UserDefaultTestScene(); break;
+                //case (int)TestCases.TEST_USERDEFAULT:
+                //    pScene = new UserDefaultTestScene(); break;
                 //#endif
                 case (int)TestCases.TEST_DIRECTOR:
                     pScene = new DirectorTestScene(); break;

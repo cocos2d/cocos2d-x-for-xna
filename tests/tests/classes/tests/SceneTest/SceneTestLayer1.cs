@@ -65,7 +65,8 @@ namespace tests
             CCLayer pLayer = new SceneTestLayer2();
             scene.addChild(pLayer, 0);
 
-            CCDirector.sharedDirector().pushScene(CCTransitionSlideInT.transitionWithDuration(1f, scene));
+            CCDirector.sharedDirector().pushScene(scene);
+            //(CCTransitionSlideInT.transitionWithDuration(1f, scene));
         }
 
         public void onQuit(CCObject pSender) 

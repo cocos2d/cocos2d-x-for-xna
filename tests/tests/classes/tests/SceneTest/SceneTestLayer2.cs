@@ -61,7 +61,8 @@ namespace tests
             CCScene pScene = new SceneTestScene();
             CCLayer pLayer = new SceneTestLayer3();
             pScene.addChild(pLayer, 0);
-            CCDirector.sharedDirector().replaceScene(CCTransitionFlipX.transitionWithDuration(2, pScene));
+            CCDirector.sharedDirector().replaceScene(pScene);
+            //(CCTransitionFlipX.transitionWithDuration(2, pScene));
         }
 
         //CREATE_NODE(SceneTestLayer2);
