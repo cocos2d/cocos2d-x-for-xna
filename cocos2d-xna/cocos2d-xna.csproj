@@ -29,7 +29,8 @@
     <NoStdLib>true</NoStdLib>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <XnaCompressContent>false</XnaCompressContent>
-    <DocumentationFile>bin\Windows Phone\Debug\cocos2d-xna.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Windows Phone' ">
     <DebugType>pdbonly</DebugType>
@@ -261,19 +262,6 @@
     <Compile Include="sprite_nodes\CCSpriteFrame.cs" />
     <Compile Include="sprite_nodes\CCSpriteFrameCache.cs" />
     <Compile Include="support\ccUtils.cs" />
-    <Compile Include="support\Compression\Adler.cs" />
-    <Compile Include="support\Compression\Crc32.cs" />
-    <Compile Include="support\Compression\FlushType.cs" />
-    <Compile Include="support\Compression\GZipStream.cs" />
-    <Compile Include="support\Compression\InflateBlocks.cs" />
-    <Compile Include="support\Compression\InflateCodes.cs" />
-    <Compile Include="support\Compression\InflateManager.cs" />
-    <Compile Include="support\Compression\InfTree.cs" />
-    <Compile Include="support\Compression\SharedUtils.cs" />
-    <Compile Include="support\Compression\ZlibBaseStream.cs" />
-    <Compile Include="support\Compression\ZlibCodec.cs" />
-    <Compile Include="support\Compression\ZlibException.cs" />
-    <Compile Include="support\Compression\ZlibStreamFlavor.cs" />
     <Compile Include="support\image_support\TGAlib.cs" />
     <Compile Include="support\TransformUtils.cs" />
     <Compile Include="support\zip_support\CCZHeader.cs" />
