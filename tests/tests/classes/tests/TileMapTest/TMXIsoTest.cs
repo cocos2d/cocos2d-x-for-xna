@@ -16,7 +16,7 @@ namespace tests
             addChild(color, -1);
 
             CCTMXTiledMap map = CCTMXTiledMap.tiledMapWithTMXFile("TileMaps/iso-test01");
-            addChild(map, 0, 1);
+            addChild(map, 0, TileMapTestScene.kTagTileMap);
 
             // move map to the center of the screen
             CCSize ms = map.MapSize;

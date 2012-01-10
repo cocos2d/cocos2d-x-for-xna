@@ -278,7 +278,14 @@
     <Compile Include="classes\tests\TileMapTest\TMXOrthoObjectsTest.cs" />
     <Compile Include="classes\tests\TileMapTest\TMXOrthoTest.cs" />
     <Compile Include="classes\tests\TileMapTest\TMXOrthoTest2.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXOrthoTest3.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXOrthoTest4.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXOrthoVertexZ.cs" />
     <Compile Include="classes\tests\TileMapTest\TMXOrthoZorder.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXReadWriteTest.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXResizeTest.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXTilesetTest.cs" />
+    <Compile Include="classes\tests\TileMapTest\TMXUncompressedTest.cs" />
     <Compile Include="classes\tests\TouchesTest\Ball.cs" />
     <Compile Include="classes\tests\TouchesTest\Paddle.cs" />
     <Compile Include="classes\tests\TouchesTest\PongLayer.cs" />

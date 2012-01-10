@@ -14,7 +14,7 @@ namespace tests
         public TMXIsoZorder()
         {
             CCTMXTiledMap map = CCTMXTiledMap.tiledMapWithTMXFile("TileMaps/iso-test-zorder");
-            addChild(map, 0, 1);
+            addChild(map, 0, TileMapTestScene.kTagTileMap);
 
             CCSize s = map.contentSize;
             ////----UXLOG("ContentSize: %f, %f", s.width,s.height);
@@ -27,25 +27,25 @@ namespace tests
             m_tamara.anchorPoint = new CCPoint(0.5f, 0);
 
 
-            CCActionInterval move = CCMoveBy.actionWithDuration(10, new CCPoint(300 * 1 / CCDirector.sharedDirector().ContentScaleFactor, 250 * 1 / CCDirector.sharedDirector().ContentScaleFactor));
-            CCActionInterval back = (CCActionInterval)move.reverse();
-            CCFiniteTimeAction seq = CCSequence.actions(move, back);
-            m_tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)seq));
+            //CCActionInterval move = CCMoveBy.actionWithDuration(10, CCPointExtension.ccpMult(new CCPoint(300, 250), 1 / CCDirector.sharedDirector().ContentScaleFactor));
+            //CCFiniteTimeAction back = move.reverse();
+            //CCFiniteTimeAction seq = CCSequence.actions(move, back);
+            //m_tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)seq));
 
-            schedule((this.repositionSprite));
+            //schedule(repositionSprite);
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX Iso Zorder";
         }
 
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "Sprite should hide behind the trees";
         }
 
-        public virtual void onExit()
+        public override void onExit()
         {
             unschedule(this.repositionSprite);
             base.onExit();
@@ -54,7 +54,7 @@ namespace tests
         public void repositionSprite(float dt)
         {
             CCPoint p = m_tamara.positionInPixels;
-            CCNode map = getChildByTag(1);
+            CCNode map = getChildByTag(TileMapTestScene.kTagTileMap);
 
             // there are only 4 layers. (grass and 3 trees layers)
             // if tamara < 48, z=4
