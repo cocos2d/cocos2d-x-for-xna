@@ -39,7 +39,8 @@
     <NoStdLib>true</NoStdLib>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <XnaCompressContent>false</XnaCompressContent>
-    <DocumentationFile>bin\Windows Phone\Debug\tests.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Windows Phone' ">
     <DebugType>pdbonly</DebugType>
@@ -190,6 +191,44 @@
     <Compile Include="classes\tests\ActionManagerTest\RemoveTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\ResumeTest.cs" />
     <Compile Include="classes\tests\ParticleTest\ParticleTest.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceMainLayer.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\AddRemoveSpriteSheet.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\AddSpriteSheet.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\IterateSpriteSheet.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\IterateSpriteSheetCArray.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\IterateSpriteSheetFastEnum.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\NodeChildrenMainScene.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\NodeChildrenMenuLayer.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\PerformanceNodeChildrenTest..cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\RemoveSpriteSheet.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceNodeChildrenTest\ReorderSpriteSheet.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceParticleTest\ParticleMainScene.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceParticleTest\ParticleMenuLayer.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceParticleTest\ParticlePerformTest1.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceParticleTest\ParticlePerformTest2.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceParticleTest\ParticlePerformTest3.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceParticleTest\ParticlePerformTest4.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceParticleTest\PerformanceParticleTest.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\PerformanceSpriteTest.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpriteMainScene.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpriteMenuLayer.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpritePerformTest1.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpritePerformTest2.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpritePerformTest3.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpritePerformTest4.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpritePerformTest5.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpritePerformTest6.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SpritePerformTest7.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceSpriteTest\SubTest.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceTestScene.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceTextureTest\PerformanceTextureTest.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceTextureTest\TextureMenuLayer.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceTextureTest\TextureTest.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceTouchesTest\PerformanceTouchesTest.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceTouchesTest\TouchesMainScene.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceTouchesTest\TouchesPerformTest1.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformanceTouchesTest\TouchesPerformTest2.cs" />
+    <Compile Include="classes\tests\PerformanceTest\PerformBasicLayer.cs" />
     <Compile Include="classes\tests\ProgressActionsTest\ProgressActionsTestScene.cs" />
     <Compile Include="classes\tests\ProgressActionsTest\SpriteDemo.cs" />
     <Compile Include="classes\tests\ProgressActionsTest\SpriteProgressToHorizontal.cs" />
