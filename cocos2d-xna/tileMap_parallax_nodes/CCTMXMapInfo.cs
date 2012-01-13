@@ -32,6 +32,7 @@ using System.Text;
 using System.Diagnostics;
 using System.IO;
 using cocos2d;
+using WP7Contrib.Communications.Compression;
 using ICSharpCode.SharpZipLib.GZip;
 
 

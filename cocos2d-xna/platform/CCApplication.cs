@@ -63,7 +63,7 @@ namespace cocos2d
         internal GraphicsDeviceManager graphics;
         Rectangle m_rcViewPort;
         IEGLTouchDelegate m_pDelegate;
-        Dictionary<int, CCTouch> m_pSet;
+        List<CCTouch> m_pSet;
 
         bool m_bCaptured;
         float m_fScreenScaleFactor;
@@ -80,7 +80,7 @@ namespace cocos2d
             TouchPanel.EnabledGestures = GestureType.Tap;
 
             m_pTouch = new CCTouch();
-            m_pSet = new Dictionary<int, CCTouch>();
+            m_pSet = new List<CCTouch>();
 
             m_fScreenScaleFactor = 1.0f;
 
@@ -152,64 +152,47 @@ namespace cocos2d
 
         private void ProcessTouch()
         {
-            if (m_pDelegate == null)
-            {
-                return;
-            }
-
             TouchCollection touchCollection = TouchPanel.GetState();
 
-            List<CCTouch> list = new List<CCTouch>();
-            var touches = from t in touchCollection
-                          where t.State == TouchLocationState.Pressed
-                          select t;
-
-            foreach (var touch in touches)
+            foreach (TouchLocation touch in touchCollection)
             {
-                if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
+                if (touch.State == TouchLocationState.Pressed)
                 {
-                    m_pTouch = new CCTouch();
-                    m_bCaptured = true;
+                    if (m_pDelegate != null && m_pTouch != null)
+                    {
+                        if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
+                        {
+                            m_bCaptured = true;
 
-                    m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                        touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-                    list.Add(m_pTouch);
-                    m_pSet.Add(touch.Id, m_pTouch);
+                            m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
+                                                touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                            m_pSet.Add(m_pTouch);
+                            m_pDelegate.touchesBegan(m_pSet, null);
+                        }
+                    }
+                }
+                else if (touch.State == TouchLocationState.Moved)
+                {
+                    if (m_bCaptured)
+                    {
+                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
+                                            touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                        m_pDelegate.touchesMoved(m_pSet, null);
+                    }
+                }
+                else if (touch.State == TouchLocationState.Released)
+                {
+                    if (m_bCaptured)
+                    {
+                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
+                                            touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                        m_pDelegate.touchesEnded(m_pSet, null);
+                        m_pSet.Remove(m_pTouch);
+
+                        m_bCaptured = false;
+                    }
                 }
             }
-
-            m_pDelegate.touchesBegan(list, null);
-            list.Clear();
-            touches = from t in touchCollection
-                      where t.State == TouchLocationState.Moved
-                      select t;
-
-            foreach (var touch in touches)
-            {
-                m_pTouch = m_pSet[touch.Id];
-                list.Add(m_pTouch);
-
-                m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                    touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-            }
-
-            m_pDelegate.touchesMoved(list, null);
-            list.Clear();
-            touches = from t in touchCollection
-                      where t.State == TouchLocationState.Released
-                      select t;
-
-            foreach (var touch in touches)
-            {
-                m_pTouch = m_pSet[touch.Id];
-                m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                    touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-
-                m_pSet.Remove(touch.Id);
-                list.Add(m_pTouch);
-                m_bCaptured = false;
-            }
-            m_pDelegate.touchesEnded(list, null);
         }
 
         #endregion

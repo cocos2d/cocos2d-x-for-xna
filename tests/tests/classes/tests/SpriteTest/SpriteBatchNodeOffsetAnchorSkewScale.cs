@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using cocos2d;
 
-namespace tests.classes.tests.SpriteTest
+namespace tests
 {
     public class SpriteBatchNodeOffsetAnchorSkewScale : SpriteTestDemo
     {
@@ -16,12 +16,12 @@ namespace tests.classes.tests.SpriteTest
             {
                 CCSpriteFrameCache cache = CCSpriteFrameCache.sharedSpriteFrameCache();
                 cache.addSpriteFramesWithFile("animations/grossini");
-                cache.addSpriteFramesWithFile("animations/grossini_gray", "animations/grossini_gray");
+                cache.addSpriteFramesWithFile("animations/grossini_gray", "animations/images/grossini_gray");
 
                 //
                 // Animation using Sprite batch
                 //
-                CCSprite sprite = CCSprite.spriteWithSpriteFrameName("grossini_dance_01");
+                CCSprite sprite = CCSprite.spriteWithSpriteFrameName("grossini_dance_01.png");
                 sprite.position = new CCPoint(s.width / 4 * (i + 1), s.height / 2);
 
                 CCSprite point = CCSprite.spriteWithFile("Images/r1");
@@ -44,14 +44,23 @@ namespace tests.classes.tests.SpriteTest
 
                 point.position = sprite.position;
 
-                CCSpriteBatchNode spritebatch = CCSpriteBatchNode.batchNodeWithFile("animations/grossini");
+                CCSpriteBatchNode spritebatch = CCSpriteBatchNode.batchNodeWithFile("animations/images/grossini");
                 addChild(spritebatch);
 
                 List<CCSpriteFrame> animFrames = new List<CCSpriteFrame>();
                 string tmp = "";
                 for (int j = 0; j < 14; j++)
                 {
-                    tmp = string.Format("grossini_dance_%02d.png", j + 1);
+                    string temp = "";
+                    if (j+1<10)
+                    {
+                        temp = "0" + (j + 1);
+                    }
+                    else
+                    {
+                        temp = (j + 1).ToString();
+                    }
+                    tmp = string.Format("grossini_dance_{0}.png", temp);
                     CCSpriteFrame frame = cache.spriteFrameByName(tmp);
                     animFrames.Add(frame);
                 }

@@ -31,7 +31,7 @@ namespace tests
                     if (child == null)
                         break;
 
-                    child.Texture.setAntiAliasTexParameters();
+                    //child.Texture.setAntiAliasTexParameters();
                 }
 
                 map.runAction(CCScaleBy.actionWithDuration(2, 0.5f));

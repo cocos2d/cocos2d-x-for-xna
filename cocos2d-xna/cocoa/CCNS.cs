@@ -22,7 +22,7 @@ namespace cocos2d
 
                 // find the first '{' and the third '}'
                 int nPosLeft = content.IndexOf('{');
-                int nPosRight = content.LastIndexOf('}');
+                int nPosRight = content.IndexOf('}');
                 for (int i = 1; i < 3; ++i)
                 {
                     if (nPosRight == -1)
@@ -36,7 +36,7 @@ namespace cocos2d
                     break;
                 }
                 content = content.Substring(nPosLeft + 1, nPosRight - nPosLeft - 1);
-                int nPointEnd = content.LastIndexOf('}');
+                int nPointEnd = content.IndexOf('}');
                 if (nPointEnd == -1)
                 {
                     break;
@@ -49,8 +49,8 @@ namespace cocos2d
 
                 // get the point string and size string
                 string pointStr = content.Substring(0, nPointEnd);
-                string sizeStr = content.Substring(nPointEnd + 1, content.Length - nPointEnd);
-
+                string sizeStr = content.Substring(nPointEnd + 1);
+                //, content.Length - nPointEnd
                 // split the string with ','
                 List<string> pointInfo = new List<string>();
 
@@ -149,7 +149,7 @@ namespace cocos2d
                 }
 
                 int nPosLeft = content.IndexOf('{');
-                int nPosRight = content.LastIndexOf('}');
+                int nPosRight = content.IndexOf('}');
 
                 // don't have '{' and '}'
                 if (nPosLeft == -1 || nPosRight == -1)
@@ -170,7 +170,7 @@ namespace cocos2d
                 }
 
                 int nPos1 = pointStr.IndexOf('{');
-                int nPos2 = pointStr.LastIndexOf('}');
+                int nPos2 = pointStr.IndexOf('}');
                 // contain '{' or '}' 
                 if (nPos1 != -1 || nPos2 != -1) break;
 

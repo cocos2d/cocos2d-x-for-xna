@@ -16,8 +16,11 @@ namespace cocos2d
         {
             if (dict != null)
             {
-                string pString = (string)dict[key];
-                return pString != null ? pString : "";
+                if (dict.Keys.Contains(key))
+                {
+                    string pString = (string)dict[key];
+                    return pString != null ? pString : "";
+                }
             }
             return "";
         }
@@ -71,7 +74,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
             foreach (var item in framesDict.Keys)
             {
                 frameDict = framesDict[item] as Dictionary<string, Object>;
-                CCSpriteFrame spriteFrame=new CCSpriteFrame();
+                CCSpriteFrame spriteFrame = new CCSpriteFrame();
                 key = item;
                 //if (spriteFrame != null)
                 //{
@@ -112,7 +115,10 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
                     // rotation
                     if (format == 2)
                     {
-                        rotated = int.Parse(valueForKey("rotated", frameDict)) == 0 ? false : true;
+                        if (frameDict.Keys.Contains("rotated"))
+                        {
+                            rotated = int.Parse(valueForKey("rotated", frameDict)) == 0 ? false : true;
+                        }
                     }
 
                     CCPoint offset = CCNS.CCPointFromString(valueForKey("offset", frameDict));
@@ -135,20 +141,30 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
                         CCPoint spriteOffset = CCNS.CCPointFromString(valueForKey("spriteOffset", frameDict));
                         CCSize spriteSourceSize = CCNS.CCSizeFromString(valueForKey("spriteSourceSize", frameDict));
                         CCRect textureRect = CCNS.CCRectFromString(valueForKey("textureRect", frameDict));
-                        bool textureRotated = int.Parse(valueForKey("textureRotated", frameDict)) == 0 ? false : true;
+                        bool textureRotated = false;
+                        if (frameDict.Keys.Contains("textureRotated"))
+                        {
+                            textureRotated = int.Parse(valueForKey("textureRotated", frameDict)) == 0 ? false : true;
+                        }
 
                         // get aliases
-                        List<string> aliases = (frameDict["aliases"] as List<string>);
+                        var list = frameDict["aliases"];
+                        List<object> aliases = (frameDict["aliases"] as List<object>);
                         string frameKey = key;
-                        foreach (string item2 in aliases)
+                        foreach (var item2 in aliases)
                         {
-                            string oneAlias = item2;
-                            if (m_pSpriteFramesAliases[oneAlias] != null)
+                            string oneAlias = item2.ToString();
+                            if (m_pSpriteFramesAliases.Keys.Contains(oneAlias))
                             {
-                                Debug.WriteLine("cocos2d: WARNING: an alias with name {0} already exists", oneAlias);
+                                if (m_pSpriteFramesAliases[oneAlias] != null)
+                                {
+                                    Debug.WriteLine("cocos2d: WARNING: an alias with name {0} already exists", oneAlias);
+                                }
                             }
-
-                            m_pSpriteFramesAliases.Add(frameKey, oneAlias);
+                            if (!m_pSpriteFramesAliases.Keys.Contains(frameKey))
+                            {
+                                m_pSpriteFramesAliases.Add(frameKey, oneAlias);
+                            }
                         }
 
                         // create frame
@@ -283,7 +299,10 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
             if (metadataDict != null)
             {
                 // try to read  texture file name from meta data
-                texturePath = (valueForKey("textureFileName", metadataDict));
+                if (dict.Keys.Contains("textureFileName"))
+                {
+                    texturePath = (valueForKey("textureFileName", metadataDict));
+                }
             }
 
             if (!string.IsNullOrEmpty(texturePath))
@@ -295,12 +314,12 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
             {
                 // build texture path by replacing file extension
                 texturePath = pszPath;
-                int index=pszPath.IndexOf("/");
-                if (index<0)
+                int index = pszPath.IndexOf("/");
+                if (index < 0)
                 {
                     index = pszPath.IndexOf(@"\");
                 }
-                if (index>0)
+                if (index > 0)
                 {
                     texturePath = pszPath.Substring(0, index) + "/images" + pszPath.Substring(index);
                 }
@@ -469,7 +488,8 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
          */
         public CCSpriteFrame spriteFrameByName(string pszName)
         {
-            CCSpriteFrame frame = m_pSpriteFrames[pszName];
+            CCSpriteFrame
+                frame = m_pSpriteFrames[pszName];
             if (frame == null)
             {
                 // try alias dictionary

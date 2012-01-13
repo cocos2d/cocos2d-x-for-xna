@@ -620,6 +620,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="fonts\fnt\arial16.fnt">
+      <Name>arial16</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
     <Compile Include="fonts\fnt\bitmapFontTest.fnt">
       <Name>bitmapFontTest</Name>
       <Importer>TextImporter</Importer>
@@ -645,8 +650,18 @@
       <Importer>TextImporter</Importer>
       <Processor>TextProcessor</Processor>
     </Compile>
+    <Compile Include="fonts\fnt\futura-48.fnt">
+      <Name>futura-48</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
     <Compile Include="fonts\fnt\konqa32-hd.fnt">
       <Name>konqa32-hd</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="fonts\fnt\konqa32.fnt">
+      <Name>konqa32</Name>
       <Importer>TextImporter</Importer>
       <Processor>TextProcessor</Processor>
     </Compile>
@@ -894,6 +909,17 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="zwoptex\grossini-generic.plist">
+      <Name>grossini-generic</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+      <SubType>Designer</SubType>
+    </Compile>
+    <Compile Include="zwoptex\grossini.plist">
+      <Name>grossini</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="animations\ghosts.plist">
@@ -931,6 +957,18 @@
       <Name>grossini_gray</Name>
       <Importer>TextImporter</Importer>
       <Processor>TextProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="zwoptex\images\grossini-generic.png">
+      <Name>grossini-generic</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="zwoptex\images\grossini.png">
+      <Name>grossini</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

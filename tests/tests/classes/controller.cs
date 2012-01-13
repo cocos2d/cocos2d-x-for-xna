@@ -198,8 +198,8 @@ namespace tests
                     pScene = new CocosDenshionTestScene(); break;
                 //case TEST_PERFORMANCE:
                 //    pScene = new PerformanceTestScene(); break;
-                //case TEST_ZWOPTEX:
-                //    pScene = new ZwoptexTestScene(); break;
+                case (int)TestCases.TEST_ZWOPTEX:
+                    pScene = new ZwoptexTestScene(); break;
                 //#if (CC_TARGET_PLATFORM != CC_PLATFORM_AIRPLAY)
                 //    case TEST_CURL:
                 //        pScene = new CurlTestScene(); break;

@@ -14,14 +14,14 @@ namespace tests
 
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
-            CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFramesWithFile("zwoptex/grossini1");
+            CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFramesWithFile("zwoptex/grossini");
             CCSpriteFrameCache.sharedSpriteFrameCache().addSpriteFramesWithFile("zwoptex/grossini-generic");
 
             CCLayerColor layer1 = CCLayerColor.layerWithColorWidthHeight(new ccColor4B(255, 0, 0, 255), 85, 121);
             layer1.position = (new CCPoint(s.width / 2 - 80 - (85.0f * 0.5f), s.height / 2 - (121.0f * 0.5f)));
             addChild(layer1);
 
-            sprite1 = CCSprite.spriteWithSpriteFrame(CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName("grossini_dance_01"));
+            sprite1 = CCSprite.spriteWithSpriteFrame(CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName("grossini_dance_01.png"));
             sprite1.position = (new CCPoint(s.width / 2 - 80, s.height / 2));
             addChild(sprite1);
 
@@ -32,7 +32,7 @@ namespace tests
             layer2.position = (new CCPoint(s.width / 2 + 80 - (85.0f * 0.5f), s.height / 2 - (121.0f * 0.5f)));
             addChild(layer2);
 
-            sprite2 = CCSprite.spriteWithSpriteFrame(CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName("grossini_dance_generic_01"));
+            sprite2 = CCSprite.spriteWithSpriteFrame(CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName("grossini_dance_generic_01.png"));
             sprite2.position = (new CCPoint(s.width / 2 + 80, s.height / 2));
             addChild(sprite2);
 
@@ -76,15 +76,24 @@ namespace tests
             sprite2.IsFlipX = (fx);
             sprite1.IsFlipY = (fy);
             sprite2.IsFlipY = (fy);
+            string temp = "";
             if (++spriteFrameIndex > 14)
             {
+               
                 spriteFrameIndex = 1;
             }
-
+            if (spriteFrameIndex < 10)
+            {
+                temp = "0" + spriteFrameIndex;
+            }
+            else
+            {
+                temp = spriteFrameIndex.ToString();
+            }
             string str1 = "";
             string str2 = "";
-            str1 = string.Format("grossini_dance_{0}", spriteFrameIndex);
-            str2 = string.Format("grossini_dance_generic_{0}", spriteFrameIndex);
+            str1 = string.Format("grossini_dance_{0}.png", temp);
+            str2 = string.Format("grossini_dance_generic_{0}.png", temp);
             sprite1.setDisplayFrame(CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(str1));
             sprite2.setDisplayFrame(CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(str2));
         }

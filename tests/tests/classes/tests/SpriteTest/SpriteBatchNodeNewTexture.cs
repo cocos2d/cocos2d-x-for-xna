@@ -65,7 +65,13 @@ namespace tests
 
         public override void ccTouchesEnded(List<CCTouch> touches, CCEvent event_)
         {
-            base.ccTouchesEnded(touches, event_);
+            CCSpriteBatchNode batch = (CCSpriteBatchNode)getChildByTag((int)kTags. kTagSpriteBatchNode);
+
+            if (batch.Texture== m_texture1)
+                batch.Texture=m_texture2;
+            else
+                batch.Texture=m_texture1;   
+            //base.ccTouchesEnded(touches, event_);
         }
 
         public override string title()

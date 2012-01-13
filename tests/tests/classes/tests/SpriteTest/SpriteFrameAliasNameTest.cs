@@ -40,7 +40,7 @@ namespace tests
             CCSprite sprite = CCSprite.spriteWithSpriteFrameName("grossini_dance_01.png");
             sprite.position = (new CCPoint(s.width * 0.5f, s.height * 0.5f));
 
-            CCSpriteBatchNode spriteBatch = CCSpriteBatchNode.batchNodeWithFile("animations/grossini-aliases");
+            CCSpriteBatchNode spriteBatch = CCSpriteBatchNode.batchNodeWithFile("animations/images/grossini-aliases");
             spriteBatch.addChild(sprite);
             addChild(spriteBatch);
 

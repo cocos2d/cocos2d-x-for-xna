@@ -8,9 +8,8 @@ namespace tests
 {
     public class TileMapTestScene : TestScene
     {
-        public static int kTagTileMap = 1;
         static int sceneIdx = -1;
-        static readonly int MAX_LAYER = 17;
+        static readonly int MAX_LAYER = 3;
 
         public static CCLayer restartTileMapAction()
         {
@@ -55,14 +54,14 @@ namespace tests
                 case 111111: return new TMXGIDObjectsTest();
                 case 1111: return new TMXIsoObjectsTest();
                 case 11111: return new TMXOrthoObjectsTest();
-                case 3: return new TMXOrthoVertexZ();
+                //case 3: return new TMXOrthoVertexZ();
                 //case 6: return new TMXOrthoTest3();
                 //case 7: return new TMXOrthoTest4();
-                case 11: return new TMXUncompressedTest();
-                case 17: return new TMXResizeTest();
-                case 20: return new TileMapTest();
-                case 13: return new TMXReadWriteTest();
-                case 14: return new TMXTilesetTest();
+                //case 11: return new TMXUncompressedTest();
+                //case 17: return new TMXResizeTest();
+                //case 20: return new TileMapTest();
+                //case 13: return new TMXReadWriteTest();
+                //case 14: return new TMXTilesetTest();
             }
 
             return null;

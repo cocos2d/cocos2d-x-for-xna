@@ -24,7 +24,7 @@ namespace tests
             // Animation using Sprite BatchNode
             //
             m_pSprite1 = CCSprite.spriteWithSpriteFrameName("grossini_dance_01.png");
-            m_pSprite1.position = (new CCPoint(s.width / 2 - 80, s.height / 2));
+            m_pSprite1.position = (new CCPoint(s.width / 2 -80, s.height / 2));
 
             CCSpriteBatchNode spritebatch = CCSpriteBatchNode.batchNodeWithFile("animations/images/grossini");
             spritebatch.addChild(m_pSprite1);
