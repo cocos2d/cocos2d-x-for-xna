@@ -77,7 +77,7 @@ namespace tests
 
         protected bool m_bControlMenuVisible;
         protected int m_nMaxCases;
-        protected int m_nCurCase;
+        public static int m_nCurCase;
         protected int nMaxCases = 0;
         protected int nCurCase = 0;
     }

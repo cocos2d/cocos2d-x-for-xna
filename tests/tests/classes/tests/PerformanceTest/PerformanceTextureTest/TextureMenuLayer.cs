@@ -15,22 +15,54 @@ namespace tests
 
         public override void showCurrentTest()
         {
-            throw new NotFiniteNumberException();
+            CCScene pScene = null;
+
+            switch (m_nCurCase)
+            {
+                case 0:
+                    pScene = TextureTest.scene();
+                    break;
+            }
+            PerformanceTextureTest.s_nTexCurCase = m_nCurCase;
+
+            if (pScene != null)
+            {
+                CCDirector.sharedDirector().replaceScene(pScene);
+            }
         }
 
         public override void onEnter()
         {
-            throw new NotFiniteNumberException();
+            base.onEnter();
+
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+
+            // Title
+            CCLabelTTF label = CCLabelTTF.labelWithString(title(), "Arial", 40);
+            addChild(label, 1);
+            label.position = new CCPoint(s.width / 2, s.height - 32);
+            label.Color = new ccColor3B(255, 255, 40);
+
+            // Subtitle
+            string strSubTitle = subtitle();
+            if (strSubTitle.Length > 0)
+            {
+                CCLabelTTF l = CCLabelTTF.labelWithString(strSubTitle, "Thonburi", 16);
+                addChild(l, 1);
+                l.position = new CCPoint(s.width / 2, s.height - 80);
+            }
+
+            performTests();
         }
 
         public virtual string title()
         {
-            throw new NotFiniteNumberException();
+            return "no title";
         }
 
         public virtual string subtitle()
         {
-            throw new NotFiniteNumberException();
+            return "no subtitle";
         }
 
         public virtual void performTests()

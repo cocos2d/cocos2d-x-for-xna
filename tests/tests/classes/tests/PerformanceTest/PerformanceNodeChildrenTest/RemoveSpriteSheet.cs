@@ -11,22 +11,57 @@ namespace tests
 
         public override void update(float dt)
         {
-            throw new NotFiniteNumberException();
+            //srandom(0);
+
+            // 15 percent
+            int totalToAdd = (int)(currentQuantityOfNodes * 0.15f);
+
+            if (totalToAdd > 0)
+            {
+                List<CCSprite> sprites = new List<CCSprite>();
+
+                // Don't include the sprite creation time as part of the profiling
+                for (int i = 0; i < totalToAdd; i++)
+                {
+                    CCSprite pSprite = CCSprite.spriteWithTexture(batchNode.Texture, new CCRect(0, 0, 32, 32));
+                    sprites.Add(pSprite);
+                }
+
+                // add them with random Z (very important!)
+                for (int i = 0; i < totalToAdd; i++)
+                {
+                    batchNode.addChild((CCNode)(sprites[i]), (int)(ccMacros.CCRANDOM_MINUS1_1() * 50), PerformanceNodeChildrenTest.kTagBase + i);
+                }
+
+                // remove them
+                //#if CC_ENABLE_PROFILERS
+                //        CCProfilingBeginTimingBlock(_profilingTimer);
+                //#endif
+
+                for (int i = 0; i < totalToAdd; i++)
+                {
+                    batchNode.removeChildByTag(PerformanceNodeChildrenTest.kTagBase + i, true);
+                }
+
+                //#if CC_ENABLE_PROFILERS
+                //        CCProfilingEndTimingBlock(_profilingTimer);
+                //#endif
+            }
         }
 
         public override string title()
         {
-            throw new NotFiniteNumberException();
+            return "D - Del from spritesheet";
         }
 
         public override string subtitle()
         {
-            throw new NotFiniteNumberException();
+            return "Remove %10 of total sprites placed randomly. See console";
         }
 
         public override string profilerName()
         {
-            throw new NotFiniteNumberException();
+            return "remove sprites";
         }
     }
 }

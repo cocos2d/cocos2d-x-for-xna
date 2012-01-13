@@ -10,12 +10,44 @@ namespace tests
     {
         public override void updateQuantityOfNodes()
         {
-            throw new NotFiniteNumberException();
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+            Random ran = new Random();
+            // increase nodes
+            if (currentQuantityOfNodes < quantityOfNodes)
+            {
+                for (int i = 0; i < (quantityOfNodes - currentQuantityOfNodes); i++)
+                {
+                    CCSprite sprite = CCSprite.spriteWithTexture(batchNode.Texture, new CCRect(0, 0, 32, 32));
+                    batchNode.addChild(sprite);
+                    sprite.position = new CCPoint(ran.Next() * s.width, ran.Next() * s.height);
+                    sprite.visible = false;
+                }
+            }
+            // decrease nodes
+            else if (currentQuantityOfNodes > quantityOfNodes)
+            {
+                for (int i = 0; i < (currentQuantityOfNodes - quantityOfNodes); i++)
+                {
+                    int index = currentQuantityOfNodes - i - 1;
+                    batchNode.removeChildAtIndex(index, true);
+                }
+            }
+
+            currentQuantityOfNodes = quantityOfNodes;
         }
 
-        public override void initWithQuantityOfNodes(uint nNodes)
+        public override void initWithQuantityOfNodes(int nNodes)
         {
-            throw new NotFiniteNumberException();
+            batchNode = CCSpriteBatchNode.batchNodeWithFile("Images/spritesheet1");
+            addChild(batchNode);
+            NodeChildrenMainScene nodeChildrenMainScene = new NodeChildrenMainScene();
+            nodeChildrenMainScene.initWithQuantityOfNodes(nNodes);
+
+            //#if CC_ENABLE_PROFILERS
+            //    _profilingTimer = CCProfiler::timerWithName(profilerName().c_str(), this);
+            //#endif
+            CCNode ccnode = new CCNode();
+            ccnode.sheduleUpdate();
         }
 
         public override void update(float dt)
@@ -25,12 +57,12 @@ namespace tests
 
         public virtual string profilerName()
         {
-            throw new NotFiniteNumberException();
+            return "none";
         }
 
         protected CCSpriteBatchNode batchNode;
-//#if CC_ENABLE_PROFILERS
-//    CCProfilingTimer* _profilingTimer;
-//#endif
+        //#if CC_ENABLE_PROFILERS
+        //    CCProfilingTimer* _profilingTimer;
+        //#endif
     }
 }
