@@ -45,9 +45,6 @@ namespace tests
 
     public class SpriteSubclass : SpriteTestDemo
     {
-
-
-
         public SpriteSubclass()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();

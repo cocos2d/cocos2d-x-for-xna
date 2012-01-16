@@ -19,7 +19,7 @@ namespace tests
             CCSize s = map.contentSize;
             ////----UXLOG("ContentSize: %f, %f", s.width,s.height);
 
-            //map.setAnchorPoint(ccp(0.5f, 0.5f));
+            map.anchorPoint = new CCPoint(0.5f, 0.5f);
         }
         public override string title()
         {

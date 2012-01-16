@@ -36,12 +36,12 @@ namespace tests
             ////----UXLOG("platform: %x", platform);
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX Ortho object test";
         }
 
-        public virtual void draw()
+        public override void draw()
         {
             CCTMXTiledMap map = (CCTMXTiledMap)getChildByTag(1);
             CCTMXObjectGroup group = map.objectGroupNamed("Object Group 1");
@@ -51,8 +51,6 @@ namespace tests
 
             for (int i = 0; i < objects.Count; i++)
             {
-
-
                 dict = objects[i];//dynamic_cast<CCStringToStringDictionary*>(*it);
 
                 if (dict == null)
@@ -68,15 +66,17 @@ namespace tests
 
                 //glLineWidth(3);
 
-                //ccDrawLine(ccp((float)x, (float)y), ccp((float)(x + width), (float)y));
-                //ccDrawLine(ccp((float)(x + width), (float)y), ccp((float)(x + width), (float)(y + height)));
-                //ccDrawLine(ccp((float)(x + width), (float)(y + height)), ccp((float)x, (float)(y + height)));
-                //ccDrawLine(ccp((float)x, (float)(y + height)), ccp((float)x, (float)y));
+                ccColor4F color = new ccColor4F(255, 255, 0, 255);
+
+                CCDrawingPrimitives.ccDrawLine(new CCPoint((float)x, (float)y), new CCPoint((float)(x + width), (float)y),color);
+                CCDrawingPrimitives.ccDrawLine(new CCPoint((float)(x + width), (float)y), new CCPoint((float)(x + width), (float)(y + height)),color);
+                CCDrawingPrimitives.ccDrawLine(new CCPoint((float)(x + width), (float)(y + height)), new CCPoint((float)x, (float)(y + height)),color);
+                CCDrawingPrimitives.ccDrawLine(new CCPoint((float)x, (float)(y + height)), new CCPoint((float)x, (float)y),color);
 
                 //glLineWidth(1);
             }
         }
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "You should see a white box around the 3 platforms";
         }

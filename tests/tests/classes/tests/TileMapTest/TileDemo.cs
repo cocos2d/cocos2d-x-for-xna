@@ -8,7 +8,6 @@ namespace tests
 {
     public class TileDemo : CCLayer
     {
-
         protected CCLabelTTF m_label;
         protected CCLabelTTF m_subtitle;
 
@@ -92,8 +91,6 @@ namespace tests
             CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage(s_pPathF1, s_pPathF2, this, nextCallback);
 
 
-
-
             item1.position = new CCPoint(s.width / 2 - 100, 30);
             item2.position = new CCPoint(s.width / 2, 30);
             item3.position = new CCPoint(s.width / 2 + 100, 30);
@@ -120,7 +117,5 @@ namespace tests
             m_label.setString(title());
         //    m_subtitle.setString(subtitle());
         }
-
-    
     }
 }

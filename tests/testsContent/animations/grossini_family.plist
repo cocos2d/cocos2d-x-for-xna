@@ -10,7 +10,7 @@
 	</dict>
 	<key>frames</key>
 	<dict>
-		<key>grossini.png</key>
+		<key>grossini</key>
 		<dict>
 			<key>x</key>
 			<integer>103</integer>
@@ -29,7 +29,7 @@
 			<key>originalHeight</key>
 			<integer>121</integer>
 		</dict>
-		<key>grossinis_sister1.png</key>
+		<key>grossinis_sister1</key>
 		<dict>
 			<key>x</key>
 			<integer>55</integer>
@@ -48,7 +48,7 @@
 			<key>originalHeight</key>
 			<integer>139</integer>
 		</dict>
-		<key>grossinis_sister2.png</key>
+		<key>grossinis_sister2</key>
 		<dict>
 			<key>x</key>
 			<integer>1</integer>

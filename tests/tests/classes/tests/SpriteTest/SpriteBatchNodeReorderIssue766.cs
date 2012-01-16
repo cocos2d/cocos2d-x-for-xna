@@ -8,7 +8,6 @@ namespace tests
 {
     public class SpriteBatchNodeReorderIssue766 : SpriteTestDemo
     {
-
         public SpriteBatchNodeReorderIssue766()
         {
             batchNode = CCSpriteBatchNode.batchNodeWithFile("Images/piece", 15);
@@ -37,6 +36,7 @@ namespace tests
         }
         public void reorderSprite(float dt)
         {
+            unschedule(reorderSprite);
             batchNode.reorderChild(sprite1, 4);
         }
 

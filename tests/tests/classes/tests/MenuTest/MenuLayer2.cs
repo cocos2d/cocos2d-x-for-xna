@@ -101,8 +101,8 @@ namespace tests
                 CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage(s_AboutNormal, s_AboutSelect, this, this.menuCallbackAlign);
 
                 item1.scaleX = 1.5f;
-                item2.scaleX = 3.5f;
-                item3.scaleX = 6.5f;
+                item2.scaleX = 0.5f;
+                item3.scaleX = 0.5f;
 
                 CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
 

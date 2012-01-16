@@ -31,12 +31,12 @@ namespace tests
             schedule(repositionSprite);
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX Iso VertexZ";
         }
 
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "Sprite should hide behind the trees";
         }
@@ -55,7 +55,7 @@ namespace tests
             CCDirector.sharedDirector().Projection = 0;
         }
 
-        public virtual void onExit()
+        public override void onExit()
         {
             base.onExit();
         }

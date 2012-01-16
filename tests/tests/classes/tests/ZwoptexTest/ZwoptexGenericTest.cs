@@ -79,7 +79,7 @@ namespace tests
             string temp = "";
             if (++spriteFrameIndex > 14)
             {
-               
+
                 spriteFrameIndex = 1;
             }
             if (spriteFrameIndex < 10)
@@ -94,8 +94,8 @@ namespace tests
             string str2 = "";
             str1 = string.Format("grossini_dance_{0}.png", temp);
             str2 = string.Format("grossini_dance_generic_{0}.png", temp);
-            sprite1.setDisplayFrame(CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(str1));
-            sprite2.setDisplayFrame(CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(str2));
+            sprite1.DisplayFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(str1);
+            sprite2.DisplayFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(str2);
         }
 
         public void startIn05Secs(float dt)
@@ -103,12 +103,12 @@ namespace tests
             schedule((flipSprites), 0.5f);
         }
 
-        public override string title() 
+        public override string title()
         {
             return "Zwoptex Tests";
         }
 
-        public override string subtitle() 
+        public override string subtitle()
         {
             return "Coordinate Formats, Rotation, Trimming, flipX/Y";
         }

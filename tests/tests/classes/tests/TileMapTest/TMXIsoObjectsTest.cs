@@ -32,7 +32,7 @@ namespace tests
             }
         }
 
-        public virtual void draw()
+        public override void draw()
         {
             CCTMXTiledMap map = (CCTMXTiledMap)getChildByTag(1);
             CCTMXObjectGroup group = map.objectGroupNamed("Object Group 1");
@@ -58,21 +58,23 @@ namespace tests
 
                 //glLineWidth(3);
 
-                //ccDrawLine( ccp(x,y), ccp(x+width,y) );
-                //ccDrawLine( ccp(x+width,y), ccp(x+width,y+height) );
-                //ccDrawLine( ccp(x+width,y+height), ccp(x,y+height) );
-                //ccDrawLine( ccp(x,y+height), ccp(x,y) );
+                ccColor4F color = new ccColor4F(255, 255, 255, 255);
+
+                CCDrawingPrimitives.ccDrawLine(new CCPoint(x, y), new CCPoint(x + width, y), color);
+                CCDrawingPrimitives.ccDrawLine(new CCPoint(x + width, y), new CCPoint(x + width, y + height), color);
+                CCDrawingPrimitives.ccDrawLine(new CCPoint(x + width, y + height), new CCPoint(x, y + height), color);
+                CCDrawingPrimitives.ccDrawLine(new CCPoint(x, y + height), new CCPoint(x, y), color);
 
                 //glLineWidth(1);
             }
         }
 
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "You need to parse them manually. See bug #810";
         }
 
-        public string title()
+        public override string title()
         {
             return "TMX Iso object test";
         }

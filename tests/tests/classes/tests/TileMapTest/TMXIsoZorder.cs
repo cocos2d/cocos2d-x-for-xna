@@ -35,17 +35,17 @@ namespace tests
             schedule((this.repositionSprite));
         }
 
-        public virtual string title()
+        public override string title()
         {
             return "TMX Iso Zorder";
         }
 
-        public virtual string subtitle()
+        public override string subtitle()
         {
             return "Sprite should hide behind the trees";
         }
 
-        public virtual void onExit()
+        public override void onExit()
         {
             unschedule(this.repositionSprite);
             base.onExit();

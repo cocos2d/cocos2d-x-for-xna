@@ -6,13 +6,12 @@ using cocos2d;
 
 namespace tests
 {
-    class TMXOrthoTest2 : TileDemo
+    public class TMXOrthoTest2 : TileDemo
     {
-        readonly int kTagTileMap = 1;
         public TMXOrthoTest2()
         {
             CCTMXTiledMap map = CCTMXTiledMap.tiledMapWithTMXFile("TileMaps/orthogonal-test1");
-            addChild(map, 0, kTagTileMap);
+            addChild(map, 0, TileMapTestScene.kTagTileMap);
 
             CCSize s = map.contentSize;
             ////----UXLOG("ContentSize: %f, %f", s.width,s.height);
@@ -33,9 +32,8 @@ namespace tests
 
                     //child.Texture.setAntiAliasTexParameters();
                 }
-
-                map.runAction(CCScaleBy.actionWithDuration(2, 0.5f));
             }
+            map.runAction(CCScaleBy.actionWithDuration(2, 0.5f));
         }
         public override string title()
         {

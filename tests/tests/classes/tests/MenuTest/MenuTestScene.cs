@@ -44,10 +44,8 @@ namespace tests
             CCLayer pLayer4 = new MenuLayer4();
 
 
-            //CCLayerMultiplex layer = CCLayerMultiplex.layerWithLayers(  pLayer3, pLayer4);
-            //base.addChild(pLayer1, 0);
             CCLayerMultiplex layer = CCLayerMultiplex.layerWithLayers(pLayer1, pLayer2, pLayer3, pLayer4);
-            base.addChild(layer, 0);
+            addChild(layer, 0);
 
 
             CCDirector.sharedDirector().replaceScene(this);

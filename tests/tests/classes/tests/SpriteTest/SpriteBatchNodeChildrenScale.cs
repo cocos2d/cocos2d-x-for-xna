@@ -24,14 +24,14 @@ namespace tests
             // Test 1
             //
             aParent = CCNode.node();
-            sprite1 = CCSprite.spriteWithSpriteFrameName("grossinis_sister1.png");
+            sprite1 = CCSprite.spriteWithSpriteFrameName("grossinis_sister1");
             sprite1.position = new CCPoint(s.width / 4, s.height / 4);
             sprite1.scaleX = -0.5f;
             sprite1.scaleY = 2.0f;
             sprite1.runAction(seq);
 
 
-            sprite2 = CCSprite.spriteWithSpriteFrameName("grossinis_sister2.png");
+            sprite2 = CCSprite.spriteWithSpriteFrameName("grossinis_sister2");
             sprite2.position = (new CCPoint(50, 0));
 
             addChild(aParent);
@@ -45,13 +45,13 @@ namespace tests
             //
 
             aParent = CCSpriteBatchNode.batchNodeWithFile("animations/images/grossini_family");
-            sprite1 = CCSprite.spriteWithSpriteFrameName("grossinis_sister1.png");
+            sprite1 = CCSprite.spriteWithSpriteFrameName("grossinis_sister1");
             sprite1.position = new CCPoint(3 * s.width / 4, s.height / 4);
             sprite1.scaleX = -0.5f;
             sprite1.scaleY = 2.0f;
             sprite1.runAction((CCAction)(seq.copy()));
 
-            sprite2 = CCSprite.spriteWithSpriteFrameName("grossinis_sister2.png");
+            sprite2 = CCSprite.spriteWithSpriteFrameName("grossinis_sister2");
             sprite2.position = (new CCPoint(50, 0));
 
             addChild(aParent);
@@ -65,13 +65,13 @@ namespace tests
             //
 
             aParent = CCNode.node();
-            sprite1 = CCSprite.spriteWithSpriteFrameName("grossinis_sister1.png");
+            sprite1 = CCSprite.spriteWithSpriteFrameName("grossinis_sister1");
             sprite1.position = (new CCPoint(s.width / 4, 2 * s.height / 3));
             sprite1.scaleX = (1.5f);
             sprite1.scaleY = -0.5f;
             sprite1.runAction((CCAction)(seq.copy()));
 
-            sprite2 = CCSprite.spriteWithSpriteFrameName("grossinis_sister2.png");
+            sprite2 = CCSprite.spriteWithSpriteFrameName("grossinis_sister2");
             sprite2.position = (new CCPoint(50, 0));
 
             addChild(aParent);
@@ -84,13 +84,13 @@ namespace tests
             //
 
             aParent = CCSpriteBatchNode.batchNodeWithFile("animations/images/grossini_family");
-            sprite1 = CCSprite.spriteWithSpriteFrameName("grossinis_sister1.png");
+            sprite1 = CCSprite.spriteWithSpriteFrameName("grossinis_sister1");
             sprite1.position = (new CCPoint(3 * s.width / 4, 2 * s.height / 3));
             sprite1.scaleX = 1.5f;
             sprite1.scaleY = -0.5f;
             sprite1.runAction((CCAction)(seq.copy()));
 
-            sprite2 = CCSprite.spriteWithSpriteFrameName("grossinis_sister2.png");
+            sprite2 = CCSprite.spriteWithSpriteFrameName("grossinis_sister2");
             sprite2.position = (new CCPoint(50, 0));
 
             addChild(aParent);

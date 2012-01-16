@@ -28,7 +28,7 @@ namespace tests
             return "SpriteBatchNode: reorder issue #744";
         }
 
-        public string subtitle()
+        public override string subtitle()
         {
             return "Should not crash";
         }

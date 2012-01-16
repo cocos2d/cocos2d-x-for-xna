@@ -11,7 +11,7 @@ namespace tests
         public TMXIsoMoveLayer()
         {
             CCTMXTiledMap map = CCTMXTiledMap.tiledMapWithTMXFile("TileMaps/iso-test-movelayer");
-            addChild(map, 0, 1);
+            addChild(map, 0, TileMapTestScene.kTagTileMap);
 
             map.position = new CCPoint(-700, -50);
 
