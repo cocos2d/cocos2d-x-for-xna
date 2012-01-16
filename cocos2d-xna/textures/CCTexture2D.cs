@@ -34,6 +34,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
+using System.IO;
 
 namespace cocos2d
 {
@@ -87,7 +88,7 @@ namespace cocos2d
         public uint magFilter;
         public uint wrapS;
         public uint wrapT;
-    };
+    }
 
     /// <summary>
     /// This class allows to easily create OpenGL 2D textures from images, text or raw data.
@@ -97,6 +98,10 @@ namespace cocos2d
     /// </summary>
     public class CCTexture2D : CCObject
     {
+        // If the image has alpha, you can create RGBA8 (32-bit) or RGBA4 (16-bit) or RGB5A1 (16-bit)
+        // Default is: RGBA8888 (32-bit textures)
+        public static CCTexture2DPixelFormat g_defaultAlphaPixelFormat = CCTexture2DPixelFormat.kCCTexture2DPixelFormat_Default;
+
         public CCTexture2D()
         {
             m_uPixelsWide = 0;
@@ -104,15 +109,8 @@ namespace cocos2d
             m_fMaxS = 0.0f;
             m_fMaxT = 0.0f;
             m_bHasPremultipliedAlpha = false;
-            m_PVRHaveAlphaPremultiplied = true;
+            m_bPVRHaveAlphaPremultiplied = true;
             m_tContentSize = new CCSize();
-        }
-
-        ~CCTexture2D()
-        {
-#if CC_ENABLE_CACHE_TEXTTURE_DATA
-            VolatileTexture::removeTexture(this);
-#endif
         }
 
         public string description()
@@ -146,66 +144,7 @@ namespace cocos2d
 
         #endregion
 
-        #region Drawing extensions
-
-        /**
-        Drawing extensions to make it easy to draw basic quads using a CCTexture2D object.
-        These functions require GL_TEXTURE_2D and both GL_VERTEX_ARRAY and GL_TEXTURE_COORD_ARRAY client states to be enabled.
-        */
-
-        ///<summary>
-        /// draws a texture at a given point 
-        ///</summary>
-        ///<param name="point">openGL point</param>
-        public void drawAtPoint(CCPoint point)
-        {
-            if (null == texture2D)
-            {
-                return;
-            }
-
-            //convert cocos2d point to XNA point
-            CCPoint uiPoint = CCDirector.sharedDirector().convertToUI(point);
-
-            CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture2D, new Vector2(uiPoint.x, uiPoint.y - m_tContentSize.height), Color.White);
-            CCApplication.sharedApplication().spriteBatch.End();
-        }
-
-        /// <summary>
-        /// draws a texture inside a rect
-        /// </summary>
-        /// <param name="rect">openGL rect</param>
-        public void drawInRect(CCRect rect)
-        {
-            if (null == texture2D)
-            {
-                return;
-            }
-
-            CCApplication.sharedApplication().spriteBatch.Begin();
-            CCApplication.sharedApplication().spriteBatch.Draw(texture2D,
-                new Rectangle((int)(rect.origin.x),
-                    (int)(rect.origin.y),
-                    (int)(rect.size.width),
-                    (int)(rect.size.height)),
-                    Color.White);
-            CCApplication.sharedApplication().spriteBatch.End();
-        }
-
-        #endregion
-
         #region create extensions
-
-        ///**
-        //Extensions to make it easy to create a CCTexture2D object from an image file.
-        //Note that RGBA type textures will have their alpha premultiplied - use the blending mode (GL_ONE, GL_ONE_MINUS_SRC_ALPHA).
-        //*/
-        ///** Initializes a texture from a UIImage object */
-        //public bool initWithImage(CCImage uiImage)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /**
         Extensions to make it easy to create a CCTexture2D object from a string of text.
@@ -331,14 +270,20 @@ namespace cocos2d
 
         #endregion
 
-        public void SaveAsJpeg()
+        public void SaveAsJpeg(Stream stream, int width, int height)
         {
-            throw new NotImplementedException();
+            if (this.texture2D != null)
+            {
+                this.texture2D.SaveAsJpeg(stream, width, height);
+            }
         }
 
-        public void SaveAsPng()
+        public void SaveAsPng(Stream stream, int width, int height)
         {
-            throw new NotImplementedException();
+            if (this.texture2D != null)
+            {
+                this.texture2D.SaveAsPng(stream, width, height);
+            }
         }
 
         /** sets the min filter, mag filter, wrap s and wrap t texture parameters.
@@ -347,7 +292,7 @@ namespace cocos2d
         */
         public void setTexParameters(ccTexParams texParams)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         /** sets antialias texture parameters:
@@ -370,8 +315,8 @@ namespace cocos2d
         */
         public void setAliasTexParameters()
         {
-            // ccTexParams texParams = { GL_NEAREST, GL_NEAREST, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
-            // this->setTexParameters(&texParams);
+            ccTexParams texParams = new ccTexParams();// { GL_NEAREST, GL_NEAREST, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
+            this.setTexParameters(texParams);
         }
 
 
@@ -381,8 +326,10 @@ namespace cocos2d
         */
         public void generateMipmap()
         {
+
+
 #warning SpriteTest”√µΩ¡À
-           // throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         /** returns the bits-per-pixel of the in-memory OpenGL texture
@@ -395,7 +342,7 @@ namespace cocos2d
 
         public void setPVRImagesHavePremultipliedAlpha(bool haveAlphaPremultiplied)
         {
-            throw new NotImplementedException();
+            m_bPVRHaveAlphaPremultiplied = haveAlphaPremultiplied;
         }
 
         /** sets the default pixel format for UIImages that contains alpha channel.
@@ -432,7 +379,7 @@ namespace cocos2d
         //}
 
         // By default PVR images are treated as if they don't have the alpha channel premultiplied
-        private bool m_PVRHaveAlphaPremultiplied;
+        private bool m_bPVRHaveAlphaPremultiplied;
 
         #region Property
 

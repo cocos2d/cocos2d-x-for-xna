@@ -315,7 +315,7 @@ namespace cocos2d
                 m_bToRemove = false;
                 for (int i = 0; i < m_pHandlersToRemove.Count; ++i)
                 {
-                    forceRemoveDelegate((CCTouchDelegate)m_pHandlersToRemove[i]);
+                    forceRemoveDelegate((ICCTouchDelegate)m_pHandlersToRemove[i]);
                 }
                 m_pHandlersToRemove.Clear();
             }

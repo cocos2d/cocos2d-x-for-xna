@@ -393,7 +393,13 @@ namespace cocos2d
         /// </summary>
         public static CCSprite spriteWithBatchNode(CCSpriteBatchNode batchNode, CCRect rect)
         {
-            throw new NotImplementedException();
+            CCSprite pobSprite = new CCSprite();
+            if (pobSprite.initWithBatchNode(batchNode, rect))
+            {
+                return pobSprite;
+            }
+
+            return null;
         }
 
         #endregion
@@ -459,12 +465,13 @@ namespace cocos2d
             CCSize size = CCDirector.sharedDirector().getWinSize();
 
             //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
-            if (this.Texture!=null)
+            if (this.Texture != null)
             {
                 app.basicEffect.Texture = this.Texture.getTexture2D();
                 app.basicEffect.TextureEnabled = true;
+                app.basicEffect.Alpha = (float)this.Opacity / 255.0f;
             }
-      
+
             VertexPositionColorTexture[] vertices = this.m_sQuad.getVertices(ccDirectorProjection.CCDirectorProjection3D);
             short[] indexes = this.m_sQuad.getIndexes(ccDirectorProjection.CCDirectorProjection3D);
 
@@ -553,16 +560,9 @@ namespace cocos2d
 
             if (m_bUseBatchNode)
             {
-                ///@todo
-                //assert(((CCSprite*)pChild)->getTexture()->getName() == m_pobTextureAtlas->getTexture()->getName());
-                //unsigned int index = m_pobBatchNode->atlasIndexForChild((CCSprite*)(pChild), zOrder);
-                //m_pobBatchNode->insertChild((CCSprite*)(pChild), index);
-#warning Sprite的时候注释掉了下面那个抛空实现，由于AddChild的问题test效果不完整
-                //throw new NotImplementedException();
-
-                //Debug.Assert(((CCSprite)child).Texture.Name == m_pobTextureAtlas.Texture.Name);
-                //int index = m_pobBatchNode.atlasIndexForChild((CCSprite)(child), zOrder);
-                //m_pobBatchNode.insertChild((CCSprite)(child), index);
+                Debug.Assert(((CCSprite)child).Texture.Name == m_pobTextureAtlas.Texture.Name);
+                int index = m_pobBatchNode.atlasIndexForChild((CCSprite)child, zOrder);
+                m_pobBatchNode.insertChild((CCSprite)child, index);
             }
 
             m_bHasChildren = true;
@@ -873,8 +873,8 @@ namespace cocos2d
         {
             Debug.Assert(pSpriteFrame != null);
 
-            bool bRet = initWithTexture(pSpriteFrame.getTexture(), pSpriteFrame.getRect());
-            setDisplayFrame(pSpriteFrame);
+            bool bRet = initWithTexture(pSpriteFrame.Texture, pSpriteFrame.Rect);
+            DisplayFrame = pSpriteFrame;
 
             return bRet;
         }
@@ -887,12 +887,10 @@ namespace cocos2d
         /// </summary>
         public bool initWithSpriteFrameName(string spriteFrameName)
         {
-            throw new NotImplementedException();
+            Debug.Assert(spriteFrameName != null);
 
-            //Debug.Assert(spriteFrameName != null);
-
-            //CCSpriteFrame pFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(spriteFrameName);
-            //return initWithSpriteFrame(pFrame);
+            CCSpriteFrame pFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(spriteFrameName);
+            return initWithSpriteFrame(pFrame);
         }
 
         /// <summary>
@@ -1212,20 +1210,31 @@ namespace cocos2d
         /// <summary>
         /// sets a new display frame to the CCSprite.
         /// </summary>
-        public void setDisplayFrame(CCSpriteFrame pNewFrame)
+        public CCSpriteFrame DisplayFrame
         {
-            m_obUnflippedOffsetPositionFromCenter = pNewFrame.getOffsetInPixels();
-
-            CCTexture2D pNewTexture = pNewFrame.getTexture();
-            // update texture before updating texture rect
-            if (pNewTexture != m_pobTexture)
+            set
             {
-                this.Texture = pNewTexture;
-            }
+                m_obUnflippedOffsetPositionFromCenter = value.OffsetInPixels;
 
-            // update rect
-            m_bRectRotated = pNewFrame.isRotated();
-            setTextureRectInPixels(pNewFrame.getRectInPixels(), pNewFrame.isRotated(), pNewFrame.getOriginalSizeInPixels());
+                CCTexture2D pNewTexture = value.Texture;
+                // update texture before updating texture rect
+                if (pNewTexture != m_pobTexture)
+                {
+                    this.Texture = pNewTexture;
+                }
+
+                // update rect
+                m_bRectRotated = value.IsRotated;
+                setTextureRectInPixels(value.RectInPixels, value.IsRotated, value.OriginalSizeInPixels);
+            }
+            get
+            {
+                return CCSpriteFrame.frameWithTexture(m_pobTexture,
+                                                 m_obRectInPixels,
+                                                 m_bRectRotated,
+                                                 m_obUnflippedOffsetPositionFromCenter,
+                                                 m_tContentSizeInPixels);
+            }
         }
 
         /// <summary>
@@ -1233,21 +1242,11 @@ namespace cocos2d
         /// </summary>
         public bool isFrameDisplayed(CCSpriteFrame pFrame)
         {
-            CCRect r = pFrame.getRect();
+            CCRect r = pFrame.Rect;
 
             return (CCRect.CCRectEqualToRect(r, m_obRect) &&
-                pFrame.getTexture().Name == m_pobTexture.Name);
+                pFrame.Texture.Name == m_pobTexture.Name);
         }
-
-        public CCSpriteFrame displayedFrame()
-        {
-            return CCSpriteFrame.frameWithTexture(m_pobTexture,
-                                                   m_obRectInPixels,
-                                                   m_bRectRotated,
-                                                   m_obUnflippedOffsetPositionFromCenter,
-                                                   m_tContentSizeInPixels);
-        }
-
 
         #endregion
 
@@ -1270,7 +1269,7 @@ namespace cocos2d
 
             Debug.Assert(frame != null);
 
-            setDisplayFrame(frame);
+            DisplayFrame = frame;
         }
 
         protected void updateTextureCoords(CCRect rect)
@@ -1401,6 +1400,14 @@ namespace cocos2d
 
     public class transformValues_
     {
+        public transformValues_()
+        {
+            this.pos = new CCPoint();
+            this.scale = new CCPoint();
+            this.skew = new CCPoint();
+            this.ap = new CCPoint();
+        }
+
         public CCPoint pos;  // position  x and y
         public CCPoint scale;  // scale x and y
         public float rotation;

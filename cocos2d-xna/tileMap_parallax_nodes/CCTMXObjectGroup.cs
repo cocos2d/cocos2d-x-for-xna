@@ -60,8 +60,8 @@ namespace cocos2d
         /// </summary>
         public List<Dictionary<string, string>> Objects
         {
-            get { return Objects; }
-            set { Objects = value; }
+            get { return m_pObjects; }
+            set { m_pObjects = value; }
         }
 
         /// <summary>

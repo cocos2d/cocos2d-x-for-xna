@@ -55,32 +55,6 @@ namespace cocos2d
             return true;
         }
 
-        static List<string> ParseAttribute(XElement doc)
-        {
-            IEnumerable<XAttribute> attributes = doc.Attributes();
-            List<string> atts = new List<string>();
-            foreach (var item in attributes)
-            {
-                atts.Add(item.Name.ToString());
-                atts.Add(item.Value);
-            }
-            return atts;
-        }
-
-        static void ForeachNode(XElement doc, object ctx)
-        {
-            List<string> atts = new List<string>();
-            if (doc.Elements() != null)
-            {
-                foreach (var item in doc.Elements())
-                {
-                    atts = ParseAttribute(item);
-                    startElement(ctx, item.Name.ToString(), atts.ToArray());
-                    ForeachNode(item, ctx);
-                }
-            }
-        }
-
         public bool parse(string pszFile)
         {
             CCContent data = CCApplication.sharedApplication().content.Load<CCContent>(pszFile);
@@ -105,6 +79,8 @@ namespace cocos2d
                 {
                     case XmlNodeType.Element:
 
+                        string[] attrs = null;
+
                         if (name == "map")
                         {
                             Width = int.Parse(xmlReader.GetAttribute("width"));
@@ -113,7 +89,7 @@ namespace cocos2d
 
                         if (xmlReader.HasAttributes)
                         {
-                            string[] attrs = new string[xmlReader.AttributeCount * 2];
+                            attrs = new string[xmlReader.AttributeCount * 2];
                             xmlReader.MoveToFirstAttribute();
                             int i = 0;
                             attrs[0] = xmlReader.Name;
@@ -127,23 +103,39 @@ namespace cocos2d
                                 i += 2;
                             }
 
-                            //GZipStream
-
                             // Move the reader back to the element node.
                             xmlReader.MoveToElement();
-
-                            startElement(this, name, attrs);
                         }
-                        else
-                        {
-                            startElement(this, name, null);
-                        }
+                        startElement(this, name, attrs);
 
+                        byte[] buffer = null;
+
+                        //read data content of tmx file
                         if (name == "data")
                         {
-                            int dataSize = (Width * Height * 4) + 1024;
-                            var buffer = new byte[dataSize];
-                            xmlReader.ReadElementContentAsBase64(buffer, 0, dataSize);
+                            if (attrs != null)
+                            {
+                                string encoding = "";
+                                for (int i = 0; i < attrs.Length; i++)
+                                {
+                                    if (attrs[i] == "encoding")
+                                    {
+                                        encoding = attrs[i + 1];
+                                    }
+                                }
+
+                                if (encoding == "base64")
+                                {
+                                    int dataSize = (Width * Height * 4) + 1024;
+                                    buffer = new byte[dataSize];
+                                    xmlReader.ReadElementContentAsBase64(buffer, 0, dataSize);
+                                }
+                                else
+                                {
+                                    string value = xmlReader.ReadElementContentAsString();
+                                    buffer = Encoding.UTF8.GetBytes(value);
+                                }
+                            }
 
                             textHandler(this, buffer, buffer.Length);
                             endElement(this, name);
@@ -152,7 +144,7 @@ namespace cocos2d
                             if (name == "key" || name == "integer" || name == "real" || name == "string")
                             {
                                 string value = xmlReader.ReadElementContentAsString();
-                                byte[] buffer = Encoding.UTF8.GetBytes(value);
+                                buffer = Encoding.UTF8.GetBytes(value);
                                 textHandler(this, buffer, buffer.Length);
                                 endElement(this, name);
                             }
@@ -168,42 +160,6 @@ namespace cocos2d
                 }
             }
 
-
-
-            //XElement doc = XElement.Parse(str);
-            //List<string> atts = new List<string>();
-            //atts = ParseAttribute(doc);
-            //startElement(this, "map", atts.ToArray());
-            //ForeachNode(doc, this);
-
-            //endElement(this, "data", data);
-
-#warning about xml
-            /// * this initialize the library and check potential ABI mismatches
-            /// * between the version it was compiled for and the actual shared
-            /// * library used.
-            //LIBXML_TEST_VERSION
-            //xmlSAXHandler saxHandler;
-            //memset( &saxHandler, 0, sizeof(saxHandler) );
-            //// Using xmlSAXVersion( &saxHandler, 2 ) generate crash as it sets plenty of other pointers...
-            //saxHandler.initialized = XML_SAX2_MAGIC;  // so we do this to force parsing as SAX2.
-            //saxHandler.startElement = &CCSAXParser::startElement;
-            //saxHandler.endElement = &CCSAXParser::endElement;
-            //saxHandler.characters = &CCSAXParser::textHandler;
-
-            //int result = xmlSAXUserParseMemory( &saxHandler, this, pBuffer, size );
-            //if ( result != 0 )
-            //{
-            //    return false;
-            //}
-            ///*
-            // * Cleanup function for the XML library.
-            // */
-            //xmlCleanupParser();
-            ///*
-            // * this is to debug memory for regression tests
-            // */
-            //xmlMemoryDump();
             return true;
         }
 

@@ -65,7 +65,7 @@ namespace cocos2d
         public void SetTouchInfo(int nViewId, float x, float y)
         {
             m_nViewId = nViewId;
-            m_prevPoint = m_point;
+            m_prevPoint = new CCPoint(m_point.x, m_point.y);
             m_point.x = x;
             m_point.y = y;
         }

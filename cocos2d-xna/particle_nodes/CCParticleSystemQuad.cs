@@ -154,12 +154,12 @@ namespace cocos2d
 	    */
 	    public void setDisplayFrame(CCSpriteFrame spriteFrame)
         {
-           	Debug.Assert( CCPoint.CCPointEqualToPoint( spriteFrame.getOffsetInPixels() , new CCPoint(0,0) ), "QuadParticle only supports SpriteFrames with no offsets");
+           	Debug.Assert( CCPoint.CCPointEqualToPoint( spriteFrame.OffsetInPixels , new CCPoint(0,0) ), "QuadParticle only supports SpriteFrames with no offsets");
 
 	        // update texture before updating texture rect
-	        if ( null == this.Texture || spriteFrame.getTexture().Name != this.Texture.Name)
+	        if ( null == this.Texture || spriteFrame.Texture.Name != this.Texture.Name)
 	        {
-		        this.Texture = spriteFrame.getTexture();
+		        this.Texture = spriteFrame.Texture;
 	        }
         }
 

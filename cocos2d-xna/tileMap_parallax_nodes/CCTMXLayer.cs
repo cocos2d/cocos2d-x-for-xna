@@ -459,7 +459,7 @@ namespace cocos2d
                     if (gid != 0)
                     {
                         var reusedTile = this.appendTileForGID(gid, new CCPoint((float)x, (float)y));
-                        addChild(reusedTile, 0, i++);
+                        //addChild(reusedTile, 0, i++);
                         // Optimization: update min and max GID rendered by the layer
                         m_uMinGID = Math.Min(gid, m_uMinGID);
                         m_uMaxGID = Math.Max(gid, m_uMaxGID);
@@ -484,7 +484,7 @@ namespace cocos2d
         }
 
         // super method
-        public void removeChild(CCNode child, bool cleanup)
+        public override void removeChild(CCNode child, bool cleanup)
         {
             CCSprite sprite = child as CCSprite;
             // allows removing nil objects
@@ -500,21 +500,21 @@ namespace cocos2d
 
         }
 
-        public override void draw()
-        {
-            if (m_bUseAutomaticVertexZ)
-            {
-                //glEnable(GL_ALPHA_TEST);
-                //glAlphaFunc(GL_GREATER, m_fAlphaFuncValue);
-            }
+        //public override void draw()
+        //{
+        //    if (m_bUseAutomaticVertexZ)
+        //    {
+        //        //glEnable(GL_ALPHA_TEST);
+        //        //glAlphaFunc(GL_GREATER, m_fAlphaFuncValue);
+        //    }
 
-            base.draw();
+        //    base.draw();
 
-            if (m_bUseAutomaticVertexZ)
-            {
-                //glDisable(GL_ALPHA_TEST);
-            }
-        }
+        //    if (m_bUseAutomaticVertexZ)
+        //    {
+        //        //glDisable(GL_ALPHA_TEST);
+        //    }
+        //}
 
         private CCPoint positionForIsoAt(CCPoint pos)
         {
@@ -564,7 +564,6 @@ namespace cocos2d
 
         public override void visit()
         {
-
             m_pTileSet.m_tImageSize = m_pobTextureAtlas.Texture.ContentSizeInPixels;
             int i = 0;
             for (int y = 0; y < m_tLayerSize.height; y++)
@@ -800,7 +799,7 @@ namespace cocos2d
             //int index = ((int)item - (int)m_pAtlasIndexArray->arr) / sizeof(void*);
             //return index;
 
-            throw new NotImplementedException();
+            return m_pAtlasIndexArray.IndexOf(z);
         }
         private int atlasIndexForNewZ(int z)
         {

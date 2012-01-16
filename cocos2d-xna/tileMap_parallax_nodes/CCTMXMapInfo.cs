@@ -34,6 +34,7 @@ using System.IO;
 using cocos2d;
 using WP7Contrib.Communications.Compression;
 using ICSharpCode.SharpZipLib.GZip;
+using ComponentAce.Compression.Libs.zlib;
 
 
 namespace cocos2d
@@ -318,7 +319,7 @@ namespace cocos2d
                         tileset.m_uSpacing = int.Parse(attributeDict["spacing"]);
 
                     if (attributeDict.Keys.Contains("margin"))
-                    tileset.m_uMargin = int.Parse(attributeDict["margin"]);
+                        tileset.m_uMargin = int.Parse(attributeDict["margin"]);
                     CCSize s = new CCSize();
                     s.width = float.Parse(attributeDict["tilewidth"]);
                     s.height = float.Parse(attributeDict["tileheight"]);
@@ -384,8 +385,10 @@ namespace cocos2d
                 CCTMXObjectGroup objectGroup = new CCTMXObjectGroup();
                 objectGroup.GroupName = attributeDict["name"];
                 CCPoint positionOffset = new CCPoint();
-                positionOffset.x = float.Parse(attributeDict["x"]) * pTMXMapInfo.TileSize.width;
-                positionOffset.y = float.Parse(attributeDict["y"]) * pTMXMapInfo.TileSize.height;
+                if (attributeDict.ContainsKey("x"))
+                    positionOffset.x = float.Parse(attributeDict["x"]) * pTMXMapInfo.TileSize.width;
+                if (attributeDict.ContainsKey("y"))
+                    positionOffset.y = float.Parse(attributeDict["y"]) * pTMXMapInfo.TileSize.height;
                 objectGroup.PositionOffset = positionOffset;
 
                 pTMXMapInfo.ObjectGroups.Add(objectGroup);
@@ -405,8 +408,8 @@ namespace cocos2d
             }
             else if (elementName == "data")
             {
-                string encoding = attributeDict["encoding"];
-                string compression = attributeDict["compression"];
+                string encoding = attributeDict.ContainsKey("encoding") ? attributeDict["encoding"] : "";
+                string compression = attributeDict.ContainsKey("compression") ? attributeDict["compression"] : "";
 
                 if (encoding == "base64")
                 {
@@ -441,12 +444,12 @@ namespace cocos2d
 
                 // Set the name of the object to the value for "name"
                 string key = "name";
-                string value = attributeDict["name"];
+                string value = attributeDict.ContainsKey("name") ? attributeDict["name"] : "";
                 dict.Add(key, value);
 
                 // Assign all the attributes as key/name pairs in the properties dictionary
                 key = "type";
-                value = attributeDict["type"];
+                value = attributeDict.ContainsKey("type") ? attributeDict["type"] : "";
                 dict.Add(key, value);
 
                 int x = int.Parse(attributeDict["x"]) + (int)objectGroup.PositionOffset.x;
@@ -456,17 +459,17 @@ namespace cocos2d
 
                 int y = int.Parse(attributeDict["y"]) + (int)objectGroup.PositionOffset.y;
                 // Correct y position. (Tiled uses Flipped, cocos2d uses Standard)
-                y = (int)(pTMXMapInfo.MapSize.height * pTMXMapInfo.TileSize.height) - y - int.Parse(attributeDict["height"]);
+                y = (int)(pTMXMapInfo.MapSize.height * pTMXMapInfo.TileSize.height) - y - (attributeDict.ContainsKey("height") ? int.Parse(attributeDict["height"]) : 0);
                 key = "y";
                 value = y.ToString();
                 dict.Add(key, value);
 
                 key = "width";
-                value = attributeDict["width"];
+                value = attributeDict.ContainsKey("width") ? attributeDict["width"] : "";
                 dict.Add(key, value);
 
                 key = "height";
-                value = attributeDict["height"];
+                value = attributeDict.ContainsKey("height") ? attributeDict["height"] : "";
                 dict.Add(key, value);
 
                 // Add the object to the objectGroup
@@ -536,6 +539,7 @@ namespace cocos2d
         public void endElement(object ctx, string elementName)
         {
             CCTMXMapInfo pTMXMapInfo = this;
+            byte[] buffer = pTMXMapInfo.CurrentString;
 
             if (elementName == "data" && (pTMXMapInfo.LayerAttribs & (int)TMXLayerAttrib.TMXLayerAttribBase64) != 0)
             {
@@ -543,21 +547,41 @@ namespace cocos2d
                 CCTMXLayerInfo layer = pTMXMapInfo.Layers.LastOrDefault();
                 if ((pTMXMapInfo.LayerAttribs & ((int)(TMXLayerAttrib.TMXLayerAttribGzip) | (int)TMXLayerAttrib.TMXLayerAttribZlib)) != 0)
                 {
-                    byte[] buffer = pTMXMapInfo.CurrentString;
-
-                    MemoryStream ms = new MemoryStream(buffer, false);
-                    using (GZipInputStream inStream = new GZipInputStream(ms))
+                    using (MemoryStream ms = new MemoryStream(buffer, false))
                     {
-                        using (var br = new BinaryReader(inStream))
+                        //gzip compress
+                        if ((pTMXMapInfo.LayerAttribs & (int)TMXLayerAttrib.TMXLayerAttribGzip) != 0)
                         {
-                            for (int i = 0; i < layer.m_pTiles.Length; i++)
-                                layer.m_pTiles[i] = br.ReadInt32();
+                            using (GZipInputStream inStream = new GZipInputStream(ms))
+                            {
+                                using (var br = new BinaryReader(inStream))
+                                {
+                                    for (int i = 0; i < layer.m_pTiles.Length; i++)
+                                        layer.m_pTiles[i] = br.ReadInt32();
+                                }
+                            }
+                        }
+
+                        //zlib
+                        if ((pTMXMapInfo.LayerAttribs & (int)TMXLayerAttrib.TMXLayerAttribZlib) != 0)
+                        {
+                            using (ZInputStream inZStream = new ZInputStream(ms))
+                            {
+                                for (int i = 0; i < layer.m_pTiles.Length; i++)
+                                {
+                                    layer.m_pTiles[i] = inZStream.Read();
+                                    inZStream.Read();
+                                    inZStream.Read();
+                                    inZStream.Read();
+                                }
+                            }
                         }
                     }
                 }
                 else
                 {
-                    //layer->m_pTiles = (unsigned int*) buffer;
+                    for (int i = 0; i < layer.m_pTiles.Length; i++)
+                        layer.m_pTiles[i] = buffer[i * 4];
                 }
 
                 pTMXMapInfo.CurrentString = null;

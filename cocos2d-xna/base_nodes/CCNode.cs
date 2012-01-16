@@ -94,6 +94,8 @@ namespace cocos2d
 	*/
     public class CCNode : CCObject, SelectorProtocol
     {
+        static int kCCNodeTagInvalid = -1;
+
         public CCNode()
         {
             // Only initialize the members that are not default value.
@@ -108,6 +110,7 @@ namespace cocos2d
             m_tContentSize = new CCSize();
             m_tContentSizeInPixels = new CCSize();
             m_bIsRelativeAnchorPoint = true;
+            m_nTag = kCCNodeTagInvalid;
             m_bIsTransformDirty = true;
             m_bIsInverseDirty = true;
             m_pChildren = new List<CCNode>();
@@ -1156,9 +1159,9 @@ namespace cocos2d
             {
                 m_fScaleX = m_fScaleY = value;
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
-                #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                    m_bIsTransformGLDirty = true;
-                #endif
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                m_bIsTransformGLDirty = true;
+#endif
             }
         }
 
@@ -1176,9 +1179,9 @@ namespace cocos2d
             {
                 m_fScaleX = value;
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
-                #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                    m_bIsTransformGLDirty = true;
-                #endif
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                m_bIsTransformGLDirty = true;
+#endif
             }
         }
 
@@ -1196,9 +1199,9 @@ namespace cocos2d
             {
                 m_fScaleY = value;
                 m_bIsTransformDirty = m_bIsInverseDirty = true;
-                #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
-                    m_bIsTransformGLDirty = true;
-                #endif
+#if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
+                m_bIsTransformGLDirty = true;
+#endif
             }
         }
 

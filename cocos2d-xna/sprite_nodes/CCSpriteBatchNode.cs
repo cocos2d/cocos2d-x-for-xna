@@ -416,7 +416,7 @@ namespace cocos2d
             uint uChildIndex = (uint)pBrothers.IndexOf(pobSprite);
 
             // ignore parent Z if parent is spriteSheet
-            bool bIgnoreParent = (((CCSpriteBatchNode)(pobSprite.parent)) == this);
+            bool bIgnoreParent = pobSprite.parent is CCSpriteBatchNode ;
 
             CCSprite pPrevious = null;
 
