@@ -16,37 +16,39 @@ namespace tests
 
         public override void onEnter()
         {
-            throw new NotFiniteNumberException();
+            base.onEnter();
+            isTouchEnabled = true;
         }
 
         public override string title()
         {
-            throw new NotFiniteNumberException();
+            return "Targeted touches";
         }
 
         public override void registerWithTouchDispatcher()
         {
-            throw new NotFiniteNumberException();
+            CCTouchDispatcher.sharedDispatcher().addTargetedDelegate(this, 0, true);
         }
 
         public override bool ccTouchBegan(CCTouch touch, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            numberOfTouchesB++;
+            return true;
         }
 
         public override void ccTouchMoved(CCTouch touch, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            numberOfTouchesM++;
         }
 
         public override void ccTouchEnded(CCTouch touch, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            numberOfTouchesE++;
         }
 
         public override void ccTouchCancelled(CCTouch touch, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            numberOfTouchesC++;
         }
     }
 }

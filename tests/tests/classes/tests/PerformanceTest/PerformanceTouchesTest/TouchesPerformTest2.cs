@@ -15,37 +15,38 @@ namespace tests
 
         public override void onEnter()
         {
-            throw new NotFiniteNumberException();
+            base.onEnter();
+            isTouchEnabled = true;
         }
 
         public override string title()
         {
-            throw new NotFiniteNumberException();
+            return "Standard touches";
         }
 
         public override void registerWithTouchDispatcher()
         {
-            throw new NotFiniteNumberException();
+            CCTouchDispatcher.sharedDispatcher().addStandardDelegate(this, 0);
         }
 
         public override void ccTouchesBegan(List<CCTouch> touches, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            numberOfTouchesB += touches.Count;
         }
 
         public override void ccTouchesMoved(List<CCTouch> touches, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            numberOfTouchesM += touches.Count;
         }
 
         public override void ccTouchesEnded(List<CCTouch> touches, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            numberOfTouchesE += touches.Count;
         }
 
         public override void ccTouchesCancelled(List<CCTouch> touches, CCEvent events)
         {
-            throw new NotFiniteNumberException();
+            numberOfTouchesC += touches.Count;
         }
     }
 }
