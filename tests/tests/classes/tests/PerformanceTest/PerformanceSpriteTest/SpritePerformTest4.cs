@@ -11,12 +11,22 @@ namespace tests
 
         public override void doTest(CCSprite sprite)
         {
-            throw new NotFiniteNumberException();
+            performanceOut100(sprite);
         }
 
         public override string title()
         {
-            throw new NotFiniteNumberException();
+            //char str[32] = {0};
+            string str;
+            //sprintf(str, "D (%d) 100%% out", subtestNumber);
+            str = string.Format("D {0:D} 100%% out", subtestNumber);
+            string strRet = str;
+            return strRet;
+        }
+
+        private void performanceOut100(CCSprite pSprite)
+        {
+            pSprite.position = new CCPoint(-1000, -1000);
         }
     }
 }

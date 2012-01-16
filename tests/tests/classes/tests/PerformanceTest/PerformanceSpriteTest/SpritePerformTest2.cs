@@ -11,11 +11,24 @@ namespace tests
 
         public override void doTest(CCSprite sprite)
         {
-            throw new NotFiniteNumberException();
+            performanceScale(sprite);
         }
         public override string title()
         {
-            throw new NotFiniteNumberException();
+            //char str[32] = {0};
+            string str;
+            //sprintf(str, "B (%d) scale", subtestNumber);
+            str = string.Format("B {0:D} scale", subtestNumber);
+            string strRet = str;
+            return strRet;
+        }
+
+        private void performanceScale(CCSprite pSprite)
+        {
+            Random random = new Random();
+            CCSize size = CCDirector.sharedDirector().getWinSize();
+            pSprite.position = new CCPoint((random.Next() % (int)size.width), (random.Next() % (int)size.height));
+            pSprite.scale = random.Next() * 100 / 50;
         }
     }
 }
