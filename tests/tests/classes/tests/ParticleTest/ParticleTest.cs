@@ -23,7 +23,7 @@ namespace tests
 
         public static int sceneIdx = -1; 
 
-        public static int MAX_LAYER = 18;
+        public static int MAX_LAYER = 29;
 
         public static CCLayer createParticleLayer(int nIndex)
         {
@@ -45,23 +45,26 @@ namespace tests
                 // case 13: return new DemoModernArt();
                 case 13: return new DemoRing();
                 case 14: return new ParallaxParticle();
-                //case 16: return new DemoParticleFromFile("BoilingFoam");
-                //case 17: return new DemoParticleFromFile("BurstPipe");
-                //case 18: return new DemoParticleFromFile("Comet");
-                //case 19: return new DemoParticleFromFile("debian");
-                //case 20: return new DemoParticleFromFile("ExplodingRing");
-                //case 21: return new DemoParticleFromFile("LavaFlow");
-                //case 22: return new DemoParticleFromFile("SpinningPeas");
-                //case 23: return new DemoParticleFromFile("SpookyPeas");
-                //case 24: return new DemoParticleFromFile("Upsidedown");
-                //case 25: return new DemoParticleFromFile("Flower");
-                //case 26: return new DemoParticleFromFile("Spiral");
-                //case 27: return new DemoParticleFromFile("Galaxy");
-                case 15: return new RadiusMode1();
-                case 16: return new RadiusMode2();
-                case 17: return new Issue704();
-                //case 31: return new Issue870();
-                //case 18: return new DemoParticleFromFile("Phoenix");
+                case 15: return new DemoParticleFromFile("BoilingFoam");
+                case 16: return new DemoParticleFromFile("BurstPipe");
+                case 17: return new DemoParticleFromFile("CometPlist");
+                case 18: return new DemoParticleFromFile("debian");
+                case 19: return new DemoParticleFromFile("ExplodingRing");
+                case 20: return new DemoParticleFromFile("LavaFlow");
+                case 21: return new DemoParticleFromFile("SpinningPeasPlist");
+                case 22: return new DemoParticleFromFile("SpookyPeasPlist");
+                case 23: return new DemoParticleFromFile("Upsidedown");
+
+                // !the following three tests are using texturedata
+                // case 24: return new DemoParticleFromFile("FlowerPlist");
+                // case 25: return new DemoParticleFromFile("Spiral");
+                // case 26: return new DemoParticleFromFile("GalaxyPlist");
+
+                case 24: return new RadiusMode1();
+                case 25: return new RadiusMode2();
+                case 26: return new Issue704();
+                case 27: return new Issue870();
+                case 28: return new DemoParticleFromFile("Phoenix");
                 
                 //case 0: return new DemoFlower();
                 //case 1: return new DemoGalaxy();
@@ -190,7 +193,7 @@ namespace tests
 	        // moving background
 	        m_background = CCSprite.spriteWithFile(TestResource.s_back3);
 	        addChild(m_background, 5);
-	        m_background.position = new CCPoint(s.width/2, s.height - 240);
+	        m_background.position = new CCPoint(s.width/2 - 120, s.height - 240);
 
 	        CCActionInterval move = CCMoveBy.actionWithDuration(4, new CCPoint(300,0) );
 	        CCFiniteTimeAction move_back = move.reverse();
@@ -295,7 +298,7 @@ namespace tests
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
-            m_emitter.position = new CCPoint(200, 100);
+            m_emitter.position = new CCPoint(s.width / 2, s.height / 2 - 30);
         }
     };
 
@@ -1203,45 +1206,44 @@ namespace tests
         }
     };
 
-    // todo: it is incorrect to load plist files
-    //public class Issue870 : ParticleDemo
-    //{
-    //    public override void onEnter()
-    //    {
-    //        base.onEnter();
+    public class Issue870 : ParticleDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
 
-    //        Color = new ccColor3B(0,0,0);
-    //        removeChild(m_background, true);
-    //        m_background = null;
+            Color = new ccColor3B(0,0,0);
+            removeChild(m_background, true);
+            m_background = null;
 
-    //        CCParticleSystemQuad system = new CCParticleSystemQuad();
-    //        system.initWithFile("Images/SpinningPeas.plist");
-    //        system.setTextureWithRect(CCTextureCache.sharedTextureCache().addImage("Images/particles"), new CCRect(0,0,32,32));
-    //        addChild(system, 10);
-    //        m_emitter = system;
+            CCParticleSystemQuad system = new CCParticleSystemQuad();
+            system.initWithFile("Images/SpinningPeasPlist");
+            system.setTextureWithRect(CCTextureCache.sharedTextureCache().addImage("Images/particles"), new CCRect(0,0,32,32));
+            addChild(system, 10);
+            m_emitter = system;
 
-    //        m_nIndex = 0;
-    //        schedule(updateQuads, 2.0f);
-    //    }
+            m_nIndex = 0;
+            schedule(updateQuads, 2.0f);
+        }
 
-    //    public void updateQuads(float dt)
-    //    {
-    //        m_nIndex = (m_nIndex + 1) % 4;
-    //        CCRect rect = new CCRect(m_nIndex * 32, 0, 32, 32);
-    //        CCParticleSystemQuad system = (CCParticleSystemQuad)m_emitter;
-    //        system.setTextureWithRect(m_emitter.Texture, rect);
-    //    }
+        public void updateQuads(float dt)
+        {
+            m_nIndex = (m_nIndex + 1) % 4;
+            CCRect rect = new CCRect(m_nIndex * 32, 0, 32, 32);
+            CCParticleSystemQuad system = (CCParticleSystemQuad)m_emitter;
+            system.setTextureWithRect(m_emitter.Texture, rect);
+        }
 
-    //    public override string title()
-    //    {
-    //        return "Issue 870. SubRect";
-    //    }
+        public override string title()
+        {
+            return "Issue 870. SubRect";
+        }
 
-    //    public string subtitle()
-    //    {
-    //        return "Every 2 seconds the particle should change";
-    //    }
+        public string subtitle()
+        {
+            return "Every 2 seconds the particle should change";
+        }
 
-    //    int m_nIndex;
-    //};
+        int m_nIndex;
+    };
 }

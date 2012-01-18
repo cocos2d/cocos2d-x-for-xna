@@ -925,99 +925,99 @@ namespace cocos2d
 	        CCTexture2D image;
 	        do 
 	        {
-		        int maxParticles = int.Parse(valueForKey("maxParticles", dictionary));
+		        int maxParticles = int.Parse(ChangeToZeroIfNull(valueForKey("maxParticles", dictionary)));
 		        // self, not super
 		        if(initWithTotalParticles((uint)maxParticles))
 		        {
 			        // angle
-			        m_fAngle = float.Parse(valueForKey("angle", dictionary));
-			        m_fAngleVar = float.Parse(valueForKey("angleVariance", dictionary));
+			        m_fAngle = float.Parse(ChangeToZeroIfNull(valueForKey("angle", dictionary)));
+			        m_fAngleVar = float.Parse(ChangeToZeroIfNull(valueForKey("angleVariance", dictionary)));
 
 			        // duration
-			        m_fDuration = float.Parse(valueForKey("duration", dictionary));
+			        m_fDuration = float.Parse(ChangeToZeroIfNull(valueForKey("duration", dictionary)));
 
 			        // blend function 
-			        m_tBlendFunc.src = (uint)int.Parse(valueForKey("blendFuncSource", dictionary));
-			        m_tBlendFunc.dst = (uint)int.Parse(valueForKey("blendFuncDestination", dictionary));
+			        m_tBlendFunc.src = (uint)int.Parse(ChangeToZeroIfNull(valueForKey("blendFuncSource", dictionary)));
+			        m_tBlendFunc.dst = (uint)int.Parse(ChangeToZeroIfNull(valueForKey("blendFuncDestination", dictionary)));
 
 			        // color
-			        m_tStartColor.r = float.Parse(valueForKey("startColorRed", dictionary));
-			        m_tStartColor.g = float.Parse(valueForKey("startColorGreen", dictionary));
-			        m_tStartColor.b = float.Parse(valueForKey("startColorBlue", dictionary));
-			        m_tStartColor.a = float.Parse(valueForKey("startColorAlpha", dictionary));
+			        m_tStartColor.r = float.Parse(ChangeToZeroIfNull(valueForKey("startColorRed", dictionary)));
+			        m_tStartColor.g = float.Parse(ChangeToZeroIfNull(valueForKey("startColorGreen", dictionary)));
+			        m_tStartColor.b = float.Parse(ChangeToZeroIfNull(valueForKey("startColorBlue", dictionary)));
+			        m_tStartColor.a = float.Parse(ChangeToZeroIfNull(valueForKey("startColorAlpha", dictionary)));
 
-			        m_tStartColorVar.r = float.Parse(valueForKey("startColorVarianceRed", dictionary));
-			        m_tStartColorVar.g = float.Parse(valueForKey("startColorVarianceGreen", dictionary));
-			        m_tStartColorVar.b = float.Parse(valueForKey("startColorVarianceBlue", dictionary));
-			        m_tStartColorVar.a = float.Parse(valueForKey("startColorVarianceAlpha", dictionary));
+			        m_tStartColorVar.r = float.Parse(ChangeToZeroIfNull(valueForKey("startColorVarianceRed", dictionary)));
+			        m_tStartColorVar.g = float.Parse(ChangeToZeroIfNull(valueForKey("startColorVarianceGreen", dictionary)));
+			        m_tStartColorVar.b = float.Parse(ChangeToZeroIfNull(valueForKey("startColorVarianceBlue", dictionary)));
+			        m_tStartColorVar.a = float.Parse(ChangeToZeroIfNull(valueForKey("startColorVarianceAlpha", dictionary)));
 
-			        m_tEndColor.r = float.Parse(valueForKey("finishColorRed", dictionary));
-			        m_tEndColor.g = float.Parse(valueForKey("finishColorGreen", dictionary));
-			        m_tEndColor.b = float.Parse(valueForKey("finishColorBlue", dictionary));
-			        m_tEndColor.a = float.Parse(valueForKey("finishColorAlpha", dictionary));
+			        m_tEndColor.r = float.Parse(ChangeToZeroIfNull(valueForKey("finishColorRed", dictionary)));
+			        m_tEndColor.g = float.Parse(ChangeToZeroIfNull(valueForKey("finishColorGreen", dictionary)));
+			        m_tEndColor.b = float.Parse(ChangeToZeroIfNull(valueForKey("finishColorBlue", dictionary)));
+			        m_tEndColor.a = float.Parse(ChangeToZeroIfNull(valueForKey("finishColorAlpha", dictionary)));
 
-			        m_tEndColorVar.r = float.Parse(valueForKey("finishColorVarianceRed", dictionary));
-			        m_tEndColorVar.g = float.Parse(valueForKey("finishColorVarianceGreen", dictionary));
-			        m_tEndColorVar.b = float.Parse(valueForKey("finishColorVarianceBlue", dictionary));
-			        m_tEndColorVar.a = float.Parse(valueForKey("finishColorVarianceAlpha", dictionary));
+			        m_tEndColorVar.r = float.Parse(ChangeToZeroIfNull(valueForKey("finishColorVarianceRed", dictionary)));
+			        m_tEndColorVar.g = float.Parse(ChangeToZeroIfNull(valueForKey("finishColorVarianceGreen", dictionary)));
+			        m_tEndColorVar.b = float.Parse(ChangeToZeroIfNull(valueForKey("finishColorVarianceBlue", dictionary)));
+			        m_tEndColorVar.a = float.Parse(ChangeToZeroIfNull(valueForKey("finishColorVarianceAlpha", dictionary)));
 
 			        // particle size
-			        m_fStartSize = float.Parse(valueForKey("startParticleSize", dictionary));
-			        m_fStartSizeVar = float.Parse(valueForKey("startParticleSizeVariance", dictionary));
-			        m_fEndSize = float.Parse(valueForKey("finishParticleSize", dictionary));
-			        m_fEndSizeVar = float.Parse(valueForKey("finishParticleSizeVariance", dictionary));
+			        m_fStartSize = float.Parse(ChangeToZeroIfNull(valueForKey("startParticleSize", dictionary)));
+			        m_fStartSizeVar = float.Parse(ChangeToZeroIfNull(valueForKey("startParticleSizeVariance", dictionary)));
+			        m_fEndSize = float.Parse(ChangeToZeroIfNull(valueForKey("finishParticleSize", dictionary)));
+			        m_fEndSizeVar = float.Parse(ChangeToZeroIfNull(valueForKey("finishParticleSizeVariance", dictionary)));
 
 			        // position
-                    float x = float.Parse(valueForKey("sourcePositionx", dictionary));
-                    float y = float.Parse(valueForKey("sourcePositiony", dictionary));
+                    float x = float.Parse(ChangeToZeroIfNull(valueForKey("sourcePositionx", dictionary)));
+                    float y = float.Parse(ChangeToZeroIfNull(valueForKey("sourcePositiony", dictionary)));
                     this.position = new CCPoint(x,y);			
-                    m_tPosVar.x = float.Parse(valueForKey("sourcePositionVariancex", dictionary));
-			        m_tPosVar.y = float.Parse(valueForKey("sourcePositionVariancey", dictionary));
+                    m_tPosVar.x = float.Parse(ChangeToZeroIfNull(valueForKey("sourcePositionVariancex", dictionary)));
+			        m_tPosVar.y = float.Parse(ChangeToZeroIfNull(valueForKey("sourcePositionVariancey", dictionary)));
 
 			        // Spinning
-			        m_fStartSpin = float.Parse(valueForKey("rotationStart", dictionary));
-			        m_fStartSpinVar = float.Parse(valueForKey("rotationStartVariance", dictionary));
-			        m_fEndSpin= float.Parse(valueForKey("rotationEnd", dictionary));
-			        m_fEndSpinVar= float.Parse(valueForKey("rotationEndVariance", dictionary));
+			        m_fStartSpin = float.Parse(ChangeToZeroIfNull(valueForKey("rotationStart", dictionary)));
+			        m_fStartSpinVar = float.Parse(ChangeToZeroIfNull(valueForKey("rotationStartVariance", dictionary)));
+			        m_fEndSpin= float.Parse(ChangeToZeroIfNull(valueForKey("rotationEnd", dictionary)));
+			        m_fEndSpinVar= float.Parse(ChangeToZeroIfNull(valueForKey("rotationEndVariance", dictionary)));
 
-			        m_nEmitterMode = int.Parse(valueForKey("emitterType", dictionary));
+			        m_nEmitterMode = int.Parse(ChangeToZeroIfNull(valueForKey("emitterType", dictionary)));
 
 			        // Mode A: Gravity + tangential accel + radial accel
 			        if( m_nEmitterMode == (int)eParticleMode.kCCParticleModeGravity ) 
 			        {
 				        // gravity
-				        modeA.gravity.x = float.Parse(valueForKey("gravityx", dictionary));
-				        modeA.gravity.y = float.Parse(valueForKey("gravityy", dictionary));
+				        modeA.gravity.x = float.Parse(ChangeToZeroIfNull(valueForKey("gravityx", dictionary)));
+				        modeA.gravity.y = float.Parse(ChangeToZeroIfNull(valueForKey("gravityy", dictionary)));
 
 				        // speed
-				        modeA.speed = float.Parse(valueForKey("speed", dictionary));
-				        modeA.speedVar = float.Parse(valueForKey("speedVariance", dictionary));
+				        modeA.speed = float.Parse(ChangeToZeroIfNull(valueForKey("speed", dictionary)));
+				        modeA.speedVar = float.Parse(ChangeToZeroIfNull(valueForKey("speedVariance", dictionary)));
 
                         string pszTmp;
 				        // radial acceleration
                         pszTmp = valueForKey("radialAcceleration", dictionary);
-                        modeA.radialAccel = (pszTmp != null) ? float.Parse(pszTmp) : 0;
+                        modeA.radialAccel = (pszTmp != null) ? float.Parse(ChangeToZeroIfNull(pszTmp)) : 0;
 
                         pszTmp = valueForKey("radialAccelVariance", dictionary);
-				        modeA.radialAccelVar = (pszTmp != null) ? float.Parse(pszTmp) : 0;
+				        modeA.radialAccelVar = (pszTmp != null) ? float.Parse(ChangeToZeroIfNull(pszTmp)) : 0;
 
 				        // tangential acceleration
                         pszTmp = valueForKey("tangentialAcceleration", dictionary);
-				        modeA.tangentialAccel = (pszTmp != null) ? float.Parse(pszTmp) : 0;
+				        modeA.tangentialAccel = (pszTmp != null) ? float.Parse(ChangeToZeroIfNull(pszTmp)) : 0;
 
                         pszTmp = valueForKey("tangentialAccelVariance", dictionary);
-				        modeA.tangentialAccelVar = (pszTmp != null) ? float.Parse(pszTmp) : 0;
+				        modeA.tangentialAccelVar = (pszTmp != null) ? float.Parse(ChangeToZeroIfNull(pszTmp)) : 0;
 			        }
 
 			        // or Mode B: radius movement
 			        else if( m_nEmitterMode == (int)eParticleMode.kCCParticleModeRadius ) 
 			        {
-				        modeB.startRadius = float.Parse(valueForKey("maxRadius", dictionary));
-				        modeB.startRadiusVar = float.Parse(valueForKey("maxRadiusVariance", dictionary));
-				        modeB.endRadius = float.Parse(valueForKey("minRadius", dictionary));
+				        modeB.startRadius = float.Parse(ChangeToZeroIfNull(valueForKey("maxRadius", dictionary)));
+				        modeB.startRadiusVar = float.Parse(ChangeToZeroIfNull(valueForKey("maxRadiusVariance", dictionary)));
+				        modeB.endRadius = float.Parse(ChangeToZeroIfNull(valueForKey("minRadius", dictionary)));
 				        modeB.endRadiusVar = 0;
-				        modeB.rotatePerSecond = float.Parse(valueForKey("rotatePerSecond", dictionary));
-				        modeB.rotatePerSecondVar = float.Parse(valueForKey("rotatePerSecondVariance", dictionary));
+				        modeB.rotatePerSecond = float.Parse(ChangeToZeroIfNull(valueForKey("rotatePerSecond", dictionary)));
+				        modeB.rotatePerSecondVar = float.Parse(ChangeToZeroIfNull(valueForKey("rotatePerSecondVariance", dictionary)));
 
 			        } else {
 				        Debug.Assert(false, "Invalid emitterType in config file");
@@ -1025,8 +1025,8 @@ namespace cocos2d
 			        }
 
 			        // life span
-			        m_fLife = float.Parse(valueForKey("particleLifespan", dictionary));
-			        m_fLifeVar = float.Parse(valueForKey("particleLifespanVariance", dictionary));
+			        m_fLife = float.Parse(ChangeToZeroIfNull(valueForKey("particleLifespan", dictionary)));
+			        m_fLifeVar = float.Parse(ChangeToZeroIfNull(valueForKey("particleLifespanVariance", dictionary)));
 
 			        // emission Rate
 			        m_fEmissionRate = m_uTotalParticles / m_fLife;
@@ -1476,6 +1476,15 @@ namespace cocos2d
                 return dict.TryGetValue(key, out val) ? (val as string) : "";
             }
             return "";
+        }
+
+        string ChangeToZeroIfNull(string str)
+        {
+            if ("" == str)
+            {
+                str = "0";
+            }
+            return str;
         }
     };
 }

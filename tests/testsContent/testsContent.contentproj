@@ -920,6 +920,71 @@
       <Importer>TextImporter</Importer>
       <Processor>TextProcessor</Processor>
     </Compile>
+    <Compile Include="Images\Phoenix.plist">
+      <Name>Phoenix</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+      <SubType>Designer</SubType>
+    </Compile>
+    <Compile Include="Images\BoilingFoam.plist">
+      <Name>BoilingFoam</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\BurstPipe.plist">
+      <Name>BurstPipe</Name>
+      <Processor>TextProcessor</Processor>
+      <Importer>TextImporter</Importer>
+    </Compile>
+    <Compile Include="Images\debian.plist">
+      <Name>debian</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\ExplodingRing.plist">
+      <Name>ExplodingRing</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\FlowerPlist.plist">
+      <Name>FlowerPlist</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\GalaxyPlist.plist">
+      <Name>GalaxyPlist</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\LavaFlow.plist">
+      <Name>LavaFlow</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\Spiral.plist">
+      <Name>Spiral</Name>
+      <Importer>TextImporter</Importer>
+    </Compile>
+    <Compile Include="Images\Upsidedown.plist">
+      <Name>Upsidedown</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\CometPlist.plist">
+      <Name>CometPlist</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\SpinningPeasPlist.plist">
+      <Name>SpinningPeasPlist</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\SpookyPeasPlist.plist">
+      <Name>SpookyPeasPlist</Name>
+      <Importer>TextImporter</Importer>
+      <Processor>TextProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="animations\ghosts.plist">
@@ -952,6 +1017,7 @@
       <Name>grossini_family</Name>
       <Importer>TextImporter</Importer>
       <Processor>TextProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
     <Compile Include="animations\grossini_gray.plist">
       <Name>grossini_gray</Name>
