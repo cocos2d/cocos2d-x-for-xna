@@ -130,25 +130,6 @@ namespace cocos2d
 
             // base.draw();
 
-            //for (int i = 0; i < m_uParticleIdx; i++)
-            //{
-            //    VertexPositionColor[] vertices = new VertexPositionColor[2];
-            //    vertices[0] = new VertexPositionColor(new Vector3(m_pVertices[i].pos.x, m_pVertices[i].pos.y, 0),
-            //                                          new Color(m_pVertices[i].color.r, m_pVertices[i].color.g, m_pVertices[i].color.b, m_pVertices[i].color.a));
-            //    vertices[1] = new VertexPositionColor(new Vector3(m_pVertices[i].pos.x + 3, m_pVertices[i].pos.y + 3, 0),
-            //                                          new Color(m_pVertices[i].color.r, m_pVertices[i].color.g, m_pVertices[i].color.b, m_pVertices[i].color.a));
-
-            //    CCApplication app = CCApplication.sharedApplication();
-            //    app.basicEffect.TextureEnabled = false;
-            //    app.basicEffect.VertexColorEnabled = true;
-            //    foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
-            //    {
-            //        pass.Apply();
-
-            //        app.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, vertices, 0, 1);
-            //    }
-            //}
-
         //    if (m_uParticleIdx==0)
         //    {
         //        return;
