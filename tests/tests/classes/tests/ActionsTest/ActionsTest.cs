@@ -386,9 +386,9 @@ namespace tests
 	        CCFiniteTimeAction actionByBack = actionBy.reverse();
 
 	        m_tamara.runAction(CCSequence.actions(actionTo, actionToBack));
-	        m_grossini.runAction(CCSequence.actions(actionBy, actionByBack));
+            m_grossini.runAction(CCSequence.actions(actionBy, actionByBack));
 
-	        m_kathia.runAction(CCSequence.actions(actionBy2, actionBy2.reverse()));
+            m_kathia.runAction(CCSequence.actions(actionBy2, actionBy2.reverse()));
         }
 
         public override string subtitle()

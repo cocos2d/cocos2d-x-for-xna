@@ -111,7 +111,7 @@ namespace cocos2d
             }
             else
             {
-                m_fStartSkewY = m_fStartSkewY - 360f;
+                m_fStartSkewY = m_fStartSkewY % -360f;
             }
 
             m_fDeltaY = m_fEndSkewY - m_fStartSkewY;
