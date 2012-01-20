@@ -42,7 +42,10 @@ namespace tests
                 case 10: return new DemoRain();
                 case 11: return new DemoBigFlower();
                 case 12: return new DemoRotFlower();
+
+                // this test depends on opengl, can't be realized in xna
                 // case 13: return new DemoModernArt();
+                
                 case 13: return new DemoRing();
                 case 14: return new ParallaxParticle();
                 case 15: return new DemoParticleFromFile("BoilingFoam");
@@ -758,87 +761,87 @@ namespace tests
     };
 
     // todo: CCParticleSystemPoint::draw() hasn't been implemented.
-    //public class DemoModernArt : ParticleDemo
-    //{
-    //    public override void onEnter()
-    //    {
-    //        base.onEnter();
+    public class DemoModernArt : ParticleDemo
+    {
+        public override void onEnter()
+        {
+            base.onEnter();
 
-    //        m_emitter = new CCParticleSystemPoint();
-    //        m_emitter.initWithTotalParticles(1000);
-    //        //m_emitter.autorelease();
+            m_emitter = new CCParticleSystemPoint();
+            m_emitter.initWithTotalParticles(1000);
+            //m_emitter.autorelease();
 
-    //        m_background.addChild(m_emitter, 10);
-    //        ////m_emitter.release();
-	
-    //        CCSize s = CCDirector.sharedDirector().getWinSize();
-	
-    //        // duration
-    //        m_emitter.Duration = -1;
-	
-    //        // gravity
-    //        m_emitter.setGravity(new CCPoint(0,0));
-	
-    //        // angle
-    //        m_emitter.Angle = 0;
-    //        m_emitter.AngleVar = 360;
-	
-    //        // radial
-    //        m_emitter.setRadialAccel(70);
-    //        m_emitter.setRadialAccelVar(10);
-	
-    //        // tagential
-    //        m_emitter.setTangentialAccel(80);
-    //        m_emitter.setTangentialAccelVar(0);
-	
-    //        // speed of particles
-    //        m_emitter.setSpeed(50);
-    //        m_emitter.setSpeedVar(10);
-	
-    //        // emitter position
-    //        m_emitter.position = new CCPoint( s.width/2, s.height/2);
-    //        m_emitter.PosVar = new CCPoint(0,0);
-	
-    //        // life of particles
-    //        m_emitter.Life = 2.0f;
-    //        m_emitter.LifeVar = 0.3f;
-	
-    //        // emits per frame
-    //        m_emitter.EmissionRate = m_emitter.TotalParticles/m_emitter.Life;
-	
-    //        // color of particles
-    //        ccColor4F startColor = new ccColor4F(0.5f, 0.5f, 0.5f, 1.0f);
-    //        m_emitter.StartColor = startColor;
-	
-    //        ccColor4F startColorVar = new ccColor4F(0.5f, 0.5f, 0.5f, 1.0f);
-    //        m_emitter.StartColorVar = startColorVar;
-	
-    //        ccColor4F endColor = new ccColor4F(0.1f, 0.1f, 0.1f, 0.2f);
-    //        m_emitter.EndColor = endColor;
-	
-    //        ccColor4F endColorVar = new ccColor4F(0.1f, 0.1f, 0.1f, 0.2f);	
-    //        m_emitter.EndColorVar = endColorVar;
-	
-    //        // size, in pixels
-    //        m_emitter.StartSize = 1.0f;
-    //        m_emitter.StartSizeVar = 1.0f;
-    //        m_emitter.EndSize = 32.0f;
-    //        m_emitter.EndSizeVar = 8.0f;
-	
-    //        // texture
-    //        m_emitter.Texture = CCTextureCache.sharedTextureCache().addImage(TestResource.s_fire);
-	
-    //        // additive
-    //        m_emitter.IsBlendAdditive = false;
-	
-    //        setEmitterPosition();
-    //    }
+            m_background.addChild(m_emitter, 10);
+            ////m_emitter.release();
 
-    //    public override string title()
-    //    {
-    //        return "Varying size";
-    //    }
-    //};
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+
+            // duration
+            m_emitter.Duration = -1;
+
+            // gravity
+            m_emitter.setGravity(new CCPoint(0, 0));
+
+            // angle
+            m_emitter.Angle = 0;
+            m_emitter.AngleVar = 360;
+
+            // radial
+            m_emitter.setRadialAccel(70);
+            m_emitter.setRadialAccelVar(10);
+
+            // tagential
+            m_emitter.setTangentialAccel(80);
+            m_emitter.setTangentialAccelVar(0);
+
+            // speed of particles
+            m_emitter.setSpeed(50);
+            m_emitter.setSpeedVar(10);
+
+            // emitter position
+            m_emitter.position = new CCPoint(s.width / 2, s.height / 2);
+            m_emitter.PosVar = new CCPoint(0, 0);
+
+            // life of particles
+            m_emitter.Life = 2.0f;
+            m_emitter.LifeVar = 0.3f;
+
+            // emits per frame
+            m_emitter.EmissionRate = m_emitter.TotalParticles / m_emitter.Life;
+
+            // color of particles
+            ccColor4F startColor = new ccColor4F(0.5f, 0.5f, 0.5f, 1.0f);
+            m_emitter.StartColor = startColor;
+
+            ccColor4F startColorVar = new ccColor4F(0.5f, 0.5f, 0.5f, 1.0f);
+            m_emitter.StartColorVar = startColorVar;
+
+            ccColor4F endColor = new ccColor4F(0.1f, 0.1f, 0.1f, 0.2f);
+            m_emitter.EndColor = endColor;
+
+            ccColor4F endColorVar = new ccColor4F(0.1f, 0.1f, 0.1f, 0.2f);
+            m_emitter.EndColorVar = endColorVar;
+
+            // size, in pixels
+            m_emitter.StartSize = 1.0f;
+            m_emitter.StartSizeVar = 1.0f;
+            m_emitter.EndSize = 32.0f;
+            m_emitter.EndSizeVar = 8.0f;
+
+            // texture
+            m_emitter.Texture = CCTextureCache.sharedTextureCache().addImage(TestResource.s_fire);
+
+            // additive
+            m_emitter.IsBlendAdditive = false;
+
+            setEmitterPosition();
+        }
+
+        public override string title()
+        {
+            return "Varying size";
+        }
+    };
 
     public class DemoRing : ParticleDemo
     {
