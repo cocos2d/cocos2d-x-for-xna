@@ -740,10 +740,10 @@ namespace cocos2d
         /// @return
         /// </summary>
         /// <returns>the Action the with the given tag</returns>
-        public CCAction getActionByTag(uint tag)
+        public CCAction getActionByTag(int tag)
         {
             Debug.Assert((int)tag != (int)NodeTag.kCCNodeTagInvalid, "Invalid tag");
-            return CCActionManager.sharedManager().getActionByTag(tag, this);
+            return CCActionManager.sharedManager().getActionByTag((uint)tag, this);
         }
 
         /// <summary>
@@ -1153,7 +1153,8 @@ namespace cocos2d
         {
             get
             {
-                return m_fScale;
+                Debug.Assert(m_fScaleX == m_fScaleY, "CCNode#scale. ScaleX != ScaleY. Don't know which one to return");
+                return m_fScaleX;
             }
             set
             {

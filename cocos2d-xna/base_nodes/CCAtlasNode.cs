@@ -150,7 +150,7 @@ namespace cocos2d
             }
         }
 
-        public override void visit()
+        public override void draw()
         {
             foreach (CCSprite item in m_pChildren)
             {
@@ -158,7 +158,7 @@ namespace cocos2d
                 item.Opacity = m_cOpacity;
             }
 
-            base.visit();
+            base.draw();
         }
 
         public CCAtlasNode()

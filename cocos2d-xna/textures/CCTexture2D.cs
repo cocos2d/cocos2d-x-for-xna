@@ -257,7 +257,7 @@ namespace cocos2d
             m_fMaxS = m_tContentSize.width / (float)(POTWide);
             m_fMaxT = m_tContentSize.height / (float)(POTHigh);
 
-            //m_bHasPremultipliedAlpha = false;
+            m_bHasPremultipliedAlpha = true;
 
             return true;
         }

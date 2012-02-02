@@ -155,19 +155,19 @@ namespace cocos2d
             {
                 base.selected();
 
-                //CCAction action = getActionByTag(kZoomActionTag);
-                //if (action != null)
-                //{
-                //    this.stopAction(action);
-                //}
-                //else
-                //{
-                //    m_fOriginalScale = this.scale;
-                //}
+                CCAction action = getActionByTag(unchecked((int)kZoomActionTag));
+                if (action != null)
+                {
+                    this.stopAction(action);
+                }
+                else
+                {
+                    m_fOriginalScale = this.scale;
+                }
 
-                //CCAction zoomAction = CCScaleTo.actionWithDuration(0.1f, m_fOriginalScale * 1.2f);
-                ////zoomAction.tag = (int)kZoomActionTag;
-                //this.runAction(zoomAction);
+                CCAction zoomAction = CCScaleTo.actionWithDuration(0.1f, m_fOriginalScale * 1.2f);
+                zoomAction.tag = unchecked((int)kZoomActionTag);
+                this.runAction(zoomAction);
             }
         }
 
