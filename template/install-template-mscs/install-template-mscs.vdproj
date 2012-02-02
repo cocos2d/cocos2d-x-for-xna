@@ -443,7 +443,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:install-template-mscs"
         "ProductCode" = "8:{15966CC9-8550-41BC-B643-65733A510F2C}"
-        "PackageCode" = "8:{06F49A3A-15AB-4973-9A70-8FBFCACBABB3}"
+        "PackageCode" = "8:{175B428C-F35A-4194-824C-3CBF2097A504}"
         "UpgradeCode" = "8:{407A07A1-2C9E-4818-ABE3-350D944315E3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
