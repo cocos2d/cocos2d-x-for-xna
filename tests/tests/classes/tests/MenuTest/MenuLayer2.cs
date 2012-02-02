@@ -50,7 +50,7 @@ namespace tests
         {
             for (int i = 0; i < 2; i++)
             {
-                CCMenu menu = new CCMenu();// (CCMenu)getChildByTag(100 + i);
+                CCMenu menu = (CCMenu)getChildByTag(100 + i);
                 menu.position = m_centeredMenu;
                 if (i == 0)
                 {
@@ -65,7 +65,7 @@ namespace tests
                     // TIP: but padding is configurable
                     menu.alignItemsHorizontallyWithPadding(40);
                     CCPoint p = menu.position;
-                    menu.position = new CCPoint(p.x, p.y + 30);
+                    menu.position = new CCPoint(p.x - 0, p.y - 30);
                 }
             }
         }
@@ -120,9 +120,6 @@ namespace tests
         {
             CCLayerMultiplex m = m_pParent as CCLayerMultiplex;
             m.switchTo(0);
-            ((CCLayerMultiplex)m_pParent).switchTo(0);
-
-            //((CCLayerMultiplex)m_pParent).switchTo(0);
         }
         public void menuCallbackOpacity(CCObject pSender)
         {

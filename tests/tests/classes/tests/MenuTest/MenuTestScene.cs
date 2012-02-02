@@ -47,7 +47,6 @@ namespace tests
             CCLayerMultiplex layer = CCLayerMultiplex.layerWithLayers(pLayer1, pLayer2, pLayer3, pLayer4);
             addChild(layer, 0);
 
-
             CCDirector.sharedDirector().replaceScene(this);
         }
     }

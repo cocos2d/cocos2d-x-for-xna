@@ -245,103 +245,184 @@ namespace cocos2d
         /** align items in rows of columns */
         public void alignItemsInColumns(params int[] columns)
         {
-            //    vector<unsigned int> rows;
-            //while (columns != null)
-            //{
-            //    rows.push_back(columns);
-            //    columns = va_arg(args, uint);
-            //}
+            int[] rows = columns;
 
-            //int height = -5;
-            //uint row = 0;
-            //uint rowHeight = 0;
-            //uint columnsOccupied = 0;
-            //uint rowColumns;
+            int height = -5;
+            int row = 0;
+            int rowHeight = 0;
+            int columnsOccupied = 0;
+            int rowColumns;
 
-            //if (m_pChildren != null  && m_pChildren.Count > 0)
-            //{
-            //    CCObject pObject = null;
-            //    CCARRAY_FOREACH(m_pChildren, pObject)
-            //    {
-            //        CCNode pChild = (CCNode) pObject;
-            //        if (pChild)
-            //        {
-            //            assert(row < rows.size());
+            if (m_pChildren != null  && m_pChildren.Count > 0)
+            {
+                foreach (CCNode pChild in m_pChildren)
+                {
+                    if (null != pChild)
+                    {
+                        Debug.Assert(row < rows.Length);
 
-            //            rowColumns = rows[row];
-            //            // can not have zero columns on a row
-            //            assert(rowColumns);
+                        rowColumns = rows[row];
+                        // can not have zero columns on a row
+                        Debug.Assert(rowColumns > 0);
 
-            //            float tmp = pChild->getContentSize().height;
-            //            rowHeight = (unsigned int)((rowHeight >= tmp || isnan(tmp)) ? rowHeight : tmp);
+                        float tmp = pChild.contentSize.height;
+                        rowHeight = (int)((rowHeight >= tmp) ? rowHeight : tmp);
 
-            //            ++columnsOccupied;
-            //            if (columnsOccupied >= rowColumns)
-            //            {
-            //                height += rowHeight + 5;
+                        ++columnsOccupied;
+                        if (columnsOccupied >= rowColumns)
+                        {
+                            height += rowHeight + 5;
 
-            //                columnsOccupied = 0;
-            //                rowHeight = 0;
-            //                ++row;
-            //            }
-            //        }
-            //    }
-            //}	
+                            columnsOccupied = 0;
+                            rowHeight = 0;
+                            ++row;
+                        }
+                    }
+                }
+            }	
 
-            //// check if too many rows/columns for available menu items
-            ////assert(! columnsOccupied);
+            // check if too many rows/columns for available menu items
+            //assert(! columnsOccupied);
 
-            //CCSize winSize = CCDirector.sharedDirector().getWinSize();
+            CCSize winSize = CCDirector.sharedDirector().getWinSize();
 
-            //row = 0;
-            //rowHeight = 0;
-            //rowColumns = 0;
-            //float w = 0.0f;
-            //float x = 0.0f;
-            //float y = (float)(height / 2);
+            row = 0;
+            rowHeight = 0;
+            rowColumns = 0;
+            float w = 0.0f;
+            float x = 0.0f;
+            float y = (float)(height / 2);
 
-            //if (m_pChildren != null && m_pChildren.Count > 0)
-            //{
-            //    CCObject pObject = null;
-            //    CCARRAY_FOREACH(m_pChildren, pObject)
-            //    {
-            //        CCNode pChild = (CCNode) pObject;
-            //        if (pChild != null)
-            //        {
-            //            if (rowColumns == 0)
-            //            {
-            //                rowColumns = rows[row];
-            //                w = winSize.width / (1 + rowColumns);
-            //                x = w;
-            //            }
+            if (m_pChildren != null && m_pChildren.Count > 0)
+            {
+                foreach (CCNode pChild in m_pChildren)
+                {
+                    if (pChild != null)
+                    {
+                        if (rowColumns == 0)
+                        {
+                            rowColumns = rows[row];
+                            w = winSize.width / (1 + rowColumns);
+                            x = w;
+                        }
 
-            //            float tmp = pChild.contentSize.height;
-            //            rowHeight = (uint)((rowHeight >= tmp || isnan(tmp)) ? rowHeight : tmp);
+                        float tmp = pChild.contentSize.height;
+                        rowHeight = (int)((rowHeight >= tmp) ? rowHeight : tmp);
 
-            //            pChild.position = new CCPoint(x - winSize.width / 2,
-            //                                   y - pChild.contentSize.height / 2);
+                        pChild.position = new CCPoint(x - winSize.width / 2,
+                                               y - pChild.contentSize.height / 2);
 
-            //            x += w;
-            //            ++columnsOccupied;
+                        x += w;
+                        ++columnsOccupied;
 
-            //            if (columnsOccupied >= rowColumns)
-            //            {
-            //                y -= rowHeight + 5;
+                        if (columnsOccupied >= rowColumns)
+                        {
+                            y -= rowHeight + 5;
 
-            //                columnsOccupied = 0;
-            //                rowColumns = 0;
-            //                rowHeight = 0;
-            //                ++row;
-            //            }
-            //        }
-            //    }
-            //}	
+                            columnsOccupied = 0;
+                            rowColumns = 0;
+                            rowHeight = 0;
+                            ++row;
+                        }
+                    }
+                }
+            }	
         }
 
         /** align items in columns of rows */
         public void alignItemsInRows(params int[] rows)
         {
-            throw new NotImplementedException();
+            int[] columns = rows;
+
+            List<int> columnWidths = new List<int>();
+		    List<int> columnHeights = new List<int>();
+
+		    int width = -10;
+		    int columnHeight = -5;
+		    int column = 0;
+		    int columnWidth = 0;
+		    int rowsOccupied = 0;
+		    int columnRows;
+
+		    if (null != m_pChildren && m_pChildren.Count > 0)
+		    {
+                foreach (CCNode pChild in m_pChildren)
+                {
+                    if (null != pChild)
+                    {
+                        // check if too many menu items for the amount of rows/columns
+				        Debug.Assert(column < columns.Length);
+
+				        columnRows = columns[column];
+				        // can't have zero rows on a column
+				        Debug.Assert(columnRows > 0);
+
+				        // columnWidth = fmaxf(columnWidth, [item contentSize].width);
+				        float tmp = pChild.contentSize.width;
+				        columnWidth = (int)((columnWidth >= tmp) ? columnWidth : tmp);
+
+				        columnHeight += (int)(pChild.contentSize.height + 5);
+				        ++rowsOccupied;
+
+				        if (rowsOccupied >= columnRows)
+				        {
+					        columnWidths.Add(columnWidth);
+					        columnHeights.Add(columnHeight);
+					        width += columnWidth + 10;
+
+					        rowsOccupied = 0;
+					        columnWidth = 0;
+					        columnHeight = -5;
+					        ++column;
+				        }
+                    }
+                }
+		    }
+
+		    // check if too many rows/columns for available menu items.
+		    Debug.Assert(0 == rowsOccupied);
+
+		    CCSize winSize = CCDirector.sharedDirector().getWinSize();
+
+		    column = 0;
+		    columnWidth = 0;
+		    columnRows = 0;
+		    float x = (float)(-width / 2);
+		    float y = 0.0f;
+
+            if (null != m_pChildren && m_pChildren.Count > 0)
+		    {
+                foreach (CCNode pChild in m_pChildren)
+                {
+                    if (null != pChild)
+                    {
+                        if (columnRows == 0)
+				        {
+					        columnRows = columns[column];
+					        y = (float) columnHeights[column];
+				        }
+
+				        // columnWidth = fmaxf(columnWidth, [item contentSize].width);
+				        float tmp = pChild.contentSize.width;
+				        columnWidth = (int)((columnWidth >= tmp) ? columnWidth : tmp);
+
+				        pChild.position = new CCPoint(x + columnWidths[column] / 2,
+					                                  y - winSize.height / 2);
+
+				        y -= pChild.contentSize.height + 10;
+				        ++rowsOccupied;
+
+				        if (rowsOccupied >= columnRows)
+				        {
+					        x += columnWidth + 5;
+					        rowsOccupied = 0;
+					        columnRows = 0;
+					        columnWidth = 0;
+					        ++column;
+				        }
+                    }
+                }
+		    }
         }
 
         public override void registerWithTouchDispatcher()
