@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
+  <Identifier Id="Cocos2d_xna.VSIX..aef40efb-983e-44cb-bf97-eeeabfb42d8c">
+    <Name>Cocos2d_xna Application</Name>
+    <Author />
+    <Version>0.8</Version>
+    <Description xml:space="preserve">Create a cocos2d-xna project.</Description>
+    <Locale>1033</Locale>
+    <Icon>__Template_small.png</Icon>
+    <PreviewImage>__Template_large.png</PreviewImage>
+    <SupportedProducts>
+      <VisualStudio Version="10.0">
+        <Edition>Ultimate</Edition>
+        <Edition>Premium</Edition>
+        <Edition>Pro</Edition>
+        <Edition>Express_All</Edition>
+      </VisualStudio>
+    </SupportedProducts>
+    <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.0" />
+  </Identifier>
+  <References />
+  <Content>
+    <Assembly AssemblyName="|Cocos2d-xna.Wizard;AssemblyName|">|Cocos2d-xna.Wizard|</Assembly>
+    <ProjectTemplate>ProjectTemplates</ProjectTemplate>
+  </Content>
+</Vsix>
