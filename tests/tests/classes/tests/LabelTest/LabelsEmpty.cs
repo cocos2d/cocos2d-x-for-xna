@@ -18,9 +18,9 @@ namespace tests
             label1.position = new CCPoint(s.width / 2, s.height - 100);
 
             // CCLabelTTF
-            //CCLabelTTF label2 = CCLabelTTF.labelWithString("", "Arial", 24);
-            //addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
-            //label2.position = new CCPoint(s.width / 2, s.height / 2);
+            CCLabelTTF label2 = CCLabelTTF.labelWithString("", "Arial", 24);
+            addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
+            label2.position = new CCPoint(s.width / 2, s.height / 2);
 
             // CCLabelAtlas
             CCLabelAtlas label3 = CCLabelAtlas.labelWithString("", "fonts/fnt/images/tuffy_bold_italic-charmap", 48, 64, ' ');
@@ -35,13 +35,13 @@ namespace tests
         public void updateStrings(float dt)
         {
             CCLabelBMFont label1 = (CCLabelBMFont)getChildByTag((int)TagSprite.kTagBitmapAtlas1);
-            //CCLabelTTF label2 = (CCLabelTTF)getChildByTag((int)TagSprite.kTagBitmapAtlas2);
+            CCLabelTTF label2 = (CCLabelTTF)getChildByTag((int)TagSprite.kTagBitmapAtlas2);
             CCLabelAtlas label3 = (CCLabelAtlas)getChildByTag((int)TagSprite.kTagBitmapAtlas3);
 
             if (!setEmpty)
             {
                 label1.setString("not empty");
-                //label2.setString("not empty");
+                label2.setString("not empty");
                 label3.setString("hi");
 
                 setEmpty = true;
@@ -49,7 +49,7 @@ namespace tests
             else
             {
                 label1.setString("");
-                //label2.setString("");
+                label2.setString("");
                 label3.setString("");
 
                 setEmpty = false;

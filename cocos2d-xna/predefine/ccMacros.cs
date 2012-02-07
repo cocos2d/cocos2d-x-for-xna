@@ -23,6 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System;
+using Microsoft.Xna.Framework.Graphics;
 namespace cocos2d
 {
     public class ccMacros
@@ -149,6 +150,7 @@ namespace cocos2d
         public static readonly string CC_RETINA_DISPLAY_FILENAME_SUFFIX = "-hd";
         public static readonly float CC_DIRECTOR_FPS_INTERVAL = 0.5f;
 
+
         /*
          * Macros defined in CCSprite.h
          */
@@ -157,13 +159,13 @@ namespace cocos2d
 
         // The following macros are defined for opengl es, they are not needed.
 
-        // #if CC_OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA
-        // #define CC_BLEND_SRC GL_ONE
-        // #define CC_BLEND_DST GL_ONE_MINUS_SRC_ALPHA
-        // #else
-        // #define CC_BLEND_SRC GL_SRC_ALPHA
-        // #define CC_BLEND_DST GL_ONE_MINUS_SRC_ALPHA
-        // #endif
+#if CC_OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA
+        public static readonly int CC_BLEND_SRC = OGLES.GL_ONE;
+        public static readonly int CC_BLEND_DST = OGLES.GL_ONE_MINUS_SRC_ALPHA;
+#else
+         public int CC_BLEND_SRC= OGLES.GL_SRC_ALPHA;
+         public int CC_BLEND_DST=  OGLES.GL_ONE_MINUS_SRC_ALPHA;
+#endif
 
         // #define CC_BLEND_DST GL_ONE_MINUS_SRC_ALPHA
 

@@ -541,24 +541,24 @@ namespace cocos2d
     {
         public ccBlendFunc()
         {
-            this.src = 0;
-            this.dst = 0;
+
         }
 
-        public ccBlendFunc(uint src, uint dst)
+        public ccBlendFunc(int src, int dst)
         {
             this.src = src;
             this.dst = dst;
         }
+
         /// <summary>
         /// source blend function
         /// </summary>
-        public uint src;
+        public int src;
 
         /// <summary>
         /// destination blend function
         /// </summary>
-        public uint dst;
+        public int dst;
     }
 
     public enum CCTextAlignment
@@ -572,23 +572,23 @@ namespace cocos2d
     {
         //ccColor3B predefined colors
         //! White color (255,255,255)
-        public readonly ccColor3B ccWHITE = new ccColor3B(255, 255, 255);
+        public static readonly ccColor3B ccWHITE = new ccColor3B(255, 255, 255);
         //! Yellow color (255,255,0)
-        public readonly ccColor3B ccYELLOW = new ccColor3B(255, 255, 0);
+        public static readonly ccColor3B ccYELLOW = new ccColor3B(255, 255, 0);
         //! Blue color (0,0,255)
-        public readonly ccColor3B ccBLUE = new ccColor3B(0, 0, 255);
+        public static readonly ccColor3B ccBLUE = new ccColor3B(0, 0, 255);
         //! Green Color (0,255,0)
-        public readonly ccColor3B ccGREEN = new ccColor3B(0, 255, 0);
+        public static readonly ccColor3B ccGREEN = new ccColor3B(0, 255, 0);
         //! Red Color (255,0,0,)
-        public readonly ccColor3B ccRED = new ccColor3B(255, 0, 0);
+        public static readonly ccColor3B ccRED = new ccColor3B(255, 0, 0);
         //! Magenta Color (255,0,255)
-        public readonly ccColor3B ccMAGENTA = new ccColor3B(255, 0, 255);
+        public static readonly ccColor3B ccMAGENTA = new ccColor3B(255, 0, 255);
         //! Black Color (0,0,0)
-        public readonly ccColor3B ccBLACK = new ccColor3B(0, 0, 0);
+        public static readonly ccColor3B ccBLACK = new ccColor3B(0, 0, 0);
         //! Orange Color (255,127,0)
-        public readonly ccColor3B ccORANGE = new ccColor3B(255, 127, 0);
+        public static readonly ccColor3B ccORANGE = new ccColor3B(255, 127, 0);
         //! Gray Color (166,166,166)
-        public readonly ccColor3B ccGRAY = new ccColor3B(166, 166, 166);
+        public static readonly ccColor3B ccGRAY = new ccColor3B(166, 166, 166);
 
         //! helper macro that creates an ccColor3B type
         static public ccColor3B ccc3(byte r, byte g, byte b)

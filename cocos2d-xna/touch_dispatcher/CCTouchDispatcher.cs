@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace cocos2d
 {
@@ -448,7 +449,15 @@ namespace cocos2d
         }
         protected void rearrangeHandlers(List<CCTouchHandler> pArray)
         {
-            pArray.Sort();
+            pArray.Sort(less);
+        }
+
+        /// <summary>
+        /// Used for sort
+        /// </summary>
+        int less(CCTouchHandler p1, CCTouchHandler p2)
+        {
+            return p1.Priority - p2.Priority;
         }
 
         protected List<CCTouchHandler> m_pTargetedHandlers;

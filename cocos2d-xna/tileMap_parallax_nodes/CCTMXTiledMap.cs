@@ -313,7 +313,10 @@ object->propertyNamed(name_of_the_property);
                                     // Optimization: quick return
                                     // if the layer is invalid (more than 1 tileset per layer) an assert will be thrown later
                                     if (gid >= tileset.m_uFirstGid)
+                                    {
+                                        mapInfo.Tilesets.Reverse();
                                         return tileset;
+                                    }
                                 }
                             }
                         }

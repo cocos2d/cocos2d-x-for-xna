@@ -276,16 +276,16 @@ namespace cocos2d
         {
 
 #warning 颜色问题能解决但是出现了头掉的bug
-//            Debug.Assert(index < m_uTotalQuads, "removeQuadAtIndex: Invalid index");
+            //            Debug.Assert(index < m_uTotalQuads, "removeQuadAtIndex: Invalid index");
 
-//            ccV3F_C4B_T2F_Quad[] temp = new ccV3F_C4B_T2F_Quad[m_uTotalQuads - 1];
-//            Array.Copy(m_pQuads, temp, index);
-//            Array.Copy(m_pQuads, index + 1, temp, index, m_uTotalQuads - index);
-//            m_pQuads = temp;
-//            m_uTotalQuads--;
-//#if CC_USES_VBO
-//            m_bDirty = true;
-//#endif
+            //            ccV3F_C4B_T2F_Quad[] temp = new ccV3F_C4B_T2F_Quad[m_uTotalQuads - 1];
+            //            Array.Copy(m_pQuads, temp, index);
+            //            Array.Copy(m_pQuads, index + 1, temp, index, m_uTotalQuads - index);
+            //            m_pQuads = temp;
+            //            m_uTotalQuads--;
+            //#if CC_USES_VBO
+            //            m_bDirty = true;
+            //#endif
         }
 
         /// <summary>
@@ -355,12 +355,23 @@ namespace cocos2d
         /// </summary>
         public void drawNumberOfQuads(int n, int start)
         {
+            if (n == start)
+            {
+                return;
+            }
+
+            if (this.m_pQuads == null || this.m_pQuads.Length < 1)
+            {
+                return;
+            }
+
             CCApplication app = CCApplication.sharedApplication();
             CCSize size = CCDirector.sharedDirector().getWinSize();
 
             //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
             app.basicEffect.Texture = this.Texture.getTexture2D();
             app.basicEffect.TextureEnabled = true;
+            //app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
             List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             short[] indexes = new short[n * 6];

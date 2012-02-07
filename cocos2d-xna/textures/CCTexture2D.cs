@@ -161,6 +161,11 @@ namespace cocos2d
                 return false;
             }
 
+            if (string.IsNullOrEmpty(text))
+            {
+                return false;
+            }
+
             SpriteFont font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
             if (CCSize.CCSizeEqualToSize(dimensions, new CCSize()))
             {

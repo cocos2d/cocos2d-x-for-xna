@@ -52,9 +52,6 @@ namespace tests
             CCSprite spriteNormal = CCSprite.spriteWithFile(s_MenuItem, new CCRect(0, 23 * 2, 115, 23));
             CCSprite spriteSelected = CCSprite.spriteWithFile(s_MenuItem, new CCRect(0, 23 * 1, 115, 23));
             CCSprite spriteDisabled = CCSprite.spriteWithFile(s_MenuItem, new CCRect(0, 23 * 0, 115, 23));
-            //dynamic_cast<CCNode*>(mgr)->addChild(spriteNormal);
-            //dynamic_cast<CCNode*>(mgr)->addChild(spriteSelected);
-            //dynamic_cast<CCNode*>(mgr)->addChild(spriteDisabled);
 
             CCMenuItemSprite item1 = CCMenuItemSprite.itemFromNormalSprite(spriteNormal, spriteSelected, spriteDisabled, this, this.menuCallback);
 

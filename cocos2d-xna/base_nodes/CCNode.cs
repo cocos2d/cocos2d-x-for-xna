@@ -1145,7 +1145,6 @@ namespace cocos2d
             }
         }
 
-        protected float m_fScale;
         /// <summary>
         /// The scale factor of the node. 1.0 is the default scale factor. It modifies the X and Y scale at the same time.
         /// </summary>
@@ -1153,7 +1152,6 @@ namespace cocos2d
         {
             get
             {
-                Debug.Assert(m_fScaleX == m_fScaleY, "CCNode#scale. ScaleX != ScaleY. Don't know which one to return");
                 return m_fScaleX;
             }
             set

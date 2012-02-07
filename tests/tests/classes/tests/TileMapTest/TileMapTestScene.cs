@@ -9,7 +9,7 @@ namespace tests
     public class TileMapTestScene : TestScene
     {
         public static int sceneIdx = -1;
-        public static int MAX_LAYER = 23;
+        public static int MAX_LAYER = 22;
 
         public static int kTagTileMap = 1;
 

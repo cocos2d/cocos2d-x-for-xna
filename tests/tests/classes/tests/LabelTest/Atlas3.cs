@@ -21,8 +21,8 @@ namespace tests
         {
             m_time = 0;
 
-            CCLayerColor col = CCLayerColor.layerWithColor(new ccColor4B(128, 128, 128, 255));
-            addChild(col, -10);
+            //CCLayerColor col = CCLayerColor.layerWithColor(new ccColor4B(128, 128, 128, 255));
+            //addChild(col, -10);
 
             CCLabelBMFont label1 = CCLabelBMFont.labelWithString("Test", "fonts/fnt/bitmapFontTest2");
 
@@ -43,7 +43,7 @@ namespace tests
             CCLabelBMFont label2 = CCLabelBMFont.labelWithString("Test", "fonts/fnt/bitmapFontTest2");
             // testing anchors
             label2.anchorPoint = new CCPoint(0.5f, 0.5f);
-            label2.Color=ccRED;
+            label2.Color = ccRED;
             addChild(label2, 0, (int)TagSprite.kTagBitmapAtlas2);
             label2.runAction((CCAction)(repeat.copy()));
 

@@ -80,8 +80,8 @@ namespace tests
             batch.removeChild(sprite, false);
             batch.addChild(sprite, 0, (int)kTagSprite.kTagSprite5);
         }
-        
-        public override string title() 
+
+        public override string title()
         {
             return "SpriteBatchNode: Color & Opacity";
         }

@@ -27,7 +27,6 @@ namespace tests
             CCLabelAtlas label2 = CCLabelAtlas.labelWithString("0123456789", "fonts/fnt/images/tuffy_bold_italic-charmap", 48, 64, ' ');
             addChild(label2, 0, (int)TagSprite.kTagSprite2);
             label2.position = new CCPoint(10, 200);
-            //label2.setColor( ccRED );
             label2.Color = ccRED;
 
             CCActionInterval fade = CCFadeOut.actionWithDuration(1.0f);

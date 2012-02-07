@@ -63,10 +63,9 @@ namespace cocos2d
             CCLabelTTF pRet = new CCLabelTTF();
             if (pRet != null && pRet.initWithString(label, dimensions, alignment, fontName, fontSize))
             {
-                //pRet->autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet);
+
             return null;
         }
 
@@ -97,7 +96,6 @@ namespace cocos2d
 
                 m_pFontName = fontName;
 
-                //m_fFontSize = fontSize * CC_CONTENT_SCALE_FACTOR();
                 m_fFontSize = fontSize * CCDirector.sharedDirector().ContentScaleFactor;
                 this.setString(label);
                 return true;
@@ -120,6 +118,7 @@ namespace cocos2d
                 this.setString(label);
                 return true;
             }
+
             return false;
         }
 
@@ -151,51 +150,8 @@ namespace cocos2d
 
         public string getString()
         {
-            //return m_pString.c_str();
             return m_pString.ToString();
         }
-
-        //public override void draw()
-        //{
-        //    CCApplication.sharedApplication().spriteBatch.Begin();
-        //    CCApplication.sharedApplication().spriteBatch.DrawString(spriteFont, m_pString, new Vector2(position.x - anchorPointInPixels.x, position.y - anchorPointInPixels.y), Microsoft.Xna.Framework.Color.White);
-        //    CCApplication.sharedApplication().spriteBatch.End();
-        //}
-
-        //public virtual string gsString
-        //{
-        //    get
-        //    {
-        //        return m_pString.ToString();
-        //    }
-        //    set
-        //    {
-        //        if (m_pString != null)
-        //        {
-        //            //delete m_pString;
-        //            m_pString = null;
-        //        }
-        //        m_pString = value;
-
-        //        CCTexture2D texture;
-        //        if (CCSize.CCSizeEqualToSize(m_tDimensions, new CCSize(0, 0)))
-        //        {
-        //            texture = new CCTexture2D();
-        //            texture.initWithString(value, m_pFontName.ToString(), m_fFontSize);
-        //        }
-        //        else
-        //        {
-        //            texture = new CCTexture2D();
-        //            texture.initWithString(value, m_tDimensions, m_eAlignment, m_pFontName.ToString(), m_fFontSize);
-        //        }
-        //        this.setTexture(texture);
-        //        //texture->release();
-
-        //        CCRect rect = new CCRect(0, 0, 0, 0);
-        //        rect.size = m_pobTexture.getContentSize();
-        //        this.setTextureRect(rect);
-        //    }
-        //}
 
         public virtual ICCLabelProtocol convertToLabelProtocol()
         {

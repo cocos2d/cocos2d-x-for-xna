@@ -416,12 +416,10 @@ namespace cocos2d
             m_nOpacity = 255;
             m_sColor = m_sColorUnmodified = new ccColor3B(255, 255, 255);
 
-            /*
-             * @todo, they are designed for opengl es, how to replace them?
-             * 
-            m_sBlendFunc.src = CC_BLEND_SRC;
-            m_sBlendFunc.dst = CC_BLEND_DST;
-             */
+            m_sBlendFunc = new ccBlendFunc();
+            m_sBlendFunc.src = ccMacros.CC_BLEND_SRC;
+            m_sBlendFunc.dst = ccMacros.CC_BLEND_DST;
+
 
             // update texture (calls updateBlendFunc)
             Texture = null;
@@ -461,15 +459,33 @@ namespace cocos2d
         public override void draw()
         {
             base.draw();
+
+            Debug.Assert(!m_bUsesBatchNode);
+
             CCApplication app = CCApplication.sharedApplication();
             CCSize size = CCDirector.sharedDirector().getWinSize();
 
-            //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
+            bool newBlend = m_sBlendFunc.src != ccMacros.CC_BLEND_SRC || m_sBlendFunc.dst != ccMacros.CC_BLEND_DST;
+            BlendState origin = app.GraphicsDevice.BlendState;
+            //if (newBlend)
+            //{
+            //    BlendState bs = new BlendState();
+
+            //    bs.ColorSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src);
+            //    bs.AlphaSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src); ;
+            //    bs.ColorDestinationBlend = OGLES.GetXNABlend(m_sBlendFunc.dst);
+            //    bs.AlphaDestinationBlend = OGLES.GetXNABlend(m_sBlendFunc.dst);
+
+            //    app.GraphicsDevice.BlendState = bs;
+            //    //glBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
+            //}
+
             if (this.Texture != null)
             {
                 app.basicEffect.Texture = this.Texture.getTexture2D();
                 app.basicEffect.TextureEnabled = true;
                 app.basicEffect.Alpha = (float)this.Opacity / 255.0f;
+                app.basicEffect.VertexColorEnabled = true;
             }
 
             VertexPositionColorTexture[] vertices = this.m_sQuad.getVertices(ccDirectorProjection.CCDirectorProjection3D);
@@ -491,6 +507,22 @@ namespace cocos2d
                     vertices, 0, 4,
                     indexes, 0, 2);
             }
+
+            app.basicEffect.VertexColorEnabled = false;
+
+            //if (newBlend)
+            //{
+            //    BlendState bs = new BlendState();
+
+            //    bs.ColorSourceBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_SRC);
+            //    bs.AlphaSourceBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_SRC);
+            //    bs.ColorDestinationBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_DST);
+            //    bs.AlphaDestinationBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_DST);
+
+            //    app.GraphicsDevice.BlendState = bs;
+
+            //    //glBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
+            //}
         }
 
         #region add,remove child
@@ -1017,7 +1049,7 @@ namespace cocos2d
                 ccHonorParentTransform prevHonor = ccHonorParentTransform.CC_HONOR_PARENT_TRANSFORM_ALL;
 
                 CCNode p = this;
-                while (p != null && p != m_pobBatchNode)
+                while (p != null && p is CCSprite && p != m_pobBatchNode)
                 {
                     // Might happen. Issue #1053
                     // how to implement, we can not use dynamic
@@ -1355,7 +1387,22 @@ namespace cocos2d
 
         protected void updateBlendFunc()
         {
-            // throw new NotImplementedException();
+            // CCSprite: updateBlendFunc doesn't work when the sprite is rendered using a CCSpriteSheet
+            Debug.Assert(m_bUsesBatchNode != null);
+
+            // it's possible to have an untextured sprite
+            if (m_pobTexture == null || !m_pobTexture.HasPremultipliedAlpha)
+            {
+                m_sBlendFunc.src = OGLES.GL_SRC_ALPHA;
+                m_sBlendFunc.dst = OGLES.GL_ONE_MINUS_SRC_ALPHA;
+                IsOpacityModifyRGB = false;
+            }
+            else
+            {
+                m_sBlendFunc.src = ccMacros.CC_BLEND_SRC;
+                m_sBlendFunc.dst = ccMacros.CC_BLEND_DST;
+                IsOpacityModifyRGB = true;
+            }
         }
 
         protected void getTransformValues(transformValues_ tv)

@@ -35,7 +35,6 @@ namespace tests
 {
     public class MenuTestScene : TestScene
     {
-
         public override void runThisTest()
         {
             CCLayer pLayer1 = new MenuLayer1();

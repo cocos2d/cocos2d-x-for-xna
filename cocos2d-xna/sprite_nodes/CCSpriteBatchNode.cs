@@ -668,6 +668,11 @@ namespace cocos2d
             sprite.useBatchNode(this);
             sprite.atlasIndex = index;
 
+            if (index == -901)
+            {
+ 
+            }
+
             ccV3F_C4B_T2F_Quad quad = sprite.quad;
             m_pobTextureAtlas.insertQuad(quad, index);
 
@@ -710,8 +715,7 @@ namespace cocos2d
             m_pobDescendants.Insert(i, child);
 
             // I  MPORTANT: Call super, and not self. Avoid adding it to the texture atlas array
-            CCNode ccNode = new CCNode();
-            ccNode.addChild(child, (int)z, aTag);
+            base.addChild(child, (int)z, aTag);
             return this;
         }
     }

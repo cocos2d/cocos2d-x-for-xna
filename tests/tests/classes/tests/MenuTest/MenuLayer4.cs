@@ -40,6 +40,7 @@ namespace tests
         {
             CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 18;
+
             CCMenuItemFont title1 = CCMenuItemFont.itemFromString("Sound");
             title1.Enabled = false;
             CCMenuItemFont.FontName = "Arial";
@@ -47,8 +48,7 @@ namespace tests
             CCMenuItemToggle item1 = CCMenuItemToggle.itemWithTarget(this,
                                                                     this.menuCallback,
                                                                         CCMenuItemFont.itemFromString("On"),
-                                                                        CCMenuItemFont.itemFromString("Off")
-                                                                         );
+                                                                        CCMenuItemFont.itemFromString("Off"));
 
             CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 18;
@@ -82,20 +82,12 @@ namespace tests
                                                                      this.menuCallback,
                                                                      CCMenuItemFont.itemFromString("Off"));
 
-            //UxArray* more_items = UxArray::arrayWithObjects(
-            //												 CCMenuItemFont::itemFromString( "33%" ),
-            //												 CCMenuItemFont::itemFromString( "66%" ),
-            //												 CCMenuItemFont::itemFromString( "100%" ),
-            //												 NULL );
-            // TIP: you can manipulate the items like any other CCMutableArray
-            //item4.SubItems.addObject(CCMenuItemFont.itemFromString("33%"));
-            //item4.SubItems.addObject(CCMenuItemFont.itemFromString("66%"));
-            //item4.SubItems.addObject(CCMenuItemFont.itemFromString("100%"));
             item4.SubItems.Add(CCMenuItemFont.itemFromString("33%"));
             item4.SubItems.Add(CCMenuItemFont.itemFromString("66%"));
             item4.SubItems.Add(CCMenuItemFont.itemFromString("100%"));
+
             // you can change the one of the items by doing this
-            //item4.SelectedIndex(2);
+            item4.SelectedIndex = 2;
 
             CCMenuItemFont.FontName = "Arial";
             CCMenuItemFont.FontSize = 34;

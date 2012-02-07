@@ -6,7 +6,7 @@ using cocos2d;
 
 namespace tests
 {
-    class TMXReadWriteTest : TileDemo
+    public class TMXReadWriteTest : TileDemo
     {
         enum SIDType
         {
@@ -134,6 +134,11 @@ namespace tests
             {
                 layer.removeTileAt(new CCPoint(5.0f, (float)y));
             }
+        }
+
+        public override string title()
+        {
+            return "TMX Read/Write test";
         }
     }
 }

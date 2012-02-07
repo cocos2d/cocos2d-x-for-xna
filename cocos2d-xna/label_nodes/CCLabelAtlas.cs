@@ -77,18 +77,19 @@ namespace cocos2d
             return false;
         }
 
-        // super methods
+        //CCLabelAtlas - Atlas generation
         public override void updateAtlasValues()
         {
-            int nextFontPositionX = 0;
-            int nextFontPositionY = 0;
-            int n = m_sString.Length;
+            char[] s = m_sString.ToCharArray();
+
             CCTexture2D texture = m_pTextureAtlas.Texture;
-            float textureWide = (float)texture.getTexture2D().Width;
-            float textureHigh = (float)texture.getTexture2D().Height;
-            for (int i = 0; i < n; i++)
+            float textureWide = (float)texture.PixelsWide;
+            float textureHigh = (float)texture.PixelsHigh;
+
+            for (int i = 0; i < m_sString.Length; i++)
             {
-                char a = (char)(m_sString[i] - m_cMapStartChar);
+                ccV3F_C4B_T2F_Quad quad = new ccV3F_C4B_T2F_Quad();
+                char a = (char)(s[i] - m_cMapStartChar);
                 float row = (float)(a % m_uItemsPerRow);
                 float col = (float)(a / m_uItemsPerRow);
 
@@ -105,51 +106,32 @@ namespace cocos2d
                 float bottom = top + m_uItemHeight / textureHigh;
 #endif // ! CC_FIX_ARTIFACTS_BY_STRECHING_TEXEL
 
-                //quad.tl.texCoords.u = left;
-                //quad.tl.texCoords.v = top;
-                //quad.tr.texCoords.u = right;
-                //quad.tr.texCoords.v = top;
-                //quad.bl.texCoords.u = left;
-                //quad.bl.texCoords.v = bottom;
-                //quad.br.texCoords.u = right;
-                //quad.br.texCoords.v = bottom;
-
-                CCRect rect = new CCRect();
-                rect.origin.x = row * m_uItemWidth;
-                rect.origin.y = top * textureHigh;
-                rect.size.height = m_uItemHeight;
-                rect.size.width = m_uItemWidth;
-
-                CCSprite charSprite = new CCSprite();
-                charSprite.initWithTexture(texture, rect);
-                charSprite.positionInPixels = new CCPoint(nextFontPositionX, nextFontPositionY);
-                this.addChild(charSprite, 0, i);
-
-                nextFontPositionX += m_uItemWidth;
+                quad.tl.texCoords.u = left;
+                quad.tl.texCoords.v = top;
+                quad.tr.texCoords.u = right;
+                quad.tr.texCoords.v = top;
+                quad.bl.texCoords.u = left;
+                quad.bl.texCoords.v = bottom;
+                quad.br.texCoords.u = right;
+                quad.br.texCoords.v = bottom;
 
 
-                //if (nextFontPositionY + m_uItemHeight > textureHigh)
-                //{
-                //    nextFontPositionY = 0;
-                //}
-                //else
-                //{
-                //    nextFontPositionY += m_uItemHeight;
-                //}
+                quad.tl.colors = quad.tr.colors = quad.bl.colors = quad.br.colors = new ccColor4B(this.m_tColor.r, this.m_tColor.g, this.m_tColor.b, 255);
 
-                //quad.bl.vertices.x = (float)(i * m_uItemWidth);
-                //quad.bl.vertices.y = 0;
-                //quad.bl.vertices.z = 0.0f;
-                //quad.br.vertices.x = (float)(i * m_uItemWidth + m_uItemWidth);
-                //quad.br.vertices.y = 0;
-                //quad.br.vertices.z = 0.0f;
-                //quad.tl.vertices.x = (float)(i * m_uItemWidth);
-                //quad.tl.vertices.y = (float)(m_uItemHeight);
-                //quad.tl.vertices.z = 0.0f;
-                //quad.tr.vertices.x = (float)(i * m_uItemWidth + m_uItemWidth);
-                //quad.tr.vertices.y = (float)(m_uItemHeight);
-                //quad.tr.vertices.z = 0.0f;
-                //m_pTextureAtlas.updateQuad(quad,(uint)i);
+                quad.bl.vertices.x = (float)(i * m_uItemWidth);
+                quad.bl.vertices.y = 0;
+                quad.bl.vertices.z = 0.0f;
+                quad.br.vertices.x = (float)(i * m_uItemWidth + m_uItemWidth);
+                quad.br.vertices.y = 0;
+                quad.br.vertices.z = 0.0f;
+                quad.tl.vertices.x = (float)(i * m_uItemWidth);
+                quad.tl.vertices.y = (float)(m_uItemHeight);
+                quad.tl.vertices.z = 0.0f;
+                quad.tr.vertices.x = (float)(i * m_uItemWidth + m_uItemWidth);
+                quad.tr.vertices.y = (float)(m_uItemHeight);
+                quad.tr.vertices.z = 0.0f;
+
+                m_pTextureAtlas.updateQuad(quad, i);
             }
         }
 
@@ -179,9 +161,13 @@ namespace cocos2d
 
         public void setString(string label)
         {
-            this.children.Clear();
             int len = label.Length;
+            if (len > m_pTextureAtlas.TotalQuads)
+            {
+                m_pTextureAtlas.resizeCapacity(len);
+            }
 
+            this.children.Clear();
             m_sString = label;
             this.updateAtlasValues();
 

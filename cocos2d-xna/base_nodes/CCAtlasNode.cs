@@ -78,7 +78,9 @@ namespace cocos2d
             }
             set
             {
+                ccColor3B oldColor = this.m_tColor;
                 m_bIsOpacityModifyRGB = value;
+                this.m_tColor = oldColor;
             }
         }
 
@@ -133,6 +135,8 @@ namespace cocos2d
                     m_tColor.g = (byte)(value.g * m_cOpacity / 255);
                     m_tColor.b = (byte)(value.b * m_cOpacity / 255);
                 }
+
+                this.updateAtlasValues();
             }
         }
 
@@ -150,17 +154,6 @@ namespace cocos2d
             }
         }
 
-        public override void draw()
-        {
-            foreach (CCSprite item in m_pChildren)
-            {
-                item.Color = m_tColor;
-                item.Opacity = m_cOpacity;
-            }
-
-            base.draw();
-        }
-
         public CCAtlasNode()
         {
             m_tBlendFunc = new ccBlendFunc();
@@ -174,21 +167,15 @@ namespace cocos2d
             CCAtlasNode pRet = new CCAtlasNode();
             if (pRet.initWithTileFile(tile, tileWidth, tileHeight, itemsToRender))
             {
-                //pRet->autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet);
+
             return null;
         }
 
         /// <summary>
         /// initializes an CCAtlasNode  with an Atlas file the width and height of each item and the quantity of items to render
         /// </summary>
-        /// <param name="tile"></param>
-        /// <param name="tileWidth"></param>
-        /// <param name="tileHeight"></param>
-        /// <param name="itemsToRender"></param>
-        /// <returns></returns>
         public bool initWithTileFile(string tile, int tileWidth, int tileHeight, int itemsToRender)
         {
             Debug.Assert(tile != null);
@@ -196,11 +183,11 @@ namespace cocos2d
             m_uItemHeight = tileHeight;
 
             m_cOpacity = 255;
-            m_tColor = m_tColorUnmodified = new ccColor3B(255, 255, 255); //ccWHITE=static const ccColor3B ccWHITE={255,255,255};
+            m_tColor = m_tColorUnmodified = ccTypes.ccWHITE;
             m_bIsOpacityModifyRGB = true;
 
-            m_tBlendFunc.src = 1; //CC_BLEND_SRC=GL_ONE=1
-            m_tBlendFunc.dst = 0x0304; //CC_BLEND_DST=GL_ONE_MINUS_SRC_ALPHA=0x0304
+            m_tBlendFunc.src = ccMacros.CC_BLEND_SRC;
+            m_tBlendFunc.dst = ccMacros.CC_BLEND_DST;
 
             // double retain to avoid the autorelease pool
             // also, using: self.textureAtlas supports re-initialization without leaking
@@ -209,8 +196,7 @@ namespace cocos2d
 
             if (m_pTextureAtlas == null)
             {
-                //CCLOG("cocos2d: Could not initialize CCAtlasNode. Invalid Texture.");
-                //delete this;
+                Debug.WriteLine("cocos2d: Could not initialize CCAtlasNode. Invalid Texture.");
                 return false;
             }
 
@@ -224,6 +210,15 @@ namespace cocos2d
             return true;
         }
 
+        //CCAtlasNode - Atlas generation
+
+        private void calculateMaxItems()
+        {
+            CCSize s = m_pTextureAtlas.Texture.ContentSizeInPixels;
+            m_uItemsPerColumn = (int)(s.height / m_uItemHeight);
+            m_uItemsPerRow = (int)(s.width / m_uItemWidth);
+        }
+
         /// <summary>
         ///  updates the Atlas (indexed vertex array).
         ///  Shall be overriden in subclasses
@@ -232,6 +227,45 @@ namespace cocos2d
         {
             Debug.Assert(false, "CCAtlasNode:Abstract updateAtlasValue not overriden");
             //[NSException raise:@"CCAtlasNode:Abstract" format:@"updateAtlasValue not overriden"];
+        }
+
+        // CCAtlasNode - draw
+        public override void draw()
+        {
+            base.draw();
+
+            // Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
+            // Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_TEXTURE_COORD_ARRAY
+            // Unneeded states: GL_COLOR_ARRAY
+            //glDisableClientState(GL_COLOR_ARRAY);
+
+            // glColor4ub isn't implement on some android devices
+            // glColor4ub( m_tColor.r, m_tColor.g, m_tColor.b, m_cOpacity); 
+
+            //CCApplication app = CCApplication.sharedApplication();
+            //app.basicEffect.VertexColorEnabled = true;
+
+
+            //glColor4f(((GLfloat)m_tColor.r) / 255, ((GLfloat)m_tColor.g) / 255, ((GLfloat)m_tColor.b) / 255, ((GLfloat)m_cOpacity) / 255);
+            //bool newBlend = m_tBlendFunc.src != CC_BLEND_SRC || m_tBlendFunc.dst != CC_BLEND_DST;
+            //if (newBlend)
+            //{
+            //    glBlendFunc(m_tBlendFunc.src, m_tBlendFunc.dst);
+            //}
+
+            m_pTextureAtlas.drawNumberOfQuads(m_uQuadsToDraw, 0);
+
+            //if (newBlend)
+            //    glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+
+            // is this chepear than saving/restoring color state ?
+            // XXX: There is no need to restore the color to (255,255,255,255). Objects should use the color
+            // XXX: that they need
+            //	glColor4ub( 255, 255, 255, 255);
+
+            // restore default GL state
+            //glEnableClientState(GL_COLOR_ARRAY);
+
         }
 
         public virtual ICCRGBAProtocol convertToRGBAProtocol()
@@ -254,19 +288,12 @@ namespace cocos2d
             }
         }
 
-        private void calculateMaxItems()
-        {
-            CCSize s = m_pTextureAtlas.Texture.ContentSizeInPixels;
-            m_uItemsPerColumn = (int)(s.height / m_uItemHeight);
-            m_uItemsPerRow = (int)(s.width / m_uItemWidth);
-        }
-
         private void updateBlendFunc()
         {
             if (!m_pTextureAtlas.Texture.HasPremultipliedAlpha)
             {
-                m_tBlendFunc.src = 0x0302;
-                m_tBlendFunc.dst = 0x0305;
+                m_tBlendFunc.src = OGLES.GL_SRC_ALPHA;
+                m_tBlendFunc.dst = OGLES.GL_ONE_MINUS_SRC_ALPHA;
             }
         }
 

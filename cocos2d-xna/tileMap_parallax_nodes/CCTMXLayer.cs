@@ -35,6 +35,8 @@ namespace cocos2d
 {
     public class CCTMXLayer : CCSpriteBatchNode
     {
+        #region properties
+
         protected CCSize m_tLayerSize;
         /// <summary>
         /// size of the layer in tiles
@@ -117,10 +119,12 @@ namespace cocos2d
 
         //! used for optimization
         protected CCSprite m_pReusedTile;
-        protected List<int> m_pAtlasIndexArray;
+        protected ccCArray m_pAtlasIndexArray;
 
         // used for retina display
         protected float m_fContentScaleFactor;
+
+        #endregion
 
         public CCTMXLayer()
         {
@@ -130,16 +134,11 @@ namespace cocos2d
         /// <summary>
         /// creates a CCTMXLayer with an tileset info, a layer info and a map info
         /// </summary>
-        /// <param name="tilesetInfo"></param>
-        /// <param name="layerInfo"></param>
-        /// <param name="mapInfo"></param>
-        /// <returns></returns>
         public static CCTMXLayer layerWithTilesetInfo(CCTMXTilesetInfo tilesetInfo, CCTMXLayerInfo layerInfo, CCTMXMapInfo mapInfo)
         {
             CCTMXLayer pRet = new CCTMXLayer();
             if (pRet.initWithTilesetInfo(tilesetInfo, layerInfo, mapInfo))
             {
-                //pRet->autorelease();
                 return pRet;
             }
             return null;
@@ -148,10 +147,6 @@ namespace cocos2d
         /// <summary>
         /// initializes a CCTMXLayer with a tileset info, a layer info and a map info 
         /// </summary>
-        /// <param name="tilesetInfo"></param>
-        /// <param name="layerInfo"></param>
-        /// <param name="mapInfo"></param>
-        /// <returns></returns>
         public bool initWithTilesetInfo(CCTMXTilesetInfo tilesetInfo, CCTMXLayerInfo layerInfo, CCTMXMapInfo mapInfo)
         {
             // XXX: is 35% a good estimate ?
@@ -190,7 +185,7 @@ namespace cocos2d
                 CCPoint offset = this.calculateLayerOffset(layerInfo.m_tOffset);
                 this.position = offset;
 
-                m_pAtlasIndexArray = new List<int>();
+                m_pAtlasIndexArray = ccCArray.ccCArrayNew((int)totalNumberOfTiles);
 
                 this.contentSizeInPixels = new CCSize(m_tLayerSize.width * m_tMapTileSize.width, m_tLayerSize.height * m_tMapTileSize.height);
                 m_tMapTileSize.width /= m_fContentScaleFactor;
@@ -213,7 +208,6 @@ namespace cocos2d
         {
             if (m_pTiles != null)
             {
-                //delete[] m_pTiles;
                 m_pTiles = null;
             }
 
@@ -231,8 +225,6 @@ namespace cocos2d
         /// - layer->removeChild(sprite, cleanup);
         /// - or layer->removeTileAt(ccp(x,y));
         /// </summary>
-        /// <param name="?"></param>
-        /// <returns></returns>
         public CCSprite tileAt(CCPoint pos)
         {
             Debug.Assert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >= 0 && pos.y >= 0, "TMXLayer: invalid position");
@@ -255,7 +247,7 @@ namespace cocos2d
                     rect = new CCRect(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width / m_fContentScaleFactor, rect.size.height / m_fContentScaleFactor);
 
                     tile = new CCSprite();
-                    //tile.initWithBatchNode(this, rect);
+                    tile.initWithBatchNode(this, rect);
                     tile.position = positionAt(pos);
                     tile.vertexZ = (float)vertexZForPos(pos);
                     tile.anchorPoint = new CCPoint(0, 0);
@@ -263,7 +255,6 @@ namespace cocos2d
 
                     int indexForZ = atlasIndexForExistantZ(z);
                     this.addSpriteWithoutQuad(tile, indexForZ, z);
-                    //tile->release();
                 }
             }
             return tile;
@@ -274,8 +265,6 @@ namespace cocos2d
         ///	if it returns 0, it means that the tile is empty.
         ///	This method requires the the tile map has not been previously released (eg. don't call layer->releaseMap())
         /// </summary>
-        /// <param name="tileCoordinate"></param>
-        /// <returns></returns>
         public int tileGIDAt(CCPoint pos)
         {
             Debug.Assert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >= 0 && pos.y >= 0, "TMXLayer: invalid position");
@@ -290,11 +279,8 @@ namespace cocos2d
         /// The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
         /// If a tile is already placed at that position, then it will be removed.
         /// </summary>
-        /// <param name="gid"></param>
-        /// <param name="tileCoordinate"></param>
         public void setTileGID(int gid, CCPoint pos)
         {
-
             Debug.Assert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >= 0 && pos.y >= 0, "TMXLayer: invalid position");
             Debug.Assert(m_pTiles != null && m_pAtlasIndexArray != null, "TMXLayer: the tiles map has been released");
             Debug.Assert(gid == 0 || gid >= m_pTileSet.m_uFirstGid, "TMXLayer: invalid gid");
@@ -339,7 +325,6 @@ namespace cocos2d
         /// <summary>
         /// removes a tile at given tile coordinate
         /// </summary>
-        /// <param name="tileCoordinate"></param>
         public void removeTileAt(CCPoint pos)
         {
             Debug.Assert(pos.x < m_tLayerSize.width && pos.y < m_tLayerSize.height && pos.x >= 0 && pos.y >= 0, "TMXLayer: invalid position");
@@ -356,7 +341,7 @@ namespace cocos2d
                 m_pTiles[z] = 0;
 
                 // remove tile from atlas position array
-                m_pAtlasIndexArray.RemoveAt(atlasIndex);
+                ccCArray.ccCArrayRemoveValueAtIndex(m_pAtlasIndexArray, atlasIndex);
 
                 // remove it from sprites and/or texture atlas
                 CCSprite sprite = (CCSprite)getChildByTag((int)z);
@@ -392,8 +377,6 @@ namespace cocos2d
         /// <summary>
         /// returns the position in pixels of a given tile coordinate
         /// </summary>
-        /// <param name="tileCoordinate"></param>
-        /// <returns></returns>
         public CCPoint positionAt(CCPoint pos)
         {
             CCPoint ret = new CCPoint(0, 0);
@@ -415,8 +398,6 @@ namespace cocos2d
         /// <summary>
         /// return the value for the specific property name
         /// </summary>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
         public string propertyNamed(string propertyName)
         {
             return m_pProperties[propertyName];
@@ -441,7 +422,7 @@ namespace cocos2d
 
             // Parse cocos2d properties
             //this.parseInternalProperties();
-            int i = 0;
+
             for (int y = 0; y < m_tLayerSize.height; y++)
             {
                 for (int x = 0; x < m_tLayerSize.width; x++)
@@ -459,24 +440,20 @@ namespace cocos2d
                     if (gid != 0)
                     {
                         var reusedTile = this.appendTileForGID(gid, new CCPoint((float)x, (float)y));
-                        //addChild(reusedTile, 0, i++);
+
                         // Optimization: update min and max GID rendered by the layer
                         m_uMinGID = Math.Min(gid, m_uMinGID);
                         m_uMaxGID = Math.Max(gid, m_uMaxGID);
                     }
                 }
             }
-            Debug.Assert(m_uMaxGID >= m_pTileSet.m_uFirstGid &&
-            m_uMinGID >= m_pTileSet.m_uFirstGid, "TMX: Only 1 tilset per layer is supported");
+            Debug.Assert(m_uMaxGID >= m_pTileSet.m_uFirstGid && m_uMinGID >= m_pTileSet.m_uFirstGid, "TMX: Only 1 tilset per layer is supported");
         }
 
         /// <summary>
         /// CCTMXLayer doesn't support adding a CCSprite manually.
         /// @warning addchild(z, tag); is not supported on CCTMXLayer. Instead of setTileGID.
         /// </summary>
-        /// <param name="child"></param>
-        /// <param name="zOrder"></param>
-        /// <param name="tag"></param>
         public override void addChild(CCNode child, int zOrder, int tag)
         {
             // Debug.Assert(false, "addChild: is not supported on CCTMXLayer. Instead use setTileGID:at:/tileAt:");
@@ -494,27 +471,11 @@ namespace cocos2d
             Debug.Assert(m_pChildren.Contains(sprite), "Tile does not belong to TMXLayer");
 
             int atlasIndex = sprite.atlasIndex;
-            int zz = m_pAtlasIndexArray[atlasIndex];
+            int zz = m_pAtlasIndexArray.arr[atlasIndex];
             m_pTiles[zz] = 0;
-            m_pAtlasIndexArray.RemoveAt(atlasIndex);
+            ccCArray.ccCArrayRemoveValueAtIndex(m_pAtlasIndexArray, atlasIndex);
 
         }
-
-        //public override void draw()
-        //{
-        //    if (m_bUseAutomaticVertexZ)
-        //    {
-        //        //glEnable(GL_ALPHA_TEST);
-        //        //glAlphaFunc(GL_GREATER, m_fAlphaFuncValue);
-        //    }
-
-        //    base.draw();
-
-        //    if (m_bUseAutomaticVertexZ)
-        //    {
-        //        //glDisable(GL_ALPHA_TEST);
-        //    }
-        //}
 
         private CCPoint positionForIsoAt(CCPoint pos)
         {
@@ -522,14 +483,12 @@ namespace cocos2d
                                  m_tMapTileSize.height / 2 * ((m_tLayerSize.height * 2 - pos.x - pos.y) - 2));
             return xy;
         }
-
         private CCPoint positionForOrthoAt(CCPoint pos)
         {
             CCPoint xy = new CCPoint(pos.x * m_tMapTileSize.width,
                                 (m_tLayerSize.height - pos.y - 1) * m_tMapTileSize.height);
             return xy;
         }
-
         private CCPoint positionForHexAt(CCPoint pos)
         {
             float diffY = 0;
@@ -562,89 +521,44 @@ namespace cocos2d
             return ret;
         }
 
-        public override void visit()
-        {
-            m_pTileSet.m_tImageSize = m_pobTextureAtlas.Texture.ContentSizeInPixels;
-            int i = 0;
-            for (int y = 0; y < m_tLayerSize.height; y++)
-            {
-                for (int x = 0; x < m_tLayerSize.width; x++)
-                {
-                    int pos = (int)(x + m_tLayerSize.width * y);
-                    int gid = m_pTiles[pos];
-
-                    if (gid != 0)
-                    {
-                        CCSprite reusedTile = getChildByTag((int)gid) as CCSprite;
-
-                        CCRect rect = m_pTileSet.rectForGID(gid);
-                        rect = new CCRect(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width / m_fContentScaleFactor, rect.size.height / m_fContentScaleFactor);
-
-                        int z = (int)(x + y * m_tLayerSize.width);
-
-
-                        if (reusedTile != null)
-                        {
-                            var oldpos = positionAt(new CCPoint(x, y));
-                            reusedTile.position = new CCPoint(oldpos.x + this.parent.position.x, oldpos.y + this.parent.position.y);
-                            reusedTile.vertexZ = (float)vertexZForPos(new CCPoint(x, y));
-                            reusedTile.anchorPoint = new CCPoint(0, 0);
-                            reusedTile.Opacity = 255;
-                            // optimization:
-                            // The difference between appendTileForGID and insertTileforGID is that append is faster, since
-                            // it appends the tile at the end of the texture atlas
-                            int indexForZ = m_pAtlasIndexArray.Count;
-
-                            // don't add it using the "standard" way.
-                            addQuadFromSprite(reusedTile, indexForZ);
-                        }
-                    }
-                }
-            }
-            base.visit();
-        }
-
         /// <summary>
         /// optimization methos
         /// </summary>
-        /// <param name="gid"></param>
-        /// <param name="pos"></param>
-        /// <returns></returns>
         private CCSprite appendTileForGID(int gid, CCPoint pos)
         {
-            CCSprite reusedTile = null;
             CCRect rect = m_pTileSet.rectForGID(gid);
             rect = new CCRect(rect.origin.x / m_fContentScaleFactor, rect.origin.y / m_fContentScaleFactor, rect.size.width / m_fContentScaleFactor, rect.size.height / m_fContentScaleFactor);
 
             int z = (int)(pos.x + pos.y * m_tLayerSize.width);
 
-            if (reusedTile == null)
+            if (m_pReusedTile == null)
             {
-                reusedTile = new CCSprite();
-                reusedTile.initWithBatchNode(this, rect);
+                m_pReusedTile = new CCSprite();
+                m_pReusedTile.initWithBatchNode(this, rect);
             }
             else
             {
+                m_pReusedTile = new CCSprite();
                 m_pReusedTile.initWithBatchNode(this, rect);
             }
 
-            reusedTile.position = positionAt(pos);
-            reusedTile.vertexZ = (float)vertexZForPos(pos);
-            reusedTile.anchorPoint = new CCPoint(0, 0);
-            reusedTile.Opacity = 255;
+            m_pReusedTile.position = positionAt(pos);
+            m_pReusedTile.vertexZ = (float)vertexZForPos(pos);
+            m_pReusedTile.anchorPoint = new CCPoint(0, 0);
+            m_pReusedTile.Opacity = 255;
 
             // optimization:
             // The difference between appendTileForGID and insertTileforGID is that append is faster, since
             // it appends the tile at the end of the texture atlas
-            int indexForZ = m_pAtlasIndexArray.Count;
+            int indexForZ = m_pAtlasIndexArray.num;
 
             // don't add it using the "standard" way.
-            addQuadFromSprite(reusedTile, indexForZ);
+            addQuadFromSprite(m_pReusedTile, indexForZ);
 
             // append should be after addQuadFromSprite since it modifies the quantity values
-            // ccCArray.ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, z, indexForZ);
+            ccCArray.ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, z, indexForZ);
 
-            return reusedTile;
+            return m_pReusedTile;
         }
 
         private CCSprite insertTileForGID(int gid, CCPoint pos)
@@ -657,11 +571,12 @@ namespace cocos2d
             if (m_pReusedTile == null)
             {
                 m_pReusedTile = new CCSprite();
-                //m_pReusedTile.initWithBatchNode(this, rect);
+                m_pReusedTile.initWithBatchNode(this, rect);
             }
             else
             {
-                //m_pReusedTile.initWithBatchNode(this, rect);
+                m_pReusedTile = new CCSprite();
+                m_pReusedTile.initWithBatchNode(this, rect);
             }
             m_pReusedTile.positionInPixels = positionAt(pos);
             m_pReusedTile.vertexZ = (float)vertexZForPos(pos);
@@ -675,7 +590,7 @@ namespace cocos2d
             this.addQuadFromSprite(m_pReusedTile, indexForZ);
 
             // insert it into the local atlasindex array
-            m_pAtlasIndexArray.Insert(indexForZ, z);
+            ccCArray.ccCArrayInsertValueAtIndex(m_pAtlasIndexArray, z, indexForZ);
 
             // update possible children
             if (m_pChildren != null && m_pChildren.Count > 0)
@@ -707,11 +622,12 @@ namespace cocos2d
             if (m_pReusedTile == null)
             {
                 m_pReusedTile = new CCSprite();
-                //m_pReusedTile.initWithBatchNode(this, rect);
+                m_pReusedTile.initWithBatchNode(this, rect);
             }
             else
             {
-                //m_pReusedTile.initWithBatchNode(this, rect);
+                m_pReusedTile = new CCSprite();
+                m_pReusedTile.initWithBatchNode(this, rect);
             }
 
             m_pReusedTile.positionInPixels = positionAt(pos);
@@ -787,7 +703,6 @@ namespace cocos2d
         {
             return ((int)a - (int)b);
         }
-
         // index
         private int atlasIndexForExistantZ(int z)
         {
@@ -798,16 +713,17 @@ namespace cocos2d
 
             //int index = ((int)item - (int)m_pAtlasIndexArray->arr) / sizeof(void*);
             //return index;
+            int result = Array.IndexOf<int>(m_pAtlasIndexArray.arr, z);
 
-            return m_pAtlasIndexArray.IndexOf(z);
+            return result;
         }
         private int atlasIndexForNewZ(int z)
         {
             // XXX: This can be improved with a sort of binary search
             int i = 0;
-            for (i = 0; i < m_pAtlasIndexArray.Count; i++)
+            for (i = 0; i < m_pAtlasIndexArray.num; i++)
             {
-                int val = (int)m_pAtlasIndexArray[i];
+                int val = (int)m_pAtlasIndexArray.arr[i];
                 if (z < val)
                     break;
             }

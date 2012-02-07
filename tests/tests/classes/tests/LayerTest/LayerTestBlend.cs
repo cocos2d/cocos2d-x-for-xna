@@ -28,14 +28,14 @@ namespace tests
 
             schedule(newBlend, 1.0f);
         }
-        uint GL_ZERO = 0;
+        int GL_ZERO = 0;
 
         public void newBlend(float dt)
         {
             CCLayerColor layer = (CCLayerColor)getChildByTag(kTagLayer);
 
-            uint src;
-            uint dst;
+            int src;
+            int dst;
 
             if (layer.BlendFunc.dst == GL_ZERO)
             {
