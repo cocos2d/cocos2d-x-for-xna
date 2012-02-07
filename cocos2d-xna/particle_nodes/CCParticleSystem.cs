@@ -937,8 +937,8 @@ namespace cocos2d
 			        m_fDuration = float.Parse(ChangeToZeroIfNull(valueForKey("duration", dictionary)));
 
 			        // blend function 
-			        m_tBlendFunc.src = (uint)int.Parse(ChangeToZeroIfNull(valueForKey("blendFuncSource", dictionary)));
-			        m_tBlendFunc.dst = (uint)int.Parse(ChangeToZeroIfNull(valueForKey("blendFuncDestination", dictionary)));
+			        m_tBlendFunc.src = int.Parse(ChangeToZeroIfNull(valueForKey("blendFuncSource", dictionary)));
+			        m_tBlendFunc.dst = int.Parse(ChangeToZeroIfNull(valueForKey("blendFuncDestination", dictionary)));
 
 			        // color
 			        m_tStartColor.r = float.Parse(ChangeToZeroIfNull(valueForKey("startColorRed", dictionary)));
