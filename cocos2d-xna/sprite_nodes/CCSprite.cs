@@ -117,7 +117,8 @@ namespace cocos2d
             }
             set
             {
-                m_sColor = m_sColorUnmodified = value;
+                m_sColor = new ccColor3B(value.r, value.g, value.b);
+                m_sColorUnmodified = new ccColor3B(value.r, value.g, value.b);
 
                 if (m_bOpacityModifyRGB)
                 {
@@ -414,7 +415,8 @@ namespace cocos2d
 
             m_bOpacityModifyRGB = true;
             m_nOpacity = 255;
-            m_sColor = m_sColorUnmodified = new ccColor3B(255, 255, 255);
+            m_sColor = new ccColor3B(255, 255, 255);
+            m_sColorUnmodified = new ccColor3B(255, 255, 255);
 
             m_sBlendFunc = new ccBlendFunc();
             m_sBlendFunc.src = ccMacros.CC_BLEND_SRC;
@@ -467,23 +469,24 @@ namespace cocos2d
 
             bool newBlend = m_sBlendFunc.src != ccMacros.CC_BLEND_SRC || m_sBlendFunc.dst != ccMacros.CC_BLEND_DST;
             BlendState origin = app.GraphicsDevice.BlendState;
-            //if (newBlend)
-            //{
-            //    BlendState bs = new BlendState();
+            if (newBlend)
+            {
+                BlendState bs = new BlendState();
 
-            //    bs.ColorSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src);
-            //    bs.AlphaSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src); ;
-            //    bs.ColorDestinationBlend = OGLES.GetXNABlend(m_sBlendFunc.dst);
-            //    bs.AlphaDestinationBlend = OGLES.GetXNABlend(m_sBlendFunc.dst);
+                bs.ColorSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src);
+                bs.AlphaSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src); ;
+                bs.ColorDestinationBlend = OGLES.GetXNABlend(m_sBlendFunc.dst);
+                bs.AlphaDestinationBlend = OGLES.GetXNABlend(m_sBlendFunc.dst);
 
-            //    app.GraphicsDevice.BlendState = bs;
-            //    //glBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
-            //}
+                app.GraphicsDevice.BlendState = bs;
+                //glBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
+            }
 
             if (this.Texture != null)
             {
                 app.basicEffect.Texture = this.Texture.getTexture2D();
                 app.basicEffect.TextureEnabled = true;
+                app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
                 app.basicEffect.Alpha = (float)this.Opacity / 255.0f;
                 app.basicEffect.VertexColorEnabled = true;
             }
@@ -491,12 +494,12 @@ namespace cocos2d
             VertexPositionColorTexture[] vertices = this.m_sQuad.getVertices(ccDirectorProjection.CCDirectorProjection3D);
             short[] indexes = this.m_sQuad.getIndexes(ccDirectorProjection.CCDirectorProjection3D);
 
-            VertexDeclaration vertexDeclaration = new VertexDeclaration(new VertexElement[]
-                {
-                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
-                    new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Color, 0),
-                    new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
-                });
+            //VertexDeclaration vertexDeclaration = new VertexDeclaration(new VertexElement[]
+            //    {
+            //        new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+            //        new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Color, 0),
+            //        new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
+            //    });
 
             foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
             {
@@ -510,19 +513,19 @@ namespace cocos2d
 
             app.basicEffect.VertexColorEnabled = false;
 
-            //if (newBlend)
-            //{
-            //    BlendState bs = new BlendState();
+            if (newBlend)
+            {
+                BlendState bs = new BlendState();
 
-            //    bs.ColorSourceBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_SRC);
-            //    bs.AlphaSourceBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_SRC);
-            //    bs.ColorDestinationBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_DST);
-            //    bs.AlphaDestinationBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_DST);
+                bs.ColorSourceBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_SRC);
+                bs.AlphaSourceBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_SRC);
+                bs.ColorDestinationBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_DST);
+                bs.AlphaDestinationBlend = OGLES.GetXNABlend(ccMacros.CC_BLEND_DST);
 
-            //    app.GraphicsDevice.BlendState = bs;
+                app.GraphicsDevice.BlendState = bs;
 
-            //    //glBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
-            //}
+                //glBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
+            }
         }
 
         #region add,remove child
