@@ -174,6 +174,20 @@ namespace cocos2d
                 dimensions.height = temp.Y;
             }
 
+            Vector2 origin;
+            if (CCTextAlignment.CCTextAlignmentRight == alignment)
+            {
+                origin = new Vector2(-(dimensions.width - font.MeasureString(text).X), 0);
+            }
+            else if (CCTextAlignment.CCTextAlignmentCenter == alignment)
+            {
+                origin = new Vector2(-(dimensions.width - font.MeasureString(text).X) / 2.0f, 0);
+            }
+            else
+            {
+                origin = new Vector2(0, 0);
+            }
+
             float scale = 1.0f;//need refer fontSize;
             CCApplication app = CCApplication.sharedApplication();
 
@@ -183,7 +197,7 @@ namespace cocos2d
             app.graphics.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
 
             app.spriteBatch.Begin();
-            app.spriteBatch.DrawString(font, text, new Vector2(0, 0), Color.YellowGreen, 0.0f, new Vector2(0.0f, 0.0f), scale, SpriteEffects.None, 0.0f);
+            app.spriteBatch.DrawString(font, text, new Vector2(0, 0), Color.YellowGreen, 0.0f, origin, scale, SpriteEffects.None, 0.0f);
             app.spriteBatch.End();
 
             app.graphics.GraphicsDevice.SetRenderTarget(null);

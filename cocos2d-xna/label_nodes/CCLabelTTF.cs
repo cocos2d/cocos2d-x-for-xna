@@ -91,7 +91,7 @@ namespace cocos2d
             Debug.Assert(label != null);
             if (init())
             {
-                m_tDimensions = new CCSize(dimensions.width * CCDirector.sharedDirector().getFrames(), dimensions.height * CCDirector.sharedDirector().getFrames());
+                m_tDimensions = new CCSize(dimensions.width * CCDirector.sharedDirector().ContentScaleFactor, dimensions.height * CCDirector.sharedDirector().ContentScaleFactor);
                 m_eAlignment = alignment;
 
                 m_pFontName = fontName;
