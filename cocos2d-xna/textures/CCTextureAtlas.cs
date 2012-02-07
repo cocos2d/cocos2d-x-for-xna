@@ -371,7 +371,7 @@ namespace cocos2d
             //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
             app.basicEffect.Texture = this.Texture.getTexture2D();
             app.basicEffect.TextureEnabled = true;
-            //app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
             List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             short[] indexes = new short[n * 6];
