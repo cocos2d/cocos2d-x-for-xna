@@ -108,7 +108,7 @@ namespace tests
                 resetAndScoreBallForPlayer((int)PlayerTouches.kLowPlayer);
             else if (m_ball.position.y < -m_ball.radius())
                 resetAndScoreBallForPlayer((int)PlayerTouches.kHighPlayer);
-            m_ball.draw();
+            // m_ball.draw();
         }
     }
     public enum PlayerTouches
