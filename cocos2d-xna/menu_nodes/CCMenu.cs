@@ -48,8 +48,8 @@ namespace cocos2d
     /// </summary>
     public class CCMenu : CCLayer, ICCRGBAProtocol, ICCTouchDelegate
     {
-        const float kDefaultPadding = 5;
-        const int kCCMenuTouchPriority = -128;
+        public const float kDefaultPadding = 5;
+        public const int kCCMenuTouchPriority = -128;
 
         protected tCCMenuState m_eState;
         protected CCMenuItem m_pSelectedItem;
