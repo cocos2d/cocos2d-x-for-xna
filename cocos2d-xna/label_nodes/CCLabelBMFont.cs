@@ -65,7 +65,11 @@ namespace cocos2d
             }
             set
             {
-                m_tColor = value;
+                m_tColor.r = value.r;
+                m_tColor.g = value.g;
+                m_tColor.b = value.b;
+
+                createFontChars();
             }
         }
 

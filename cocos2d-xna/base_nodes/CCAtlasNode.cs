@@ -127,7 +127,8 @@ namespace cocos2d
             }
             set
             {
-                m_tColor = m_tColorUnmodified = value;
+                m_tColor = new ccColor3B(value.r, value.g, value.b);
+                m_tColorUnmodified = new ccColor3B(value.r, value.g, value.b);
 
                 if (m_bIsOpacityModifyRGB)
                 {

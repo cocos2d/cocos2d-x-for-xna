@@ -372,6 +372,7 @@ namespace cocos2d
             app.basicEffect.Texture = this.Texture.getTexture2D();
             app.basicEffect.TextureEnabled = true;
             app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            app.basicEffect.VertexColorEnabled = true;
 
             List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             short[] indexes = new short[n * 6];

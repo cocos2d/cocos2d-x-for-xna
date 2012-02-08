@@ -21,8 +21,8 @@ namespace tests
         {
             m_time = 0;
 
-            //CCLayerColor col = CCLayerColor.layerWithColor(new ccColor4B(128, 128, 128, 255));
-            //addChild(col, -10);
+            CCLayerColor col = CCLayerColor.layerWithColor(new ccColor4B(128, 128, 128, 255));
+            addChild(col, -10);
 
             CCLabelBMFont label1 = CCLabelBMFont.labelWithString("Test", "fonts/fnt/bitmapFontTest2");
 

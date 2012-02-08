@@ -25,7 +25,7 @@ namespace tests
             label.anchorPoint = new CCPoint(0.5f, 0.5f);
 
 
-            CCSprite BChar = (CCSprite)label.getChildByTag(1);
+            CCSprite BChar = (CCSprite)label.getChildByTag(0);
             CCSprite FChar = (CCSprite)label.getChildByTag(7);
             CCSprite AChar = (CCSprite)label.getChildByTag(12);
 
@@ -81,8 +81,8 @@ namespace tests
         public override void draw()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();
-            //ccDrawLine(new CCPoint(0, s.height / 2), new CCPoint(s.width, s.height / 2));
-            //ccDrawLine(new CCPoint(s.width / 2, 0), new CCPoint(s.width / 2, s.height));
+            CCDrawingPrimitives.ccDrawLine(new CCPoint(0, s.height / 2), new CCPoint(s.width, s.height / 2), new ccColor4F(255, 0, 0, 255));
+            CCDrawingPrimitives.ccDrawLine(new CCPoint(s.width / 2, 0), new CCPoint(s.width / 2, s.height), new ccColor4F(255, 0, 0, 255));
         }
 
         public override string title()

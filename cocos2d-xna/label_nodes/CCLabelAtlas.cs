@@ -116,7 +116,7 @@ namespace cocos2d
                 quad.br.texCoords.v = bottom;
 
 
-                quad.tl.colors = quad.tr.colors = quad.bl.colors = quad.br.colors = new ccColor4B(this.m_tColor.r, this.m_tColor.g, this.m_tColor.b, 255);
+                quad.tl.colors = quad.tr.colors = quad.bl.colors = quad.br.colors = new ccColor4B(this.m_tColor.r, this.m_tColor.g, this.m_tColor.b, this.m_cOpacity);
 
                 quad.bl.vertices.x = (float)(i * m_uItemWidth);
                 quad.bl.vertices.y = 0;
