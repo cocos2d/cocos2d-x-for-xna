@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2C189E862B284F6686E9541D1F245DA5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_65EFD1A673674385F551A2906C4CAA1E"
         "OwnerKey" = "8:_BD122650E2AC4A398AFA0E196C380EDF"
         "MsmSig" = "8:_UNDEFINED"
@@ -35,12 +41,6 @@
         {
         "MsmKey" = "8:_7CBED563DA1F0360E482E7A05B128666"
         "OwnerKey" = "8:_118F4CAC92BD630290B925DFFFD1B5F6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B27CE49734E74A66956CC6697427BDC2"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -240,6 +240,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2C189E862B284F6686E9541D1F245DA5"
+            {
+            "SourcePath" = "8:..\\vsix\\cocos2d-xna.zip"
+            "TargetName" = "8:cocos2d-xna.zip"
+            "Tag" = "8:"
+            "Folder" = "8:_FBAA6C4CAF3D49B3B01E32DBFBA6AA66"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_65EFD1A673674385F551A2906C4CAA1E"
             {
             "AssemblyRegister" = "3:1"
@@ -289,26 +309,6 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B27CE49734E74A66956CC6697427BDC2"
-            {
-            "SourcePath" = "8:..\\vsix\\cocos2d-xna.zip"
-            "TargetName" = "8:cocos2d-xna.zip"
-            "Tag" = "8:"
-            "Folder" = "8:_FBAA6C4CAF3D49B3B01E32DBFBA6AA66"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
         }
@@ -456,7 +456,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:install-template-mscs"
         "ProductCode" = "8:{9C724568-F3DC-40C6-8DA5-E24EF8E9AFD5}"
-        "PackageCode" = "8:{3725B757-8C72-4502-96F9-90852EB55D23}"
+        "PackageCode" = "8:{241AF161-3EDE-43F0-8CE4-9F675CFD8F67}"
         "UpgradeCode" = "8:{2B72C815-6B43-468E-9778-A27E81829681}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
