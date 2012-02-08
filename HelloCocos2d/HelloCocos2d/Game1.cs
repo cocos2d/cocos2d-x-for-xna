@@ -18,9 +18,14 @@ namespace HelloCocos2d
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        GraphicsDeviceManager graphics;
+
         public Game1()
         {
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            this.graphics.IsFullScreen = true;
 
             // Frame rate is 30 fps by default for Windows Phone.
             TargetElapsedTime = TimeSpan.FromTicks(333333);
@@ -28,7 +33,7 @@ namespace HelloCocos2d
             // Extend battery life under lock.
             InactiveSleepTime = TimeSpan.FromSeconds(1);
 
-            CCApplication application = new AppDelegate(this, Content);
+            CCApplication application = new AppDelegate(this, graphics);
             this.Components.Add(application);
         }
 

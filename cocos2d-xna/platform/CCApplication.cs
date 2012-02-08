@@ -68,12 +68,12 @@ namespace cocos2d
         bool m_bCaptured;
         float m_fScreenScaleFactor;
 
-        public CCApplication(Game game, ContentManager content)
+        public CCApplication(Game game, GraphicsDeviceManager graphics)
             : base(game)
         {
             this.game = game;
-            this.graphics = new GraphicsDeviceManager(game);
-            this.content = content;
+            this.graphics = graphics;
+            this.content = game.Content;
 
             game.Window.OrientationChanged += Window_OrientationChanged;
 
@@ -118,8 +118,6 @@ namespace cocos2d
         VertexDeclaration vertexDeclaration;
         public override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.Black);
-
             basicEffect.View = viewMatrix;
             basicEffect.World = worldMatrix;
             basicEffect.Projection = projectionMatrix;

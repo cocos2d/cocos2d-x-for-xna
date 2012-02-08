@@ -10,8 +10,8 @@ namespace tests
 {
     public class AppDelegate : CCApplication
     {
-        public AppDelegate(Game game, ContentManager content)
-            : base(game, content)
+        public AppDelegate(Game game, GraphicsDeviceManager graphics)
+            : base(game, graphics)
         {
             CCApplication.sm_pSharedApplication = this;
         }
