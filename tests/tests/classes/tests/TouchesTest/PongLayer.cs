@@ -108,6 +108,9 @@ namespace tests
                 resetAndScoreBallForPlayer((int)PlayerTouches.kLowPlayer);
             else if (m_ball.position.y < -m_ball.radius())
                 resetAndScoreBallForPlayer((int)PlayerTouches.kHighPlayer);
+
+            // this code exists in c++ version,
+            // but it seems unnecessary here, and it causes a redundant ball bug
             // m_ball.draw();
         }
     }

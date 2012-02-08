@@ -302,8 +302,10 @@ namespace tests
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             m_tamara.scaleX = 2.5f;
-            m_tamara.scaleY = -1.0f;
-            m_tamara.position = new CCPoint(100,70);
+            // todo: the situation that scale is negtive hasn't been supported
+            // original code : m_tamara->setScaleY(-1.0f);
+            m_tamara.scaleY = 1.0f;
+            m_tamara.position = new CCPoint(150, 100);
             m_tamara.Opacity = 128;
 
             m_grossini.rotation = 120;
