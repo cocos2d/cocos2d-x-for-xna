@@ -1,19 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
-  <Identifier Id="Cocos2d_xna.VSIX..aef40efb-983e-44cb-bf97-eeeabfb42d8c">
-    <Name>Cocos2d_xna Application</Name>
+  <Identifier Id="Cocos2d_xna.VSIX..dc7debfa-04e1-496e-9eca-15db1997ea1a">
+    <Name>Cocos2d_xna.VSIX</Name>
     <Author />
-    <Version>0.8</Version>
-    <Description xml:space="preserve">Create a cocos2d-xna project.</Description>
+    <Version>1.0</Version>
+    <Description xml:space="preserve">Empty VSIX Project.</Description>
     <Locale>1033</Locale>
-    <Icon>__Template_small.png</Icon>
-    <PreviewImage>__Template_large.png</PreviewImage>
     <SupportedProducts>
       <VisualStudio Version="10.0">
-        <Edition>Ultimate</Edition>
-        <Edition>Premium</Edition>
         <Edition>Pro</Edition>
-        <Edition>Express_All</Edition>
       </VisualStudio>
     </SupportedProducts>
     <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.0" />
