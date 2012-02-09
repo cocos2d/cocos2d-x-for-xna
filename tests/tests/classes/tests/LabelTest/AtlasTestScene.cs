@@ -9,7 +9,7 @@ namespace tests
     public class AtlasTestScene : TestScene
     {
         static int sceneIdx = -1;
-        static readonly int MAX_LAYER = 17;
+        static readonly int MAX_LAYER = 14;
 
         public static CCLayer nextAtlasAction()
         {
@@ -58,10 +58,10 @@ namespace tests
                 case 12: return new LabelGlyphDesigner();
 
                 // Not a label test. Should be moved to Atlas test
-                case 13: return new Atlas1();
-                case 14: return new LabelTTFTest();
-                case 15: return new LabelTTFMultiline();
-                case 16: return new LabelTTFChinese();
+                //case 13: return new Atlas1();
+                case 13: return new LabelTTFTest();
+                //case 15: return new LabelTTFMultiline();
+                //case 16: return new LabelTTFChinese();
                 default:
                     break;
             }

@@ -73,7 +73,7 @@ namespace tests
         }
 
         public static int sceneIdx = -1;
-        public static int MAX_LAYER = 5;
+        public static int MAX_LAYER = 4;
 
         public static CCLayer backActionManagerAction()
         {
@@ -91,11 +91,11 @@ namespace tests
         {
             switch (nIndex)
             {
-                case 0: return new CrashTest();
-                case 1: return new LogicTest();
-                case 2: return new PauseTest();
-                case 3: return new RemoveTest();
-                case 4: return new ResumeTest();
+                // case 0: return new CrashTest();
+                case 0: return new LogicTest();
+                case 1: return new PauseTest();
+                case 2: return new RemoveTest();
+                case 3: return new ResumeTest();
             }
 
             return null;

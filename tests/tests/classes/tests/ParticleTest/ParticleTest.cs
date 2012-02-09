@@ -23,7 +23,7 @@ namespace tests
 
         public static int sceneIdx = -1; 
 
-        public static int MAX_LAYER = 29;
+        public static int MAX_LAYER = 27;
 
         public static CCLayer createParticleLayer(int nIndex)
         {
@@ -47,27 +47,25 @@ namespace tests
                 // case 13: return new DemoModernArt();
                 
                 case 13: return new DemoRing();
-                case 14: return new ParallaxParticle();
-                case 15: return new DemoParticleFromFile("BoilingFoam");
-                case 16: return new DemoParticleFromFile("BurstPipe");
-                case 17: return new DemoParticleFromFile("CometPlist");
-                case 18: return new DemoParticleFromFile("debian");
-                case 19: return new DemoParticleFromFile("ExplodingRing");
-                case 20: return new DemoParticleFromFile("LavaFlow");
-                case 21: return new DemoParticleFromFile("SpinningPeasPlist");
-                case 22: return new DemoParticleFromFile("SpookyPeasPlist");
-                case 23: return new DemoParticleFromFile("Upsidedown");
+                case 14: return new DemoParticleFromFile("BoilingFoam");
+                case 15: return new DemoParticleFromFile("BurstPipe");
+                case 16: return new DemoParticleFromFile("CometPlist");
+                case 17: return new DemoParticleFromFile("debian");
+                case 18: return new DemoParticleFromFile("ExplodingRing");
+                case 19: return new DemoParticleFromFile("LavaFlow");
+                case 20: return new DemoParticleFromFile("SpinningPeasPlist");
+                case 21: return new DemoParticleFromFile("SpookyPeasPlist");
+                case 22: return new DemoParticleFromFile("Upsidedown");
 
                 // !the following three tests are using texturedata
                 // case 24: return new DemoParticleFromFile("FlowerPlist");
                 // case 25: return new DemoParticleFromFile("Spiral");
                 // case 26: return new DemoParticleFromFile("GalaxyPlist");
 
-                case 24: return new RadiusMode1();
-                case 25: return new RadiusMode2();
-                case 26: return new Issue704();
-                case 27: return new Issue870();
-                case 28: return new DemoParticleFromFile("Phoenix");
+                case 23: return new RadiusMode1();
+                case 24: return new RadiusMode2();
+                case 25: return new Issue704();
+                case 26: return new DemoParticleFromFile("Phoenix");
                 
                 //case 0: return new DemoFlower();
                 //case 1: return new DemoGalaxy();

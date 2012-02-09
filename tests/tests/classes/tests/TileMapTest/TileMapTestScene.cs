@@ -9,7 +9,7 @@ namespace tests
     public class TileMapTestScene : TestScene
     {
         public static int sceneIdx = -1;
-        public static int MAX_LAYER = 22;
+        public static int MAX_LAYER = 21;
 
         public static int kTagTileMap = 1;
 
@@ -42,31 +42,31 @@ namespace tests
         {
             switch (nIndex)
             {
-                case 0: return new TMXIsoZorder();
-                case 1: return new TMXOrthoZorder();
-                case 2: return new TMXIsoVertexZ();
-                case 3: return new TMXOrthoVertexZ();
-                case 4: return new TMXOrthoTest();
-                case 5: return new TMXOrthoTest2();
-                case 6: return new TMXOrthoTest3();
-                case 7: return new TMXOrthoTest4();
-                case 8: return new TMXIsoTest();
-                case 9: return new TMXIsoTest1();
-                case 10: return new TMXIsoTest2();
-                case 11: return new TMXUncompressedTest();
-                case 12: return new TMXHexTest();
-                case 13: return new TMXReadWriteTest();
-                case 14: return new TMXTilesetTest();
-                case 15: return new TMXOrthoObjectsTest();
-                case 16: return new TMXIsoObjectsTest();
-                case 17: return new TMXResizeTest();
-                case 18: return new TMXIsoMoveLayer();
-                case 19: return new TMXOrthoMoveLayer();
+                // case 0: return new TMXIsoZorder();
+                case 0: return new TMXOrthoZorder();
+                // case 2: return new TMXIsoVertexZ();
+                case 1: return new TMXOrthoVertexZ();
+                case 2: return new TMXOrthoTest();
+                case 3: return new TMXOrthoTest2();
+                case 4: return new TMXOrthoTest3();
+                case 5: return new TMXOrthoTest4();
+                case 6: return new TMXIsoTest();
+                case 7: return new TMXIsoTest1();
+                case 8: return new TMXIsoTest2();
+                case 9: return new TMXUncompressedTest();
+                case 10: return new TMXHexTest();
+                case 11: return new TMXReadWriteTest();
+                case 12: return new TMXTilesetTest();
+                case 13: return new TMXOrthoObjectsTest();
+                case 14: return new TMXIsoObjectsTest();
+                case 15: return new TMXResizeTest();
+                case 16: return new TMXIsoMoveLayer();
+                case 17: return new TMXOrthoMoveLayer();
                 //case 20: return new TileMapTest();
                 //case 20: return new TileMapEditTest();
-                case 20: return new TMXBug987();
-                case 21: return new TMXBug787();
-                case 22: return new TMXGIDObjectsTest();
+                case 18: return new TMXBug987();
+                case 19: return new TMXBug787();
+                case 20: return new TMXGIDObjectsTest();
             }
 
             return null;
