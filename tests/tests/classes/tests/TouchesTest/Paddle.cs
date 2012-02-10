@@ -1,7 +1,7 @@
 ﻿/****************************************************************************
-Copyright (c) 2010-2011 cocos2d-x.org
+Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2009 Jason Booth
-Copyright (c) 2011      Fulcrum Mobile Network, Inc.
+Copyright (c) 2011-2012 Fulcrum Mobile Network, Inc
 
 http://www.cocos2d-x.org
 http://www.openxlive.com
