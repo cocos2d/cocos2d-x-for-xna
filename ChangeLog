@@ -1,0 +1,16 @@
+cocos2d-x for xna 1.0.0 Feb.17 2012
+* This is the 3d-alpha version of cocos2d-x for xna.
+* And the primary features of the engine have been realized.
+
+Primary Features
+------------------
+	director:manages how and when to execute the Scenes
+	node:the main element, anything thats gets drawn or contains things that get drawn is a CCNode
+	layer:inherites from node and implements the TouchEventsDelegate protocol 
+	scene:organizes the nodes and then run, actually shown, by the director 
+	sprite:a kind of node binding a 2d image with corresponding features
+	menu:responses to the clicks 
+	labelttf:be used to render text labels
+	particle system:nearly thirty particle examples are shown in tests, supports plist
+	tilemap:a kind of map that is composed of many texture tiles
+	cocosdenshion:offer the interfaces to play background music and sound effect
