@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace cocos2d.menu_nodes
+namespace cocos2d
 {
     /// <summary>
     /// A CCMenuItemToggle
@@ -99,7 +99,7 @@ namespace cocos2d.menu_nodes
                 this.removeChildByTag(CCMenuItem.kCurrentItem, false);
                 CCMenuItem item = m_pSubItems[m_uSelectedIndex];
                 this.addChild(item, 0, CCMenuItem.kCurrentItem);
-                CCSize s = item.contentSize;
+                CCSize s = new CCSize(item.contentSize.width, item.contentSize.height);
                 this.contentSize = s;
                 item.position = new CCPoint(s.width / 2, s.height / 2);
             }
