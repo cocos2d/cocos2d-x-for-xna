@@ -283,14 +283,15 @@ namespace cocos2d
                 else
                     Debug.WriteLine("cocos2d: TMXFomat: Unsupported orientation: {0}", pTMXMapInfo.Orientation);
 
-                CCSize s = new CCSize();
-                s.width = float.Parse(attributeDict["width"]);
-                s.height = float.Parse(attributeDict["height"]);
-                pTMXMapInfo.MapSize = s;
+                CCSize sMapSize = new CCSize();
+                sMapSize.width = float.Parse(attributeDict["width"]);
+                sMapSize.height = float.Parse(attributeDict["height"]);
+                pTMXMapInfo.MapSize = sMapSize;
 
-                s.width = float.Parse(attributeDict["tilewidth"]);
-                s.height = float.Parse(attributeDict["tileheight"]);
-                pTMXMapInfo.TileSize = s;
+                CCSize sTileSize = new CCSize();
+                sTileSize.width = float.Parse(attributeDict["tilewidth"]);
+                sTileSize.height = float.Parse(attributeDict["tileheight"]);
+                pTMXMapInfo.TileSize = sTileSize;
 
                 // The parent element is now "map"
                 pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyMap;

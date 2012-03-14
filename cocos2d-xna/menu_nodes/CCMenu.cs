@@ -94,7 +94,7 @@ namespace cocos2d
         /// </summary>
         public static CCMenu menuWithItem(CCMenuItem item)
         {
-            return menuWithItems(item, null);
+            return menuWithItems(item);
         }
 
         /// <summary>

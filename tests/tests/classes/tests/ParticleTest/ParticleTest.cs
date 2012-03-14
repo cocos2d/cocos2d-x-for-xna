@@ -937,6 +937,8 @@ namespace tests
             m_emitter.initWithFile(filename);
             addChild(m_emitter, 10);
 
+            m_emitter.IsBlendAdditive = true;
+
             setEmitterPosition();
         }
         public override string title()

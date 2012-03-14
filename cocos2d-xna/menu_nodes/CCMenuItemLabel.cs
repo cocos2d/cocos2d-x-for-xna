@@ -174,9 +174,9 @@ namespace cocos2d
             if (m_bIsEnabled)
             {
                 base.unselected();
-                //this.stopActionByTag((int)kZoomActionTag);
+                this.stopActionByTag(unchecked((int)kZoomActionTag));
                 CCAction zoomAction = CCScaleTo.actionWithDuration(0.1f, m_fOriginalScale);
-                //zoomAction.tag=kZoomActionTag;
+                zoomAction.tag = unchecked((int)kZoomActionTag);
                 this.runAction(zoomAction);
             }
         }

@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace cocos2d
 {
@@ -979,7 +980,7 @@ namespace cocos2d
 			        m_fEndSpin= float.Parse(ChangeToZeroIfNull(valueForKey("rotationEnd", dictionary)));
 			        m_fEndSpinVar= float.Parse(ChangeToZeroIfNull(valueForKey("rotationEndVariance", dictionary)));
 
-			        m_nEmitterMode = int.Parse(ChangeToZeroIfNull(valueForKey("emitterType", dictionary)));
+                    m_nEmitterMode = int.Parse(ChangeToZeroIfNull(valueForKey("emitterType", dictionary)), NumberStyles.AllowDecimalPoint);
 
 			        // Mode A: Gravity + tangential accel + radial accel
 			        if( m_nEmitterMode == (int)eParticleMode.kCCParticleModeGravity ) 
