@@ -319,7 +319,11 @@ namespace cocos2d
         {
             base.draw();
 
-            CCApplication.sharedApplication().spriteBatch.Begin();
+            BlendState eBlendState = BlendState.AlphaBlend;
+            if (this.IsBlendAdditive)
+                eBlendState = BlendState.Additive;
+
+            CCApplication.sharedApplication().spriteBatch.Begin(SpriteSortMode.Deferred, eBlendState);
             for (int i = 0; i < this.ParticleCount; i++)
             {
                 CCParticle particle = m_pParticles[i];

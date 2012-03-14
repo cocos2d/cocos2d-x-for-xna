@@ -483,7 +483,6 @@ namespace cocos2d
             {
                 app.basicEffect.Texture = this.Texture.getTexture2D();
                 app.basicEffect.TextureEnabled = true;
-                app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
                 app.basicEffect.Alpha = (float)this.Opacity / 255.0f;
                 app.basicEffect.VertexColorEnabled = true;
             }
