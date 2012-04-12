@@ -319,6 +319,8 @@ namespace cocos2d
         {
             base.draw();
 
+            BlendState oldBlendState = CCApplication.sharedApplication().GraphicsDevice.BlendState;
+
             BlendState eBlendState = BlendState.AlphaBlend;
             if (this.IsBlendAdditive)
                 eBlendState = BlendState.Additive;
@@ -349,8 +351,10 @@ namespace cocos2d
                     scale = particle.size / Texture.getTexture2D().Width;
                 }
 
+                float rotation = particle.rotation;
+
                 Vector2 origin = new Vector2(Texture.getTexture2D().Width / 2, Texture.getTexture2D().Height / 2);
-                CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, 0, origin, scale, SpriteEffects.None, 0);
+                CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, rotation, origin, scale, SpriteEffects.None, 0);
 
 
                 //CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform());
@@ -368,6 +372,8 @@ namespace cocos2d
                 //CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, 0, origin, 1.0f, SpriteEffects.None, 0);
             }
             CCApplication.sharedApplication().spriteBatch.End();
+
+            CCApplication.sharedApplication().GraphicsDevice.BlendState = oldBlendState;
 
         //    // Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
         //    // Needed states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
