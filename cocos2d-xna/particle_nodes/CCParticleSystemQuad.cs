@@ -351,8 +351,10 @@ namespace cocos2d
                     scale = particle.size / Texture.getTexture2D().Width;
                 }
 
+                float rotation = particle.rotation;
+
                 Vector2 origin = new Vector2(Texture.getTexture2D().Width / 2, Texture.getTexture2D().Height / 2);
-                CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, 0, origin, scale, SpriteEffects.None, 0);
+                CCApplication.sharedApplication().spriteBatch.Draw(this.Texture.getTexture2D(), vecPosition, null, color, rotation, origin, scale, SpriteEffects.None, 0);
 
 
                 //CCPoint uiPoint = CCAffineTransform.CCPointApplyAffineTransform(new CCPoint(), this.nodeToWorldTransform());
