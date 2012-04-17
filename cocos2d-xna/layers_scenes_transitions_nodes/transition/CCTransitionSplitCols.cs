@@ -2,7 +2,8 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -29,9 +30,12 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// @brief CCTransitionSplitCols:
+    /// The odd columns goes upwards while the even columns goes downwards.
+    /// </summary>
     public class CCTransitionSplitCols : CCTransitionScene, ICCTransitionEaseScene
     {
-
         public virtual CCActionInterval action()
         {
             return CCSplitCols.actionWithCols(3, m_fDuration / 2.0f);
@@ -50,37 +54,27 @@ namespace cocos2d
                 split.reverse()
             );
 
-            this.runAction
-        (
-            CCSequence.actions(
-            easeActionWithAction(seq),
-            CCCallFunc.actionWithTarget(this, base.finish),
-            CCStopGrid.action()
-            )
-         );
-
+            this.runAction(CCSequence.actions(
+                easeActionWithAction(seq),
+                CCCallFunc.actionWithTarget(this, base.finish),
+                CCStopGrid.action()));
         }
 
-        public virtual CCActionInterval easeActionWithAction(CCActionInterval action)
+        public virtual CCFiniteTimeAction easeActionWithAction(CCActionInterval action)
         {
             return CCEaseInOut.actionWithAction(action, 3.0f);
         }
 
         //public   DECLEAR_TRANSITIONWITHDURATION(CCTransitionSplitCols);
-        public static new CCTransitionSplitCols transitionWithDuration(float t, CCScene scene)
+        public new static CCTransitionSplitCols transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionSplitCols pScene = new CCTransitionSplitCols();
-            if (pScene != null && pScene.initWithDuration(t, scene))
+            if (pScene.initWithDuration(t, scene))
             {
                 return pScene;
             }
-            pScene = null;
-            return null;
-        }
 
-        CCFiniteTimeAction ICCTransitionEaseScene.easeActionWithAction(CCActionInterval action)
-        {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace tests
             CCActionInterval shaky = CCShakyTiles3D.actionWithRange(4, false, new ccGridSize(15, 10), 5);
             CCActionInterval shuffle = CCShuffleTiles.actionWithSeed(0, new ccGridSize(15, 10), 3);
             CCActionInterval turnoff = CCTurnOffTiles.actionWithSeed(0, new ccGridSize(15, 10), 3);
-            CCActionInterval turnon = null;
+            CCFiniteTimeAction turnon = turnoff.reverse();
 
             // reuse 2 times:
             //   1 for shuffle

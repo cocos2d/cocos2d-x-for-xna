@@ -2,6 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +32,11 @@ namespace cocos2d
 {
     public class CCTransitionCrossFade : CCTransitionScene
     {
+        const int kSceneFade = int.MaxValue;
+
         public override void draw()
         {
             // override draw since both scenes (textures) are rendered in 1 scene
-            base.draw();
         }
 
         public override void onEnter()
@@ -59,7 +61,7 @@ namespace cocos2d
             inTexture.position = new CCPoint(size.width / 2, size.height / 2);
             inTexture.anchorPoint = new CCPoint(0.5f, 0.5f);
 
-            // render inScene to its texturebuffer
+            //  render inScene to its texturebuffer
             inTexture.begin();
             m_pInScene.visit();
             inTexture.end();
@@ -70,15 +72,15 @@ namespace cocos2d
             outTexture.position = new CCPoint(size.width / 2, size.height / 2);
             outTexture.anchorPoint = new CCPoint(0.5f, 0.5f);
 
-            // render outScene to its texturebuffer
+            //  render outScene to its texturebuffer
             outTexture.begin();
             m_pOutScene.visit();
             outTexture.end();
 
             // create blend functions
 
-            ccBlendFunc blend1 = new ccBlendFunc(1, 1); // inScene will lay on background and will not be used with alpha
-            ccBlendFunc blend2 = new ccBlendFunc(0x0302, 0x0303); // we are going to blend outScene via alpha 
+            ccBlendFunc blend1 = new ccBlendFunc(OGLES.GL_ONE, OGLES.GL_ONE); // inScene will lay on background and will not be used with alpha
+            ccBlendFunc blend2 = new ccBlendFunc(OGLES.GL_SRC_ALPHA, OGLES.GL_ONE_MINUS_SRC_ALPHA); // we are going to blend outScene via alpha 
 
             // set blendfunctions
             inTexture.Sprite.BlendFunc = blend1;
@@ -97,34 +99,32 @@ namespace cocos2d
             (
                 CCFadeTo.actionWithDuration(m_fDuration, 0),
                 CCCallFunc.actionWithTarget(this, (base.hideOutShowIn)),
-                CCCallFunc.actionWithTarget(this, (base.finish)),
-                null
+                CCCallFunc.actionWithTarget(this, (base.finish))
             );
 
 
-            // run the blend action
+            //// run the blend action
             outTexture.Sprite.runAction(layerAction);
 
             // add the layer (which contains our two rendertextures) to the scene
-            //addChild(layer, 2, kSceneFade);
+            addChild(layer, 2, kSceneFade);
         }
 
         public override void onExit()
         {
             // remove our layer and release all containing objects 
-            //this.removeChildByTag(kSceneFade, false);
+            this.removeChildByTag(kSceneFade, false);
             base.onExit();
         }
 
         public static new CCTransitionCrossFade transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionCrossFade pScene = new CCTransitionCrossFade();
-            if (pScene != null && pScene.initWithDuration(t, scene))
+            if (pScene.initWithDuration(t, scene))
             {
-                //pScene->autorelease();
                 return pScene;
             }
-            pScene = null;
+
             return null;
         }
     }

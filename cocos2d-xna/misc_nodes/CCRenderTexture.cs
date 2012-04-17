@@ -1,28 +1,62 @@
+/****************************************************************************
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2011 Zynga Inc.
+Copyright (c) 2011-2012 openxlive.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+****************************************************************************/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace cocos2d
 {
+    public enum tImageFormat
+    {
+        kCCImageFormatJPG = 0,
+        kCCImageFormatPNG = 1,
+        kCCImageFormatRawData = 2
+    }
+
+    /// <summary>
+    /// @brief CCRenderTexture is a generic rendering target. To render things into it,
+    /// simply construct a render target, call begin on it, call visit on any cocos
+    /// scenes or objects to render them, and call end. For convienience, render texture
+    /// adds a sprite as it's display child with the results, so you can simply add
+    /// the render texture to your scene and treat it like any other CocosNode.
+    /// There are also functions for saving the render texture to disk in PNG or JPG format.
+    /// @since v0.8.1
+    /// </summary>
     public class CCRenderTexture : CCNode
     {
-        public enum tImageFormat
-        {
-            kCCImageFormatJPG = 0,
-            kCCImageFormatPNG = 1,
-            kCCImageFormatRawData = 2
-        }
-
+        protected CCSprite m_pSprite;
         /// <summary>
         /// The CCSprite being used.
-        ///The sprite, by default, will use the following blending function: GL_ONE, GL_ONE_MINUS_SRC_ALPHA.
-        ///The blending function can be changed in runtime by calling:
-        ///- [[renderTexture sprite] setBlendFunc:(ccBlendFunc){GL_ONE, GL_ONE_MINUS_SRC_ALPHA}];
+        /// The sprite, by default, will use the following blending function: GL_ONE, GL_ONE_MINUS_SRC_ALPHA.
+        /// The blending function can be changed in runtime by calling:
+        /// - [[renderTexture sprite] setBlendFunc:(ccBlendFunc){GL_ONE, GL_ONE_MINUS_SRC_ALPHA}];
         /// </summary>
-        protected CCSprite m_pSprite;
-
         public CCSprite Sprite
         {
             get { return m_pSprite; }
@@ -31,57 +65,42 @@ namespace cocos2d
 
         public CCRenderTexture()
         {
-            removeAllChildrenWithCleanup(true);
-            //ccglDeleteFramebuffers(1, m_uFBO);
-            //CC_SAFE_DELETE(m_pUITextureImage);
+            m_ePixelFormat = (int)CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGBA8888;
         }
 
         /// <summary>
         /// creates a RenderTexture object with width and height in Points and a pixel format, only RGB and RGBA formats are valid
         /// </summary>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <param name="eFormat"></param>
-        /// <returns></returns>
         public static CCRenderTexture renderTextureWithWidthAndHeight(int w, int h, CCTexture2DPixelFormat eFormat)
         {
             CCRenderTexture pRet = new CCRenderTexture();
 
-            if (pRet != null && pRet.initWithWidthAndHeight(w, h, eFormat))
+            if (pRet.initWithWidthAndHeight(w, h, eFormat))
             {
-                //pRet->autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet);
+
             return null;
         }
 
         /// <summary>
         ///  creates a RenderTexture object with width and height in Points, pixel format is RGBA8888
         /// </summary>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <returns></returns>
         public static CCRenderTexture renderTextureWithWidthAndHeight(int w, int h)
         {
             CCRenderTexture pRet = new CCRenderTexture();
 
-            if (pRet != null && pRet.initWithWidthAndHeight(w, h, CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGBA8888))
+            if (pRet.initWithWidthAndHeight(w, h, CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGBA8888))
             {
-                //pRet->autorelease();
                 return pRet;
             }
-            //CC_SAFE_DELETE(pRet)
+
             return null;
         }
 
         /// <summary>
         ///  initializes a RenderTexture object with width and height in Points and a pixel format, only RGB and RGBA formats are valid 
         /// </summary>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <param name="eFormat"></param>
-        /// <returns></returns>
         public bool initWithWidthAndHeight(int w, int h, CCTexture2DPixelFormat eFormat)
         {
             // If the gles version is lower than GLES_VER_1_0, 
@@ -94,8 +113,8 @@ namespace cocos2d
             bool bRet = false;
             do
             {
-                w = (int)CCDirector.sharedDirector().ContentScaleFactor;
-                h = (int)CCDirector.sharedDirector().ContentScaleFactor;
+                w *= (int)CCDirector.sharedDirector().ContentScaleFactor;
+                h *= (int)CCDirector.sharedDirector().ContentScaleFactor;
 
                 //glGetIntegerv(0x8CA6, m_nOldFBO);
 
@@ -103,17 +122,15 @@ namespace cocos2d
                 uint powW = (uint)ccUtils.ccNextPOT(w);
                 uint powH = (uint)ccUtils.ccNextPOT(h);
 
-                var data = (int)(powW * powH * 4);
-                //CC_BREAK_IF(! data);
-
-                //memset(data, 0, (int)(powW * powH * 4));
-                //m_ePixelFormat = eFormat;
-
                 m_pTexture = new CCTexture2D();
-                //CC_BREAK_IF(! m_pTexture);
 
-                m_pTexture.initWithData(data, (CCTexture2DPixelFormat)m_ePixelFormat, powW, powH, new CCSize((float)w, (float)h));
-                //free( data );
+                CCApplication app = CCApplication.sharedApplication();
+                m_RenderTarget2D = new RenderTarget2D(app.GraphicsDevice, (int)w, (int)h);
+                app.GraphicsDevice.SetRenderTarget(m_RenderTarget2D);
+                app.GraphicsDevice.Clear(new Microsoft.Xna.Framework.Color(0, 0, 0, 0));
+
+
+                m_pTexture.initWithTexture(m_RenderTarget2D);
 
                 // generate FBO
                 //ccglGenFramebuffers(1, &m_uFBO);
@@ -131,12 +148,12 @@ namespace cocos2d
                 //    break;
                 //}
 
-                m_pTexture.setAliasTexParameters();
+                //m_pTexture.setAliasTexParameters();
 
                 m_pSprite = CCSprite.spriteWithTexture(m_pTexture);
 
                 //m_pTexture->release();
-                m_pSprite.scaleY = -1;
+                //m_pSprite.scaleY = -1;
                 this.addChild(m_pSprite);
 
                 ccBlendFunc tBlendFunc = new ccBlendFunc { src = 1, dst = 0x0303 };
@@ -144,7 +161,8 @@ namespace cocos2d
 
                 //ccglBindFramebuffer(CC_GL_FRAMEBUFFER, m_nOldFBO);
                 bRet = true;
-            } while (true);
+            } while (false);
+
             return bRet;
         }
 
@@ -162,6 +180,8 @@ namespace cocos2d
             CCSize size = CCDirector.sharedDirector().displaySizeInPixels;
             float widthRatio = size.width / texSize.width;
             float heightRatio = size.height / texSize.height;
+
+            CCApplication.sharedApplication().GraphicsDevice.SetRenderTarget(m_RenderTarget2D);
 
             // Adjust the orthographic propjection and viewport
             //ccglOrtho((float)-1.0 / widthRatio,  (float)1.0 / widthRatio, (float)-1.0 / heightRatio, (float)1.0 / heightRatio, -1,1);
@@ -188,14 +208,11 @@ namespace cocos2d
         /// starts rendering to the texture while clearing the texture first.
         ///    This is more efficient then calling -clear first and then -begin
         /// </summary>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
-        /// <param name="a"></param>
         public void beginWithClear(float r, float g, float b, float a)
         {
             this.begin();
 
+            CCApplication.sharedApplication().GraphicsDevice.Clear(new Microsoft.Xna.Framework.Color(r, g, b, a));
             // save clear color
             //GLfloat	clearColor[4];
             //glGetFloatv(GL_COLOR_CLEAR_VALUE,clearColor); 
@@ -251,16 +268,19 @@ namespace cocos2d
 
         public void end()
         {
+            CCApplication.sharedApplication().GraphicsDevice.SetRenderTarget(null);
+            //this.m_pTexture.initWithTexture(this.m_RenderTarget2D);
 
+            //m_pSprite = CCSprite.spriteWithTexture(m_pTexture);
+            //this.addChild(m_pSprite);
+
+            //ccBlendFunc tBlendFunc = new ccBlendFunc { src = 1, dst = 0x0303 };
+            //m_pSprite.BlendFunc = tBlendFunc;
         }
 
         /// <summary>
         /// clears the texture with a color
         /// </summary>
-        /// <param name="r"></param>
-        /// <param name="g"></param>
-        /// <param name="b"></param>
-        /// <param name="a"></param>
         public void clear(float r, float g, float b, float a)
         {
             this.beginWithClear(r, g, b, a);
@@ -498,10 +518,10 @@ namespace cocos2d
             return bRet;
         }
 
-        protected uint m_uFBO;
+        protected int m_uFBO;
         protected int m_nOldFBO;
         protected CCTexture2D m_pTexture;
-        protected CCTexture2D m_pUITextureImage;
-        protected uint m_ePixelFormat;
+        protected int m_ePixelFormat;
+        private RenderTarget2D m_RenderTarget2D;
     }
 }

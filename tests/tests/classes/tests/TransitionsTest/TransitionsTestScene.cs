@@ -27,6 +27,60 @@ namespace tests
 
     public class TransitionsTestScene : TestScene
     {
+        public static int s_nSceneIdx = 0;
+        public static int MAX_LAYER = 33;
+        public static float TRANSITION_DURATION = 1.2f;
+        public static string s_back1 = "Images/background1";
+        public static string s_back2 = "Images/background2";
+
+        public static string s_pPathB1 = "Images/b1";
+        public static string s_pPathB2 = "Images/b2";
+        public static string s_pPathR1 = "Images/r1";
+        public static string s_pPathR2 = "Images/r2";
+        public static string s_pPathF1 = "Images/f1";
+        public static string s_pPathF2 = "Images/f2";
+
+        public static string[] transitions = new string[]  {
+    "JumpZoomTransition",
+    "FadeTransition",
+    "FadeWhiteTransition",
+    "FlipXLeftOver",
+    "FlipXRightOver",
+    "FlipYUpOver",
+    "FlipYDownOver",
+    "FlipAngularLeftOver",
+    "FlipAngularRightOver",
+    "ZoomFlipXLeftOver",
+    "ZoomFlipXRightOver",
+    "ZoomFlipYUpOver",
+    "ZoomFlipYDownOver",
+    "ZoomFlipAngularLeftOver",
+    "ZoomFlipAngularRightOver",
+    "ShrinkGrowTransition",
+    "RotoZoomTransition",
+    //"MoveInLTransition",
+    //"MoveInRTransition",
+    //"MoveInTTransition",
+    //"MoveInBTransition",
+    "SlideInLTransition",
+    "SlideInRTransition",
+    "SlideInTTransition",
+    "SlideInBTransition",
+
+    "CCTransitionCrossFade",
+    "CCTransitionRadialCCW",
+    "CCTransitionRadialCW",
+    "PageTransitionForward",
+    "PageTransitionBackward",
+    "FadeTRTransition",
+    "FadeBLTransition",
+    "FadeUpTransition",
+    "FadeDownTransition",
+    "TurnOffTilesTransition",
+    "SplitRowsTransition",
+    "SplitColsTransition",
+};
+
         public override void runThisTest()
         {
             CCLayer pLayer = new TestLayer1();
@@ -45,7 +99,6 @@ namespace tests
                 case 0: return CCTransitionJumpZoom.transitionWithDuration(t, s);
                 case 1: return CCTransitionFade.transitionWithDuration(t, s);
                 case 2: return FadeWhiteTransition.transitionWithDuration(t, s);
-
                 case 3: return FlipXLeftOver.transitionWithDuration(t, s);
                 case 4: return FlipXRightOver.transitionWithDuration(t, s);
                 case 5: return FlipYUpOver.transitionWithDuration(t, s);
@@ -60,15 +113,15 @@ namespace tests
                 case 14: return ZoomFlipAngularRightOver.transitionWithDuration(t, s);
                 case 15: return CCTransitionShrinkGrow.transitionWithDuration(t, s);
                 case 16: return CCTransitionRotoZoom.transitionWithDuration(t, s);
-                case 17: return CCTransitionMoveInL.transitionWithDuration(t, s);
-                case 18: return CCTransitionMoveInR.transitionWithDuration(t, s);
-                case 19: return CCTransitionMoveInT.transitionWithDuration(t, s);
-                case 20: return CCTransitionMoveInB.transitionWithDuration(t, s);
-                case 21: return CCTransitionSlideInL.transitionWithDuration(t, s);
-                case 22: return CCTransitionSlideInR.transitionWithDuration(t, s);
-                case 23: return CCTransitionSlideInT.transitionWithDuration(t, s);
-                case 24: return CCTransitionSlideInB.transitionWithDuration(t, s);
-                case 25:
+                //case 17: return CCTransitionMoveInL.transitionWithDuration(t, s);
+                //case 18: return CCTransitionMoveInR.transitionWithDuration(t, s);
+                //case 19: return CCTransitionMoveInT.transitionWithDuration(t, s);
+                //case 20: return CCTransitionMoveInB.transitionWithDuration(t, s);
+                case 17: return CCTransitionSlideInL.transitionWithDuration(t, s);
+                case 18: return CCTransitionSlideInR.transitionWithDuration(t, s);
+                case 19: return CCTransitionSlideInT.transitionWithDuration(t, s);
+                case 20: return CCTransitionSlideInB.transitionWithDuration(t, s);
+                case 21:
                     {
                         if (CCConfiguration.sharedConfiguration().getGlesVersion() <= CCGlesVersion.GLES_VER_1_0)
                         {
@@ -80,8 +133,7 @@ namespace tests
                             return CCTransitionCrossFade.transitionWithDuration(t, s);
                         }
                     }
-                    break;
-                case 26:
+                case 22:
                     {
                         if (CCConfiguration.sharedConfiguration().getGlesVersion() <= CCGlesVersion.GLES_VER_1_0)
                         {
@@ -90,11 +142,10 @@ namespace tests
                         }
                         else
                         {
-                            //return CCTransitionRadialCCW.transitionWithDuration(t,s);
+                            return CCTransitionRadialCCW.transitionWithDuration(t, s);
                         }
                     }
-                    break;
-                case 27:
+                case 23:
                     {
                         if (CCConfiguration.sharedConfiguration().getGlesVersion() <= CCGlesVersion.GLES_VER_1_0)
                         {
@@ -103,19 +154,18 @@ namespace tests
                         }
                         else
                         {
-                            //return CCTransitionRadialCW::transitionWithDuration(t,s);
+                            return CCTransitionRadialCW.transitionWithDuration(t, s);
                         }
                     }
-                    break;
-                case 28: return PageTransitionForward.transitionWithDuration(t, s);
-                case 29: return PageTransitionBackward.transitionWithDuration(t, s);
-                case 30: return CCTransitionFadeTR.transitionWithDuration(t, s);
-                case 31: return CCTransitionFadeBL.transitionWithDuration(t, s);
-                case 32: return CCTransitionFadeUp.transitionWithDuration(t, s);
-                case 33: return CCTransitionFadeDown.transitionWithDuration(t, s);
-                case 34: return CCTransitionTurnOffTiles.transitionWithDuration(t, s);
-                case 35: return CCTransitionSplitRows.transitionWithDuration(t, s);
-                case 36: return CCTransitionSplitCols.transitionWithDuration(t, s);
+                case 24: return PageTransitionForward.transitionWithDuration(t, s);
+                case 25: return PageTransitionBackward.transitionWithDuration(t, s);
+                case 26: return CCTransitionFadeTR.transitionWithDuration(t, s);
+                case 27: return CCTransitionFadeBL.transitionWithDuration(t, s);
+                case 28: return CCTransitionFadeUp.transitionWithDuration(t, s);
+                case 29: return CCTransitionFadeDown.transitionWithDuration(t, s);
+                case 30: return CCTransitionTurnOffTiles.transitionWithDuration(t, s);
+                case 31: return CCTransitionSplitRows.transitionWithDuration(t, s);
+                case 32: return CCTransitionSplitCols.transitionWithDuration(t, s);
                 default: break;
             }
 

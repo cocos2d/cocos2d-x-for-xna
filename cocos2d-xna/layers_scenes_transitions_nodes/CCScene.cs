@@ -46,9 +46,12 @@ namespace cocos2d
     /// </summary>
     public class CCScene : CCNode
     {
-        public ccSceneFlag getSceneType() { return m_eSceneType; }
-
         protected ccSceneFlag m_eSceneType;
+        public ccSceneFlag SceneType
+        {
+            get { return m_eSceneType; }
+        }
+
         public CCScene()
         {
             isRelativeAnchorPoint = false;

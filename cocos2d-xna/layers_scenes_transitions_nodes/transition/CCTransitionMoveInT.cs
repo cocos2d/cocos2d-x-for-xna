@@ -31,7 +31,6 @@ namespace cocos2d
 {
     public class CCTransitionMoveInT : CCTransitionMoveInL
     {
-
         public override void initScenes()
         {
             CCSize s = CCDirector.sharedDirector().getWinSize();

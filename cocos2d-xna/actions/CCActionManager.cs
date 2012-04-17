@@ -3,7 +3,7 @@ Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2009      Valentin Milea
 Copyright (c) 2011      Zynga Inc.
- 
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,17 +28,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 namespace cocos2d
 {
-    /** 
-     @brief CCActionManager is a singleton that manages all the actions.
-     Normally you won't need to use this singleton directly. 99% of the cases you will use the CCNode interface,
-     which uses this singleton.
-     But there are some cases where you might need to use this singleton.
-     Examples:
-	    - When you want to run an action where the target is different from a CCNode. 
-	    - When you want to pause / resume the actions
- 
-     @since v0.8
-     */
+    /// <summary>
+    /// @brief CCActionManager is a singleton that manages all the actions.
+    /// Normally you won't need to use this singleton directly. 99% of the cases you will use the CCNode interface,
+    /// which uses this singleton.
+    /// But there are some cases where you might need to use this singleton.
+    /// @since v0.8
+    /// </summary>
+    /// <example>
+    /// Examples:
+    /// - When you want to run an action where the target is different from a CCNode. 
+    /// - When you want to pause / resume the actions
+    /// </example>
     public class CCActionManager : CCObject, SelectorProtocol
     {
         private CCActionManager()
@@ -63,11 +64,12 @@ namespace cocos2d
 
         // actions
 
-        /** Adds an action with a target. 
-         If the target is already present, then the action will be added to the existing target.
-         If the target is not present, a new instance of this target will be created either paused or not, and the action will be added to the newly created target.
-         When the target is paused, the queued actions won't be 'ticked'.
-         */
+        /// <summary>
+        /// Adds an action with a target. 
+        ///  If the target is already present, then the action will be added to the existing target.
+        ///  If the target is not present, a new instance of this target will be created either paused or not, and the action will be added to the newly created target.
+        ///  When the target is paused, the queued actions won't be 'ticked'.
+        /// </summary>
         public void addAction(CCAction action, CCNode target, bool paused)
         {
             Debug.Assert(action != null);
@@ -94,8 +96,9 @@ namespace cocos2d
             action.startWithTarget(target);
         }
 
-        /** Removes all actions from all the targets.
-        */
+        /// <summary>
+        /// Removes all actions from all the targets.
+        /// </summary>
         public void removeAllActions()
         {
             CCObject[] targets = new CCObject[m_pTargets.Keys.Count];
@@ -106,9 +109,10 @@ namespace cocos2d
             }
         }
 
-        /** Removes all actions from a certain target.
-	     All the actions that belongs to the target will be removed.
-	     */
+        /// <summary>
+        /// Removes all actions from a certain target.
+        /// All the actions that belongs to the target will be removed.
+        /// </summary>
         public void removeAllActionsFromTarget(CCObject target)
         {
             if (target == null)
@@ -141,8 +145,9 @@ namespace cocos2d
             }
         }
 
-        /** Removes an action given an action reference.
-        */
+        /// <summary>
+        /// Removes an action given an action reference.
+        /// </summary>
         public void removeAction(CCAction action)
         {
             if (action == null)
@@ -168,7 +173,9 @@ namespace cocos2d
             }
         }
 
-        /** Removes an action given its tag and the target */
+        /// <summary>
+        /// Removes an action given its tag and the target
+        /// </summary>
         public void removeActionByTag(int tag, CCObject target)
         {
             Debug.Assert((tag != (int)ActionTag.kCCActionTagInvalid));
@@ -192,9 +199,12 @@ namespace cocos2d
             }
         }
 
-        /** Gets an action given its tag an a target
-	     @return the Action the with the given tag
-	     */
+        /// <summary>
+        /// Gets an action given its tag an a target
+        /// </summary>
+        /// <returns>
+        /// @return the Action the with the given tag
+        /// </returns>
         public CCAction getActionByTag(uint tag, CCObject target)
         {
             Debug.Assert((int)tag != (int)ActionTag.kCCActionTagInvalid);
@@ -229,11 +239,12 @@ namespace cocos2d
             return null;
         }
 
-        /** Returns the numbers of actions that are running in a certain target. 
-	     * Composable actions are counted as 1 action. Example:
-	     * - If you are running 1 Sequence of 7 actions, it will return 1.
-	     * - If you are running 7 Sequences of 2 actions, it will return 7.
-	     */
+        /// <summary>
+        /// Returns the numbers of actions that are running in a certain target. 
+        /// Composable actions are counted as 1 action. Example:
+        /// - If you are running 1 Sequence of 7 actions, it will return 1.
+        /// - If you are running 7 Sequences of 2 actions, it will return 7.
+        /// </summary>
         public uint numberOfRunningActionsInTarget(CCObject target)
         {
             if (m_pTargets.ContainsKey(target))
@@ -245,8 +256,9 @@ namespace cocos2d
             return 0;
         }
 
-        /** Pauses the target: all running actions and newly added actions will be paused.
-	    */
+        /// <summary>
+        /// Pauses the target: all running actions and newly added actions will be paused.
+        /// </summary>
         public void pauseTarget(CCObject target)
         {
             if (m_pTargets.ContainsKey(target))
@@ -255,8 +267,9 @@ namespace cocos2d
             }
         }
 
-        /** Resumes the target. All queued actions will be resumed.
-	    */
+        /// <summary>
+        /// Resumes the target. All queued actions will be resumed.
+        /// </summary>
         public void resumeTarget(CCObject target)
         {
             if (m_pTargets.ContainsKey(target))
@@ -265,7 +278,9 @@ namespace cocos2d
             }
         }
 
-        /** returns a shared instance of the CCActionManager */
+        /// <summary>
+        /// returns a shared instance of the CCActionManager
+        /// </summary>
         public static CCActionManager sharedManager()
         {
             CCActionManager ret = g_sharedActionManager;
@@ -283,10 +298,11 @@ namespace cocos2d
             return ret;
         }
 
-        /** purges the shared action manager. It releases the retained instance.
-	     * because it uses this, so it can not be static
-	     @since v0.99.0
-	     */
+        /// <summary>
+        /// purges the shared action manager. It releases the retained instance.
+        /// because it uses this, so it can not be static
+        /// @since v0.99.0
+        /// </summary>
         public void purgeSharedManager()
         {
             CCScheduler.sharedScheduler().unscheduleAllSelectorsForTarget(this);

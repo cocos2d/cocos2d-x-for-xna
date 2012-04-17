@@ -2,7 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2011 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 using System.Diagnostics;
+
 namespace cocos2d
 {
-    /** @brief Runs actions sequentially, one after another */
+    /// <summary>
+    /// @brief Runs actions sequentially, one after another
+    /// </summary>
     public class CCSequence : CCActionInterval
     {
         public CCSequence()
@@ -34,6 +37,9 @@ namespace cocos2d
             m_pActions = new CCFiniteTimeAction[2];
         }
 
+        /// <summary>
+        /// initializes the action
+        /// </summary>
         public bool initOneTwo(CCFiniteTimeAction actionOne, CCFiniteTimeAction aciontTwo)
         {
             Debug.Assert(actionOne != null);
@@ -153,13 +159,17 @@ namespace cocos2d
             return CCSequence.actionOneTwo(m_pActions[1].reverse(), m_pActions[0].reverse());
         }
 
-        /** helper constructor to create an array of sequenceable actions */
+        /// <summary>
+        /// helper constructor to create an array of sequenceable actions
+        /// </summary>
         public static CCFiniteTimeAction actions(params CCFiniteTimeAction[] actions)
         {
             return actionsWithArray(actions);
         }
 
-        /** helper contructor to create an array of sequenceable actions given an array */
+        /// <summary>
+        /// helper contructor to create an array of sequenceable actions given an array
+        /// </summary>
         public static CCFiniteTimeAction actionsWithArray(CCFiniteTimeAction[] actions)
         {
             CCFiniteTimeAction prev = actions[0];

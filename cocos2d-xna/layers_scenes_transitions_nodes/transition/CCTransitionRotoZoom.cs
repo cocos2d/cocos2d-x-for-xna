@@ -31,7 +31,6 @@ namespace cocos2d
 {
     public class CCTransitionRotoZoom : CCTransitionScene
     {
-
         public override void onEnter()
         {
             base.onEnter();
@@ -47,11 +46,9 @@ namespace cocos2d
                 CCSpawn.actions
                 (
                     CCScaleBy.actionWithDuration(m_fDuration / 2, 0.001f),
-                    CCRotateBy.actionWithDuration(m_fDuration / 2, 360 * 2),
-                    null
+                    CCRotateBy.actionWithDuration(m_fDuration / 2, 360 * 2)
                 ),
-                CCDelayTime.actionWithDuration(m_fDuration / 2),
-                null
+                CCDelayTime.actionWithDuration(m_fDuration / 2)
             ));
 
             m_pOutScene.runAction(rotozoom);
@@ -60,8 +57,7 @@ namespace cocos2d
                 CCSequence.actions
                 (
                     rotozoom.reverse(),
-                    CCCallFunc.actionWithTarget(this, (base.finish)),
-                    null
+                    CCCallFunc.actionWithTarget(this, (base.finish))
                 )
             );
         }

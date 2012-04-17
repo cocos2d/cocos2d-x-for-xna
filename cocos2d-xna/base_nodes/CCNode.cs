@@ -416,7 +416,7 @@ namespace cocos2d
                     return node;
                 }
             }
-
+             
             return null;
         }
 
@@ -481,18 +481,13 @@ namespace cocos2d
                 return;
             }
             m_tCCNodeTransform = Matrix.Identity;
-            Matrix origin = CCApplication.sharedApplication().worldMatrix;
-            ///@todo
-            // glPushMatrix();
+            Matrix ori = Matrix.Identity * CCApplication.sharedApplication().basicEffect.View;
 
-            ///@todo
-            /*
-            if (m_pGrid && m_pGrid->isActive())
+            if (m_pGrid != null && m_pGrid.Active)
             {
-                m_pGrid->beforeDraw();
-                this->transformAncestors();
+                m_pGrid.beforeDraw();
+                this.transformAncestors();
             }
-             */
 
             transform();
 
@@ -533,16 +528,34 @@ namespace cocos2d
                 }
             }
 
-            ///@todo
-            /*
-             * if (m_pGrid && m_pGrid->isActive())
- 	           {
- 		           m_pGrid->afterDraw(this);
-	           }
-  */
+
+            if (m_pGrid != null && m_pGrid.Active)
+            {
+                m_pGrid.afterDraw(this);
+            }
+
             CCApplication.sharedApplication().basicEffect.World = Matrix.Invert(m_tCCNodeTransform) * CCApplication.sharedApplication().basicEffect.World;
-            m_tCCNodeTransform = Matrix.Identity;
+            CCApplication.sharedApplication().basicEffect.View = ori;
+            CCApplication.sharedApplication().viewMatrix = ori;
         }
+
+        /// <summary>
+        /// only use by CCTransitionScene,this is a bad method,it should be replace by some good way
+        /// </summary>
+        public virtual void visitDraw()
+        {
+            // quick return if not visible
+            if (!m_bIsVisible)
+            {
+                return;
+            }
+
+            if (m_pGrid != null && m_pGrid.Active)
+            {
+                m_pGrid.blit();
+            }
+        }
+
 
         /// <summary>
         /// The update function
@@ -581,26 +594,36 @@ namespace cocos2d
                 m_tCCNodeTransform *= Matrix.CreateRotationZ(m_fVertexZ);
             }
 
-            app.basicEffect.World = m_tCCNodeTransform * app.basicEffect.World;
+
 
             // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
-            //if (m_pCamera && !(m_pGrid && m_pGrid->isActive()))
-            //{
-            //    bool translate = (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f);
+            if (m_pCamera != null && !(m_pGrid != null && m_pGrid.Active))
+            {
+                bool translate = (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f);
 
-            //    if (translate)
-            //    {
-            //        ccglTranslate(RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.y), 0);
-            //    }
+                //if (translate)
+                //{
+                //    m_tCCNodeTransform *= Matrix.CreateTranslation(-m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y, 0);
+                //    //ccglTranslate(RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.y), 0);
+                //}
 
-            //    m_pCamera->locate();
+                Matrix? matrix = m_pCamera.locate();
+                if (matrix != null)
+                {
+                    m_tCCNodeTransform = Matrix.CreateTranslation(-m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y, 0) *
+                        matrix.Value *
+                        Matrix.CreateTranslation(m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y, 0) *
+                        m_tCCNodeTransform;
+                }
 
-            //    if (translate)
-            //    {
-            //        ccglTranslate(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
-            //    }
-            //}
+                //if (translate)
+                //{
+                //    m_tCCNodeTransform *= Matrix.CreateTranslation(m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y, 0);
+                //    //ccglTranslate(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
+                //}
+            }
 
+            app.basicEffect.World = m_tCCNodeTransform * app.basicEffect.World;
 
             // END alternative
 #else
@@ -1546,7 +1569,7 @@ namespace cocos2d
 
         // transform
         protected CCAffineTransform m_tTransform, m_tInverse;
-        protected Matrix m_tCCNodeTransform;
+        protected Matrix m_tCCNodeTransform, m_tView;
 
 #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
         float[] m_pTransformGL = new float[16];

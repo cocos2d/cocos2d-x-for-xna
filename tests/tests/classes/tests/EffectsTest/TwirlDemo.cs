@@ -8,7 +8,7 @@ namespace tests
 {
     public class TwirlDemo : CCTwirl
     {
-        public static CCActionInterval actionWithDuration(float t)
+        public new static CCActionInterval actionWithDuration(float t)
         {
             CCSize size = CCDirector.sharedDirector().getWinSize();
             return CCTwirl.actionWithPosition(new CCPoint(size.width / 2, size.height / 2), 1, 2.5f, new ccGridSize(12, 8), t);

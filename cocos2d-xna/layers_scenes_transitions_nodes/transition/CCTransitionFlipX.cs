@@ -2,7 +2,8 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -31,7 +32,7 @@ namespace cocos2d
 {
     public class CCTransitionFlipX : CCTransitionSceneOriented
     {
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -61,17 +62,13 @@ namespace cocos2d
                     CCDelayTime.actionWithDuration(m_fDuration / 2),
                     CCShow.action(),
                     CCOrbitCamera.actionWithDuration(m_fDuration / 2, 1, 0, inAngleZ, inDeltaZ, 0, 0),
-                    CCCallFunc.actionWithTarget(this, (base.finish)),
-                    null
-                );
+                    CCCallFunc.actionWithTarget(this, (base.finish)));
 
             outA = (CCActionInterval)CCSequence.actions
                 (
                     CCOrbitCamera.actionWithDuration(m_fDuration / 2, 1, 0, outAngleZ, outDeltaZ, 0, 0),
                     CCHide.action(),
-                    CCDelayTime.actionWithDuration(m_fDuration / 2),
-                    null
-                );
+                    CCDelayTime.actionWithDuration(m_fDuration / 2));
 
             m_pInScene.runAction(inA);
             m_pOutScene.runAction(outA);

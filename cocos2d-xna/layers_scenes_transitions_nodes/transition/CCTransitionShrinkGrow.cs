@@ -50,8 +50,7 @@ namespace cocos2d
                 CCSequence.actions
                 (
                     this.easeActionWithAction(scaleOut),
-                    CCCallFunc.actionWithTarget(this, (base.finish)),
-                    null
+                    CCCallFunc.actionWithTarget(this, (base.finish))
                 )
             );
         }

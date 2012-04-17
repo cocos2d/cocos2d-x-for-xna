@@ -2,6 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
@@ -34,15 +37,16 @@ namespace cocos2d
         /// <summary>
         ///  returns the tile at the given position
         /// </summary>
-        /// <param name="pos"></param>
-        /// <returns></returns>
         public ccQuad3 tile(ccGridSize pos)
         {
-            int idx = (m_sGridSize.y * pos.x + pos.y) * 4 * 3;
-            float[] vertArray = m_pVertices;
+            int idx = (m_sGridSize.y * pos.x + pos.y);
+            ccQuad3[] vertArray = m_pVertices;
 
             ccQuad3 ret = new ccQuad3();
-            //memcpy(&ret, &vertArray[idx], sizeof(ccQuad3));
+            ret.bl = new ccVertex3F(vertArray[idx].bl.x, vertArray[idx].bl.y, vertArray[idx].bl.z);
+            ret.br = new ccVertex3F(vertArray[idx].br.x, vertArray[idx].br.y, vertArray[idx].br.z);
+            ret.tl = new ccVertex3F(vertArray[idx].tl.x, vertArray[idx].tl.y, vertArray[idx].tl.z);
+            ret.tr = new ccVertex3F(vertArray[idx].tr.x, vertArray[idx].tr.y, vertArray[idx].tr.z);
 
             return ret;
         }
@@ -50,32 +54,31 @@ namespace cocos2d
         /// <summary>
         /// returns the original tile (untransformed) at the given position
         /// </summary>
-        /// <param name="pos"></param>
-        /// <returns></returns>
         public ccQuad3 originalTile(ccGridSize pos)
         {
-            int idx = (m_sGridSize.y * pos.x + pos.y) * 4 * 3;
-            float[] vertArray = m_pOriginalVertices;
+            int idx = (m_sGridSize.y * pos.x + pos.y);
+            ccQuad3[] vertArray = m_pOriginalVertices;
 
             ccQuad3 ret = new ccQuad3();
-            //memcpy(&ret, &vertArray[idx], sizeof(ccQuad3));
-            //ret = vertArray[idx];
+            ret.bl = new ccVertex3F(vertArray[idx].bl.x, vertArray[idx].bl.y, vertArray[idx].bl.z);
+            ret.br = new ccVertex3F(vertArray[idx].br.x, vertArray[idx].br.y, vertArray[idx].br.z);
+            ret.tl = new ccVertex3F(vertArray[idx].tl.x, vertArray[idx].tl.y, vertArray[idx].tl.z);
+            ret.tr = new ccVertex3F(vertArray[idx].tr.x, vertArray[idx].tr.y, vertArray[idx].tr.z);
+
             return ret;
         }
 
         /// <summary>
         /// sets a new tile
         /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="coords"></param>
         public void setTile(ccGridSize pos, ccQuad3 coords)
         {
-            int idx = (m_sGridSize.y * pos.x + pos.y) * 4 * 3;
-            float[] vertArray = m_pVertices;
-            //memcpy(&vertArray[idx], &coords, sizeof(ccQuad3));
+            int idx = (m_sGridSize.y * pos.x + pos.y);
+            ccQuad3[] vertArray = m_pVertices;
+            vertArray[idx] = coords;
         }
 
-        public virtual void blit()
+        public override void blit()
         {
             int n = m_sGridSize.x * m_sGridSize.y;
 
@@ -90,37 +93,93 @@ namespace cocos2d
 
             //// restore default GL state
             //glEnableClientState(GL_COLOR_ARRAY);
+
+
+            CCApplication app = CCApplication.sharedApplication();
+            CCSize size = CCDirector.sharedDirector().getWinSize();
+
+            //app.basicEffect.World = app.worldMatrix *TransformUtils.CGAffineToMatrix( this.nodeToWorldTransform());
+            app.basicEffect.Texture = this.m_pTexture.getTexture2D();
+            app.basicEffect.TextureEnabled = true;
+            app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            app.basicEffect.VertexColorEnabled = true;
+
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+            for (int i = 0; i < m_sGridSize.x * m_sGridSize.y; i++)
+            {
+                ccQuad3 quad = this.m_pVertices[i];
+                ccQuad2 texQuad = this.m_pTexCoordinates[i];
+                if (quad != null)
+                {
+                    VertexPositionColorTexture vt = new VertexPositionColorTexture();
+                    vt.Position = new Vector3(quad.bl.x, quad.bl.y, quad.bl.z);
+                    vt.Color = Color.White;
+                    vt.TextureCoordinate = new Vector2(texQuad.bl.x, texQuad.bl.y);
+                    vertices.Add(vt);
+
+                    vt = new VertexPositionColorTexture();
+                    vt.Position = new Vector3(quad.br.x, quad.br.y, quad.br.z);
+                    vt.Color = Color.White;
+                    vt.TextureCoordinate = new Vector2(texQuad.br.x, texQuad.br.y);
+                    vertices.Add(vt);
+
+                    vt = new VertexPositionColorTexture();
+                    vt.Position = new Vector3(quad.tl.x, quad.tl.y, quad.tl.z);
+                    vt.Color = Color.White;
+                    vt.TextureCoordinate = new Vector2(texQuad.tl.x, texQuad.tl.y);
+                    vertices.Add(vt);
+
+                    vt = new VertexPositionColorTexture();
+                    vt.Position = new Vector3(quad.tr.x, quad.tr.y, quad.tr.z);
+                    vt.Color = Color.White;
+                    vt.TextureCoordinate = new Vector2(texQuad.tr.x, texQuad.tr.y);
+                    vertices.Add(vt);
+                }
+            }
+
+            foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+                app.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColorTexture>(
+                    PrimitiveType.TriangleList,
+                    vertices.ToArray(), 0, vertices.Count,
+                    this.m_pIndices, 0, this.m_pIndices.Length / 3);
+            }
         }
-        public virtual void reuse()
+
+        public override void reuse()
         {
             if (m_nReuseGrid > 0)
             {
                 int numQuads = m_sGridSize.x * m_sGridSize.y;
 
+                Array.Copy(m_pVertices, m_pOriginalVertices, numQuads);
                 //memcpy(m_pOriginalVertices, m_pVertices, numQuads * 12 * sizeof(GLfloat));
                 m_pOriginalVertices = m_pVertices;
                 --m_nReuseGrid;
             }
         }
 
-        public virtual void calculateVertexPoints()
+        public override void calculateVertexPoints()
         {
-            float width = (float)m_pTexture.PixelsWide;
-            float height = (float)m_pTexture.PixelsHigh;
+            float width = m_pTexture.ContentSizeInPixels.width;// (float)m_pTexture.PixelsWide;
+            float height = m_pTexture.ContentSizeInPixels.height;// (float)m_pTexture.PixelsHigh;
             float imageH = m_pTexture.ContentSizeInPixels.height;
 
             int numQuads = m_sGridSize.x * m_sGridSize.y;
 
-            m_pVertices = new float[12];
-            m_pOriginalVertices = new float[12];
-            m_pTexCoordinates = new float[8];
-            m_pIndices = new ushort[6];
+            m_pVertices = new ccQuad3[numQuads];
+            m_pOriginalVertices = new ccQuad3[numQuads];
+            m_pTexCoordinates = new ccQuad2[numQuads];
+            m_pIndices = new short[numQuads * 6];
 
-            float[] vertArray = m_pVertices;
-            float[] texArray = m_pTexCoordinates;
-            ushort[] idxArray = m_pIndices;
+            ccQuad3[] vertArray = m_pVertices;
+            ccQuad2[] texArray = m_pTexCoordinates;
+            short[] idxArray = m_pIndices;
 
             int x, y;
+            int index = 0;
 
             for (x = 0; x < m_sGridSize.x; x++)
             {
@@ -131,94 +190,71 @@ namespace cocos2d
                     float y1 = y * m_obStep.y;
                     float y2 = y1 + m_obStep.y;
 
-                    vertArray[0] = x1;
-                    vertArray[1] = y1;
-                    vertArray[2] = 0;
-                    vertArray[3] = x2;
-                    vertArray[4] = y1;
-                    vertArray[5] = 0;
-                    vertArray[6] = x1;
-                    vertArray[7] = y2;
-                    vertArray[8] = 0;
-                    vertArray[9] = x2;
-                    vertArray[10] = y2;
-                    vertArray[11] = 0;
+                    vertArray[index] = new ccQuad3();
+                    vertArray[index].bl = new ccVertex3F(x1, y1, 0);
+                    vertArray[index].br = new ccVertex3F(x2, y1, 0);
+                    vertArray[index].tl = new ccVertex3F(x1, y2, 0);
+                    vertArray[index].tr = new ccVertex3F(x2, y2, 0);
 
                     float newY1 = y1;
                     float newY2 = y2;
 
-                    if (m_bIsTextureFlipped)
+                    if (!m_bIsTextureFlipped)
                     {
                         newY1 = imageH - y1;
                         newY2 = imageH - y2;
                     }
 
-                    texArray[0] = x1 / width;
-                    texArray[1] = newY1 / height;
-                    texArray[2] = x2 / width;
-                    texArray[3] = newY1 / height;
-                    texArray[4] = x1 / width;
-                    texArray[5] = newY2 / height;
-                    texArray[6] = x2 / width;
-                    texArray[7] = newY2 / height;
+                    texArray[index] = new ccQuad2();
+                    texArray[index].bl = new ccVertex2F(x1 / width, newY1 / height);
+                    texArray[index].br = new ccVertex2F(x2 / width, newY1 / height);
+                    texArray[index].tl = new ccVertex2F(x1 / width, newY2 / height);
+                    texArray[index].tr = new ccVertex2F(x2 / width, newY2 / height);
+
+                    index++;
                 }
             }
 
             for (x = 0; x < numQuads; x++)
             {
-                idxArray[x * 6 + 0] = (ushort)(x * 4 + 0);
-                idxArray[x * 6 + 1] = (ushort)(x * 4 + 1);
-                idxArray[x * 6 + 2] = (ushort)(x * 4 + 2);
+                idxArray[x * 6 + 0] = (short)(x * 4 + 0);
+                idxArray[x * 6 + 1] = (short)(x * 4 + 2);
+                idxArray[x * 6 + 2] = (short)(x * 4 + 1);
 
-                idxArray[x * 6 + 3] = (ushort)(x * 4 + 1);
-                idxArray[x * 6 + 4] = (ushort)(x * 4 + 2);
-                idxArray[x * 6 + 5] = (ushort)(x * 4 + 3);
+                idxArray[x * 6 + 3] = (short)(x * 4 + 1);
+                idxArray[x * 6 + 4] = (short)(x * 4 + 2);
+                idxArray[x * 6 + 5] = (short)(x * 4 + 3);
             }
 
-            //memcpy(m_pOriginalVertices, m_pVertices, numQuads * 12 * sizeof(GLfloat));
+            Array.Copy(m_pVertices, m_pOriginalVertices, numQuads);
         }
 
-        public static CCTiledGrid3D gridWithSize(ccGridSize gridSize, CCTexture2D pTexture, bool bFlipped)
+        public new static CCTiledGrid3D gridWithSize(ccGridSize gridSize, CCTexture2D pTexture, bool bFlipped)
         {
             CCTiledGrid3D pRet = new CCTiledGrid3D();
 
-            if (pRet != null)
+            if (pRet.initWithSize(gridSize, pTexture, bFlipped))
             {
-                if (pRet.initWithSize(gridSize, pTexture, bFlipped))
-                {
-                    //pRet->autorelease();
-                }
-                else
-                {
-                    //delete pRet;
-                    pRet = null;
-                }
+                return pRet;
             }
 
-            return pRet;
+            return null;
         }
-        public static CCTiledGrid3D gridWithSize(ccGridSize gridSize)
+        public new static CCTiledGrid3D gridWithSize(ccGridSize gridSize)
         {
             CCTiledGrid3D pRet = new CCTiledGrid3D();
 
-            if (pRet != null)
+            if (pRet.initWithSize(gridSize))
             {
-                if (pRet.initWithSize(gridSize))
-                {
-                    //pRet->autorelease();
-                }
-                else
-                {
-                    //delete pRet;
-                    pRet = null;
-                }
+                return pRet;
             }
-            return pRet;
+
+            return null;
         }
 
-        protected float[] m_pTexCoordinates;
-        protected float[] m_pVertices;
-        protected float[] m_pOriginalVertices;
-        protected ushort[] m_pIndices;
+        protected ccQuad2[] m_pTexCoordinates;
+        protected ccQuad3[] m_pVertices;
+        protected ccQuad3[] m_pOriginalVertices;
+        protected short[] m_pIndices;
     }
 }

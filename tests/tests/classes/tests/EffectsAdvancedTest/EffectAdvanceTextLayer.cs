@@ -16,9 +16,12 @@ namespace tests
 
         }
 
+        protected CCSprite grossini;
+        protected CCSprite tamara;
         public override void onEnter()
         {
             base.onEnter();
+
             float x, y;
 
             CCSize size = CCDirector.sharedDirector().getWinSize();
@@ -29,23 +32,21 @@ namespace tests
             addChild(bg, 0, EffectAdvanceScene.kTagBackground);
             bg.position = new CCPoint(x / 2, y / 2);
 
-            CCSprite grossini = CCSprite.spriteWithFile("Images/grossinis_sister2");
+            grossini = CCSprite.spriteWithFile("Images/grossinis_sister2");
             bg.addChild(grossini, 1, EffectAdvanceScene.kTagSprite1);
             grossini.position = new CCPoint(x / 3.0f, 200);
             CCActionInterval sc = CCScaleBy.actionWithDuration(2, 5);
-            //CCActionInterval sc_back = sc.reverse();
-            CCActionInterval sc_back = null;
+            CCFiniteTimeAction sc_back = sc.reverse();
             grossini.runAction(CCRepeatForever.actionWithAction((CCActionInterval)(CCSequence.actions(sc, sc_back))));
 
-            CCSprite tamara = CCSprite.spriteWithFile("Images/grossinis_sister1");
+            tamara = CCSprite.spriteWithFile("Images/grossinis_sister1");
             bg.addChild(tamara, 1, EffectAdvanceScene.kTagSprite2);
             tamara.position = new CCPoint(2 * x / 3.0f, 200);
             CCActionInterval sc2 = CCScaleBy.actionWithDuration(2, 5);
-            //CCActionInterval sc2_back = sc2.reverse();
-            CCActionInterval sc2_back = null;
+            CCFiniteTimeAction sc2_back = sc2.reverse();
             tamara.runAction(CCRepeatForever.actionWithAction((CCActionInterval)(CCSequence.actions(sc2, sc2_back))));
 
-            CCLabelTTF label = CCLabelTTF.labelWithString(title(), "Marker Felt", 28);
+            CCLabelTTF label = CCLabelTTF.labelWithString(title(), "Arial", 28);
 
             label.position = new CCPoint(x / 2, y - 80);
             addChild(label);
@@ -54,14 +55,14 @@ namespace tests
             string strSubtitle = subtitle();
             if (strSubtitle != null)
             {
-                CCLabelTTF l = CCLabelTTF.labelWithString(strSubtitle, "Thonburi", 16);
+                CCLabelTTF l = CCLabelTTF.labelWithString(strSubtitle, "Arial", 16);
                 addChild(l, 101);
                 l.position = new CCPoint(size.width / 2, size.height - 80);
             }
 
-            CCMenuItemImage item1 = CCMenuItemImage.itemFromNormalImage("Images/b1.png", "Images/b2.png", this, backCallback);
-            CCMenuItemImage item2 = CCMenuItemImage.itemFromNormalImage("Images/r1.png", "Images/r2.png", this, restartCallback);
-            CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage("Images/f1.png", "Images/f2.png", this, nextCallback);
+            CCMenuItemImage item1 = CCMenuItemImage.itemFromNormalImage("Images/b1", "Images/b2", this, backCallback);
+            CCMenuItemImage item2 = CCMenuItemImage.itemFromNormalImage("Images/r1", "Images/r2", this, restartCallback);
+            CCMenuItemImage item3 = CCMenuItemImage.itemFromNormalImage("Images/f1", "Images/f2", this, nextCallback);
 
             CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
 

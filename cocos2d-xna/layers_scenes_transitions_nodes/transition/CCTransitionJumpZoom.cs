@@ -45,8 +45,8 @@ namespace cocos2d
             CCActionInterval scaleIn = CCScaleTo.actionWithDuration(m_fDuration / 4, 1.0f);
             CCActionInterval scaleOut = CCScaleTo.actionWithDuration(m_fDuration / 4, 0.5f);
 
-            CCActionInterval jumpZoomOut = (CCActionInterval)(CCSequence.actions(scaleOut, jump, null));
-            CCActionInterval jumpZoomIn = (CCActionInterval)(CCSequence.actions(jump, scaleIn, null));
+            CCActionInterval jumpZoomOut = (CCActionInterval)(CCSequence.actions(scaleOut, jump));
+            CCActionInterval jumpZoomIn = (CCActionInterval)(CCSequence.actions(jump, scaleIn));
 
             CCActionInterval delay = CCDelayTime.actionWithDuration(m_fDuration / 2);
 

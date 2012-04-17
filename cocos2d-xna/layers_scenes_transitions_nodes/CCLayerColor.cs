@@ -47,7 +47,12 @@ namespace cocos2d
 
         public CCLayerColor()
         {
-            initWithColor(ccTypes.ccc4(0, 0, 0, 0));
+            m_cOpacity = 0;
+            m_tColor = new ccColor3B(0, 0, 0);
+            // default blend function
+            m_tBlendFunc = new ccBlendFunc();
+            m_tBlendFunc.src = 1;
+            m_tBlendFunc.dst = 0x0303;
         }
 
         public static CCLayerColor node()
@@ -238,7 +243,7 @@ namespace cocos2d
             }
         }
 
-        protected ccColor3B m_tColor = new ccColor3B(0, 0, 0);
+        protected ccColor3B m_tColor;
         /// <summary>
         /// Color: conforms to CCRGBAProtocol protocol 
         /// </summary>
@@ -258,7 +263,7 @@ namespace cocos2d
             set { }
         }
 
-        protected ccBlendFunc m_tBlendFunc = new ccBlendFunc();
+        protected ccBlendFunc m_tBlendFunc;
         /// <summary>
         /// BlendFunction. Conforms to CCBlendProtocol protocol 
         /// </summary>

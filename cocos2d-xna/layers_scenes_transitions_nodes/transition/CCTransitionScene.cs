@@ -2,7 +2,8 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -30,6 +31,9 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// Base class for CCTransition scenes
+    /// </summary>
     public class CCTransitionScene : CCScene
     {
         protected CCScene m_pInScene;
@@ -48,13 +52,15 @@ namespace cocos2d
 
             if (m_bIsInSceneOnTop)
             {
-                m_pOutScene.visit();
                 m_pInScene.visit();
+                m_pOutScene.visit();
+                m_pInScene.visitDraw();
             }
             else
             {
-                m_pInScene.visit();
                 m_pOutScene.visit();
+                m_pInScene.visit();
+                m_pOutScene.visitDraw();
             }
         }
 
@@ -82,30 +88,24 @@ namespace cocos2d
                 m_pOutScene.cleanup();
         }
 
+
         /// <summary>
         /// creates a base transition with duration and incoming scene 
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="scene"></param>
-        /// <returns></returns>
         public static CCTransitionScene transitionWithDuration(float t, CCScene scene)
         {
-
             CCTransitionScene pScene = new CCTransitionScene();
-            if (pScene != null && pScene.initWithDuration(t, scene))
+            if (pScene.initWithDuration(t, scene))
             {
                 return pScene;
             }
-            pScene = null;
+
             return null;
         }
 
         /// <summary>
         ///  initializes a transition with duration and incoming scene
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="scene"></param>
-        /// <returns></returns>
         public virtual bool initWithDuration(float t, CCScene scene)
         {
             Debug.Assert(scene != null, "Argument scene must be non-nil");
@@ -184,6 +184,5 @@ namespace cocos2d
             // issue #267
             m_pOutScene.visible = true;
         }
-
     }
 }

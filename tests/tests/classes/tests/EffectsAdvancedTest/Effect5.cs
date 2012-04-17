@@ -19,10 +19,10 @@ namespace tests
             CCActionInterval stopEffect = (CCActionInterval)(CCSequence.actions(
                                                  effect,
                                                  CCDelayTime.actionWithDuration(2),
-                                                 CCStopGrid.action(),
+                                                 CCStopGrid.action()
                 //					 [DelayTime::actionWithDuration:2],
                 //					 [[effect copy] autorelease],
-                                                 null));
+                                                 ));
 
             CCNode bg = getChildByTag(EffectAdvanceScene.kTagBackground);
             bg.runAction(stopEffect);

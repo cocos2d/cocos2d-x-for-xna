@@ -2,7 +2,8 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -35,8 +36,6 @@ namespace cocos2d
         ///  returns the Ease action that will be performed on a linear action.
         ///@since v0.8.2
         /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
         CCFiniteTimeAction easeActionWithAction(CCActionInterval action);
     }
 }

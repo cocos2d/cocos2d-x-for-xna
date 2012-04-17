@@ -2,7 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2011 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,26 +27,27 @@ using System;
 using System.Diagnostics;
 namespace cocos2d
 {
-    /** 
-    @brief An interval action is an action that takes place within a certain period of time.
-    It has an start time, and a finish time. The finish time is the parameter
-    duration plus the start time.
-
-    These CCActionInterval actions have some interesting properties, like:
-    - They can run normally (default)
-    - They can run reversed with the reverse method
-    - They can run with the time altered with the Accelerate, AccelDeccel and Speed actions.
-
-    For example, you can simulate a Ping Pong effect running the action normally and
-    then running it again in Reverse mode.
-
-    Example:
-
-    CCAction *pingPongAction = CCSequence::actions(action, action->reverse(), NULL);
-    */
+    /// <summary>
+    /// @brief An interval action is an action that takes place within a certain period of time.
+    ///  It has an start time, and a finish time. The finish time is the parameter
+    /// duration plus the start time.
+    /// </summary>
+    /// <remarks>
+    /// These CCActionInterval actions have some interesting properties, like:
+    /// - They can run normally (default)
+    /// - They can run reversed with the reverse method
+    /// - They can run with the time altered with the Accelerate, AccelDeccel and Speed actions.
+    ///    For example, you can simulate a Ping Pong effect running the action normally and
+    ///  then running it again in Reverse mode.
+    /// </remarks>
+    ///<example>
+    ///  CCAction *pingPongAction = CCSequence::actions(action, action->reverse(), NULL);
+    /// </example>
     public class CCActionInterval : CCFiniteTimeAction
     {
-        /** initializes the action */
+        /// <summary>
+        /// initializes the action
+        /// </summary>
         public bool initWithDuration(float d)
         {
             m_fDuration = d;
@@ -65,7 +66,9 @@ namespace cocos2d
             return true;
         }
 
-        /** returns true if the action has finished */
+        /// <summary>
+        /// returns true if the action has finished
+        /// </summary>
         public override bool isDone()
         {
             return m_elapsed >= m_fDuration;
@@ -110,6 +113,13 @@ namespace cocos2d
             update(Math.Min(1, m_elapsed / m_fDuration));
         }
 
+        protected void startWithTargetUsedByCCOrbitCamera(CCNode target)
+        {
+            base.startWithTarget(target);
+            m_elapsed = 0.0f;
+            m_bFirstTick = true;
+        }
+
         public override void startWithTarget(CCNode target)
         {
             base.startWithTarget(target);
@@ -123,7 +133,6 @@ namespace cocos2d
         /// will be a problem. 
         /// Fix me if needed.
         /// </summary>
-        /// <returns></returns>
         public override CCFiniteTimeAction reverse()
         {
             throw new NotImplementedException();
@@ -131,7 +140,7 @@ namespace cocos2d
 
         public void setAmplitudeRate(float amp)
         {
-            Debug.Assert(false); 
+            Debug.Assert(false);
         }
 
         public float getAmplitudeRate()
