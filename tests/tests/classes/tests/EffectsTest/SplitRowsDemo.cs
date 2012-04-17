@@ -8,7 +8,7 @@ namespace tests
 {
     public class SplitRowsDemo : CCSplitRows
     {
-        public static CCActionInterval actionWithDuration(float t)
+        public new static CCActionInterval actionWithDuration(float t)
         {
             return CCSplitRows.actionWithRows(9, t);
         }

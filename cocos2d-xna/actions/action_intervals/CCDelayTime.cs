@@ -2,7 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,9 @@ THE SOFTWARE.
 using System;
 namespace cocos2d
 {
-    /** @brief Delays the action a certain amount of seconds*/
+    /// <summary>
+    /// @brief Delays the action a certain amount of seconds
+    /// </summary>
     public class CCDelayTime : CCActionInterval
     {
         public static CCDelayTime actionWithDuration(float d)

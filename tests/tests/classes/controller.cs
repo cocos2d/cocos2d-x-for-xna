@@ -120,16 +120,16 @@ namespace tests
             {
                 case (int)TestCases.TEST_ACTIONS:
                     pScene = new ActionsTestScene(); break;
-                //case (int)TestCases.TEST_TRANSITIONS:
-                //    pScene = new TransitionsTestScene(); break;
+                case (int)TestCases.TEST_TRANSITIONS:
+                    pScene = new TransitionsTestScene(); break;
                 case (int)TestCases.TEST_PROGRESS_ACTIONS:
                     pScene = new ProgressActionsTestScene(); break;
-                //    case TEST_EFFECTS:
-                //        pScene = new EffectTestScene(); break;
+                case (int)TestCases.TEST_EFFECTS:
+                    pScene = new EffectTestScene(); break;
                 case (int)TestCases.TEST_CLICK_AND_MOVE:
                     pScene = new ClickAndMoveTest(); break;
                 case (int)TestCases.TEST_ROTATE_WORLD:
-                        pScene = new RotateWorldTestScene(); break;
+                    pScene = new RotateWorldTestScene(); break;
                 case (int)TestCases.TEST_PARTICLE:
                     pScene = new ParticleTestScene(); break;
                 case (int)TestCases.TEST_EASE_ACTIONS:
@@ -184,8 +184,8 @@ namespace tests
                 //        pScene = new Box2DTestScene(); break;
                 //    case TEST_BOX2DBED:
                 //        pScene = new Box2dTestBedScene(); break;
-                //case TEST_EFFECT_ADVANCE:
-                //    pScene = new EffectAdvanceScene(); break;
+                case (int)TestCases.TEST_EFFECT_ADVANCE:
+                    pScene = new EffectAdvanceScene(); break;
                 //case (int)TestCases.TEST_HIRES:
                 //    pScene = new HiResTestScene(); break;
                 //#if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)

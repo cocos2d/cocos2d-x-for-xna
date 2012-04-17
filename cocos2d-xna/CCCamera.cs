@@ -26,12 +26,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// A CCCamera is used in every CCNode.
+    /// Useful to look at the object from different views.
+    /// The OpenGL gluLookAt() function is used to locate the camera.
+    ///
+    ///	If the object is transformed by any of the scale, rotation or
+    /// position attributes, then they will override the camera.
+
+    /// IMPORTANT: Either your use the camera or the rotation/scale/position properties. You can't use both.
+    /// World coordinates won't work if you use the camera.
+    ///
+    /// Limitations:
+    ///	 - Some nodes, like CCParallaxNode, CCParticle uses world node coordinates, and they won't work properly if you move them (or any of their ancestors)
+    /// using the camera.
+    /// - It doesn't work on batched nodes like CCSprite objects when they are parented to a CCSpriteBatchNode object.
+    /// - It is recommended to use it ONLY if you are going to create 3D effects. For 2D effecs, use the action CCFollow or position/scale/rotate.
+    /// </summary>
     public class CCCamera : CCObject
     {
-
         protected float m_fEyeX;
         protected float m_fEyeY;
         protected float m_fEyeZ;
@@ -66,10 +84,7 @@ namespace cocos2d
 
         public string description()
         {
-            string ret;
-            ret = String.Format("<CCCamera | center = ({0},{1},{2})>", m_fCenterX, m_fCenterY, m_fCenterZ);
-            //sprintf(ret, "<CCCamera | center = (%.2f,%.2f,%.2f)>", m_fCenterX, m_fCenterY, m_fCenterZ);
-            return ret;
+            return String.Format("<CCCamera | center = ({0},{1},{2})>", m_fCenterX, m_fCenterY, m_fCenterZ);
         }
 
         /// <summary>
@@ -88,18 +103,26 @@ namespace cocos2d
 
             m_bDirty = false;
         }
+
         /// <summary>
         ///  Sets the camera using gluLookAt using its eye, center and up_vector
         /// </summary>
-        public void locate()
+        public Matrix? locate()
         {
             if (m_bDirty)
             {
+                return Matrix.CreateLookAt(new Vector3(m_fEyeX, m_fEyeY, m_fEyeZ),
+                             new Vector3(m_fCenterX, m_fCenterY, m_fCenterZ), 
+                             new Vector3(m_fUpX, m_fUpY, m_fUpZ));
+
                 //gluLookAt(m_fEyeX, m_fEyeY, m_fEyeZ,
                 //    m_fCenterX, m_fCenterY, m_fCenterZ,
                 //    m_fUpX, m_fUpY, m_fUpZ);
             }
+
+            return null;
         }
+
         /// <summary>
         /// sets the eye values in points
         /// </summary>
@@ -192,10 +215,5 @@ namespace cocos2d
         {
             return 1.192092896e-07F;
         }
-
-        //private:
-
-
-        //    DISALLOW_COPY_AND_ASSIGN(CCCamera);
     }
 }

@@ -61,8 +61,7 @@ namespace cocos2d
                 CCSequence.actions
                 (
                     this.easeActionWithAction(a),
-                    CCCallFunc.actionWithTarget(this, base.finish),
-                    null
+                    CCCallFunc.actionWithTarget(this, base.finish)
                 )
             );
         }

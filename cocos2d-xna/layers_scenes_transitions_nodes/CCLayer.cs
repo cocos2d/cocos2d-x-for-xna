@@ -214,8 +214,7 @@ namespace cocos2d
                         }
                         else
                         {
-                            ///@todo
-                            throw new NotImplementedException();
+                            CCTouchDispatcher.sharedDispatcher().removeDelegate(this);
                         }
                     }
                 }

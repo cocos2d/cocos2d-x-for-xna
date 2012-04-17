@@ -63,8 +63,7 @@ namespace cocos2d
             CCActionInterval outAction = (CCActionInterval)CCSequence.actions
             (
                 easeActionWithAction(outcAction),
-                CCCallFunc.actionWithTarget(this, (base.finish)),
-                null
+                CCCallFunc.actionWithTarget(this, (base.finish))
             );
             m_pInScene.runAction(inAction);
             m_pOutScene.runAction(outAction);

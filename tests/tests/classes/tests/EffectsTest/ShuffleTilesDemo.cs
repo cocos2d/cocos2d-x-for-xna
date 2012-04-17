@@ -8,7 +8,7 @@ namespace tests
 {
     public class ShuffleTilesDemo : CCShuffleTiles
     {
-        public static CCActionInterval actionWithDuration(float t)
+        public new static CCActionInterval actionWithDuration(float t)
         {
             CCShuffleTiles shuffle = CCShuffleTiles.actionWithSeed(25, new ccGridSize(16, 12), t);
             CCFiniteTimeAction shuffle_back = shuffle.reverse();

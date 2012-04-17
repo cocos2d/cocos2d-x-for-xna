@@ -2,7 +2,8 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -29,22 +30,26 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// @brief CCTransitionFadeUp:
+    /// Fade the tiles of the outgoing scene from the bottom to the top.
+    /// </summary>
     public class CCTransitionFadeUp : CCTransitionFadeTR
     {
-        public virtual CCActionInterval actionWithSize(ccGridSize size)
+        public override CCActionInterval actionWithSize(ccGridSize size)
         {
             return CCFadeOutUpTiles.actionWithSize(size, m_fDuration);
         }
 
         //public  DECLEAR_TRANSITIONWITHDURATION(CCTransitionFadeUp)
-        CCTransitionFadeUp transitionWithDuration(float t, CCScene scene)
+        public new static CCTransitionFadeUp transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionFadeUp pScene = new CCTransitionFadeUp();
-            if (pScene != null && pScene.initWithDuration(t, scene))
+            if (pScene.initWithDuration(t, scene))
             {
                 return pScene;
             }
-            pScene = null;
+
             return null;
         }
     }

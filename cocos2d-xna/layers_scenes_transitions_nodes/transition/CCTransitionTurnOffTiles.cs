@@ -2,6 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +30,10 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// @brief CCTransitionTurnOffTiles:
+    /// Turn off the tiles of the outgoing scene in random order
+    /// </summary>
     public class CCTransitionTurnOffTiles : CCTransitionScene, ICCTransitionEaseScene
     {
         public override void onEnter()
@@ -40,43 +45,38 @@ namespace cocos2d
             int y = 12;
 
             CCTurnOffTiles toff = CCTurnOffTiles.actionWithSize(new ccGridSize(x, y), m_fDuration);
-            CCActionInterval action = easeActionWithAction(toff);
+            CCFiniteTimeAction action = easeActionWithAction(toff);
             m_pOutScene.runAction
             (
                 CCSequence.actions
                 (
                     action,
                     CCCallFunc.actionWithTarget(this, (base.finish)),
-                    CCStopGrid.action(),
-                    null
+                    CCStopGrid.action()
                 )
             );
         }
-        public virtual CCActionInterval easeActionWithAction(CCActionInterval action)
+
+        public virtual CCFiniteTimeAction easeActionWithAction(CCActionInterval action)
         {
             return action;
         }
 
         //DECLEAR_TRANSITIONWITHDURATION(CCTransitionTurnOffTiles);
-        public static new CCTransitionTurnOffTiles transitionWithDuration(float t, CCScene scene)
+        public new static CCTransitionTurnOffTiles transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionTurnOffTiles pScene = new CCTransitionTurnOffTiles();
-            if (pScene != null && pScene.initWithDuration(t, scene))
+            if (pScene.initWithDuration(t, scene))
             {
                 return pScene;
             }
-            pScene = null;
+
             return null;
         }
 
         protected override void sceneOrder()
         {
             m_bIsInSceneOnTop = false;
-        }
-
-        CCFiniteTimeAction ICCTransitionEaseScene.easeActionWithAction(CCActionInterval action)
-        {
-            throw new NotImplementedException();
         }
     }
 }

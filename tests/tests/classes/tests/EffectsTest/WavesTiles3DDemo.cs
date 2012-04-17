@@ -8,5 +8,9 @@ namespace tests
 {
     public class WavesTiles3DDemo : CCWavesTiles3D
     {
+        public new static CCActionInterval actionWithDuration(float t)
+        {
+            return CCWavesTiles3D.actionWithWaves(4, 120, new ccGridSize(15, 10), t);
+        }
     }
 }

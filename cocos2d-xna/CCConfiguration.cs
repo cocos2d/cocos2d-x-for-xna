@@ -55,7 +55,7 @@ namespace cocos2d
 
         public CCGlesVersion getGlesVersion()
         {
-            throw new NotImplementedException();
+            return CCGlesVersion.GLES_VER_2_0;
         }
 
         /// <summary>

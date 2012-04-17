@@ -26,12 +26,13 @@ namespace tests
             CCFiniteTimeAction reuse = CCReuseGrid.actionWithTimes(1);
             CCActionInterval delay = CCDelayTime.actionWithDuration(8);
 
-            //CCActionInterval orbit = CCOrbitCamera.actionWithDuration(5, 1, 2, 0, 180, 0, -90);
-            CCActionInterval orbit_back = null;
+            CCActionInterval orbit = CCOrbitCamera.actionWithDuration(5, 1, 2, 0, 180, 0, -90);
+            CCFiniteTimeAction orbit_back = orbit.reverse();
 
-            //target.runAction(CCRepeatForever.actionWithAction((CCActionInterval)(CCSequence.actions(orbit, orbit_back))));
+            target.runAction(CCRepeatForever.actionWithAction((CCActionInterval)(CCSequence.actions(orbit, orbit_back))));
             target.runAction(CCSequence.actions(lens, delay, reuse, waves));
         }
+
         public override string title()
         {
             return "Lens + Waves3d and OrbitCamera";

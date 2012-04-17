@@ -2,6 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,20 +31,15 @@ using Microsoft.Xna.Framework;
 
 namespace cocos2d
 {
-     
     public class CCTransitionFade : CCTransitionScene
     {
-        const uint kSceneFade = 0xFADEFADE;
+        const int kSceneFade = 2147483647;
         protected ccColor4B m_tColor;
 
         /// <summary>
         /// creates the transition with a duration and with an RGB color
         /// Example: FadeTransition::transitionWithDuration(2, scene, ccc3(255,0,0); // red color
         /// </summary>
-        /// <param name="duration"></param>
-        /// <param name="scene"></param>
-        /// <param name="color"></param>
-        /// <returns></returns>
         public static CCTransitionFade transitionWithDuration(float duration, CCScene scene, ccColor3B color)
         {
             CCTransitionFade pTransition = new CCTransitionFade();
@@ -54,14 +50,11 @@ namespace cocos2d
         /// <summary>
         /// initializes the transition with a duration and with an RGB color 
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="scene"></param>
-        /// <param name="color"></param>
-        /// <returns></returns>
         public virtual bool initWithDuration(float duration, CCScene scene, ccColor3B color)
         {
             if (base.initWithDuration(duration, scene))
             {
+                m_tColor = new ccColor4B();
                 m_tColor.r = color.r;
                 m_tColor.g = color.g;
                 m_tColor.b = color.b;
@@ -70,36 +63,41 @@ namespace cocos2d
             return true;
         }
 
-        public virtual bool initWithDuration(float t, CCScene scene)
+        public new static CCTransitionScene transitionWithDuration(float t, CCScene scene)
+        {
+            return transitionWithDuration(t, scene, new ccColor3B());
+        }
+
+        public override bool initWithDuration(float t, CCScene scene)
         {
             this.initWithDuration(t, scene, new ccColor3B(Color.Black));
             return true;
         }
-        public virtual void onEnter()
+
+        public override void onEnter()
         {
             base.onEnter();
 
             CCLayerColor l = CCLayerColor.layerWithColor(m_tColor);
             m_pInScene.visible = false;
 
-            //addChild(l, 2,kSceneFade);
-            //CCNode f = getChildByTag(kSceneFade);
+            addChild(l, 2, kSceneFade);
+            CCNode f = getChildByTag(kSceneFade);
 
             CCActionInterval a = (CCActionInterval)CCSequence.actions
                 (
                     CCFadeIn.actionWithDuration(m_fDuration / 2),
-                    CCCallFunc.actionWithTarget(this, (base.hideOutShowIn)),//CCCallFunc::actionWithTarget:self selector:@selector(hideOutShowIn)],
+                    CCCallFunc.actionWithTarget(this, (base.hideOutShowIn)),
                     CCFadeOut.actionWithDuration(m_fDuration / 2),
-                    CCCallFunc.actionWithTarget(this, (base.finish)), //:self selector:@selector(finish)],
-                    null
+                    CCCallFunc.actionWithTarget(this, (base.finish))
                 );
-            //f.runAction(a);
+            f.runAction(a);
         }
 
-        public virtual void onExit()
+        public override void onExit()
         {
             base.onExit();
-            //this.removeChildByTag(kSceneFade, false);
+            this.removeChildByTag(kSceneFade, false);
         }
     }
 }

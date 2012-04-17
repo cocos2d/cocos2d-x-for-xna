@@ -2,7 +2,8 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -29,22 +30,26 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// @brief CCTransitionFadeBL:
+    /// Fade the tiles of the outgoing scene from the top-right corner to the bottom-left corner.
+    /// </summary>
     public class CCTransitionFadeBL : CCTransitionFadeTR
     {
-        public virtual CCFiniteTimeAction actionWithSize(ccGridSize size)
+        public override CCActionInterval actionWithSize(ccGridSize size)
         {
             return CCFadeOutBLTiles.actionWithSize(size, m_fDuration);
         }
 
         //public DECLEAR_TRANSITIONWITHDURATION(CCTransitionFadeBL)
-        CCTransitionFadeBL transitionWithDuration(float t, CCScene scene)
+        public new static CCTransitionFadeBL transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionFadeBL pScene = new CCTransitionFadeBL();
-            if (pScene != null && pScene.initWithDuration(t, scene))
+            if (pScene.initWithDuration(t, scene))
             {
                 return pScene;
             }
-            pScene = null;
+
             return null;
         }
     }
