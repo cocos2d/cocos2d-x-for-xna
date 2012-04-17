@@ -2,6 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,9 +31,16 @@ using System.Diagnostics;
 
 namespace cocos2d
 {
-
+    /// <summary>
+    /// Base class for other
+    /// </summary>
     public class CCGridBase : CCObject
     {
+        #region properties
+
+        protected CCTexture2D m_pTexture;
+        protected CCGrabber m_pGrabber;
+
         protected bool m_bActive;
         /// <summary>
         ///  wheter or not the grid is active
@@ -83,6 +91,32 @@ namespace cocos2d
             set { m_bIsTextureFlipped = value; }
         }
 
+        #endregion
+
+        public static CCGridBase gridWithSize(ccGridSize gridSize, CCTexture2D texture, bool flipped)
+        {
+            CCGridBase pGridBase = new CCGridBase();
+
+            if (pGridBase.initWithSize(gridSize, texture, flipped))
+            {
+                return pGridBase;
+            }
+
+            return null;
+        }
+
+        public static CCGridBase gridWithSize(ccGridSize gridSize)
+        {
+            CCGridBase pGridBase = new CCGridBase();
+
+            if (pGridBase.initWithSize(gridSize))
+            {
+                return pGridBase;
+            }
+
+            return null;
+        }
+
         public bool initWithSize(ccGridSize gridSize, CCTexture2D pTexture, bool bFlipped)
         {
             bool bRet = true;
@@ -92,41 +126,27 @@ namespace cocos2d
             m_sGridSize = gridSize;
 
             m_pTexture = pTexture;
-            if (m_pTexture != null)
-            {
-                //m_pTexture.release();
-            }
+
             m_bIsTextureFlipped = bFlipped;
 
             CCSize texSize = m_pTexture.ContentSizeInPixels;
-            m_obStep.x = texSize.width / m_sGridSize.x;
-            m_obStep.y = texSize.height / m_sGridSize.y;
+            m_obStep = new CCPoint();
+            m_obStep.x = texSize.width / (float)m_sGridSize.x;
+            m_obStep.y = texSize.height / (float)m_sGridSize.y;
 
             m_pGrabber = new CCGrabber();
             if (m_pGrabber != null)
             {
-                m_pGrabber.grab(m_pTexture);
+                m_pGrabber.grab(ref m_pTexture);
             }
             else
             {
                 bRet = false;
             }
 
-
             calculateVertexPoints();
 
             return bRet;
-        }
-
-        public ulong ccNextPOT(ulong x)
-        {
-            x = x - 1;
-            x = x | (x >> 1);
-            x = x | (x >> 2);
-            x = x | (x >> 4);
-            x = x | (x >> 8);
-            x = x | (x >> 16);
-            return x + 1;
         }
 
         public bool initWithSize(ccGridSize gridSize)
@@ -140,19 +160,8 @@ namespace cocos2d
             // we only use rgba8888
             CCTexture2DPixelFormat format = CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGBA8888;
 
-            object data;
-            //object data = calloc((int)(POTWide * POTHigh * 4), 1);
-            //if (! data)
-            //{
-            //    CCLOG("cocos2d: CCGrid: not enough memory.");
-            //    this->release();
-            //    return false;
-            //}
-
             CCTexture2D pTexture = new CCTexture2D();
-            //pTexture.initWithData(data, format, POTWide, POTHigh, s);
-
-            //free(data);
+            pTexture.initWithData(null, format, (uint)POTWide, (uint)POTHigh, s);
 
             if (pTexture == null)
             {
@@ -162,23 +171,32 @@ namespace cocos2d
 
             initWithSize(gridSize, pTexture, false);
 
-            //pTexture.release();
-
             return true;
+        }
+
+        public ulong ccNextPOT(ulong x)
+        {
+            x = x - 1;
+            x = x | (x >> 1);
+            x = x | (x >> 2);
+            x = x | (x >> 4);
+            x = x | (x >> 8);
+            x = x | (x >> 16);
+            return x + 1;
         }
 
         public void beforeDraw()
         {
-            set2DProjection();
-            m_pGrabber.beforeRender(m_pTexture);
+            //set2DProjection();
+            m_pGrabber.beforeRender(ref m_pTexture);
         }
 
         public void afterDraw(CCNode pTarget)
         {
-            m_pGrabber.afterRender(m_pTexture);
+            m_pGrabber.afterRender(ref m_pTexture);
 
-            set3DProjection();
-            applyLandscape();
+            //set3DProjection();
+            //applyLandscape();
 
             //if (pTarget.getCamera()->getDirty())
             //{
@@ -197,8 +215,8 @@ namespace cocos2d
             //// restore projection for default FBO .fixed bug #543 #544
             ////CCDirector.sharedDirector().Projection=CCDirector.sharedDirector().Projection;
             //CCDirector.sharedDirector().applyOrientation();
-            blit();
 
+            blit();
         }
 
         public virtual void blit()
@@ -214,46 +232,6 @@ namespace cocos2d
         public virtual void calculateVertexPoints()
         {
             Debug.Assert(false);
-        }
-
-        public static CCGridBase gridWithSize(ccGridSize gridSize, CCTexture2D texture, bool flipped)
-        {
-            CCGridBase pGridBase = new CCGridBase();
-
-            if (pGridBase != null)
-            {
-                if (pGridBase.initWithSize(gridSize, texture, flipped))
-                {
-                    //pGridBase->autorelease();
-                }
-                else
-                {
-                    //CC_SAFE_RELEASE_NULL(pGridBase);
-                }
-            }
-
-            return pGridBase;
-        }
-
-        public static CCGridBase gridWithSize(ccGridSize gridSize)
-        {
-            CCGridBase pGridBase = new CCGridBase();
-
-            if (pGridBase != null)
-            {
-                if (pGridBase.initWithSize(gridSize))
-                {
-                    //pGridBase->autorelease();
-                }
-                else
-                {
-                    //CC_SAFE_RELEASE_NULL(pGridBase);
-                }
-            }
-
-            return pGridBase;
-
-
         }
 
         public void set2DProjection()
@@ -318,10 +296,5 @@ namespace cocos2d
                     break;
             }
         }
-
-        protected CCTexture2D m_pTexture;
-
-        protected CCGrabber m_pGrabber;
-
     }
 }

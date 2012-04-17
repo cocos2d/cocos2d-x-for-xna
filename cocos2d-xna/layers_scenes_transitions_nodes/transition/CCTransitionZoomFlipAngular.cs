@@ -31,8 +31,7 @@ namespace cocos2d
 {
     public class CCTransitionZoomFlipAngular : CCTransitionSceneOriented
     {
-
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -64,24 +63,20 @@ namespace cocos2d
                     (
                         CCOrbitCamera.actionWithDuration(m_fDuration / 2, 1, 0, inAngleZ, inDeltaZ, -45, 0),
                         CCScaleTo.actionWithDuration(m_fDuration / 2, 1),
-                        CCShow.action(),
-                        null
+                        CCShow.action()
                     ),
                     CCShow.action(),
-                    CCCallFunc.actionWithTarget(this, base.finish),
-                    null
+                    CCCallFunc.actionWithTarget(this, base.finish)
                 );
             outA = (CCActionInterval)CCSequence.actions
                 (
                     CCSpawn.actions
                     (
                         CCOrbitCamera.actionWithDuration(m_fDuration / 2, 1, 0, outAngleZ, outDeltaZ, 45, 0),
-                        CCScaleTo.actionWithDuration(m_fDuration / 2, 0.5f),
-                        null
+                        CCScaleTo.actionWithDuration(m_fDuration / 2, 0.5f)
                     ),
                     CCHide.action(),
-                    CCDelayTime.actionWithDuration(m_fDuration / 2),
-                    null
+                    CCDelayTime.actionWithDuration(m_fDuration / 2)
                 );
 
             m_pInScene.scale = 0.5f;

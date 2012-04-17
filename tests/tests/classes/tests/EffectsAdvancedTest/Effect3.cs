@@ -22,9 +22,9 @@ namespace tests
             target1.runAction(CCRepeatForever.actionWithAction(waves));
             target2.runAction(CCRepeatForever.actionWithAction(shaky));
 
-            // moving background. Testing issue #244
-            CCActionInterval move = CCMoveBy.actionWithDuration(3, new CCPoint(200, 0));
-            bg.runAction(CCRepeatForever.actionWithAction((CCActionInterval)(CCSequence.actions(move))));
+            //// moving background. Testing issue #244
+            //CCActionInterval move = CCMoveBy.actionWithDuration(3, new CCPoint(200, 0));
+            //bg.runAction(CCRepeatForever.actionWithAction((CCActionInterval)(CCSequence.actions(move))));
         }
 
         public override string title()

@@ -30,7 +30,7 @@ namespace cocos2d
 {
     public class CCTransitionFlipAngular : CCTransitionSceneOriented
     {
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -60,15 +60,13 @@ namespace cocos2d
                     CCDelayTime.actionWithDuration(m_fDuration / 2),
                     CCShow.action(),
                     CCOrbitCamera.actionWithDuration(m_fDuration / 2, 1, 0, inAngleZ, inDeltaZ, -45, 0),
-                    CCCallFunc.actionWithTarget(this, base.finish),
-                    null
+                    CCCallFunc.actionWithTarget(this, base.finish)
                 );
             outA = (CCActionInterval)CCSequence.actions
                 (
                     CCOrbitCamera.actionWithDuration(m_fDuration / 2, 1, 0, outAngleZ, outDeltaZ, 45, 0),
                     CCHide.action(),
-                    CCDelayTime.actionWithDuration(m_fDuration / 2),
-                    null
+                    CCDelayTime.actionWithDuration(m_fDuration / 2)
                 );
 
             m_pInScene.runAction(inA);

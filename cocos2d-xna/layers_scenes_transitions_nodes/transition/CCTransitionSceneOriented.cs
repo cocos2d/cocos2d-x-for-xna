@@ -2,7 +2,8 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -40,18 +41,14 @@ namespace cocos2d
         /// A vertical orientation where the Bottom is nearer
         kOrientationDownOver = 1,
     }
+
     public class CCTransitionSceneOriented : CCTransitionScene
     {
-
         protected tOrientation m_eOrientation;
 
         /// <summary>
         /// creates a base transition with duration and incoming scene
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="scene"></param>
-        /// <param name="orientation"></param>
-        /// <returns></returns>
         public static CCTransitionSceneOriented transitionWithDuration(float t, CCScene scene, tOrientation orientation)
         {
             CCTransitionSceneOriented pScene = new CCTransitionSceneOriented();
@@ -62,16 +59,13 @@ namespace cocos2d
         /// <summary>
         /// initializes a transition with duration and incoming scene
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="scene"></param>
-        /// <param name="orientation"></param>
-        /// <returns></returns>
         public virtual bool initWithDuration(float t, CCScene scene, tOrientation orientation)
         {
             if (base.initWithDuration(t, scene))
             {
                 m_eOrientation = orientation;
             }
+
             return true;
         }
     }

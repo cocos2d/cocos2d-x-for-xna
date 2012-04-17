@@ -8,7 +8,6 @@ namespace tests
 {
     public class EffectAdvanceScene : TestScene
     {
-
         public static int kTagTextLayer = 1;
 
         public static int kTagSprite1 = 1;
@@ -22,18 +21,18 @@ namespace tests
             IDC_RESTART
         }
         public static int sceneIdx = -1;
-        public static int MAX_LAYER = 6;
+        public static int MAX_LAYER = 5;
 
         public static CCLayer createEffectAdvanceLayer(int nIndex)
         {
             switch (nIndex)
             {
-                case 0: return new Effect3();
-                case 1: return new Effect2();
-                case 2: return new Effect1();
-                case 3: return new Effect4();
-                case 4: return new Effect5();
-                case 5: return new Issue631();
+                //case 0: return new Effect3();
+                case 0: return new Effect2();
+                case 1: return new Effect1();
+                case 2: return new Effect4();
+                case 3: return new Effect5();
+                case 4: return new Issue631();
             }
             return null;
         }

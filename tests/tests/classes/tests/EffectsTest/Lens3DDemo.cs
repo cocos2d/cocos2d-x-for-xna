@@ -8,7 +8,7 @@ namespace tests
 {
     public class Lens3DDemo : CCLens3D
     {
-        public static CCActionInterval actionWithDuration(float t)
+        public new static CCActionInterval actionWithDuration(float t)
         {
             CCSize size = CCDirector.sharedDirector().getWinSize();
             return CCLens3D.actionWithPosition(new CCPoint(size.width / 2, size.height / 2), 240, new ccGridSize(15, 10), t);

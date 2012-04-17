@@ -2,6 +2,7 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
+Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +30,10 @@ using System.Text;
 
 namespace cocos2d
 {
+    /// <summary>
+    /// @brief CCTransitionFadeTR:
+    /// Fade the tiles of the outgoing scene from the left-bottom corner the to top-right corner.
+    /// </summary>
     public class CCTransitionFadeTR : CCTransitionScene, ICCTransitionEaseScene
     {
         public virtual CCActionInterval actionWithSize(ccGridSize size)
@@ -36,7 +41,7 @@ namespace cocos2d
             return CCFadeOutTRTiles.actionWithSize(size, m_fDuration);
         }
 
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -53,8 +58,7 @@ namespace cocos2d
                 (
                     easeActionWithAction(action),
                     CCCallFunc.actionWithTarget(this, base.finish),
-                    CCStopGrid.action(),
-                    null
+                    CCStopGrid.action()
                 )
             );
         }
@@ -64,20 +68,19 @@ namespace cocos2d
             return action;
         }
 
-
         //public  DECLEAR_TRANSITIONWITHDURATION(CCTransitionFadeTR)
-        CCTransitionFadeTR transitionWithDuration(float t, CCScene scene)
+        public new static CCTransitionFadeTR transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionFadeTR pScene = new CCTransitionFadeTR();
-            if (pScene != null && pScene.initWithDuration(t, scene))
+            if (pScene.initWithDuration(t, scene))
             {
                 return pScene;
             }
-            pScene = null;
+
             return null;
         }
 
-        protected virtual void sceneOrder()
+        protected override void sceneOrder()
         {
             m_bIsInSceneOnTop = false;
         }

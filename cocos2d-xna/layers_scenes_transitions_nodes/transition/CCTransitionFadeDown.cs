@@ -2,7 +2,8 @@
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011 Zynga Inc.
-
+Copyright (c) 2011-2012 openxlive.com
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -31,21 +32,20 @@ namespace cocos2d
 {
     public class CCTransitionFadeDown : CCTransitionFadeTR
     {
-
-        public virtual CCActionInterval actionWithSize(ccGridSize size)
+        public override CCActionInterval actionWithSize(ccGridSize size)
         {
             return CCFadeOutDownTiles.actionWithSize(size, m_fDuration);
         }
 
         //public  DECLEAR_TRANSITIONWITHDURATION(CCTransitionFadeDown)
-        CCTransitionFadeDown transitionWithDuration(float t, CCScene scene)
+        public new static CCTransitionFadeDown transitionWithDuration(float t, CCScene scene)
         {
             CCTransitionFadeDown pScene = new CCTransitionFadeDown();
-            if (pScene != null && pScene.initWithDuration(t, scene))
+            if (pScene.initWithDuration(t, scene))
             {
                 return pScene;
             }
-            pScene = null;
+
             return null;
         }
 

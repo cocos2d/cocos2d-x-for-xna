@@ -136,7 +136,13 @@ namespace cocos2d
         /// </summary>
         public bool initWithData(object data, CCTexture2DPixelFormat pixelFormat, uint pixelsWide, uint pixelsHigh, CCSize contentSize)
         {
-            throw new NotImplementedException();
+            CCApplication app = CCApplication.sharedApplication();
+
+            texture2D = new Texture2D(app.GraphicsDevice, (int)contentSize.width, (int)contentSize.height);
+            m_tContentSize.width = contentSize.width;
+            m_tContentSize.height = contentSize.height;
+
+            return true;
         }
 
         #endregion
@@ -399,7 +405,7 @@ namespace cocos2d
 
         #region Property
 
-        private Texture2D texture2D;
+        public Texture2D texture2D;
         public Texture2D getTexture2D()
         {
             return texture2D;

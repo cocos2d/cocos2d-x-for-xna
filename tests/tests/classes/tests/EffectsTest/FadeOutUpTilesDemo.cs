@@ -8,7 +8,7 @@ namespace tests
 {
     public class FadeOutUpTilesDemo : CCFadeOutUpTiles
     {
-        public static CCActionInterval actionWithDuration(float t)
+        public new static CCActionInterval actionWithDuration(float t)
         {
             CCFadeOutUpTiles fadeout = CCFadeOutUpTiles.actionWithSize(new ccGridSize(16, 12), t);
             CCFiniteTimeAction back = fadeout.reverse();

@@ -6,7 +6,6 @@ using cocos2d;
 
 namespace tests
 {
-
     public class FlipXLeftOver : CCTransitionFlipX
     {
         public static CCTransitionScene transitionWithDuration(float t, CCScene s)
