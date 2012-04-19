@@ -28,7 +28,7 @@ namespace tests
     public class TransitionsTestScene : TestScene
     {
         public static int s_nSceneIdx = 0;
-        public static int MAX_LAYER = 33;
+        public static int MAX_LAYER = 32;
         public static float TRANSITION_DURATION = 1.2f;
         public static string s_back1 = "Images/background1";
         public static string s_back2 = "Images/background2";
@@ -40,46 +40,47 @@ namespace tests
         public static string s_pPathF1 = "Images/f1";
         public static string s_pPathF2 = "Images/f2";
 
-        public static string[] transitions = new string[]  {
-    "JumpZoomTransition",
-    "FadeTransition",
-    "FadeWhiteTransition",
-    "FlipXLeftOver",
-    "FlipXRightOver",
-    "FlipYUpOver",
-    "FlipYDownOver",
-    "FlipAngularLeftOver",
-    "FlipAngularRightOver",
-    "ZoomFlipXLeftOver",
-    "ZoomFlipXRightOver",
-    "ZoomFlipYUpOver",
-    "ZoomFlipYDownOver",
-    "ZoomFlipAngularLeftOver",
-    "ZoomFlipAngularRightOver",
-    "ShrinkGrowTransition",
-    "RotoZoomTransition",
-    //"MoveInLTransition",
-    //"MoveInRTransition",
-    //"MoveInTTransition",
-    //"MoveInBTransition",
-    "SlideInLTransition",
-    "SlideInRTransition",
-    "SlideInTTransition",
-    "SlideInBTransition",
+        public static string[] transitions = new string[]  
+        {
+            "JumpZoomTransition",
+            "FadeTransition",
+            "FadeWhiteTransition",
+            "FlipXLeftOver",
+            "FlipXRightOver",
+            "FlipYUpOver",
+            "FlipYDownOver",
+            "FlipAngularLeftOver",
+            "FlipAngularRightOver",
+            "ZoomFlipXLeftOver",
+            "ZoomFlipXRightOver",
+            "ZoomFlipYUpOver",
+            "ZoomFlipYDownOver",
+            "ZoomFlipAngularLeftOver",
+            "ZoomFlipAngularRightOver",
+            "ShrinkGrowTransition",
+            "RotoZoomTransition",
+            //"MoveInLTransition",
+            //"MoveInRTransition",
+            //"MoveInTTransition",
+            //"MoveInBTransition",
+            "SlideInLTransition",
+            "SlideInRTransition",
+            "SlideInTTransition",
+            "SlideInBTransition",
 
-    "CCTransitionCrossFade",
-    "CCTransitionRadialCCW",
-    "CCTransitionRadialCW",
-    "PageTransitionForward",
-    "PageTransitionBackward",
-    "FadeTRTransition",
-    "FadeBLTransition",
-    "FadeUpTransition",
-    "FadeDownTransition",
-    "TurnOffTilesTransition",
-    "SplitRowsTransition",
-    "SplitColsTransition",
-};
+            "CCTransitionCrossFade",
+            "CCTransitionRadialCCW",
+            "CCTransitionRadialCW",
+            "PageTransitionForward",
+            //"PageTransitionBackward",
+            "SplitColsTransition",
+            "FadeTRTransition",
+            "FadeBLTransition",
+            "FadeUpTransition",
+            "FadeDownTransition",
+            "TurnOffTilesTransition",
+            "SplitRowsTransition",
+        };
 
         public override void runThisTest()
         {
@@ -158,14 +159,14 @@ namespace tests
                         }
                     }
                 case 24: return PageTransitionForward.transitionWithDuration(t, s);
-                case 25: return PageTransitionBackward.transitionWithDuration(t, s);
+                // case 25: return PageTransitionBackward.transitionWithDuration(t, s);
                 case 26: return CCTransitionFadeTR.transitionWithDuration(t, s);
                 case 27: return CCTransitionFadeBL.transitionWithDuration(t, s);
                 case 28: return CCTransitionFadeUp.transitionWithDuration(t, s);
                 case 29: return CCTransitionFadeDown.transitionWithDuration(t, s);
                 case 30: return CCTransitionTurnOffTiles.transitionWithDuration(t, s);
                 case 31: return CCTransitionSplitRows.transitionWithDuration(t, s);
-                case 32: return CCTransitionSplitCols.transitionWithDuration(t, s);
+                case 25: return CCTransitionSplitCols.transitionWithDuration(t, s);
                 default: break;
             }
 
