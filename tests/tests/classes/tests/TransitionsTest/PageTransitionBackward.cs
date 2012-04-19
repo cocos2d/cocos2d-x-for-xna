@@ -8,7 +8,7 @@ namespace tests
 {
     public class PageTransitionBackward : CCTransitionPageTurn
     {
-        public static CCTransitionScene transitionWithDuration(float t, CCScene s)
+        public new static CCTransitionScene transitionWithDuration(float t, CCScene s)
         {
             CCDirector.sharedDirector().setDepthTest(true);
             return CCTransitionPageTurn.transitionWithDuration(t, s, true);

@@ -9,7 +9,7 @@ namespace tests
     public class TextLayer : CCLayerColor
     {
         //UxString	m_strTitle;
-        static int MAX_LAYER = 20;
+        static int MAX_LAYER = 14;
 
         public TextLayer()
         {
@@ -28,7 +28,8 @@ namespace tests
 
             CCSprite bg = CCSprite.spriteWithFile(TestResource.s_back3);
             node.addChild(bg, 0);
-            bg.anchorPoint = new CCPoint(0, 0);
+            bg.anchorPoint = new CCPoint(0.5f, 0.5f);
+            bg.position = new CCPoint(size.width / 2, size.height / 2);
 
             CCSprite grossini = CCSprite.spriteWithFile(TestResource.s_pPathSister2);
             node.addChild(grossini, 1);
@@ -72,29 +73,47 @@ namespace tests
 
             switch (nIndex)
             {
-                case 0: return Shaky3DDemo.actionWithDuration(t);
-                case 1: return Waves3DDemo.actionWithDuration(t);
-                //case 2: return FlipX3DDemo.actionWithDuration(t);
-                //case 3: return FlipY3DDemo.actionWithDuration(t);
-                case 4: return Lens3DDemo.actionWithDuration(t);
-                case 5: return Ripple3DDemo.actionWithDuration(t);
-                case 6: return LiquidDemo.actionWithDuration(t);
-                case 7: return WavesDemo.actionWithDuration(t);
-                case 8: return TwirlDemo.actionWithDuration(t);
-                case 9: return ShakyTiles3DDemo.actionWithDuration(t);
-                case 10: return ShatteredTiles3DDemo.actionWithDuration(t);
-                case 11: return ShuffleTilesDemo.actionWithDuration(t);
-                case 12: return FadeOutTRTilesDemo.actionWithDuration(t);
-                case 13: return FadeOutBLTilesDemo.actionWithDuration(t);
-                case 14: return FadeOutUpTilesDemo.actionWithDuration(t);
-                case 15: return FadeOutDownTilesDemo.actionWithDuration(t);
-                case 16: return TurnOffTilesDemo.actionWithDuration(t);
-                case 17: return WavesTiles3DDemo.actionWithDuration(t);
-                case 18: return JumpTiles3DDemo.actionWithDuration(t);
-                case 19: return SplitRowsDemo.actionWithDuration(t);
-                case 2: return SplitColsDemo.actionWithDuration(t);
-                case 3: return PageTurn3DDemo.actionWithDuration(t);
+                case 0: return Waves3DDemo.actionWithDuration(t);
+                case 1: return Lens3DDemo.actionWithDuration(t);
+                case 2: return ShakyTiles3DDemo.actionWithDuration(t);
+                case 3: return ShuffleTilesDemo.actionWithDuration(t);
+                case 4: return FadeOutTRTilesDemo.actionWithDuration(t);
+                case 5: return FadeOutBLTilesDemo.actionWithDuration(t);
+                case 6: return FadeOutUpTilesDemo.actionWithDuration(t);
+                case 7: return FadeOutDownTilesDemo.actionWithDuration(t);
+                case 8: return TurnOffTilesDemo.actionWithDuration(t);
+                case 9: return WavesTiles3DDemo.actionWithDuration(t);
+                case 10: return JumpTiles3DDemo.actionWithDuration(t);
+                case 11: return SplitRowsDemo.actionWithDuration(t);
+                case 12: return SplitColsDemo.actionWithDuration(t);
+                case 13: return PageTurn3DDemo.actionWithDuration(t);
             }
+
+            //switch (nIndex)
+            //{
+            //    case 0: return Shaky3DDemo.actionWithDuration(t);
+            //    case 1: return Waves3DDemo.actionWithDuration(t);
+            //    //case 2: return FlipX3DDemo.actionWithDuration(t);
+            //    //case 3: return FlipY3DDemo.actionWithDuration(t);
+            //    case 4: return Lens3DDemo.actionWithDuration(t);
+            //    case 5: return Ripple3DDemo.actionWithDuration(t);
+            //    case 6: return LiquidDemo.actionWithDuration(t);
+            //    case 7: return WavesDemo.actionWithDuration(t);
+            //    case 8: return TwirlDemo.actionWithDuration(t);
+            //    case 9: return ShakyTiles3DDemo.actionWithDuration(t);
+            //    case 10: return ShatteredTiles3DDemo.actionWithDuration(t);
+            //    case 11: return ShuffleTilesDemo.actionWithDuration(t);
+            //    case 12: return FadeOutTRTilesDemo.actionWithDuration(t);
+            //    case 13: return FadeOutBLTilesDemo.actionWithDuration(t);
+            //    case 14: return FadeOutUpTilesDemo.actionWithDuration(t);
+            //    case 15: return FadeOutDownTilesDemo.actionWithDuration(t);
+            //    case 16: return TurnOffTilesDemo.actionWithDuration(t);
+            //    case 17: return WavesTiles3DDemo.actionWithDuration(t);
+            //    case 18: return JumpTiles3DDemo.actionWithDuration(t);
+            //    case 19: return SplitRowsDemo.actionWithDuration(t);
+            //    case 2: return SplitColsDemo.actionWithDuration(t);
+            //    case 3: return PageTurn3DDemo.actionWithDuration(t);
+            //}
 
             return null;
         }
