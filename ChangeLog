@@ -1,3 +1,18 @@
+cocos2d-x for xna 0.1.1 Apr.20 2012	
+	Bug 1153 The isBlendadditive attribute has affected other sprites
+	Bug 1154 The single particle can't rotate
+	Bug 1049 CCMenuItemToggle will grow large after quick clicking
+	Bug 1048 ccBlendFunc doesn't work
+	Bug 1021 It's invalid to set color of cclayercolor
+	Bug 1012 it crashes when using the plist created by Particle Designer
+	Bug 1013 in the parser of CCTMXTiledMap, MapSize and TileSize are the same
+	Bug 1016 CCMenu::menuWithItem will cause crash
+	Bug 989  The particle turns black when it expires
+	Feature  Part of scene transitions
+	Feature  Part of effects
+
+
+
 cocos2d-x for xna 0.1.0 Feb.17 2012
 * This is the 3d-alpha version of cocos2d-x for xna.
 * And the primary features of the engine have been realized.
@@ -14,19 +29,4 @@ Primary Features
 	particle system:nearly thirty particle examples are shown in tests, supports plist
 	tilemap:a kind of map that is composed of many texture tiles
 	cocosdenshion:offer the interfaces to play background music and sound effect
-	
-cocos2d-x for xna 0.1.1 Apr.20 2012	
-	Bug 1153 The isBlendadditive attribute has affected other sprites
-	Bug 1154 The single particle can't rotate
-	Bug 1049 CCMenuItemToggle will grow large after quick clicking
-	Bug 1048 ccBlendFunc doesn't work
-	Bug 1021 It's invalid to set color of cclayercolor
-	Bug 1012 it crashes when using the plist created by Particle Designer
-	Bug 1013 in the parser of CCTMXTiledMap, MapSize and TileSize are the same
-	Bug 1016 CCMenu::menuWithItem will cause crash
-	Bug 989  The particle turns black when it expires
-	Feature  Part of scene transitions
-	Feature  Part of effects
-
-
 	
