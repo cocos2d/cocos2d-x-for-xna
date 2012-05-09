@@ -271,7 +271,7 @@ namespace cocos2d
                 string version = attributeDict["version"];
                 if (version != "1.0")
                 {
-                    Debug.WriteLine("cocos2d: TMXFormat: Unsupported TMX version: {0}", version);
+                    CCLog.Log("cocos2d: TMXFormat: Unsupported TMX version: {0}", version);
                 }
                 string orientationStr = attributeDict["orientation"];
                 if (orientationStr == "orthogonal")
@@ -281,7 +281,7 @@ namespace cocos2d
                 else if (orientationStr == "hexagonal")
                     pTMXMapInfo.Orientation = (int)(CCTMXOrientatio.CCTMXOrientationHex);
                 else
-                    Debug.WriteLine("cocos2d: TMXFomat: Unsupported orientation: {0}", pTMXMapInfo.Orientation);
+                    CCLog.Log("cocos2d: TMXFomat: Unsupported orientation: {0}", pTMXMapInfo.Orientation);
 
                 CCSize sMapSize = new CCSize();
                 sMapSize.width = float.Parse(attributeDict["width"]);
@@ -481,7 +481,7 @@ namespace cocos2d
             {
                 if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyNone)
                 {
-                    Debug.WriteLine("TMX tile map: Parent element is unsupported. Cannot add property named '{0}' with value '{1}'",
+                    CCLog.Log("TMX tile map: Parent element is unsupported. Cannot add property named '{0}' with value '{1}'",
                         attributeDict["name"], attributeDict["value"]);
                 }
                 else if (pTMXMapInfo.ParentElement == (int)TMXProperty.TMXPropertyMap)

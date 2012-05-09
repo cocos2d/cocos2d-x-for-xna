@@ -1,8 +1,5 @@
-/****************************************************************************
+﻿/****************************************************************************
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2008-2010 Ricardo Quesada
-Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2011-2012 openxlive.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,36 +22,19 @@ THE SOFTWARE.
 
 using System;
 using System.Diagnostics;
+
 namespace cocos2d
 {
-    public class CCFiniteTimeAction : CCAction
-    {
-        public CCFiniteTimeAction() { }
-
-        ~CCFiniteTimeAction() { }
-
-        public virtual CCFiniteTimeAction reverse()
+    public class CCLog
+    { 
+        public static void Log(string message)
         {
-            CCLog.Log("cocos2d: FiniteTimeAction#reverse: Implement me");
-            return null;
+            Debug.WriteLine(message);
         }
 
-        // Properties
-
-        protected float m_fDuration;
-        /// <summary>
-        /// duration in seconds
-        /// </summary>
-        public float duration
+        public static void Log(string format, params object[] args)
         {
-            get
-            {
-                return m_fDuration;
-            }
-            set
-            {
-                m_fDuration = value;
-            }
+            Debug.WriteLine(format, args);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace tests
                     label.Color = new ccColor3B(0, 0, 255); //ccBLUE
                 else
                 {
-                    Debug.WriteLine("Color changed");
+                    CCLog.Log("Color changed");
                     label.Color = new ccColor3B(255, 0, 0);
                 }
                 a++;

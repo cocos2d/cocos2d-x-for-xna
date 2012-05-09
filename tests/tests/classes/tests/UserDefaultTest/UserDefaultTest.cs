@@ -12,7 +12,7 @@ namespace tests
         public UserDefaultTest() { }
         private void doTest()
         {
-            Debug.WriteLine("********************** init value ***********************");
+            CCLog.Log("********************** init value ***********************");
 
             // set default value
 
@@ -25,28 +25,28 @@ namespace tests
             // print value
 
         //    string ret = CCUserDefault.sharedUserDefault()->getStringForKey("string");
-        //    Debug.WriteLine("string is {0}", ret);
+        //    CCLog.Log("string is {0}", ret);
 
         //    double d = CCUserDefault.sharedUserDefault()->getDoubleForKey("double");
-        //    Debug.WriteLine("double is {0}", d);
+        //    CCLog.Log("double is {0}", d);
 
         //    int i = CCUserDefault.sharedUserDefault()->getIntegerForKey("integer");
-        //    Debug.WriteLine("integer is {0}", i);
+        //    CCLog.Log("integer is {0}", i);
 
         //    float f = CCUserDefault.sharedUserDefault()->getFloatForKey("float");
-        //    Debug.WriteLine("float is {0}", f);
+        //    CCLog.Log("float is {0}", f);
 
         //    bool b = CCUserDefault.sharedUserDefault()->getBoolForKey("bool");
         //    if (b)
         //    {
-        //        Debug.WriteLine("bool is true");
+        //        CCLog.Log("bool is true");
         //    }
         //    else
         //    {
-        //        Debug.WriteLine("bool is false");
+        //        CCLog.Log("bool is false");
         //    }
 
-        //    Debug.WriteLine("********************** after change value ***********************");
+        //    CCLog.Log("********************** after change value ***********************");
 
         //    // change the value
 
@@ -59,25 +59,25 @@ namespace tests
         //    // print value
 
         //    ret = CCUserDefault.sharedUserDefault().getStringForKey("string");
-        //    Debug.WriteLine("string is %s", ret);
+        //    CCLog.Log("string is %s", ret);
 
         //    d = CCUserDefault.sharedUserDefault().getDoubleForKey("double");
-        //    Debug.WriteLine("double is %f", d);
+        //    CCLog.Log("double is %f", d);
 
         //    i = CCUserDefault.sharedUserDefault().getIntegerForKey("integer");
-        //    Debug.WriteLine("integer is %d", i);
+        //    CCLog.Log("integer is %d", i);
 
         //    f = CCUserDefault.sharedUserDefault().getFloatForKey("float");
-        //    Debug.WriteLine("float is %f", f);
+        //    CCLog.Log("float is %f", f);
 
         //    b = CCUserDefault.sharedUserDefault().getBoolForKey("bool");
         //    if (b)
         //    {
-        //        Debug.WriteLine("bool is true");
+        //        CCLog.Log("bool is true");
         //    }
         //    else
         //    {
-        //        Debug.WriteLine("bool is false");
+        //        CCLog.Log("bool is false");
         //    }
         }
     }

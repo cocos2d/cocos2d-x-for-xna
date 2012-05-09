@@ -116,11 +116,11 @@ namespace tests
 	        case 5:
 		        if (SimpleAudioEngine.sharedEngine().isBackgroundMusicPlaying())
 		        {
-			        Debug.WriteLine("background music is playing");
+			        CCLog.Log("background music is playing");
 		        }
 		        else
 		        {
-                    Debug.WriteLine("background music is not playing");
+                    CCLog.Log("background music is not playing");
 		        }
 		        break;
 	        // play effect

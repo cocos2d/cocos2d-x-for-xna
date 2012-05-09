@@ -141,7 +141,7 @@ namespace cocos2d
             }
             else
             {
-                Debug.WriteLine("cocos2d: removeAllActionsFromTarget: Target not found");
+                CCLog.Log("cocos2d: removeAllActionsFromTarget: Target not found");
             }
         }
 
@@ -169,7 +169,7 @@ namespace cocos2d
             }
             else
             {
-                Debug.WriteLine("cocos2d: removeAction: Target not found");
+                CCLog.Log("cocos2d: removeAction: Target not found");
             }
         }
 
@@ -228,12 +228,12 @@ namespace cocos2d
                 }
                 else
                 {
-                    Debug.WriteLine("cocos2d : getActionByTag: Target not found");
+                    CCLog.Log("cocos2d : getActionByTag: Target not found");
                 }
             }
             else
             {
-                Debug.WriteLine("cocos2d : getActionByTag: Target not found");
+                CCLog.Log("cocos2d : getActionByTag: Target not found");
             }
 
             return null;

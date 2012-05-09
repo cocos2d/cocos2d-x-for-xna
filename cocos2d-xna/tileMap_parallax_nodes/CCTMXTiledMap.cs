@@ -322,7 +322,7 @@ object->propertyNamed(name_of_the_property);
             }
 
             // If all the tiles are 0, return empty tileset
-            Debug.WriteLine("cocos2d: Warning: TMX Layer '{0}' has no tiles", layerInfo.m_sName);
+            CCLog.Log("cocos2d: Warning: TMX Layer '{0}' has no tiles", layerInfo.m_sName);
             return null;
         }
 

@@ -44,7 +44,7 @@ namespace tests
 
         public void selectAnswer(CCObject sender)
         {
-            Debug.WriteLine("Selected");
+            CCLog.Log("Selected");
         }
     }
 }

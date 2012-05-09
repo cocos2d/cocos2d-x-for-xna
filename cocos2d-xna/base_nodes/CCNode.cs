@@ -355,7 +355,7 @@ namespace cocos2d
 
             if (child == null)
             {
-                Debug.WriteLine("cocos2d: removeChildByTag: child not found!");
+                CCLog.Log("cocos2d: removeChildByTag: child not found!");
             }
             else
             {

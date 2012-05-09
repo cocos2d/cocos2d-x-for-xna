@@ -38,7 +38,7 @@ namespace tests
 
         public virtual void didAccelerate(CCAcceleration pAccelerationValue)
         {
-            Debug.WriteLine("Layer1 accel");
+            CCLog.Log("Layer1 accel");
         }
 
         //LAYER_NODE_FUNC(Bug624Layer);
@@ -75,7 +75,7 @@ namespace tests
 
         public virtual void didAccelerate(CCAcceleration pAccelerationValue)
         {
-            Debug.WriteLine("Layer2 accel");
+            CCLog.Log("Layer2 accel");
         }
 
         //LAYER_NODE_FUNC(Bug624Layer2);

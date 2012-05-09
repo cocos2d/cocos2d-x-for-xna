@@ -184,7 +184,7 @@ namespace tests
                 CCDirector director = CCDirector.sharedDirector();
                 CCPoint b = director.convertToUI(director.convertToGL(a));
                 //CCLog("(%d,%d) == (%d,%d)", (int) a.x, (int)a.y, (int)b.x, (int)b.y );
-                Debug.WriteLine("(%d,%d) == (%d,%d)", (int)a.x, (int)a.y, (int)b.x, (int)b.y);
+                CCLog.Log("(%d,%d) == (%d,%d)", (int)a.x, (int)a.y, (int)b.x, (int)b.y);
             }
         }
 

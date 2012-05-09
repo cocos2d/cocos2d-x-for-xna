@@ -144,7 +144,7 @@ namespace tests
         {
             CCTouchDispatcher.sharedDispatcher().setPriority(-128 + 1, this);
             base.unsheduleAllSelectors();
-            Debug.WriteLine("TOUCHES ALLOWED AGAIN");
+            CCLog.Log("TOUCHES ALLOWED AGAIN");
         }
         public void menuCallback(CCObject pSender)
         {
@@ -159,7 +159,7 @@ namespace tests
             // hijack all touch events for 5 seconds
             CCTouchDispatcher.sharedDispatcher().setPriority(-128 - 1, this);
             base.schedule(this.allowTouches, 5.0f);
-            Debug.WriteLine("TOUCHES DISABLED FOR 5 SECONDS");
+            CCLog.Log("TOUCHES DISABLED FOR 5 SECONDS");
         }
         public void menuCallbackEnable(CCObject pSender)
         {
