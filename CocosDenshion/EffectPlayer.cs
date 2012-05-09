@@ -66,27 +66,27 @@ namespace CocosDenshion
 
         public void Pause()
         {
-            Debug.WriteLine("Pause is invalid for sound effect");
+            CCLog.Log("Pause is invalid for sound effect");
         }
 
         public void Resume()
         {
-            Debug.WriteLine("Resume is invalid for sound effect");
+            CCLog.Log("Resume is invalid for sound effect");
         }
 
         public void Stop()
         {
-            Debug.WriteLine("Stop is invalid for sound effect");
+            CCLog.Log("Stop is invalid for sound effect");
         }
 
         public void Rewind()
         {
-            Debug.WriteLine("Rewind is invalid for sound effect");
+            CCLog.Log("Rewind is invalid for sound effect");
         }
 
         public bool IsPlaying()
         {
-            Debug.WriteLine("IsPlaying is invalid for sound effect");
+            CCLog.Log("IsPlaying is invalid for sound effect");
             return false;
         }
 

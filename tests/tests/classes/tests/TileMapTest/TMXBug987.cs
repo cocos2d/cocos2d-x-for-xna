@@ -15,7 +15,7 @@ namespace tests
             addChild(map, 0, 1);
 
             CCSize s1 = map.contentSize;
-            Debug.WriteLine("ContentSize: %f, %f", s1.width, s1.height);
+            CCLog.Log("ContentSize: %f, %f", s1.width, s1.height);
 
             List<CCNode> childs = map.children;
             CCTMXLayer pNode;

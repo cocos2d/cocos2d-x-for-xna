@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
+using cocos2d;
 
 namespace tests
 {
@@ -30,18 +30,18 @@ namespace tests
         public void autoremove(float dt)
         {
             accum += dt;
-            Debug.WriteLine("Time: %f", accum);
+            CCLog.Log("Time: %f", accum);
 
             if (accum > 3)
             {
                 unschedule(autoremove);
-                Debug.WriteLine("scheduler removed");
+                CCLog.Log("scheduler removed");
             }
         }
 
         public void tick(float dt)
         {
-            Debug.WriteLine("This scheduler should not be removed");
+            CCLog.Log("This scheduler should not be removed");
         }
 
         private float accum;

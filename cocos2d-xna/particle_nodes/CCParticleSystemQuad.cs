@@ -188,7 +188,7 @@ namespace cocos2d
 
 		        if( null == m_pQuads || null == m_pIndices) 
 		        {
-			        Debug.WriteLine("cocos2d: Particle system: not enough memory");
+			        CCLog.Log("cocos2d: Particle system: not enough memory");
 			        return false;
 		        }
 

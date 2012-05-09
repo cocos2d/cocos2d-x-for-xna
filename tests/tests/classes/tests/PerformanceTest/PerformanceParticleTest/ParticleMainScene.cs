@@ -173,7 +173,7 @@ namespace tests
                 //         break;
                 default:
                     particleSystem = null;
-                    Debug.WriteLine("Shall not happen!");
+                    CCLog.Log("Shall not happen!");
                     break;
             }
             addChild(particleSystem, 0, PerformanceParticleTest.kTagParticleSystem);

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
+using cocos2d;
 
 namespace tests
 {
@@ -28,12 +28,12 @@ namespace tests
 
         public void update(float dt)
         {
-            Debug.WriteLine("update called:{0}", dt);
+            CCLog.Log("update called:{0}", dt);
         }
 
         public void tick(float dt)
         {
-            Debug.WriteLine("custom selector called:{0}", dt);
+            CCLog.Log("custom selector called:{0}", dt);
         }
 
         public void stopSelectors(float dt)

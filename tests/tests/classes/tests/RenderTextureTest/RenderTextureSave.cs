@@ -101,7 +101,7 @@ namespace tests
             char[] str = new char[20];
             //sprintf(str, "image-%d.png", counter);
             //m_pTarget.saveBuffer(CCRenderTexture.tImageFormat.kCCImageFormatPNG, str);
-            Debug.WriteLine("Image saved %s", str);
+            CCLog.Log("Image saved %s", str);
 
             counter++;
         }

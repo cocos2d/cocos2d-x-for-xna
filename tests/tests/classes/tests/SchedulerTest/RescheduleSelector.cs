@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
+using cocos2d;
 
 namespace tests
 {
@@ -30,7 +30,7 @@ namespace tests
         public void schedUpdate(float dt)
         {
             m_nTicks++;
-            Debug.WriteLine("schedUpdate: %.2f", dt);
+            CCLog.Log("schedUpdate: %.2f", dt);
             if (m_nTicks > 3)
             {
                 m_fInterval += 1.0f;

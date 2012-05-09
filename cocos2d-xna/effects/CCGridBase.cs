@@ -165,7 +165,7 @@ namespace cocos2d
 
             if (pTexture == null)
             {
-                Debug.WriteLine("cocos2d: CCGrid: error creating texture");
+                CCLog.Log("cocos2d: CCGrid: error creating texture");
                 return false;
             }
 

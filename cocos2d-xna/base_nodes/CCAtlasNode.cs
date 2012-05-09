@@ -194,7 +194,7 @@ namespace cocos2d
 
             if (m_pTextureAtlas == null)
             {
-                Debug.WriteLine("cocos2d: Could not initialize CCAtlasNode. Invalid Texture.");
+                CCLog.Log("cocos2d: Could not initialize CCAtlasNode. Invalid Texture.");
                 return false;
             }
 

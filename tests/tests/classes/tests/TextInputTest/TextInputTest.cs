@@ -113,7 +113,7 @@ namespace cocos2d
 
         public virtual void keyboardWillShow(CCIMEKeyboardNotificationInfo info)
         {
-            Debug.WriteLine("TextInputTest:keyboardWillShowAt(origin:%f,%f, size:%f,%f)",
+            CCLog.Log("TextInputTest:keyboardWillShowAt(origin:%f,%f, size:%f,%f)",
         info.end.origin.x, info.end.origin.y, info.end.size.width, info.end.size.height);
 
             if (m_pTrackNode != null)
@@ -122,7 +122,7 @@ namespace cocos2d
             }
 
             CCRect rectTracked = TextInputTestScene.getRect(m_pTrackNode);
-            Debug.WriteLine("TextInputTest:trackingNodeAt(origin:%f,%f, size:%f,%f)",
+            CCLog.Log("TextInputTest:trackingNodeAt(origin:%f,%f, size:%f,%f)",
                 rectTracked.origin.x, rectTracked.origin.y, rectTracked.size.width, rectTracked.size.height);
 
             // if the keyboard area doesn't intersect with the tracking node area, nothing need to do.
@@ -133,7 +133,7 @@ namespace cocos2d
 
             // assume keyboard at the bottom of screen, calculate the vertical adjustment.
             float adjustVert = CCRect.CCRectGetMaxY(info.end) - CCRect.CCRectGetMinY(rectTracked);
-            Debug.WriteLine("TextInputTest:needAdjustVerticalPosition(%f)", adjustVert);
+            CCLog.Log("TextInputTest:needAdjustVerticalPosition(%f)", adjustVert);
 
             // move all the children node of KeyboardNotificationLayer
             CCNode ccnoed = new CCNode();
@@ -154,7 +154,7 @@ namespace cocos2d
         // CCLayer
         public override bool ccTouchBegan(CCTouch pTouch, CCEvent pEvent)
         {
-            Debug.WriteLine("++++++++++++++++++++++++++++++++++++++++++++");
+            CCLog.Log("++++++++++++++++++++++++++++++++++++++++++++");
             m_beginPos = pTouch.locationInView(pTouch.view());
             m_beginPos = CCDirector.sharedDirector().convertToGL(m_beginPos);
             return true;
@@ -182,14 +182,14 @@ namespace cocos2d
             // decide the trackNode is clicked.
             CCRect rect;
             CCPoint point = convertTouchToNodeSpaceAR(pTouch);
-            Debug.WriteLine("KeyboardNotificationLayer:clickedAt(%f,%f)", point.x, point.y);
+            CCLog.Log("KeyboardNotificationLayer:clickedAt(%f,%f)", point.x, point.y);
 
             rect = TextInputTestScene.getRect(m_pTrackNode);
-            Debug.WriteLine("KeyboardNotificationLayer:TrackNode at(origin:%f,%f, size:%f,%f)",
+            CCLog.Log("KeyboardNotificationLayer:TrackNode at(origin:%f,%f, size:%f,%f)",
                 rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 
             this.onClickTrackNode(CCRect.CCRectContainsPoint(rect, point));
-            Debug.WriteLine("----------------------------------");
+            CCLog.Log("----------------------------------");
         }
 
         protected CCNode m_pTrackNode;
@@ -214,13 +214,13 @@ namespace cocos2d
             if (bClicked)
             {
                 // TextFieldTTFTest be clicked
-                Debug.WriteLine("TextFieldTTFDefaultTest:CCTextFieldTTF attachWithIME");
+                CCLog.Log("TextFieldTTFDefaultTest:CCTextFieldTTF attachWithIME");
                 pTextField.attachWithIME();
             }
             else
             {
                 // TextFieldTTFTest not be clicked
-                Debug.WriteLine("TextFieldTTFDefaultTest:CCTextFieldTTF detachWithIME");
+                CCLog.Log("TextFieldTTFDefaultTest:CCTextFieldTTF detachWithIME");
                 pTextField.detachWithIME();
             }
         }
@@ -277,13 +277,13 @@ namespace cocos2d
             if (bClicked)
             {
                 // TextFieldTTFTest be clicked
-                Debug.WriteLine("TextFieldTTFActionTest:CCTextFieldTTF attachWithIME");
+                CCLog.Log("TextFieldTTFActionTest:CCTextFieldTTF attachWithIME");
                 pTextField.attachWithIME();
             }
             else
             {
                 // TextFieldTTFTest not be clicked
-                Debug.WriteLine("TextFieldTTFActionTest:CCTextFieldTTF detachWithIME");
+                CCLog.Log("TextFieldTTFActionTest:CCTextFieldTTF detachWithIME");
                 pTextField.detachWithIME();
             }
         }

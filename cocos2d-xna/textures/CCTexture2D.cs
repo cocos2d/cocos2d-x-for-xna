@@ -257,7 +257,7 @@ namespace cocos2d
             int maxTextureSize = CCConfiguration.sharedConfiguration().MaxTextureSize;
             if (POTHigh > maxTextureSize || POTWide > maxTextureSize)
             {
-                Debug.WriteLine(string.Format("cocos2d: WARNING: Image ({0} x {1}) is bigger than the supported {2} x {3}", POTWide, POTHigh, maxTextureSize, maxTextureSize));
+                CCLog.Log(string.Format("cocos2d: WARNING: Image ({0} x {1}) is bigger than the supported {2} x {3}", POTWide, POTHigh, maxTextureSize, maxTextureSize));
                 return false;
             }
 

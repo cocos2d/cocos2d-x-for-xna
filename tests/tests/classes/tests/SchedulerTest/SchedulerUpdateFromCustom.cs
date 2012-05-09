@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
+using cocos2d;
 
 namespace tests
 {
@@ -26,7 +26,7 @@ namespace tests
 
         public void update(float dt)
         {
-            Debug.WriteLine("update called:{0}", dt);
+            CCLog.Log("update called:{0}", dt);
         }
 
         public void schedUpdate(float dt)

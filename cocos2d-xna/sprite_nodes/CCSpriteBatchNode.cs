@@ -203,7 +203,7 @@ namespace cocos2d
             // this is likely computationally expensive
             int quantity = (m_pobTextureAtlas.Capacity + 1) * 4 / 3;
 
-            Debug.WriteLine
+            CCLog.Log
                 (
                     string.Format(
                             "cocos2d: CCSpriteBatchNode: resizing TextureAtlas capacity from [{0}] to [{1}].",
@@ -215,7 +215,7 @@ namespace cocos2d
             if (!m_pobTextureAtlas.resizeCapacity(quantity))
             {
                 // serious problems
-                Debug.WriteLine("cocos2d: WARNING: Not enough memory to resize the atlas");
+                CCLog.Log("cocos2d: WARNING: Not enough memory to resize the atlas");
                 Debug.Assert(false);
             }
         }

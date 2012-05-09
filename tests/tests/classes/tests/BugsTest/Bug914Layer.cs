@@ -65,7 +65,7 @@ namespace tests
 
         public void ccTouchesMoved(List<CCTouch> touches, CCEvent eventn)
         {
-            Debug.WriteLine("Number of touches: %d", touches.Count);
+            CCLog.Log("Number of touches: %d", touches.Count);
         }
 
         public void ccTouchesBegan(List<CCTouch> touches, CCEvent eventn)

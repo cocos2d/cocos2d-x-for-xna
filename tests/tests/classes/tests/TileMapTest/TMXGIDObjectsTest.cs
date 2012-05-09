@@ -16,8 +16,8 @@ namespace tests
             addChild(map, -1, 1);
 
             CCSize s = map.contentSize;
-            Debug.WriteLine("Contentsize: %f, %f", s.width, s.height);
-            Debug.WriteLine("----> Iterating over all the group objets");
+            CCLog.Log("Contentsize: %f, %f", s.width, s.height);
+            CCLog.Log("----> Iterating over all the group objets");
         }
 
         public override string title()

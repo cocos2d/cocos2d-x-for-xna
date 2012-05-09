@@ -21,7 +21,7 @@ namespace tests
             s = label1.contentSize;
 
             //CCLOG("content size: %.2fx%.2f", s.width, s.height);
-            Debug.WriteLine("content size: {0,0:2f}x{1,0:2f}", s.width, s.height);
+            CCLog.Log("content size: {0,0:2f}x{1,0:2f}", s.width, s.height);
 
 
             // Center
@@ -31,7 +31,7 @@ namespace tests
 
             s = label2.contentSize;
             //CCLOG("content size: %.2fx%.2f", s.width, s.height);
-            Debug.WriteLine("content size: {0,0:2f}x{1,0:2f}", s.width, s.height);
+            CCLog.Log("content size: {0,0:2f}x{1,0:2f}", s.width, s.height);
 
             // right
             CCLabelBMFont label3 = CCLabelBMFont.labelWithString("Multi line\nRight\nThree lines Three", "fonts/fnt/bitmapFontTest3");

@@ -90,7 +90,7 @@ namespace cocos2d
         /// </summary>
         public virtual void step(float dt)
         {
-            Debug.WriteLine("[Action step]. override me");
+            CCLog.Log("[Action step]. override me");
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace cocos2d
         /// </summary>
         public virtual void update(float dt)
         {
-            Debug.WriteLine("[Action update]. override me");
+            CCLog.Log("[Action update]. override me");
         }
 
         /// <summary>

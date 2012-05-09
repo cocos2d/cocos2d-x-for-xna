@@ -36,13 +36,13 @@ namespace tests
 
         public override void onEnter()
         {
-            Debug.WriteLine("SceneTestLayer1#onEnter");
+            CCLog.Log("SceneTestLayer1#onEnter");
             base.onEnter();
         }
 
         public override void onEnterTransitionDidFinish()
         {
-            Debug.WriteLine("SceneTestLayer1#onEnterTransitionDidFinish");
+            CCLog.Log("SceneTestLayer1#onEnterTransitionDidFinish");
             base.onEnterTransitionDidFinish();
         }
 

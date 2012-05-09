@@ -222,26 +222,26 @@ namespace tests
 
             CCSize size = CCDirector.sharedDirector().getWinSize();
 
-            Debug.WriteLine("Loading 512x512 image...");
+            CCLog.Log("Loading 512x512 image...");
             CCSprite sprite1 = CCSprite.spriteWithFile("Images/texture512x512");
             if (sprite1 != null)
             {
-                Debug.WriteLine("OK\n");
+                CCLog.Log("OK\n");
                 sprite1.position = new CCPoint(size.width - 50, size.height -50);
                 this.addChild(sprite1);
             }
             else
-                Debug.WriteLine("Error\n");
+                CCLog.Log("Error\n");
 
-            Debug.WriteLine("Loading 1024x1024 image...");
+            CCLog.Log("Loading 1024x1024 image...");
             CCSprite sprite2 = CCSprite.spriteWithFile("Images/texture1024x1024");
             if (sprite2 != null)
             {
-                Debug.WriteLine("OK\n");
+                CCLog.Log("OK\n");
                 this.addChild(sprite2);
             }
             else
-                Debug.WriteLine("Error\n");
+                CCLog.Log("Error\n");
         // 	@todo
         // 	CCLog("Loading 2048x2048 image...");
         // 	sprite = CCSprite::spriteWithFile("Images/texture2048x2048.png");

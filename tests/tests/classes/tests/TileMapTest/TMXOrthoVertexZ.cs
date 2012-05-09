@@ -23,7 +23,7 @@ namespace tests
             // can use any CCSprite and it will work OK.
             CCTMXLayer layer = map.layerNamed("trees");
             m_tamara = layer.tileAt(new CCPoint(0, 11));
-            Debug.WriteLine("{0} vertexZ: {1}", m_tamara, m_tamara.vertexZ);
+            CCLog.Log("{0} vertexZ: {1}", m_tamara, m_tamara.vertexZ);
 
             CCActionInterval move = CCMoveBy.actionWithDuration(10, CCPointExtension.ccpMult(new CCPoint(400, 450), 1 / CCDirector.sharedDirector().ContentScaleFactor));
             CCFiniteTimeAction back = move.reverse();

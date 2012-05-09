@@ -30,12 +30,12 @@ namespace tests
 
         public void tick1(float dt)
         {
-            Debug.WriteLine("tick1");
+            CCLog.Log("tick1");
         }
 
         public void tick2(float dt)
         {
-            Debug.WriteLine("tick2");
+            CCLog.Log("tick2");
         }
 
         public void pause(float dt)
