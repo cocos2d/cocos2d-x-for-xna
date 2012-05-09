@@ -36,10 +36,10 @@ namespace tests
             bool x = sprite1.IsFlipX;
             bool y = sprite2.IsFlipY;
 
-            Debug.WriteLine("Pre: {0}", sprite1.contentSize.height);
+            CCLog.Log("Pre: {0}", sprite1.contentSize.height);
             sprite1.IsFlipX = !x;
             sprite2.IsFlipY = !y;
-            Debug.WriteLine("Post: {0}", sprite1.contentSize.height);
+            CCLog.Log("Post: {0}", sprite1.contentSize.height);
         }
 
         public override string title()

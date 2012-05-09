@@ -26,7 +26,7 @@ namespace tests
                 //
                 // Test 1.
                 //
-                Debug.WriteLine("Test1 - Start");
+                CCLog.Log("Test1 - Start");
                 for (int i = 0; i < 10000; i++)
                 {
                     // A | b
@@ -65,12 +65,12 @@ namespace tests
                     //        ok++;
                     //}
                 }
-                Debug.WriteLine("Test1 - End. OK=%i, Err=%i", ok, err);
+                CCLog.Log("Test1 - End. OK=%i, Err=%i", ok, err);
 
                 //
                 // Test 2.
                 //
-                Debug.WriteLine("Test2 - Start");
+                CCLog.Log("Test2 - Start");
 
                 p1 = new CCPoint(220, 480);
                 p2 = new CCPoint(304, 325);
@@ -81,13 +81,13 @@ namespace tests
                 if (CCPointExtension.ccpLineIntersect(p1, p2, p3, p4, ref s, ref t))
                     check_for_error(p1, p2, p3, p4, s, t);
 
-                Debug.WriteLine("Test2 - End");
+                CCLog.Log("Test2 - End");
 
                 
                 //
                 // Test 3
                 //
-                Debug.WriteLine("Test3 - Start");
+                CCLog.Log("Test3 - Start");
 
                 ok = 0;
                 err = 0;
@@ -135,7 +135,7 @@ namespace tests
                     }
                 }
 
-                Debug.WriteLine("Test3 - End. OK=%i, err=%i", ok, err);
+                CCLog.Log("Test3 - End. OK=%i, err=%i", ok, err);
                 return true;
             }
 
@@ -158,7 +158,7 @@ namespace tests
             // Since float has rounding errors, only check if diff is < 0.05
             if ((Math.Abs(hitPoint1.x - hitPoint2.x) > 0.1f) || (Math.Abs(hitPoint1.y - hitPoint2.y) > 0.1f))
             {
-                Debug.WriteLine("ERROR: (%f,%f) != (%f,%f)", hitPoint1.x, hitPoint1.y, hitPoint2.x, hitPoint2.y);
+                CCLog.Log("ERROR: (%f,%f) != (%f,%f)", hitPoint1.x, hitPoint1.y, hitPoint2.x, hitPoint2.y);
                 return 1;
             }
 

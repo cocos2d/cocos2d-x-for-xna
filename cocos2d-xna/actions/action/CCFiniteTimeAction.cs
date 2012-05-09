@@ -35,7 +35,7 @@ namespace cocos2d
 
         public virtual CCFiniteTimeAction reverse()
         {
-            Debug.WriteLine("cocos2d: FiniteTimeAction#reverse: Implement me");
+            CCLog.Log("cocos2d: FiniteTimeAction#reverse: Implement me");
             return null;
         }
 

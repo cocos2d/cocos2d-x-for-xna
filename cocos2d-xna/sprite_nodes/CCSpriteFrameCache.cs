@@ -116,7 +116,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
                     // check ow/oh
                     if (ow == 0 || oh == 0)
                     {
-                        Debug.WriteLine("cocos2d: WARNING: originalWidth/Height not found on the CCSpriteFrame. AnchorPoint won't work as expected. Regenrate the .plist");
+                        CCLog.Log("cocos2d: WARNING: originalWidth/Height not found on the CCSpriteFrame. AnchorPoint won't work as expected. Regenrate the .plist");
                     }
                     // abs ow/oh
                     ow = Math.Abs(ow);
@@ -181,7 +181,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
                             {
                                 if (m_pSpriteFramesAliases[oneAlias] != null)
                                 {
-                                    Debug.WriteLine("cocos2d: WARNING: an alias with name {0} already exists", oneAlias);
+                                    CCLog.Log("cocos2d: WARNING: an alias with name {0} already exists", oneAlias);
                                 }
                             }
                             if (!m_pSpriteFramesAliases.Keys.Contains(frameKey))
@@ -249,7 +249,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
                     texturePath = pszPath.Substring(0, index) + "/images" + pszPath.Substring(index);
                 }
 
-                Debug.WriteLine("cocos2d: CCSpriteFrameCache: Trying to use file {0} as texture", texturePath);
+                CCLog.Log("cocos2d: CCSpriteFrameCache: Trying to use file {0} as texture", texturePath);
             }
 
             CCTexture2D pTexture = CCTextureCache.sharedTextureCache().addImage(texturePath);
@@ -260,7 +260,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
             }
             else
             {
-                Debug.WriteLine("cocos2d: CCSpriteFrameCache: Couldn't load texture");
+                CCLog.Log("cocos2d: CCSpriteFrameCache: Couldn't load texture");
             }
         }
 
@@ -279,7 +279,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
             }
             else
             {
-                Debug.WriteLine("cocos2d: CCSpriteFrameCache: couldn't load texture file. File not found {0}", textureFileName);
+                CCLog.Log("cocos2d: CCSpriteFrameCache: couldn't load texture file. File not found {0}", textureFileName);
             }
         }
 
@@ -442,7 +442,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
                     frame = m_pSpriteFrames[key];
                     if (frame == null)
                     {
-                        Debug.WriteLine("cocos2d: CCSpriteFrameCahce: Frame '{0}' not found", pszName);
+                        CCLog.Log("cocos2d: CCSpriteFrameCahce: Frame '{0}' not found", pszName);
                     }
                 }
             }

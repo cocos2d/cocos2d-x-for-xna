@@ -20,9 +20,9 @@ namespace tests
             //     struct timeval now;
             //     CCTextureCache *cache = CCTextureCache::sharedTextureCache();
 
-            Debug.WriteLine("\n\n--------\n\n");
+            CCLog.Log("\n\n--------\n\n");
 
-            Debug.WriteLine("--- PNG 128x128 ---\n");
+            CCLog.Log("--- PNG 128x128 ---\n");
             performTestsPNG("Images/test_image");
 
             //     CCLog("--- PVR 128x128 ---\n");
@@ -63,7 +63,7 @@ namespace tests
             //     cache->removeTexture(texture);
 
 
-            Debug.WriteLine("\n\n--- PNG 512x512 ---\n");
+            CCLog.Log("\n\n--- PNG 512x512 ---\n");
             performTestsPNG("Images/texture512x512");
 
             //     CCLog("--- PVR 512x512 ---\n");
@@ -82,8 +82,8 @@ namespace tests
             // Empty image
             //
 
-            Debug.WriteLine("\n\nEMPTY IMAGE\n\n");
-            Debug.WriteLine("--- PNG 1024x1024 ---\n");
+            CCLog.Log("\n\nEMPTY IMAGE\n\n");
+            CCLog.Log("--- PNG 1024x1024 ---\n");
             performTestsPNG("Images/texture1024x1024");
 
             //     CCLog("--- PVR 1024x1024 ---\n");
@@ -122,8 +122,8 @@ namespace tests
             // SpriteSheet images
             //
 
-            Debug.WriteLine("\n\nSPRITESHEET IMAGE\n\n");
-            Debug.WriteLine("--- PNG 1024x1024 ---\n");
+            CCLog.Log("\n\nSPRITESHEET IMAGE\n\n");
+            CCLog.Log("--- PNG 1024x1024 ---\n");
             performTestsPNG("Images/PlanetCute-1024x1024");
 
             //     CCLog("--- PVR 1024x1024 ---\n");
@@ -163,9 +163,9 @@ namespace tests
             // Landscape Image
             //
 
-            Debug.WriteLine("\n\nLANDSCAPE IMAGE\n\n");
+            CCLog.Log("\n\nLANDSCAPE IMAGE\n\n");
 
-            Debug.WriteLine("--- PNG 1024x1024 ---\n");
+            CCLog.Log("--- PNG 1024x1024 ---\n");
             performTestsPNG("Images/landscape-1024x1024");
 
             //     CCLog("--- PVR 1024x1024 ---\n");
@@ -236,45 +236,45 @@ namespace tests
             CCTexture2D texture;
             CCTextureCache cache = CCTextureCache.sharedTextureCache();
 
-            Debug.WriteLine("RGBA 8888");
+            CCLog.Log("RGBA 8888");
             CCTexture2D.setDefaultAlphaPixelFormat(CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGBA8888);
             //gettimeofday(now);
             texture = cache.addImage(filename);
             //if (texture != null)
-            //    Debug.WriteLine("  ms:%f\n", calculateDeltaTime(now));
+            //    CCLog.Log("  ms:%f\n", calculateDeltaTime(now));
             //else
-            //    Debug.WriteLine(" ERROR\n");
+            //    CCLog.Log(" ERROR\n");
             cache.removeTexture(texture);
 
-            Debug.WriteLine("RGBA 4444");
+            CCLog.Log("RGBA 4444");
             CCTexture2D.setDefaultAlphaPixelFormat(CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGBA4444);
 
             //gettimeofday(now);
             texture = cache.addImage(filename);
             //if (texture != null)
-            //    Debug.WriteLine("  ms:%f\n", calculateDeltaTime(now));
+            //    CCLog.Log("  ms:%f\n", calculateDeltaTime(now));
             //else
-            //    Debug.WriteLine(" ERROR\n");
+            //    CCLog.Log(" ERROR\n");
             cache.removeTexture(texture);
 
-            Debug.WriteLine("RGBA 5551");
+            CCLog.Log("RGBA 5551");
             CCTexture2D.setDefaultAlphaPixelFormat(CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGB5A1);
             //gettimeofday(now);
             texture = cache.addImage(filename);
             //if (texture != null)
-            //    Debug.WriteLine("  ms:%f\n", calculateDeltaTime(now));
+            //    CCLog.Log("  ms:%f\n", calculateDeltaTime(now));
             //else
-            //    Debug.WriteLine(" ERROR\n");
+            //    CCLog.Log(" ERROR\n");
             cache.removeTexture(texture);
 
-            Debug.WriteLine("RGB 565");
+            CCLog.Log("RGB 565");
             CCTexture2D.setDefaultAlphaPixelFormat(CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGB565);
             //gettimeofday(now);
             texture = cache.addImage(filename);
             //if (texture != null)
-            //    Debug.WriteLine("  ms:%f\n", calculateDeltaTime(now));
+            //    CCLog.Log("  ms:%f\n", calculateDeltaTime(now));
             //else
-            //    Debug.WriteLine(" ERROR\n");
+            //    CCLog.Log(" ERROR\n");
             cache.removeTexture(texture);
         }
 

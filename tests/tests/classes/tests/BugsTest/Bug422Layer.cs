@@ -32,12 +32,12 @@ namespace tests
             // and then a new node will be allocated occupying the memory.
             // => CRASH BOOM BANG
             CCNode node = getChildByTag(localtag - 1);
-            Debug.WriteLine("Menu: %p", node);
+            CCLog.Log("Menu: %p", node);
             removeChild(node, false);
             //	[self removeChildByTag:localtag-1 cleanup:NO];
 
             CCMenuItem item1 = CCMenuItemFont.itemFromString("One", this, menuCallback);
-            Debug.WriteLine("MenuItemFont: %p", item1);
+            CCLog.Log("MenuItemFont: %p", item1);
             CCMenuItem item2 = CCMenuItemFont.itemFromString("Two", this, menuCallback);
             CCMenu menu = CCMenu.menuWithItems(item1, item2);
             menu.alignItemsVertically();
@@ -58,7 +58,7 @@ namespace tests
             //{
             //     //CC_BREAK_IF(! pChild);
             //    CCNode pNode = (CCNode)pChild;
-            //    //Debug.WriteLine("%p, rc: %d", pNode, pNode.retainCount());
+            //    //CCLog.Log("%p, rc: %d", pNode, pNode.retainCount());
             //    check(pNode);
             //}
 
