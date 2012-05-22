@@ -526,9 +526,12 @@ namespace cocos2d
                 switch (value)
                 {
                     case ccDirectorProjection.kCCDirectorProjection2D:
-                        app.viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 5.0f), Vector3.Zero, Vector3.Up);
-                        app.projectionMatrix = Matrix.CreateOrthographicOffCenter(0, size.width, 0, size.height, -1024.0f, 1024.0f);
-                        app.worldMatrix = Matrix.CreateTranslation(0, 0, 0);
+                        app.viewMatrix = Matrix.CreateLookAt(new Vector3(size.width / 2.0f, size.height / 2.0f, 5.0f),
+                            new Vector3(size.width / 2.0f, size.height / 2.0f, 0), 
+                            Vector3.Up);
+                        app.projectionMatrix = Matrix.CreateOrthographicOffCenter(-size.width / 2.0f, 
+                            size.width / 2.0f, -size.height / 2.0f, size.height / 2.0f, -1024.0f, 1024.0f);
+                        app.worldMatrix = Matrix.Identity;
 
                         break;
 
