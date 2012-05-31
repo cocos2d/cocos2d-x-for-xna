@@ -62,7 +62,9 @@ namespace cocos2d
             }
 
             TextReader textReader = new StringReader(str);
-            XmlReader xmlReader = XmlReader.Create(textReader);
+            XmlReaderSettings setting = new XmlReaderSettings();
+            setting.DtdProcessing = DtdProcessing.Ignore;
+            XmlReader xmlReader = XmlReader.Create(textReader, setting);
             int dataindex = 0;
 
             int Width = 0;
