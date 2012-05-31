@@ -226,7 +226,7 @@ namespace cocos2d
         }
 
         /** conforms to CCTextureProtocol protocol */
-        private ccBlendFunc m_sBlendFunc;
+        private ccBlendFunc m_sBlendFunc = new ccBlendFunc();
         public ccBlendFunc BlendFunc
         {
             get { return m_sBlendFunc; }
@@ -471,7 +471,7 @@ namespace cocos2d
                 BlendState bs = new BlendState();
 
                 bs.ColorSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src);
-                bs.AlphaSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src); ;
+                bs.AlphaSourceBlend = OGLES.GetXNABlend(m_sBlendFunc.src); 
                 bs.ColorDestinationBlend = OGLES.GetXNABlend(m_sBlendFunc.dst);
                 bs.AlphaDestinationBlend = OGLES.GetXNABlend(m_sBlendFunc.dst);
 
