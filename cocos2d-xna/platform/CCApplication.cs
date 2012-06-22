@@ -157,7 +157,7 @@ namespace cocos2d
                         case TouchLocationState.Pressed:
                             if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
                             {
-                                m_pTouches.AddLast(new CCTouch(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor, touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor));
+                                m_pTouches.AddLast(new CCTouch(touch.Id, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor, touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor));
                                 m_pTouchMap.Add(touch.Id, m_pTouches.Last);
                                 newTouches.Add(m_pTouches.Last.Value);
                             }
@@ -165,7 +165,7 @@ namespace cocos2d
 
                         case TouchLocationState.Moved:
                             movedTouches.Add(m_pTouchMap[touch.Id].Value);
-                            m_pTouchMap[touch.Id].Value.SetTouchInfo(0,
+                            m_pTouchMap[touch.Id].Value.SetTouchInfo(touch.Id,
                                 touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
                                 touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
                             break;
