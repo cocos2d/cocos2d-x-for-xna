@@ -26,14 +26,9 @@ THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Input.Touch;
 
 namespace cocos2d
@@ -56,11 +51,12 @@ namespace cocos2d
 
         Game game;
 
-        CCTouch m_pTouch;
         internal GraphicsDeviceManager graphics;
         Rectangle m_rcViewPort;
         IEGLTouchDelegate m_pDelegate;
-        List<CCTouch> m_pSet;
+
+        private readonly LinkedList<CCTouch> m_pTouches;
+        private readonly Dictionary<int, LinkedListNode<CCTouch>> m_pTouchMap;
 
         bool m_bCaptured;
         float m_fScreenScaleFactor;
@@ -76,8 +72,9 @@ namespace cocos2d
 
             TouchPanel.EnabledGestures = GestureType.Tap;
 
-            m_pTouch = new CCTouch();
-            m_pSet = new List<CCTouch>();
+
+            m_pTouches = new LinkedList<CCTouch>();
+            m_pTouchMap = new Dictionary<int, LinkedListNode<CCTouch>>();
 
             m_fScreenScaleFactor = 1.0f;
 
@@ -147,45 +144,56 @@ namespace cocos2d
 
         private void ProcessTouch()
         {
-            TouchCollection touchCollection = TouchPanel.GetState();
-
-            foreach (TouchLocation touch in touchCollection)
+            if (m_pDelegate != null)
             {
-                if (touch.State == TouchLocationState.Pressed)
-                {
-                    if (m_pDelegate != null && m_pTouch != null)
-                    {
-                        if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
-                        {
-                            m_bCaptured = true;
+                var newTouches = new List<CCTouch>();
+                var movedTouches = new List<CCTouch>();
+                var endedTouches = new List<CCTouch>();
 
-                            m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                                touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-                            m_pSet.Add(m_pTouch);
-                            m_pDelegate.touchesBegan(m_pSet, null);
-                        }
+                foreach (TouchLocation touch in TouchPanel.GetState())
+                {
+                    switch (touch.State)
+                    {
+                        case TouchLocationState.Pressed:
+                            if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
+                            {
+                                m_pTouches.AddLast(new CCTouch(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor, touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor));
+                                m_pTouchMap.Add(touch.Id, m_pTouches.Last);
+                                newTouches.Add(m_pTouches.Last.Value);
+                            }
+                            break;
+
+                        case TouchLocationState.Moved:
+                            movedTouches.Add(m_pTouchMap[touch.Id].Value);
+                            m_pTouchMap[touch.Id].Value.SetTouchInfo(0,
+                                touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
+                                touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                            break;
+
+                        case TouchLocationState.Released:
+                            endedTouches.Add(m_pTouchMap[touch.Id].Value);
+                            m_pTouches.Remove(m_pTouchMap[touch.Id]);
+                            m_pTouchMap.Remove(touch.Id);
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
                 }
-                else if (touch.State == TouchLocationState.Moved)
-                {
-                    if (m_bCaptured)
-                    {
-                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                            touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-                        m_pDelegate.touchesMoved(m_pSet, null);
-                    }
-                }
-                else if (touch.State == TouchLocationState.Released)
-                {
-                    if (m_bCaptured)
-                    {
-                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                            touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-                        m_pDelegate.touchesEnded(m_pSet, null);
-                        m_pSet.Remove(m_pTouch);
 
-                        m_bCaptured = false;
-                    }
+                if (newTouches.Count > 0)
+                {
+                    m_pDelegate.touchesBegan(newTouches, null);
+                }
+
+                if (movedTouches.Count > 0)
+                {
+                    m_pDelegate.touchesMoved(movedTouches, null);
+                }
+
+                if (endedTouches.Count > 0)
+                {
+                    m_pDelegate.touchesEnded(endedTouches, null);
                 }
             }
         }
