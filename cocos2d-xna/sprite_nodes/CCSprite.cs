@@ -483,6 +483,10 @@ namespace cocos2d
             {
                 app.basicEffect.Texture = this.Texture.getTexture2D();
                 app.basicEffect.TextureEnabled = true;
+                if (!newBlend) // @@ TotallyEvil
+                {
+                    app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+                }
                 app.basicEffect.Alpha = (float)this.Opacity / 255.0f;
                 app.basicEffect.VertexColorEnabled = true;
             }
@@ -875,7 +879,10 @@ namespace cocos2d
         /// </summary>
         public bool initWithTexture(CCTexture2D texture)
         {
-            Debug.Assert(texture != null);
+            if (texture == null)
+        {
+                throw (new ArgumentNullException("texture", "Texture cannot be null"));
+            }
 
             CCRect rect = new CCRect();
             rect.size = texture.getContentSize();
@@ -889,7 +896,10 @@ namespace cocos2d
         /// </summary>
         public bool initWithTexture(CCTexture2D texture, CCRect rect)
         {
-            Debug.Assert(texture != null);
+            if (texture == null)
+            {
+                throw (new ArgumentNullException("texture", "Texture cannot be null"));
+            }
             init();
             Texture = texture;
             setTextureRect(rect);
@@ -902,7 +912,10 @@ namespace cocos2d
         /// </summary>
         public bool initWithSpriteFrame(CCSpriteFrame pSpriteFrame)
         {
-            Debug.Assert(pSpriteFrame != null);
+            if (pSpriteFrame == null)
+            {
+                throw (new ArgumentNullException("pSpriteFrame", "SpriteFrame cannot be null"));
+            }
 
             bool bRet = initWithTexture(pSpriteFrame.Texture, pSpriteFrame.Rect);
             DisplayFrame = pSpriteFrame;
@@ -918,7 +931,10 @@ namespace cocos2d
         /// </summary>
         public bool initWithSpriteFrameName(string spriteFrameName)
         {
-            Debug.Assert(spriteFrameName != null);
+            if (spriteFrameName == null)
+            {
+                throw (new ArgumentNullException("spriteFrameName", "spriteFrameName cannot be null"));
+            }
 
             CCSpriteFrame pFrame = CCSpriteFrameCache.sharedSpriteFrameCache().spriteFrameByName(spriteFrameName);
             return initWithSpriteFrame(pFrame);

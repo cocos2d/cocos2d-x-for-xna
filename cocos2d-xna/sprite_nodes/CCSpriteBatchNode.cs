@@ -178,6 +178,8 @@ namespace cocos2d
 
             updateBlendFunc();
 
+            contentSize= tex.getContentSize(); // @@ TotallyEvil - contentSize should return the size of the sprite sheet
+
             // no lazy alloc in this node
             m_pChildren = new List<CCNode>();
             m_pobDescendants = new List<CCSprite>();
@@ -588,7 +590,8 @@ namespace cocos2d
                 }
             }
 
-            removeAllChildrenWithCleanup(cleanup);
+            // http://www.cocos2d-x.org/boards/17/topics/10592
+            base.removeAllChildrenWithCleanup(cleanup);
 
             m_pobDescendants.Clear();
             m_pobTextureAtlas.removeAllQuads();

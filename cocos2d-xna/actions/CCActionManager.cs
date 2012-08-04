@@ -374,6 +374,11 @@ namespace cocos2d
 
             for (int i = 0; i < keys.Length; i++)
             {
+                if (!m_pTargets.ContainsKey(keys[i]))
+            {
+                    // http://www.cocos2d-x.org/boards/17/topics/11072
+                    continue;
+                }
                 tHashElement elt = m_pTargets[keys[i]];
                 m_pCurrentTarget = elt;
                 m_bCurrentTargetSalvaged = false;

@@ -176,6 +176,10 @@ namespace cocos2d
 
             for (int i = 1; i < actions.Length; i++)
             {
+                if (actions[i] == null)
+                {
+                    continue;
+                }
                 prev = actionOneTwo(prev, actions[i]);
             }
 

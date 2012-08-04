@@ -55,7 +55,14 @@ namespace cocos2d
 
         public CCGlesVersion getGlesVersion()
         {
-            return CCGlesVersion.GLES_VER_2_0;
+#if WINDOWS_PHONE || IOS
+            return (CCGlesVersion.GLES_VER_2_0);
+#elif ANDROID
+            return(CCGlesVersion.GLES_VER_2_0);
+#elif XBOX || XBOX360 || WINDOWS
+            return (CCGlesVersion.GLES_VER_2_0);
+#endif
+
         }
 
         /// <summary>

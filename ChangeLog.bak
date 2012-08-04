@@ -1,0 +1,59 @@
+cocos2d-x for xna 0.1.2 Aug.03 2012
+	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.
+	CCMenu: Fixed the CCMenu layout of a grid of menu items that are larger than a certain width that would cause overlap.
+	CCMenu: Added use of kDefaultPadding instead of the hard coded value of 5 in the CCMenu layout functions.
+        CCLabelBMFont: Added a check for the FNT file being XML and to throw an exception when this occurs.
+	CCMenuItem: Added a check for a null m_pfnSelector during activate()
+	CCSequence: Added a null ref check in the actionsWithArray method.
+	CCActionManager: Topic 11072 - added a key check on the m_pTargets dictionary during the update() method.
+	CCNode: Removed asserts on child and parent references in addChild(). Replaced with Debug output and short circuit return.
+	CCLayer: Removed the assert in ccTouchBegan.
+	CCLayerGradient: Removed extraneous using statements.
+	CCSprite: Removed some asserts during texture initialization.
+	CCSprite: Changed the draw() method to not clobber the blend state when it changes.
+	CCSpriteBatchNode: added a setting for the contentSize in the initWithTexture method.
+	CCSpriteBatchNode: Topic 10592 - fixed re-entrant call to removeAllChildrenWithCleanup.
+	CCTexture2D: Removed the hard coded YellowGreen color reference during string rendering in lieu of a fore and back color specification.
+	CCTexture2D: Changed scope of the texture2D member to be private.
+	CCTextureAtlas: Added implementation for the removeQuadAtIndex from the forum.
+	CCConfiguration: Changed the getGlesVersion method to return the version that is appropriate for the hardware platform.
+	CCDirector: Added the clearing of all touches for the scene before transiting to the next scene.
+	CCDirector: Forum topic regarding the invocation of onEnterTransitionDidFinish on scenes that are not CCTransitionScene implementors.
+	CCTexture2D: Added a public accessor for the XNA Texture2D named Texture (CCTexture2D.Texture)
+	CCApplication: Added support for non-480x800 display layouts.
+	CCTransitionCrossFade: Removed init of the fade layer with a background color.
+	CCDirector: Added a call to game.exit() when the director is ended.
+
+
+cocos2d-x for xna 0.1.1 Apr.20 2012	
+	Bug 1153 The isBlendadditive attribute has affected other sprites
+	Bug 1154 The single particle can't rotate
+	Bug 1049 CCMenuItemToggle will grow large after quick clicking
+	Bug 1048 ccBlendFunc doesn't work
+	Bug 1021 It's invalid to set color of cclayercolor
+	Bug 1012 it crashes when using the plist created by Particle Designer
+	Bug 1013 in the parser of CCTMXTiledMap, MapSize and TileSize are the same
+	Bug 1016 CCMenu::menuWithItem will cause crash
+	Bug 989  The particle turns black when it expires
+	Feature  Part of scene transitions
+	Feature  Part of effects
+
+
+
+cocos2d-x for xna 0.1.0 Feb.17 2012
+* This is the 3d-alpha version of cocos2d-x for xna.
+* And the primary features of the engine have been realized.
+
+Primary Features
+------------------
+	director:manages how and when to execute the Scenes
+	node:the main element, anything thats gets drawn or contains things that get drawn is a CCNode
+	layer:inherites from node and implements the TouchEventsDelegate protocol 
+	scene:organizes the nodes and then run, actually shown, by the director 
+	sprite:a kind of node binding a 2d image with corresponding features
+	menu:responses to the clicks 
+	labelttf:be used to render text labels
+	particle system:nearly thirty particle examples are shown in tests, supports plist
+	tilemap:a kind of map that is composed of many texture tiles
+	cocosdenshion:offer the interfaces to play background music and sound effect
+	

@@ -240,8 +240,16 @@ namespace cocos2d
         /// </summary>
         public virtual void addChild(CCNode child, int zOrder, int tag)
         {
-            Debug.Assert(child != null, "Argument must be non-null");
-            Debug.Assert(child.m_pParent == null, "child already added. It can't be added again");
+            if (child == null)
+            {
+                Debug.WriteLine("Error - child in addChild is null");
+                return;
+            }
+            if (child.m_pParent != null)
+            {
+                Debug.WriteLine("child in addChild is already added. Child tag=" + tag);
+                return;
+            }
 
             insertChild(child, zOrder);
 
@@ -466,7 +474,7 @@ namespace cocos2d
         public virtual void draw()
         {
             // override me
-            // Only use- this function to draw your staff.
+            // Only use- this function to draw your stuff.
             // DON'T draw your stuff outside this method
         }
 

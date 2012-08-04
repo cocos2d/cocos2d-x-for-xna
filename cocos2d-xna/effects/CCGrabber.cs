@@ -75,7 +75,7 @@ namespace cocos2d
                 (int)pTexture.ContentSizeInPixels.width,
                 (int)pTexture.ContentSizeInPixels.height);
 
-            pTexture.texture2D = m_RenderTarget2D;
+            pTexture.Texture = m_RenderTarget2D;
 
             // associate texture with FBO
             //ccglFramebufferTexture2D(CC_GL_FRAMEBUFFER, CC_GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
@@ -135,7 +135,7 @@ namespace cocos2d
             }
 
             CCApplication.sharedApplication().GraphicsDevice.SetRenderTarget(null);
-            pTexture.texture2D = m_RenderTarget2D;
+            pTexture.Texture = m_RenderTarget2D;
 
             //ccglBindFramebuffer(CC_GL_FRAMEBUFFER, m_oldFBO);
             //glColorMask(true, true, true, true);	// #631

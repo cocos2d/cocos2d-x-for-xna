@@ -98,6 +98,7 @@ namespace cocos2d
         // If the image has alpha, you can create RGBA8 (32-bit) or RGBA4 (16-bit) or RGB5A1 (16-bit)
         // Default is: RGBA8888 (32-bit textures)
         public static CCTexture2DPixelFormat g_defaultAlphaPixelFormat = CCTexture2DPixelFormat.kCCTexture2DPixelFormat_Default;
+        private static Color g_MyBlack = new Color(0, 0, 0, 0);
 
         public CCTexture2D()
         {
@@ -108,6 +109,18 @@ namespace cocos2d
             m_bHasPremultipliedAlpha = false;
             m_bPVRHaveAlphaPremultiplied = true;
             m_tContentSize = new CCSize();
+        }
+
+        public Texture2D Texture
+        {
+            get
+            {
+                return (texture2D);
+            }
+            set
+            {
+                texture2D = value;
+            }
         }
 
         public string description()
@@ -123,26 +136,61 @@ namespace cocos2d
         /// </summary>
         public void releaseData(object data)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
-        public object keepData(object data, uint length)
+        /*public object keepData(object data, uint length)
         {
             throw new NotImplementedException();
         }
+         */
 
         /// <summary>
         /// Intializes with a texture2d with data
         /// </summary>
         public bool initWithData(object data, CCTexture2DPixelFormat pixelFormat, uint pixelsWide, uint pixelsHigh, CCSize contentSize)
         {
-            CCApplication app = CCApplication.sharedApplication();
-
-            texture2D = new Texture2D(app.GraphicsDevice, (int)contentSize.width, (int)contentSize.height);
-            m_tContentSize.width = contentSize.width;
-            m_tContentSize.height = contentSize.height;
-
-            return true;
+            SurfaceFormat format = SurfaceFormat.Color;
+            switch(pixelFormat) {
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_A8:
+                    format = SurfaceFormat.Alpha8;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_AI88:
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_Automatic:
+                    format = SurfaceFormat.Color;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_Default:
+                    format = SurfaceFormat.Color;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_I8:
+                    format = SurfaceFormat.Single;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_PVRTC2:
+                    format = SurfaceFormat.Vector2;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_PVRTC4:
+                    format = SurfaceFormat.Vector4;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGB565:
+                    format = SurfaceFormat.Bgr565;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGB5A1:
+                    format = SurfaceFormat.Bgra5551;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGB888:
+                    format = SurfaceFormat.Color;
+                    break;
+                case CCTexture2DPixelFormat.kCCTexture2DPixelFormat_RGBA4444:
+                    format = SurfaceFormat.Bgra4444;
+                    break;
+            }
+            Texture2D t = new Texture2D(CCApplication.sharedApplication().GraphicsDevice, (int)pixelsWide, (int)pixelsHigh, false, format);
+            if (data is byte[])
+            {
+                t.SetData((byte[])data);
+            }
+            return initWithTexture(t);
         }
 
         #endregion
@@ -154,10 +202,15 @@ namespace cocos2d
         Note that the generated textures are of type A8 - use the blending mode (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA).
         */
 
+        public bool initWithString(string text, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
+        {
+            return (initWithString(text, dimensions, alignment, fontName, fontSize, Color.YellowGreen, g_MyBlack));
+        }
+
         ///<summary>
         /// Initializes a texture from a string with dimensions, alignment, font name and font size
         /// </summary>
-        public bool initWithString(string text, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize)
+        public bool initWithString(string text, CCSize dimensions, CCTextAlignment alignment, string fontName, float fontSize, Color fgColor, Color bgColor)
         {
             if (dimensions.width < 0 || dimensions.height < 0)
             {
@@ -169,7 +222,19 @@ namespace cocos2d
                 return false;
             }
 
-            SpriteFont font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
+            SpriteFont font = null;
+            try
+            {
+                font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
+            }
+            catch (Exception)
+            {
+                if (fontName.EndsWith(".spritefont", StringComparison.OrdinalIgnoreCase))
+                {
+                    fontName = fontName.Substring(0, fontName.Length - 11);
+                    font = CCApplication.sharedApplication().content.Load<SpriteFont>(@"fonts/" + fontName);
+                }
+            }
             if (CCSize.CCSizeEqualToSize(dimensions, new CCSize()))
             {
                 Vector2 temp = font.MeasureString(text);
@@ -192,15 +257,17 @@ namespace cocos2d
             }
 
             float scale = 1.0f;//need refer fontSize;
+            try
+            {
             CCApplication app = CCApplication.sharedApplication();
 
             //*  for render to texture
             RenderTarget2D renderTarget = new RenderTarget2D(app.graphics.GraphicsDevice, (int)dimensions.width, (int)dimensions.height);
             app.graphics.GraphicsDevice.SetRenderTarget(renderTarget);
-            app.graphics.GraphicsDevice.Clear(new Color(0, 0, 0, 0));
+                app.graphics.GraphicsDevice.Clear(bgColor);
 
             app.spriteBatch.Begin();
-            app.spriteBatch.DrawString(font, text, new Vector2(0, 0), Color.YellowGreen, 0.0f, origin, scale, SpriteEffects.None, 0.0f);
+                app.spriteBatch.DrawString(font, text, new Vector2(0, 0), fgColor, 0.0f, origin, scale, SpriteEffects.None, 0.0f);
             app.spriteBatch.End();
 
             app.graphics.GraphicsDevice.SetRenderTarget(null);
@@ -212,8 +279,18 @@ namespace cocos2d
             texture2D.SetData(colors1D);
 
             return initWithTexture(texture2D);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+            return (false);
         }
 
+        public bool initWithString(string text, string fontName, float fontSize, Color fgColor, Color bgColor)
+        {
+            return initWithString(text, new CCSize(0, 0), CCTextAlignment.CCTextAlignmentCenter, fontName, fontSize, fgColor, bgColor);
+        }
         /// <summary>
         ///  Initializes a texture from a string with font name and font size
         /// </summary>
@@ -296,7 +373,9 @@ namespace cocos2d
         {
             if (this.texture2D != null)
             {
+#if WINDOWS || XBOX || WP7
                 this.texture2D.SaveAsJpeg(stream, width, height);
+#endif
             }
         }
 
@@ -304,7 +383,9 @@ namespace cocos2d
         {
             if (this.texture2D != null)
             {
+#if WINDOWS || XBOX || WP7
                 this.texture2D.SaveAsPng(stream, width, height);
+#endif
             }
         }
 
@@ -350,7 +431,7 @@ namespace cocos2d
         {
 
 
-#warning SpriteTest”√µΩ¡À
+#warning SpriteTest
             // throw new NotImplementedException();
         }
 
@@ -405,7 +486,7 @@ namespace cocos2d
 
         #region Property
 
-        public Texture2D texture2D;
+        private Texture2D texture2D;
         public Texture2D getTexture2D()
         {
             return texture2D;

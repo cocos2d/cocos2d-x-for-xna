@@ -30,7 +30,8 @@ using System.Xml;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
-
+using System.Threading;
+using System.Globalization;
 using cocos2d.Framework;
 using System.IO;
 using System.Xml.Linq;
@@ -54,6 +55,9 @@ namespace cocos2d
 
         public bool parse(string pszFile)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+
             CCContent data = CCApplication.sharedApplication().content.Load<CCContent>(pszFile);
             string str = data.Content;
             if (data == null)

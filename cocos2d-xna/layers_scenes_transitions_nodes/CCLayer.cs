@@ -138,7 +138,7 @@ namespace cocos2d
 
         public virtual bool ccTouchBegan(CCTouch touch, CCEvent event_)
         {
-            Debug.Assert(false, "Layer#ccTouchBegan override me");
+            // Debug.Assert(false, "Layer#ccTouchBegan override me");
             return true;
         }
         public virtual void ccTouchMoved(CCTouch touch, CCEvent event_)

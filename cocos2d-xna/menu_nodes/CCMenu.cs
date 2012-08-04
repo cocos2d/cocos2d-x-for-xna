@@ -268,7 +268,7 @@ namespace cocos2d
                         ++columnsOccupied;
                         if (columnsOccupied >= rowColumns)
                         {
-                            height += rowHeight + 5;
+                            height += rowHeight + (int)kDefaultPadding;
 
                             columnsOccupied = 0;
                             rowHeight = 0;
@@ -299,15 +299,19 @@ namespace cocos2d
                         if (rowColumns == 0)
                         {
                             rowColumns = rows[row];
-                            w = winSize.width / (1 + rowColumns);
-                            x = w;
+                            if (rowColumns == 0)
+                            {
+                                throw (new ArgumentException("Can not have a zero column size for a row."));
+                            }
+                            w = (winSize.width - 2 * kDefaultPadding) / rowColumns; // 1 + rowColumns
+                            x = w/2f; // center of column
                         }
 
-                        float tmp = pChild.contentSize.height;
+                        float tmp = pChild.contentSize.height*pChild.scaleY;
                         rowHeight = (int)((rowHeight >= tmp) ? rowHeight : tmp);
 
-                        pChild.position = new CCPoint(x - winSize.width / 2,
-                                               y - pChild.contentSize.height / 2);
+                        pChild.position = new CCPoint(kDefaultPadding + x - (winSize.width - 2*kDefaultPadding) / 2,
+                                               y - pChild.contentSize.height*pChild.scaleY / 2);
 
                         x += w;
                         ++columnsOccupied;
@@ -355,10 +359,10 @@ namespace cocos2d
 				        Debug.Assert(columnRows > 0);
 
 				        // columnWidth = fmaxf(columnWidth, [item contentSize].width);
-				        float tmp = pChild.contentSize.width;
+				        float tmp = pChild.contentSize.width * pChild.scaleX;
 				        columnWidth = (int)((columnWidth >= tmp) ? columnWidth : tmp);
 
-				        columnHeight += (int)(pChild.contentSize.height + 5);
+				        columnHeight += (int)(pChild.contentSize.height*pChild.scaleY + 5);
 				        ++rowsOccupied;
 
 				        if (rowsOccupied >= columnRows)
@@ -400,13 +404,13 @@ namespace cocos2d
 				        }
 
 				        // columnWidth = fmaxf(columnWidth, [item contentSize].width);
-				        float tmp = pChild.contentSize.width;
+				        float tmp = pChild.contentSize.width*pChild.scaleX;
 				        columnWidth = (int)((columnWidth >= tmp) ? columnWidth : tmp);
 
 				        pChild.position = new CCPoint(x + columnWidths[column] / 2,
 					                                  y - winSize.height / 2);
 
-				        y -= pChild.contentSize.height + 10;
+				        y -= pChild.contentSize.height*pChild.scaleY + 10;
 				        ++rowsOccupied;
 
 				        if (rowsOccupied >= columnRows)

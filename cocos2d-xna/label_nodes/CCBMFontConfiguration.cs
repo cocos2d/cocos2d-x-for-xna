@@ -119,6 +119,11 @@ namespace cocos2d
             // parse spacing / padding
             string line;
             string strLeft = pBuffer;
+            if (strLeft.StartsWith("<?xml"))
+            {
+                throw (new ArgumentException("FNT control file is XML, expecting it to be plain text."));
+            }
+            // TDOO: Add an xml parser
             while (strLeft.Length > 0)
             {
                 int pos = strLeft.IndexOf('\n');

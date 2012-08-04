@@ -192,6 +192,9 @@ namespace cocos2d
                 if (m_pRunningScene != null)
                 {
                     m_pRunningScene.onExit();
+
+                    //CLEAR TOUCHES BEFORE LEAVING
+                    CCApplication.sharedApplication().ClearTouches();
                 }
 
                 // issue #709. the root node (scene) should receive the cleanup message too
@@ -209,8 +212,11 @@ namespace cocos2d
             if (m_pRunningScene != null)
             {
                 m_pRunningScene.onEnter();
+                if (m_pRunningScene is CCTransitionScene)
+                {
                 m_pRunningScene.onEnterTransitionDidFinish();
             }
+        }
         }
 
         /// <summary>
@@ -263,6 +269,7 @@ namespace cocos2d
 
             if (c == 0)
             {
+                CCApplication.sharedApplication().Game.Exit();
                 end();
             }
             else
@@ -270,6 +277,15 @@ namespace cocos2d
                 m_bSendCleanupToScene = true;
                 m_pNextScene = m_pobScenesStack[c - 1];
             }
+        }
+
+        public CCScene getLastScene()
+        {
+            if (m_pobScenesStack.Count > 1)
+                return m_pobScenesStack[m_pobScenesStack.Count - 2];
+            else
+                return null;
+        
         }
 
         /// <summary>

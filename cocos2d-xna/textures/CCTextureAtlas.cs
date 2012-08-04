@@ -271,18 +271,11 @@ namespace cocos2d
         /// </summary>
         public void removeQuadAtIndex(int index)
         {
-
-#warning 颜色问题能解决但是出现了头掉的bug
-            //            Debug.Assert(index < m_uTotalQuads, "removeQuadAtIndex: Invalid index");
-
-            //            ccV3F_C4B_T2F_Quad[] temp = new ccV3F_C4B_T2F_Quad[m_uTotalQuads - 1];
-            //            Array.Copy(m_pQuads, temp, index);
-            //            Array.Copy(m_pQuads, index + 1, temp, index, m_uTotalQuads - index);
-            //            m_pQuads = temp;
-            //            m_uTotalQuads--;
-            //#if CC_USES_VBO
-            //            m_bDirty = true;
-            //#endif
+            ccV3F_C4B_T2F_Quad[] temp = new ccV3F_C4B_T2F_Quad[m_uCapacity];
+            Array.Copy(m_pQuads, temp, index);
+            Array.Copy(m_pQuads, index + 1, temp, index, m_uTotalQuads - index - 1);
+            m_pQuads = temp;
+            m_uTotalQuads--;
         }
 
         /// <summary>

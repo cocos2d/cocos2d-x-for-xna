@@ -111,7 +111,10 @@ namespace cocos2d
                 {
                     //(m_pListener.m_pfnSelector)(this);
                 }
+                if (m_pfnSelector != null) //@@ TotallyEvil
+                {
                 m_pfnSelector(this);
+                }
 #warning "Need Support CCScriptEngineManager"
                 //if (m_functionName.size() && CCScriptEngineManager.sharedScriptEngineManager().getScriptEngine())
                 //{

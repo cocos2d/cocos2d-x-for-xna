@@ -1,0 +1,6 @@
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Framework\bin\Windows Phone\Debug\cocos2d.Framework.dll
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Framework\bin\Windows Phone\Debug\cocos2d.Framework.pdb
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Framework\obj\Windows Phone\Debug\ResolveAssemblyReference.cache
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Framework\obj\Windows Phone\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Framework\obj\Windows Phone\Debug\cocos2d.Framework.dll
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Framework\obj\Windows Phone\Debug\cocos2d.Framework.pdb

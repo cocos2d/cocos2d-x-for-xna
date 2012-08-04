@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>HelloWorld.png</Source>
+      <Name>HelloWorld</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2d\bin\Windows Phone\Debug\Content\HelloWorld.xnb</Output>
+      <Time>2012-08-03T10:27:24.0571409-07:00</Time>
+    </Item>
+    <Item>
+      <Source>CloseNormal.png</Source>
+      <Name>CloseNormal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2d\bin\Windows Phone\Debug\Content\CloseNormal.xnb</Output>
+      <Time>2012-08-03T10:27:24.0481403-07:00</Time>
+    </Item>
+    <Item>
+      <Source>CloseSelected.png</Source>
+      <Name>CloseSelected</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2d\bin\Windows Phone\Debug\Content\CloseSelected.xnb</Output>
+      <Time>2012-08-03T10:27:24.0481403-07:00</Time>
+    </Item>
+    <Item>
+      <Source>fonts\Arial.spritefont</Source>
+      <Name>fonts\Arial</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2d\bin\Windows Phone\Debug\Content\fonts\Arial.xnb</Output>
+      <Time>2012-08-03T10:27:24.0791421-07:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <ContentProjectGUID>{567D3909-77EC-4AE3-93E8-E63CDBE1BC22}</ContentProjectGUID>
+      <TargetPlatform>WindowsPhone</TargetPlatform>
+      <TargetProfile>Reach</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2dContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2d\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2d\obj\Windows Phone\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2d\bin\Windows Phone\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2011-09-01T17:22:30-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2011-09-01T17:22:30-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2011-09-01T17:22:30-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2011-09-01T17:22:30-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2011-09-01T17:22:30-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2011-09-01T17:22:30-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Content.Pipeline.Importers\bin\x86\Debug\cocos2d.Content.Pipeline.Importers.dll</Key>
+        <Value>2012-08-04T14:14:45.4201795-07:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2012-02-07T14:13:12.0417041-08:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

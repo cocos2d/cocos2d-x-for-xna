@@ -194,8 +194,10 @@ namespace cocos2d
             for (int i = 0; i < stringLen; i++)
             {
                 int c = m_sString[i];
-                Debug.Assert(c < kCCBMFontMaxChars, "LabelBMFont: character outside bounds");
-
+                if (c >= kCCBMFontMaxChars)
+                {
+                    throw (new ArgumentException("LabelBMFont: character " + m_sString[i] + " outside of max font characters, which is " + kCCBMFontMaxChars));
+                }
                 if (c == '\n')
                 {
                     nextFontPositionX = 0;
@@ -205,6 +207,10 @@ namespace cocos2d
 
                 kerningAmount = this.kerningAmountForFirst(prev, c);
 
+                if (!m_pConfiguration.m_pBitmapFontArray.ContainsKey(c))
+                {
+                    throw(new ArgumentException("Character " + c + " in LabelBMFont is not in the font definition."));
+                }
                 ccBMFontDef fontDef = m_pConfiguration.m_pBitmapFontArray[c];
 
                 CCRect rect = fontDef.rect;

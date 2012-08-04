@@ -52,6 +52,7 @@ namespace cocos2d
 
     public abstract class CCApplication : Microsoft.Xna.Framework.DrawableGameComponent
     {
+
         #region Fields and Construct Method
 
         Game game;
@@ -72,6 +73,16 @@ namespace cocos2d
             this.graphics = graphics;
             this.content = game.Content;
 
+            // MonoGame 3D
+#if MONO3D
+            if (graphics.GraphicsDevice == null)
+            {
+                graphics.CreateDevice();
+            }
+#endif
+#if WINDOWS || XBOX || XBOX360
+            graphics.DeviceCreated += new EventHandler<EventArgs>(graphics_DeviceCreated);
+#endif
             game.Window.OrientationChanged += Window_OrientationChanged;
 
             TouchPanel.EnabledGestures = GestureType.Tap;
@@ -82,10 +93,29 @@ namespace cocos2d
             m_fScreenScaleFactor = 1.0f;
 
 #warning "set height and width as Graphics.Device.Viewport"
+
+#if WP7 || WINPHONE || WINDOWS_PHONE
             m_rcViewPort = new Rectangle(0, 0, 800, 480); //graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            _size = new CCSize(800,480);
+#elif !WINDOWS && !XBOX && !XBOX360
+            m_rcViewPort = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            _size = new CCSize(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+#endif
+        }
+
+        void graphics_DeviceCreated(object sender, EventArgs e)
+        {
+            m_rcViewPort = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            _size = new CCSize(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
         }
 
         #endregion
+
+        // http://www.cocos2d-x.org/boards/17/topics/10777
+        public void ClearTouches()
+        {
+            m_pSet.Clear();
+        }
 
         #region GameComponent
 
@@ -190,6 +220,24 @@ namespace cocos2d
             }
         }
 
+        private CCTouch getTouchBasedOnID(int nID)
+        {
+            //Cycle through saved touches
+            foreach (CCTouch curTouch in m_pSet)
+            {
+                //If ID's match...
+                if (curTouch.view() == nID)
+                {
+                    //return the corresponding touch
+                    return curTouch;
+                }
+            }
+
+            //If we reached here, we found no touches
+            //matching the specified id.
+            return null;
+        }
+
         #endregion
 
         /// <summary>
@@ -270,31 +318,47 @@ namespace cocos2d
         /// <returns>The actual orientation of the application.</returns>
         public Orientation setOrientation(Orientation orientation)
         {
+#if WP7 || WINPHONE || WINDOWS_PHONE
+            // Windows Phone always has a 480 x 800 configuration for now.
+            int w = 480;
+            int h = 800;
+#else
+            int w = graphics.GraphicsDevice.Viewport.Width;
+            int h = graphics.GraphicsDevice.Viewport.Height;
+            if (w > h)
+            {
+                // Swap to be in portrate orientation
+                // where width < height
+                int z = h;
+                h = w;
+                w = z;
+            }
+#endif
             switch (orientation)
             {
                 case Orientation.kOrientationLandscapeLeft:
-                    graphics.PreferredBackBufferWidth = 800;
-                    graphics.PreferredBackBufferHeight = 480;
-                    _size = new CCSize(800, 480);
-                    m_rcViewPort = new Rectangle(0, 0, 800, 480);
+                    graphics.PreferredBackBufferWidth = h;
+                    graphics.PreferredBackBufferHeight = w;
+                    _size = new CCSize(h, w);
+                    m_rcViewPort = new Rectangle(0, 0, h, w);
                     graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationLandscapeLeft;
 
                 case Orientation.kOrientationLandscapeRight:
-                    graphics.PreferredBackBufferWidth = 800;
-                    graphics.PreferredBackBufferHeight = 480;
-                    _size = new CCSize(800, 480);
-                    m_rcViewPort = new Rectangle(0, 0, 800, 480);
+                    graphics.PreferredBackBufferWidth = h;
+                    graphics.PreferredBackBufferHeight = w;
+                    _size = new CCSize(h, w);
+                    m_rcViewPort = new Rectangle(0, 0, h, w);
                     graphics.SupportedOrientations = DisplayOrientation.LandscapeRight;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationLandscapeRight;
 
                 default:
-                    graphics.PreferredBackBufferWidth = 480;
-                    graphics.PreferredBackBufferHeight = 800;
-                    _size = new CCSize(480, 800);
-                    m_rcViewPort = new Rectangle(0, 0, 480, 800);
+                    graphics.PreferredBackBufferWidth = w;
+                    graphics.PreferredBackBufferHeight = h;
+                    _size = new CCSize(w, h);
+                    m_rcViewPort = new Rectangle(0, 0, w, h);
                     graphics.SupportedOrientations = DisplayOrientation.Portrait;
                     graphics.ApplyChanges();
                     return Orientation.kOrientationPortrait;

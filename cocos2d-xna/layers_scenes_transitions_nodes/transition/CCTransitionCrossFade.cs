@@ -47,7 +47,9 @@ namespace cocos2d
             // in which we are going to add our rendertextures
             ccColor4B color = new ccColor4B(0, 0, 0, 0);
             CCSize size = CCDirector.sharedDirector().getWinSize();
-            CCLayerColor layer = CCLayerColor.layerWithColor(color);
+            //CCLayerColor layer = CCLayerColor.layerWithColor(color);
+
+            CCLayer layer = new CCLayer();
 
             // create the first render texture for inScene
             CCRenderTexture inTexture = CCRenderTexture.renderTextureWithWidthAndHeight((int)size.width, (int)size.height);

@@ -1,0 +1,7 @@
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Content.Pipeline.Importers\bin\x86\Debug\cocos2d.Content.Pipeline.Importers.dll
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Content.Pipeline.Importers\bin\x86\Debug\cocos2d.Content.Pipeline.Importers.pdb
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Content.Pipeline.Importers\bin\x86\Debug\cocos2d.Framework.dll
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Content.Pipeline.Importers\bin\x86\Debug\cocos2d.Framework.pdb
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Content.Pipeline.Importers\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Content.Pipeline.Importers\obj\x86\Debug\cocos2d.Content.Pipeline.Importers.dll
+C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\cocos2d.Content.Pipeline.Importers\obj\x86\Debug\cocos2d.Content.Pipeline.Importers.pdb
