@@ -47,13 +47,13 @@ namespace tests
                 if (dict == null)
                     break;
                 string key = "x";
-                int x = int.Parse(dict[key]);//dynamic_cast<NSNumber*>(dict->objectForKey("x"))->getNumber();
+                int x = ccUtils.ccParseInt(dict[key]);//dynamic_cast<NSNumber*>(dict->objectForKey("x"))->getNumber();
                 key = "y";
-                int y = int.Parse(dict[key]);//dynamic_cast<NSNumber*>(dict->objectForKey("y"))->getNumber();
+                int y = ccUtils.ccParseInt(dict[key]);//dynamic_cast<NSNumber*>(dict->objectForKey("y"))->getNumber();
                 key = "width";
-                int width = int.Parse(dict[key]);//dynamic_cast<NSNumber*>(dict->objectForKey("width"))->getNumber();
+                int width = ccUtils.ccParseInt(dict[key]);//dynamic_cast<NSNumber*>(dict->objectForKey("width"))->getNumber();
                 key = "height";
-                int height = int.Parse(dict[key]);//dynamic_cast<NSNumber*>(dict->objectForKey("height"))->getNumber();
+                int height = ccUtils.ccParseInt(dict[key]);//dynamic_cast<NSNumber*>(dict->objectForKey("height"))->getNumber();
 
 
                 //glLineWidth(3);

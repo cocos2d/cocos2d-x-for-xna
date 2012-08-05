@@ -47,13 +47,13 @@ namespace tests
                 }
 
                 string key = "x";
-                int x = int.Parse(dict[key]);
+                int x = ccUtils.ccParseInt(dict[key]);
                 key = "y";
-                int y = int.Parse(dict[key]);
+                int y = ccUtils.ccParseInt(dict[key]);
                 key = "width";
-                int width = int.Parse(dict[key]);
+                int width = ccUtils.ccParseInt(dict[key]);
                 key = "height";
-                int height = int.Parse(dict[key]);
+                int height = ccUtils.ccParseInt(dict[key]);
 
                 //glLineWidth(3);
 

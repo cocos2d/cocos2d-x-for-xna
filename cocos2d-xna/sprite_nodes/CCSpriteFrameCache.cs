@@ -92,7 +92,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
             // get the format
             if (metadataDict != null)
             {
-                format = int.Parse(metadataDict["format"].ToString());
+                format = ccUtils.ccParseInt(metadataDict["format"].ToString());
             }
 
             // check the format
@@ -105,14 +105,14 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
 
                 if (format == 0)
                 {
-                    float x = float.Parse(frameDict["x"].ToString());
-                    float y = float.Parse(frameDict["y"].ToString());
-                    float w = float.Parse(frameDict["width"].ToString());
-                    float h = float.Parse(frameDict["height"].ToString());
-                    float ox = float.Parse(frameDict["offsetX"].ToString());
-                    float oy = float.Parse(frameDict["offsetY"].ToString());
-                    int ow = int.Parse(frameDict["originalWidth"].ToString());
-                    int oh = int.Parse(frameDict["originalHeight"].ToString());
+                    float x = ccUtils.ccParseFloat(frameDict["x"].ToString());
+                    float y = ccUtils.ccParseFloat(frameDict["y"].ToString());
+                    float w = ccUtils.ccParseFloat(frameDict["width"].ToString());
+                    float h = ccUtils.ccParseFloat(frameDict["height"].ToString());
+                    float ox = ccUtils.ccParseFloat(frameDict["offsetX"].ToString());
+                    float oy = ccUtils.ccParseFloat(frameDict["offsetY"].ToString());
+                    int ow = ccUtils.ccParseInt(frameDict["originalWidth"].ToString());
+                    int oh = ccUtils.ccParseInt(frameDict["originalHeight"].ToString());
                     // check ow/oh
                     if (ow == 0 || oh == 0)
                     {
@@ -140,7 +140,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
                     {
                         if (frameDict.Keys.Contains("rotated"))
                         {
-                            rotated = int.Parse(valueForKey("rotated", frameDict)) == 0 ? false : true;
+                            rotated = ccUtils.ccParseInt(valueForKey("rotated", frameDict)) == 0 ? false : true;
                         }
                     }
 
@@ -167,7 +167,7 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
                         bool textureRotated = false;
                         if (frameDict.Keys.Contains("textureRotated"))
                         {
-                            textureRotated = int.Parse(valueForKey("textureRotated", frameDict)) == 0 ? false : true;
+                            textureRotated = ccUtils.ccParseInt(valueForKey("textureRotated", frameDict)) == 0 ? false : true;
                         }
 
                         // get aliases

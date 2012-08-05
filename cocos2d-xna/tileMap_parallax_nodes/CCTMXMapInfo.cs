@@ -284,13 +284,13 @@ namespace cocos2d
                     CCLog.Log("cocos2d: TMXFomat: Unsupported orientation: {0}", pTMXMapInfo.Orientation);
 
                 CCSize sMapSize = new CCSize();
-                sMapSize.width = float.Parse(attributeDict["width"]);
-                sMapSize.height = float.Parse(attributeDict["height"]);
+                sMapSize.width = ccUtils.ccParseFloat(attributeDict["width"]);
+                sMapSize.height = ccUtils.ccParseFloat(attributeDict["height"]);
                 pTMXMapInfo.MapSize = sMapSize;
 
                 CCSize sTileSize = new CCSize();
-                sTileSize.width = float.Parse(attributeDict["tilewidth"]);
-                sTileSize.height = float.Parse(attributeDict["tileheight"]);
+                sTileSize.width = ccUtils.ccParseFloat(attributeDict["tilewidth"]);
+                sTileSize.height = ccUtils.ccParseFloat(attributeDict["tileheight"]);
                 pTMXMapInfo.TileSize = sTileSize;
 
                 // The parent element is now "map"
@@ -311,16 +311,16 @@ namespace cocos2d
                 {
                     CCTMXTilesetInfo tileset = new CCTMXTilesetInfo();
                     tileset.m_sName = attributeDict["name"];
-                    tileset.m_uFirstGid = int.Parse(attributeDict["firstgid"]);
+                    tileset.m_uFirstGid = ccUtils.ccParseInt(attributeDict["firstgid"]);
 
                     if (attributeDict.Keys.Contains("spacing"))
-                        tileset.m_uSpacing = int.Parse(attributeDict["spacing"]);
+                        tileset.m_uSpacing = ccUtils.ccParseInt(attributeDict["spacing"]);
 
                     if (attributeDict.Keys.Contains("margin"))
-                        tileset.m_uMargin = int.Parse(attributeDict["margin"]);
+                        tileset.m_uMargin = ccUtils.ccParseInt(attributeDict["margin"]);
                     CCSize s = new CCSize();
-                    s.width = float.Parse(attributeDict["tilewidth"]);
-                    s.height = float.Parse(attributeDict["tileheight"]);
+                    s.width = ccUtils.ccParseFloat(attributeDict["tilewidth"]);
+                    s.height = ccUtils.ccParseFloat(attributeDict["tileheight"]);
                     tileset.m_tTileSize = s;
 
                     pTMXMapInfo.Tilesets.Add(tileset);
@@ -330,7 +330,7 @@ namespace cocos2d
             {
                 CCTMXTilesetInfo info = pTMXMapInfo.Tilesets.LastOrDefault();
                 Dictionary<string, string> dict = new Dictionary<string, string>();
-                pTMXMapInfo.ParentGID = (info.m_uFirstGid + int.Parse(attributeDict["id"]));
+                pTMXMapInfo.ParentGID = (info.m_uFirstGid + ccUtils.ccParseInt(attributeDict["id"]));
                 pTMXMapInfo.TileProperties.Add(pTMXMapInfo.ParentGID, dict);
 
                 pTMXMapInfo.ParentElement = (int)TMXProperty.TMXPropertyTile;
@@ -342,8 +342,8 @@ namespace cocos2d
                 layer.m_sName = attributeDict["name"];
 
                 CCSize s = new CCSize();
-                s.width = float.Parse(attributeDict["width"]);
-                s.height = float.Parse(attributeDict["height"]);
+                s.width = ccUtils.ccParseFloat(attributeDict["width"]);
+                s.height = ccUtils.ccParseFloat(attributeDict["height"]);
                 layer.m_tLayerSize = s;
 
                 layer.m_pTiles = new int[(int)s.width * (int)s.height];
@@ -361,15 +361,15 @@ namespace cocos2d
                 if (attributeDict.Keys.Contains("opacity"))
                 {
                     string opacity = attributeDict["opacity"];
-                    layer.m_cOpacity = (byte)(255 * float.Parse(opacity));
+                    layer.m_cOpacity = (byte)(255 * ccUtils.ccParseFloat(opacity));
                 }
                 else
                 {
                     layer.m_cOpacity = 255;
                 }
 
-                float x = attributeDict.Keys.Contains("x") ? float.Parse(attributeDict["x"]) : 0;
-                float y = attributeDict.Keys.Contains("y") ? float.Parse(attributeDict["y"]) : 0;
+                float x = attributeDict.Keys.Contains("x") ? ccUtils.ccParseFloat(attributeDict["x"]) : 0;
+                float y = attributeDict.Keys.Contains("y") ? ccUtils.ccParseFloat(attributeDict["y"]) : 0;
                 layer.m_tOffset = new CCPoint(x, y);
 
                 pTMXMapInfo.Layers.Add(layer);
@@ -384,9 +384,9 @@ namespace cocos2d
                 objectGroup.GroupName = attributeDict["name"];
                 CCPoint positionOffset = new CCPoint();
                 if (attributeDict.ContainsKey("x"))
-                    positionOffset.x = float.Parse(attributeDict["x"]) * pTMXMapInfo.TileSize.width;
+                    positionOffset.x = ccUtils.ccParseFloat(attributeDict["x"]) * pTMXMapInfo.TileSize.width;
                 if (attributeDict.ContainsKey("y"))
-                    positionOffset.y = float.Parse(attributeDict["y"]) * pTMXMapInfo.TileSize.height;
+                    positionOffset.y = ccUtils.ccParseFloat(attributeDict["y"]) * pTMXMapInfo.TileSize.height;
                 objectGroup.PositionOffset = positionOffset;
 
                 pTMXMapInfo.ObjectGroups.Add(objectGroup);
@@ -450,14 +450,14 @@ namespace cocos2d
                 value = attributeDict.ContainsKey("type") ? attributeDict["type"] : "";
                 dict.Add(key, value);
 
-                int x = int.Parse(attributeDict["x"]) + (int)objectGroup.PositionOffset.x;
+                int x = ccUtils.ccParseInt(attributeDict["x"]) + (int)objectGroup.PositionOffset.x;
                 key = "x";
                 value = x.ToString();
                 dict.Add(key, value);
 
-                int y = int.Parse(attributeDict["y"]) + (int)objectGroup.PositionOffset.y;
+                int y = ccUtils.ccParseInt(attributeDict["y"]) + (int)objectGroup.PositionOffset.y;
                 // Correct y position. (Tiled uses Flipped, cocos2d uses Standard)
-                y = (int)(pTMXMapInfo.MapSize.height * pTMXMapInfo.TileSize.height) - y - (attributeDict.ContainsKey("height") ? int.Parse(attributeDict["height"]) : 0);
+                y = (int)(pTMXMapInfo.MapSize.height * pTMXMapInfo.TileSize.height) - y - (attributeDict.ContainsKey("height") ? ccUtils.ccParseInt(attributeDict["height"]) : 0);
                 key = "y";
                 value = y.ToString();
                 dict.Add(key, value);

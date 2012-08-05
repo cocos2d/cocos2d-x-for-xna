@@ -25,11 +25,41 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace cocos2d
 {
     public class ccUtils
     {
+        public static int ccParseInt(string toParse)
+        {
+            // http://www.cocos2d-x.org/boards/17/topics/11690
+            // Issue #17
+            // https://github.com/cocos2d/cocos2d-x-for-xna/issues/17
+            return (int.Parse(toParse, System.Globalization.CultureInfo.InvariantCulture));
+        }
+        public static int ccParseInt(string toParse, NumberStyles ns)
+        {
+            // http://www.cocos2d-x.org/boards/17/topics/11690
+            // Issue #17
+            // https://github.com/cocos2d/cocos2d-x-for-xna/issues/17
+            return (int.Parse(toParse, ns, System.Globalization.CultureInfo.InvariantCulture));
+        }
+
+        public static float ccParseFloat(string toParse)
+        {
+            // http://www.cocos2d-x.org/boards/17/topics/11690
+            // Issue #17
+            // https://github.com/cocos2d/cocos2d-x-for-xna/issues/17
+            return (float.Parse(toParse, System.Globalization.CultureInfo.InvariantCulture));
+        }
+        public static float ccParseFloat(string toParse, NumberStyles ns)
+        {
+            // http://www.cocos2d-x.org/boards/17/topics/11690
+            // https://github.com/cocos2d/cocos2d-x-for-xna/issues/17
+            return (float.Parse(toParse, ns, System.Globalization.CultureInfo.InvariantCulture));
+        }
+        
         public static long ccNextPOT(long x)
         {
             x = x - 1;

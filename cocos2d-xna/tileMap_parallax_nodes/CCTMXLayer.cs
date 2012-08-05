@@ -656,14 +656,14 @@ namespace cocos2d
                 }
                 else
                 {
-                    m_nVertexZvalue = int.Parse(vertexz);
+                    m_nVertexZvalue = ccUtils.ccParseInt(vertexz);
                 }
             }
 
             string alphaFuncVal = propertyNamed("cc_alpha_func");
             if (alphaFuncVal != null)
             {
-                m_fAlphaFuncValue = float.Parse(alphaFuncVal);
+                m_fAlphaFuncValue = ccUtils.ccParseFloat(alphaFuncVal);
             }
         }
         private int vertexZForPos(CCPoint pos)

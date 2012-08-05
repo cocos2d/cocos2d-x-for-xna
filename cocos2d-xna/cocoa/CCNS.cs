@@ -64,10 +64,10 @@ namespace cocos2d
                     break;
                 }
 
-                float x = float.Parse(pointInfo[0]);
-                float y = float.Parse(pointInfo[1]);
-                float width = float.Parse(sizeInfo[0]);
-                float height = float.Parse(sizeInfo[1]);
+                float x = ccUtils.ccParseFloat(pointInfo[0]);
+                float y = ccUtils.ccParseFloat(pointInfo[1]);
+                float width = ccUtils.ccParseFloat(sizeInfo[0]);
+                float height = ccUtils.ccParseFloat(sizeInfo[1]);
 
                 result = new CCRect(x, y, width, height);
             } while (false);
@@ -84,8 +84,8 @@ namespace cocos2d
                 List<string> strs = new List<string>();
                 if (!splitWithForm(pszContent, strs)) break;
 
-                float x = float.Parse(strs[0]);
-                float y = float.Parse(strs[1]);
+                float x = ccUtils.ccParseFloat(strs[0]);
+                float y = ccUtils.ccParseFloat(strs[1]);
 
                 ret = new CCPoint(x, y);
             } while (false);
@@ -102,8 +102,8 @@ namespace cocos2d
                 List<string> strs = new List<string>();
                 if (!splitWithForm(pszContent, strs)) break;
 
-                float width = float.Parse(strs[0]);
-                float height = float.Parse(strs[1]);
+                float width = ccUtils.ccParseFloat(strs[0]);
+                float height = ccUtils.ccParseFloat(strs[1]);
 
                 ret = new CCSize(width, height);
             } while (false);

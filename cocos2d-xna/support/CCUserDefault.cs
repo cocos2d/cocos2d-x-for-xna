@@ -128,7 +128,7 @@ public class CCUserDefault {
 
 		if (value != null)
 		{
-			ret = int.Parse(value);
+			ret = ccUtils.ccParseInt(value);
 		}
 
 		return ret;

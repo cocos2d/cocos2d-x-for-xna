@@ -199,50 +199,50 @@ namespace cocos2d
             int index = line.IndexOf("id=");
             int index2 = line.IndexOf(' ', index);
             string value = line.Substring(index, index2 - index);
-            characterDefinition.charID = int.Parse(value.Replace("id=", ""));
+            characterDefinition.charID = ccUtils.ccParseInt(value.Replace("id=", ""));
             //CCAssert(characterDefinition->charID < kCCBMFontMaxChars, "BitmpaFontAtlas: CharID bigger than supported");
 
             // Character x
             index = line.IndexOf("x=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index, index2 - index);
-            characterDefinition.rect.origin.x = float.Parse(value.Replace("x=", ""));
+            characterDefinition.rect.origin.x = ccUtils.ccParseFloat(value.Replace("x=", ""));
 
             // Character y
             index = line.IndexOf("y=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index, index2 - index);
-            characterDefinition.rect.origin.y = float.Parse(value.Replace("y=", ""));
+            characterDefinition.rect.origin.y = ccUtils.ccParseFloat(value.Replace("y=", ""));
 
             // Character width
             index = line.IndexOf("width=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index, index2 - index);
-            characterDefinition.rect.size.width = float.Parse(value.Replace("width=", ""));
+            characterDefinition.rect.size.width = ccUtils.ccParseFloat(value.Replace("width=", ""));
 
             // Character height
             index = line.IndexOf("height=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index, index2 - index);
-            characterDefinition.rect.size.height = float.Parse(value.Replace("height=", ""));
+            characterDefinition.rect.size.height = ccUtils.ccParseFloat(value.Replace("height=", ""));
 
             // Character xoffset
             index = line.IndexOf("xoffset=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index, index2 - index);
-            characterDefinition.xOffset = int.Parse(value.Replace("xoffset=", ""));
+            characterDefinition.xOffset = ccUtils.ccParseInt(value.Replace("xoffset=", ""));
 
             // Character yoffset
             index = line.IndexOf("yoffset=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index, index2 - index);
-            characterDefinition.yOffset = int.Parse(value.Replace("yoffset=", ""));
+            characterDefinition.yOffset = ccUtils.ccParseInt(value.Replace("yoffset=", ""));
 
             // Character xadvance
             index = line.IndexOf("xadvance=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index, index2 - index);
-            characterDefinition.xAdvance = int.Parse(value.Replace("xadvance=", ""));
+            characterDefinition.xAdvance = ccUtils.ccParseInt(value.Replace("xadvance=", ""));
         }
 
         // info face
@@ -261,10 +261,10 @@ namespace cocos2d
 
             value = value.Replace("padding=", "");
             string[] temp = value.Split(',');
-            m_tPadding.top = int.Parse(temp[0]);
-            m_tPadding.right = int.Parse(temp[1]);
-            m_tPadding.bottom = int.Parse(temp[2]);
-            m_tPadding.left = int.Parse(temp[3]);
+            m_tPadding.top = ccUtils.ccParseInt(temp[0]);
+            m_tPadding.right = ccUtils.ccParseInt(temp[1]);
+            m_tPadding.bottom = ccUtils.ccParseInt(temp[2]);
+            m_tPadding.left = ccUtils.ccParseInt(temp[3]);
 
             //CCLOG("cocos2d: padding: %d,%d,%d,%d", m_tPadding.left, m_tPadding.top, m_tPadding.right, m_tPadding.bottom);
         }
@@ -281,7 +281,7 @@ namespace cocos2d
             int index = line.IndexOf("lineHeight=");
             int index2 = line.IndexOf(' ', index);
             string value = line.Substring(index, index2 - index);
-            m_uCommonHeight = int.Parse(value.Replace("lineHeight=", ""));
+            m_uCommonHeight = ccUtils.ccParseInt(value.Replace("lineHeight=", ""));
 
             // scaleW. sanity check
             index = line.IndexOf("scaleW=") + "scaleW=".Length;
@@ -359,21 +359,21 @@ namespace cocos2d
             int index = line.IndexOf("first=");
             int index2 = line.IndexOf(' ', index);
             string value = line.Substring(index, index2 - index);
-            first = int.Parse(value.Replace("first=", ""));
+            first = ccUtils.ccParseInt(value.Replace("first=", ""));
 
             // second
             int second;
             index = line.IndexOf("second=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index, index2 - index);
-            second = int.Parse(value.Replace("second=", ""));
+            second = ccUtils.ccParseInt(value.Replace("second=", ""));
 
             // amount
             int amount;
             index = line.IndexOf("amount=");
             index2 = line.IndexOf(' ', index);
             value = line.Substring(index);
-            amount = int.Parse(value.Replace("amount=", ""));
+            amount = ccUtils.ccParseInt(value.Replace("amount=", ""));
 
             tKerningHashElement element = new tKerningHashElement();
             element.amount = amount;

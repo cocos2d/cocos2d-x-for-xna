@@ -23,6 +23,9 @@ cocos2d-x for xna 0.1.2 Aug.03 2012
 	CCApplication: Added support for non-480x800 display layouts.
 	CCTransitionCrossFade: Removed init of the fade layer with a background color.
 	CCDirector: Added a call to game.exit() when the director is ended when the scene stack is zero.
+	GitHub #17: Added invariant culture to the parsing of int and float values requested by Evgeniy Rojkov.
+	Pull 12: Added fix for multitouch problems from moswald.
+	Added a setup project to install the framework as a binary with source.
 
 
 cocos2d-x for xna 0.1.1 Apr.20 2012	
