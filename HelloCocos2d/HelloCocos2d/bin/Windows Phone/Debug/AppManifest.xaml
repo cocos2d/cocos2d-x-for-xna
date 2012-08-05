@@ -1,9 +1,0 @@
-﻿<Deployment xmlns="http://schemas.microsoft.com/client/2007/deployment" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" EntryPointAssembly="HelloCocos2d" EntryPointType="HelloCocos2d.Game1" RuntimeVersion="3.0">
-  <Deployment.Parts>
-    <AssemblyPart x:Name="HelloCocos2d" Source="HelloCocos2d.dll" />
-    <AssemblyPart x:Name="cocos2d-xna" Source="cocos2d-xna.dll" />
-    <AssemblyPart x:Name="cocos2d.Framework" Source="cocos2d.Framework.dll" />
-    <AssemblyPart x:Name="ICSharpCode.SharpZipLib" Source="ICSharpCode.SharpZipLib.dll" />
-    <AssemblyPart x:Name="zlib.net" Source="zlib.net.dll" />
-  </Deployment.Parts>
-</Deployment>

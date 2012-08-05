@@ -1,1 +1,0 @@
-C:\Users\Jacob Anderson\Documents\GitHub\cocos2d-x-for-xna\HelloCocos2d\HelloCocos2dContent\obj\Windows Phone\Debug\ResolveAssemblyReference.cache
