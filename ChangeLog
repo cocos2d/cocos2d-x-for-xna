@@ -1,4 +1,4 @@
-cocos2d-x for xna 0.1.2 Aug.03 2012
+cocos2d-x for xna 0.1.2 Aug.05 2012
 	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.
 	CCMenu: Fixed the CCMenu layout of a grid of menu items that are larger than a certain width that would cause overlap.
 	CCMenu: Added use of kDefaultPadding instead of the hard coded value of 5 in the CCMenu layout functions.
