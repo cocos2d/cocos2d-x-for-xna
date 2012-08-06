@@ -57,14 +57,17 @@ namespace cocos2d
 
         Game game;
 
-        CCTouch m_pTouch;
+        // CCTouch m_pTouch;
         internal GraphicsDeviceManager graphics;
-        Rectangle m_rcViewPort;
-        IEGLTouchDelegate m_pDelegate;
-        List<CCTouch> m_pSet;
+        protected Rectangle m_rcViewPort;
+        protected IEGLTouchDelegate m_pDelegate;
+        // List<CCTouch> m_pSet;
 
-        bool m_bCaptured;
-        float m_fScreenScaleFactor;
+        protected bool m_bCaptured;
+        protected float m_fScreenScaleFactor;
+
+        private readonly LinkedList<CCTouch> m_pTouches;
+        private readonly Dictionary<int, LinkedListNode<CCTouch>> m_pTouchMap;
 
         public CCApplication(Game game, GraphicsDeviceManager graphics)
             : base(game)
@@ -87,8 +90,10 @@ namespace cocos2d
 
             TouchPanel.EnabledGestures = GestureType.Tap;
 
-            m_pTouch = new CCTouch();
-            m_pSet = new List<CCTouch>();
+            //m_pTouch = new CCTouch();
+            //m_pSet = new List<CCTouch>();
+            m_pTouches = new LinkedList<CCTouch>();
+            m_pTouchMap = new Dictionary<int, LinkedListNode<CCTouch>>();
 
             m_fScreenScaleFactor = 1.0f;
 
@@ -114,7 +119,9 @@ namespace cocos2d
         // http://www.cocos2d-x.org/boards/17/topics/10777
         public void ClearTouches()
         {
-            m_pSet.Clear();
+            m_pTouches.Clear();
+            m_pTouchMap.Clear();
+            // m_pSet.Clear();
         }
 
         #region GameComponent
@@ -177,62 +184,74 @@ namespace cocos2d
 
         private void ProcessTouch()
         {
-            TouchCollection touchCollection = TouchPanel.GetState();
-
-            foreach (TouchLocation touch in touchCollection)
+            if (m_pDelegate != null)
             {
-                if (touch.State == TouchLocationState.Pressed)
-                {
-                    if (m_pDelegate != null && m_pTouch != null)
-                    {
-                        if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
-                        {
-                            m_bCaptured = true;
+                TouchCollection touchCollection = TouchPanel.GetState();
 
-                            m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                                touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-                            m_pSet.Add(m_pTouch);
-                            m_pDelegate.touchesBegan(m_pSet, null);
-                        }
-                    }
-                }
-                else if (touch.State == TouchLocationState.Moved)
-                {
-                    if (m_bCaptured)
-                    {
-                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                            touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-                        m_pDelegate.touchesMoved(m_pSet, null);
-                    }
-                }
-                else if (touch.State == TouchLocationState.Released)
-                {
-                    if (m_bCaptured)
-                    {
-                        m_pTouch.SetTouchInfo(0, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                            touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
-                        m_pDelegate.touchesEnded(m_pSet, null);
-                        m_pSet.Remove(m_pTouch);
+                List<CCTouch> newTouches = new List<CCTouch>();
+                List<CCTouch> movedTouches = new List<CCTouch>();
+                List<CCTouch> endedTouches = new List<CCTouch>();
 
-                        m_bCaptured = false;
+                foreach (TouchLocation touch in touchCollection)
+                {
+                    switch (touch.State)
+                    {
+                        case TouchLocationState.Pressed:
+                            if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
+                            {
+                                m_pTouches.AddLast(new CCTouch(touch.Id, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor, touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor));
+                                m_pTouchMap.Add(touch.Id, m_pTouches.Last);
+                                newTouches.Add(m_pTouches.Last.Value);
+                            }
+                            break;
+
+                        case TouchLocationState.Moved:
+                            movedTouches.Add(m_pTouchMap[touch.Id].Value);
+                            m_pTouchMap[touch.Id].Value.SetTouchInfo(touch.Id,
+                                touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
+                                touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                            break;
+
+                        case TouchLocationState.Released:
+                            endedTouches.Add(m_pTouchMap[touch.Id].Value);
+                            m_pTouches.Remove(m_pTouchMap[touch.Id]);
+                            m_pTouchMap.Remove(touch.Id);
+                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
+
+                }
+                if (newTouches.Count > 0)
+                {
+                    m_pDelegate.touchesBegan(newTouches, null);
+                }
+
+                if (movedTouches.Count > 0)
+                {
+                    m_pDelegate.touchesMoved(movedTouches, null);
+                }
+
+                if (endedTouches.Count > 0)
+                {
+                    m_pDelegate.touchesEnded(endedTouches, null);
                 }
             }
         }
 
         private CCTouch getTouchBasedOnID(int nID)
         {
-            //Cycle through saved touches
-            foreach (CCTouch curTouch in m_pSet)
+            if (m_pTouchMap.ContainsKey(nID))
             {
+                LinkedListNode<CCTouch> curTouch = m_pTouchMap[nID];
                 //If ID's match...
-                if (curTouch.view() == nID)
+                if (curTouch.Value.view() == nID)
                 {
                     //return the corresponding touch
-                    return curTouch;
+                    return curTouch.Value;
                 }
             }
-
             //If we reached here, we found no touches
             //matching the specified id.
             return null;
