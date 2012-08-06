@@ -654,7 +654,7 @@ namespace cocos2d
                 if ( (skewX_ != 0.0f) || (skewY_ != 0.0f) ) 
                 {
                     CCAffineTransform skewMatrix = CCAffineTransformMake( 1.0f, tanf(CC_DEGREES_TO_RADIANS(skewY_)), tanf(CC_DEGREES_TO_RADIANS(skewX_)), 1.0f, 0.0f, 0.0f );
-                    GLfloat	glMatrix[16];
+                    GLfloat[]	glMatrix = new GLfloat[16];
                     CCAffineToGL(&skewMatrix, glMatrix);															 
                     glMultMatrixf(glMatrix);
                 }
