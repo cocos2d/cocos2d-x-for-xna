@@ -448,7 +448,7 @@ namespace cocos2d
                     return 0;
                 }
 
-                // less than parent and brothers
+                // less than parent and siblings
                 if (nZ < 0)
                 {
                     return p.atlasIndex;
