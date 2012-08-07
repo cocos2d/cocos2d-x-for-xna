@@ -1,3 +1,8 @@
+
+	CCNode: Fixed a bad static init of an array.
+	MusicPlayer: [pkayatt] Added #if ZUNE checks on the stop() method per pkayatt suggestions (Forum #13744)
+	CCSpriteFrameCache: [c.a.] Changed check on "dict" to be "metadataDict" to stop an erroneous file not found error.
+
 cocos2d-x for xna 0.1.2 Aug.05 2012
 	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.
 	CCMenu: Fixed the CCMenu layout of a grid of menu items that are larger than a certain width that would cause overlap.

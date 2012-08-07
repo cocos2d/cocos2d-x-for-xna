@@ -223,8 +223,9 @@ ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
 
             if (metadataDict != null)
             {
+                // C.A suggested to use metadataDict here instead of 'dict' to prevent the file not found error.
                 // try to read  texture file name from meta data
-                if (dict.Keys.Contains("textureFileName"))
+                if (metadataDict.Keys.Contains("textureFileName"))
                 {
                     texturePath = (valueForKey("textureFileName", metadataDict));
                 }

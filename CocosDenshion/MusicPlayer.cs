@@ -55,11 +55,14 @@ namespace CocosDenshion
 
         public void Close()
         {
+#if !ZUNE
+            // Pedro Kayatt - On the Zune, you must restore the play state of background music to the Zune's current music.
+            // This code will prevent your game from being authorized on the windows marketplace.
             if (IsPlaying())
             {
                 Stop();
             }
-
+#endif
             if (m_music != null)
             {
                 m_music = null;
