@@ -69,6 +69,7 @@ namespace cocos2d
             XmlReaderSettings setting = new XmlReaderSettings();
             setting.DtdProcessing = DtdProcessing.Ignore;
             XmlReader xmlReader = XmlReader.Create(textReader, setting);
+
             int dataindex = 0;
 
             int Width = 0;
@@ -144,12 +145,17 @@ namespace cocos2d
                             endElement(this, name);
                         }
                         else
-                            if (name == "key" || name == "integer" || name == "real" || name == "string")
+                            if (name == "key" || name == "integer" || name == "real" || name == "string" || name == "true" || name == "false") // http://www.cocos2d-x.org/boards/17/topics/11355
                             {
                                 string value = xmlReader.ReadElementContentAsString();
                                 buffer = Encoding.UTF8.GetBytes(value);
                                 textHandler(this, buffer, buffer.Length);
                                 endElement(this, name);
+                            }
+                            else
+                            {
+                                IXmlLineInfo info = (IXmlLineInfo)xmlReader;
+                                CCLog.Log("Failed to handle XML tag: " + name + " in " + info.LineNumber + "@" + info.LinePosition + ":" + pszFile);
                             }
                         break;
 
