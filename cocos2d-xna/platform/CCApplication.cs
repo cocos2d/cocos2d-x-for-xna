@@ -206,16 +206,25 @@ namespace cocos2d
                             break;
 
                         case TouchLocationState.Moved:
-                            movedTouches.Add(m_pTouchMap[touch.Id].Value);
-                            m_pTouchMap[touch.Id].Value.SetTouchInfo(touch.Id,
-                                touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+
+                            if (m_pTouchMap.ContainsKey(touch.Id))
+                            {
+                                movedTouches.Add(m_pTouchMap[touch.Id].Value);
+                                m_pTouchMap[touch.Id].Value.SetTouchInfo(touch.Id,
+                                    touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
+                                                        touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                            }
                             break;
 
+
                         case TouchLocationState.Released:
-                            endedTouches.Add(m_pTouchMap[touch.Id].Value);
-                            m_pTouches.Remove(m_pTouchMap[touch.Id]);
-                            m_pTouchMap.Remove(touch.Id);
+
+                            if (m_pTouchMap.ContainsKey(touch.Id))
+                            {
+                                endedTouches.Add(m_pTouchMap[touch.Id].Value);
+                                m_pTouches.Remove(m_pTouchMap[touch.Id]);
+                                m_pTouchMap.Remove(touch.Id);
+                            }
                             break;
 
                         default:
