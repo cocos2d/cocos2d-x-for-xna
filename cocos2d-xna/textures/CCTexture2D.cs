@@ -186,11 +186,35 @@ namespace cocos2d
                     break;
             }
             Texture2D t = new Texture2D(CCApplication.sharedApplication().GraphicsDevice, (int)pixelsWide, (int)pixelsHigh, false, format);
+            // This was the old version that is not compatible with non-WP7 devices.
+            //            Texture2D t = new Texture2D(CCApplication.sharedApplication().GraphicsDevice, (int)contentSize.width, (int)contentSize.height, false, format);
             if (data is byte[])
             {
                 t.SetData((byte[])data);
             }
-            return initWithTexture(t);
+            m_tContentSize = new CCSize(contentSize);
+            m_uPixelsWide = (int)pixelsWide;
+            m_uPixelsHigh = (int)pixelsHigh;
+            m_ePixelFormat = pixelFormat;
+            m_fMaxS = contentSize.width / (float)(pixelsWide);
+            m_fMaxT = contentSize.height / (float)(pixelsHigh);
+
+            m_bHasPremultipliedAlpha = false;
+            /*
+            long POTWide, POTHigh;
+            POTWide = ccUtils.ccNextPOT(texture.Width);
+            POTHigh = ccUtils.ccNextPOT(texture.Height);
+
+            int maxTextureSize = CCConfiguration.sharedConfiguration().MaxTextureSize;
+            if (POTHigh > maxTextureSize || POTWide > maxTextureSize)
+            {
+                CCLog.Log(string.Format("cocos2d: WARNING: Image ({0} x {1}) is bigger than the supported {2} x {3}", POTWide, POTHigh, maxTextureSize, maxTextureSize));
+                return false;
+            }*/
+
+            texture2D = t;
+            // return initWithTexture(t);
+            return (true);
         }
 
         #endregion
@@ -317,6 +341,12 @@ namespace cocos2d
             throw new NotImplementedException();
         }
 
+        public bool initWithTexture(Texture2D texture, CCSize contentSize)
+        {
+            bool result = initWithTexture(texture);
+            ContentSizeInPixels = contentSize;
+            return (result);
+        }
         /// <summary>
         /// Initializes a texture from a content file
         /// </summary>
@@ -534,7 +564,8 @@ namespace cocos2d
 
         private CCSize m_tContentSize;
         /// <summary>
-        /// content size
+        /// content size in pixels, which can be overridden by the code that uses the
+        /// frame grabber to grab this texture.
         /// </summary>
         public CCSize ContentSizeInPixels
         {

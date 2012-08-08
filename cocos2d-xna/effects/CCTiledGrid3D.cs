@@ -105,7 +105,7 @@ namespace cocos2d
             app.basicEffect.VertexColorEnabled = true;
 
             List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
-            for (int i = 0; i < m_sGridSize.x * m_sGridSize.y; i++)
+            for (int i = 0; i < n; i++)
             {
                 ccQuad3 quad = this.m_pVertices[i];
                 ccQuad2 texQuad = this.m_pTexCoordinates[i];

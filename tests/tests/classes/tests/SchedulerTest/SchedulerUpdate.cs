@@ -8,7 +8,7 @@ namespace tests
 {
     public class SchedulerUpdate : SchedulerTestLayer
     {
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 

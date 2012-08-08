@@ -135,7 +135,7 @@ namespace cocos2d
             //tick before glClear: issue #533
             if (!m_bPaused)
             {
-                CCScheduler.sharedScheduler().tick((float)gameTime.ElapsedGameTime.TotalSeconds);
+                //CCScheduler.sharedScheduler().tick((float)gameTime.ElapsedGameTime.TotalSeconds);
                 m_fDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
@@ -588,7 +588,7 @@ namespace cocos2d
         /// <returns></returns>
         public CCSize getWinSize()
         {
-            CCSize s = m_obWinSizeInPoints;
+            CCSize s = new CCSize(m_obWinSizeInPoints.width, m_obWinSizeInPoints.height);
 
             //it's different from cocos2d-win32. 
 
@@ -631,7 +631,7 @@ namespace cocos2d
         {
             get
             {
-                return m_obWinSizeInPixels;
+                return new CCSize(m_obWinSizeInPixels.width, m_obWinSizeInPixels.height);
             }
         }
 

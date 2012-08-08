@@ -20,7 +20,7 @@ namespace tests
 
         public override string title()
         {
-            return "Pause / Resume";
+            return "SchedulerPauseResume";
         }
 
         public virtual string subtitle()
@@ -40,6 +40,7 @@ namespace tests
 
         public void pause(float dt)
         {
+            CCLog.Log("Pausing target");
             CCScheduler.sharedScheduler().pauseTarget(this);
         }
     }

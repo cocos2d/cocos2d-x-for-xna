@@ -23,6 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+using System;
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
@@ -136,8 +137,11 @@ namespace cocos2d
             }
 
             // updates with priority < 0
-            foreach (tListEntry entry in m_pUpdatesNegList)
+            // Jiri Formanek
+            // http://www.cocos2d-x.org/boards/17/topics/10592
+            for (int i = 0; i < m_pUpdatesNegList.Count; i++) 
             {
+                tListEntry entry = m_pUpdatesNegList[i];
                 if ((!entry.paused) && (!entry.markedForDeletion))
                 {
                     entry.target.update(dt);
@@ -145,8 +149,11 @@ namespace cocos2d
             }
 
             // updates with priority == 0
-            foreach (tListEntry entry in m_pUpdates0List)
+            // Jiri Formanek
+            // http://www.cocos2d-x.org/boards/17/topics/10592
+            for(int i=0; i < m_pUpdates0List.Count; i++) 
             {
+                tListEntry entry = m_pUpdates0List[i];
                 if ((!entry.paused) && (!entry.markedForDeletion))
                 {
                     entry.target.update(dt);
@@ -154,19 +161,27 @@ namespace cocos2d
             }
 
             // updates with priority > 0
-            foreach (tListEntry entry in m_pUpdatesPosList)
+            // Jiri Formanek
+            // http://www.cocos2d-x.org/boards/17/topics/10592
+            for (int i = 0; i < m_pUpdatesPosList.Count; i++) 
             {
+                tListEntry entry = m_pUpdatesPosList[i];
                 if ((!entry.paused) && (!entry.markedForDeletion))
                 {
                     entry.target.update(dt);
                 }
             }
 
-            // Interate all over the custom selectors
+            // Iterate all over the custom selectors
             SelectorProtocol[] keys = new SelectorProtocol[m_pHashForSelectors.Keys.Count];
             m_pHashForSelectors.Keys.CopyTo(keys, 0);
             for (int i = 0; i < keys.Length; i++)
             {
+                if (!m_pHashForSelectors.ContainsKey(keys[i]))
+                {
+                    // Concurrent modification
+                    continue;
+                }
                 tHashSelectorEntry elt = m_pHashForSelectors[keys[i]];
                 m_pCurrentTarget = elt;
                 m_bCurrentTargetSalvaged = false;
@@ -256,8 +271,14 @@ namespace cocos2d
 	     */
         public void scheduleSelector(SEL_SCHEDULE selector, SelectorProtocol target, float fInterval, bool bPaused)
         {
-            Debug.Assert(selector != null);
-            Debug.Assert(target != null);
+            if (selector == null)
+            {
+                throw (new ArgumentNullException("selector", "Schedule selector can not be null"));
+            }
+            if (target == null)
+        {
+                throw (new ArgumentNullException("target", "Schedule target must be set."));
+            }
 
             tHashSelectorEntry element = null;
             if (!m_pHashForSelectors.ContainsKey(target))
@@ -484,7 +505,10 @@ namespace cocos2d
 	     */
         public void pauseTarget(SelectorProtocol target)
         {
-            Debug.Assert(target != null);
+            if (target == null)
+            {
+                return;
+            }
 
             // custom selectors
             if (m_pHashForSelectors.ContainsKey(target))
@@ -496,8 +520,10 @@ namespace cocos2d
             if (m_pHashForUpdates.ContainsKey(target))
             {
                 tHashUpdateEntry element = m_pHashForUpdates[target];
-                Debug.Assert(element != null);
-                element.entry.paused = true;
+                if (element != null)
+                {
+                    element.entry.paused = true;
+                }
             }
         }
 
@@ -508,7 +534,10 @@ namespace cocos2d
 	     */
         public void resumeTarget(SelectorProtocol target)
         {
-            Debug.Assert(target != null);
+            if (target == null)
+            {
+                return;
+            }
 
             // custom selectors
             if (m_pHashForSelectors.ContainsKey(target))
@@ -530,7 +559,10 @@ namespace cocos2d
         */
         public bool isTargetPaused(SelectorProtocol target)
         {
-            Debug.Assert(target != null, "target must be non nil");
+            if (target == null)
+            {
+                return (false);
+            }
 
             // Custom selectors
             if (m_pHashForSelectors.ContainsKey(target))

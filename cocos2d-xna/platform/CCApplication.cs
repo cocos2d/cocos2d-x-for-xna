@@ -138,25 +138,34 @@ namespace cocos2d
         }
 
         /// <summary>
-        /// Allows the game component to update itself.
+        /// Allows the game component to update its non-visible state. This method is invoked continuously
+        /// in a stream of state updates.
         /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// <param name="gameTime">This is the current game time.</param>
         public override void Update(GameTime gameTime)
         {
             // Process touch events 
             ProcessTouch();
-
+            if (!CCDirector.sharedDirector().isPaused)
+            {
+                CCScheduler.sharedScheduler().tick((float)gameTime.ElapsedGameTime.TotalSeconds);
+                //m_fDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
             base.Update(gameTime);
         }
 
         VertexDeclaration vertexDeclaration;
+        /// <summary>
+        /// Invoked by the render engine when the game components need to be refreshed.
+        /// </summary>
+        /// <param name="gameTime">This is the current game time.</param>
         public override void Draw(GameTime gameTime)
         {
             basicEffect.View = viewMatrix;
             basicEffect.World = worldMatrix;
             basicEffect.Projection = projectionMatrix;
 
-            CCDirector.sharedDirector().mainLoop(gameTime);
+            CCDirector.sharedDirector().mainLoop(gameTime); // TODO: Split into two parts - the update and the draw
 
             base.Draw(gameTime);
         }
@@ -206,19 +215,16 @@ namespace cocos2d
                             break;
 
                         case TouchLocationState.Moved:
-
                             if (m_pTouchMap.ContainsKey(touch.Id))
                             {
                                 movedTouches.Add(m_pTouchMap[touch.Id].Value);
                                 m_pTouchMap[touch.Id].Value.SetTouchInfo(touch.Id,
                                     touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor,
-                                                        touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
+                                    touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor);
                             }
                             break;
 
-
                         case TouchLocationState.Released:
-
                             if (m_pTouchMap.ContainsKey(touch.Id))
                             {
                                 endedTouches.Add(m_pTouchMap[touch.Id].Value);
@@ -448,7 +454,7 @@ namespace cocos2d
         private CCSize _size = new CCSize(800, 480);
         public CCSize getSize()
         {
-            return _size;
+            return new CCSize(_size.width, _size.height);
         }
 
         public void setContentScaleFactor(float contentScaleFactor)

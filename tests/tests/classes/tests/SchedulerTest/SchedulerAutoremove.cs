@@ -8,7 +8,7 @@ namespace tests
 {
     public class SchedulerAutoremove : SchedulerTestLayer
     {
-        public virtual void onEnter()
+        public override void onEnter()
         {
             base.onEnter();
 
@@ -19,7 +19,7 @@ namespace tests
 
         public override string title()
         {
-            return "Self-remove an scheduler";
+            return "ScheduleAutoremove";
         }
 
         public override string subtitle()
@@ -30,7 +30,7 @@ namespace tests
         public void autoremove(float dt)
         {
             accum += dt;
-            CCLog.Log("Time: %f", accum);
+            CCLog.Log("Time: {0:G2}", accum);
 
             if (accum > 3)
             {

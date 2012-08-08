@@ -26,7 +26,7 @@ namespace tests
 
         public void update(float dt)
         {
-            CCLog.Log("update called:{0}", dt);
+            CCLog.Log("update called:{0:G2}", dt);
         }
 
         public void schedUpdate(float dt)

@@ -19,7 +19,7 @@ namespace tests
 
         public override string title()
         {
-            return "Reschedule Selector";
+            return "RescheduleSelector";
         }
 
         public override string subtitle()
@@ -30,15 +30,24 @@ namespace tests
         public void schedUpdate(float dt)
         {
             m_nTicks++;
-            CCLog.Log("schedUpdate: %.2f", dt);
+            CCLog.Log("schedUpdate: {0:G2}", dt);
             if (m_nTicks > 3)
             {
-                m_fInterval += 1.0f;
-                schedule(schedUpdate, m_fInterval);
-                m_nTicks = 0;
+                m_nTests++;
+                if (m_nTests == 5)
+                {
+                    CCLog.Log("Test completed");
+                }
+                else
+                {
+                    m_fInterval += 1.0f;
+                    schedule(schedUpdate, m_fInterval);
+                    m_nTicks = 0;
+                }
             }
         }
         private float m_fInterval;
         private int m_nTicks;
+        private int m_nTests;
     }
 }

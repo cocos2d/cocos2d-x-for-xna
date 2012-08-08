@@ -22,12 +22,12 @@ namespace tests
 
         public override string title()
         {
-            return "Unschedule All selectors #2";
+            return "SchedulerUnscheduleAllHard";
         }
 
         public override string subtitle()
         {
-            return "Unschedules all selectors after 4s. Uses CCScheduler. See console";
+            return "Unschedules all selectors after 4s. See console";
         }
 
         public void tick1(float dt)
@@ -51,6 +51,7 @@ namespace tests
         }
         public void unscheduleAll(float dt)
         {
+            CCLog.Log("unscheduleAll!");
             CCScheduler.sharedScheduler().unscheduleAllSelectors();
         }
     }

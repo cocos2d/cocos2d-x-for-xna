@@ -67,6 +67,11 @@ namespace cocos2d
         public float width;
         public float height;
 
+        public CCSize(CCSize copy)
+        {
+            width = copy.width;
+            height = copy.height;
+        }
         public CCSize()
         {
             width = 0.0f;

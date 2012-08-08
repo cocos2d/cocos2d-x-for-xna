@@ -3,6 +3,15 @@
 	MusicPlayer: [pkayatt] Added #if ZUNE checks on the stop() method per pkayatt suggestions (Forum #13744)
 	CCSpriteFrameCache: [c.a.] Changed check on "dict" to be "metadataDict" to stop an erroneous file not found error.
 	CCSAXParser: [c.a.] Added a check for 'true' and 'false' to handle the rotated property in plist defintions. (Forum #11355)
+	CCTexture2D: Fix for GitHub issue #22 that fixes scaling problems with grid-based transitions.
+	CCGeometry: Added a copy ctor for CCSize.
+	CCApplication: Moved the scheduler tick call out of the draw() pipeline and moved into the update() pipeline.
+	CCDirector: see CCApplication changes, schedule tick() is no longer called out of here.
+	CCScheduler: Added Jiri Formanek's changes for concurrent modification support.
+	Test: SchedulerAutoRemove: Fixed "onEnter" method that was not overriding base and was not setting up the test.
+	Test: SchedulerAutoRemove: Fixed the debug output of the current time in the first scheduled task.
+	Test: SchedulerUpdate: Fixed "onEnter" method that was not overriding base.
+	Test: SchedulerUpdateFromCustom: Changed debug output to use G2 formatting.
 
 cocos2d-x for xna 0.1.2 Aug.05 2012
 	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.
