@@ -275,6 +275,11 @@ namespace cocos2d
             y = iny;
         }
 
+        public void set(int inx, int iny)
+        {
+            x = inx;
+            y = iny;
+        }
         public int x;
         public int y;
     }

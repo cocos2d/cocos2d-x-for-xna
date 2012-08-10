@@ -54,13 +54,13 @@ namespace cocos2d
             return pMultiplexLayer;
         }
 
-        public void addLayer(CCLayer layer)
+        public virtual void addLayer(CCLayer layer)
         {
             Debug.Assert(m_pLayers != null);
             m_pLayers.Add(layer);
         }
 
-        public bool initWithLayer(CCLayer layer)
+        public virtual bool initWithLayer(CCLayer layer)
         {
             m_pLayers = new List<CCLayer>(1);
             m_pLayers.Add(layer);
@@ -70,7 +70,7 @@ namespace cocos2d
         }
 
         /** initializes a MultiplexLayer with one or more layers using a variable argument list. */
-        public bool initWithLayers(params CCLayer[] layer)
+        public virtual bool initWithLayers(params CCLayer[] layer)
         {
             m_pLayers = new List<CCLayer>(5);
             //m_pLayers->retain();
@@ -87,20 +87,27 @@ namespace cocos2d
         /** switches to a certain layer indexed by n. 
         The current (old) layer will be removed from it's parent with 'cleanup:YES'.
         */
-        public void switchTo(uint n)
+        public virtual void switchTo(uint n)
         {
-            Debug.Assert(n < m_pLayers.Count, "Invalid index in MultiplexLayer switchTo message");
-            this.removeChild(m_pLayers[(int)m_nEnabledLayer], true);
+            if (n >= m_pLayers.Count)
+            {
+                CCLog.Log("Invalid index in MultiplexLayer switchTo message");
+                return;
+            }
+            this.removeChild(m_pLayers[(int)m_nEnabledLayer], false);
             m_nEnabledLayer = n;
             this.addChild(m_pLayers[(int)n]);
         }
         /** release the current layer and switches to another layer indexed by n.
         The current (old) layer will be removed from it's parent with 'cleanup:YES'.
         */
-        void switchToAndReleaseMe(uint n)
+        public virtual void switchToAndReleaseMe(uint n)
         {
-            Debug.Assert(n < m_pLayers.Count, "Invalid index in MultiplexLayer switchTo message");
-
+            if (n >= m_pLayers.Count)
+            {
+                CCLog.Log("Invalid index in MultiplexLayer switchTo message");
+                return;
+            }
             this.removeChild(m_pLayers[(int)m_nEnabledLayer], true);
 
             //[layers replaceObjectAtIndex:enabledLayer withObject:[NSNull null]];

@@ -51,8 +51,8 @@ namespace tests
         }
         public void unscheduleAll(float dt)
         {
-            CCLog.Log("unscheduleAll!");
+            CCLog.Log("unscheduling All selectors!");
             CCScheduler.sharedScheduler().unscheduleAllSelectors();
-        }
+       }
     }
 }

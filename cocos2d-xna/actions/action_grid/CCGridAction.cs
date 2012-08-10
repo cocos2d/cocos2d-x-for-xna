@@ -74,13 +74,9 @@ namespace cocos2d
             if (targetGrid != null && targetGrid.ReuseGrid > 0)
             {
                 if (targetGrid.Active && targetGrid.GridSize.x == m_sGridSize.x
-                    && targetGrid.GridSize.y == m_sGridSize.y /*&& dynamic_cast<CCGridBase*>(targetGrid) != NULL*/)
+                    && targetGrid.GridSize.y == m_sGridSize.y)
                 {
                     targetGrid.reuse();
-                }
-                else
-                {
-                    Debug.Assert(false);
                 }
             }
             else
@@ -100,13 +96,10 @@ namespace cocos2d
         }
 
         /// <summary>
-        /// returns the grid
+        /// Always return null. Must be overridden in the specializer.
         /// </summary>
         public virtual CCGridBase getGrid()
         {
-            // Abstract class needs implementation
-            Debug.Assert(false);
-
             return null;
         }
 

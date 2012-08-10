@@ -65,22 +65,30 @@ namespace cocos2d
                 pArray[j] = v;
             }
         }
+        public ccGridSize getDelta(int x, int y)
+        {
+            float fx, fy;
+
+            int idx = x * m_sGridSize.y + y;
+
+            fx = (float)(m_pTilesOrder[idx] / (int)m_sGridSize.y);
+            fy = (float)(m_pTilesOrder[idx] % (int)m_sGridSize.y);
+
+            return new ccGridSize((int)(fx - x), (int)(fy - y));
+        }
 
         public ccGridSize getDelta(ccGridSize pos)
         {
-            CCPoint pos2 = new CCPoint();
-
-            int idx = pos.x * m_sGridSize.y + pos.y;
-
-            pos2.x = (float)(m_pTilesOrder[idx] / (int)m_sGridSize.y);
-            pos2.y = (float)(m_pTilesOrder[idx] % (int)m_sGridSize.y);
-
-            return new ccGridSize((int)(pos2.x - pos.x), (int)(pos2.y - pos.y));
+            return (getDelta(pos.x, pos.y));
         }
 
-        public void placeTile(ccGridSize pos, Tile t)
+        public void placeTile(int x, int y, Tile t)
         {
-            ccQuad3 coords = originalTile(pos);
+            ccQuad3 coords = originalTile(x,y);
+            if (coords == null)
+            {
+                return;
+            }
 
             CCPoint step = m_pTarget.Grid.Step;
             coords.bl.x += (int)(t.position.x * step.x);
@@ -95,7 +103,12 @@ namespace cocos2d
             coords.tr.x += (int)(t.position.x * step.x);
             coords.tr.y += (int)(t.position.y * step.y);
 
-            setTile(pos, coords);
+            setTile(x,y, coords);
+        }
+
+        public void placeTile(ccGridSize pos, Tile t)
+        {
+            placeTile(pos.x, pos.y, t);
         }
 
         public override void startWithTarget(CCNode pTarget)
@@ -130,10 +143,11 @@ namespace cocos2d
             {
                 for (j = 0; j < m_sGridSize.y; ++j)
                 {
-                    m_pTiles[f] = new Tile();
-                    m_pTiles[f].position = new CCPoint((float)i, (float)j);
-                    m_pTiles[f].startPosition = new CCPoint((float)i, (float)j);
-                    m_pTiles[f].delta = getDelta(new ccGridSize(i, j));
+                    Tile t = new Tile();
+                    t.position = new CCPoint((float)i, (float)j);
+                    t.startPosition = new CCPoint((float)i, (float)j);
+                    t.delta = getDelta(i, j);
+                    m_pTiles[f] = t;
 
                     f++;
                 }
@@ -150,8 +164,19 @@ namespace cocos2d
                 for (j = 0; j < m_sGridSize.y; ++j)
                 {
                     var item = m_pTiles[f];
-                    item.position = new CCPoint((float)(item.delta.x * time), (float)(item.delta.y * time));
-                    placeTile(new ccGridSize(i, j), item);
+                    // Might be null if the grid is not fully setup yet.
+                    if (item == null)
+                    {
+                        continue;
+                    }
+                    // = new CCPoint((float)(item.delta.x * time), (float)(item.delta.y * time));
+                    if (item.position == null)
+                    {
+                        item.position = new CCPoint();
+                    }
+                    item.position.x = (float)(item.delta.x * time);
+                    item.position.y = (float)(item.delta.y * time);
+                    placeTile(i, j, item);
 
                     f++;
                 }

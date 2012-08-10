@@ -62,6 +62,10 @@ namespace cocos2d
         public virtual void transformTile(ccGridSize pos, float distance)
         {
             ccQuad3 coords = originalTile(pos);
+            if (coords == null)
+            {
+                return;
+            }
             CCPoint step = m_pTarget.Grid.Step;
 
             coords.bl.x += (step.x / 2) * (1.0f - distance);

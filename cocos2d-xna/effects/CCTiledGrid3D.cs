@@ -37,9 +37,18 @@ namespace cocos2d
         /// <summary>
         ///  returns the tile at the given position
         /// </summary>
-        public ccQuad3 tile(ccGridSize pos)
+        public virtual ccQuad3 tile(ccGridSize pos)
         {
-            int idx = (m_sGridSize.y * pos.x + pos.y);
+            return (tile(pos.x, pos.y));
+        }
+
+        /// <summary>
+        ///  returns the tile at the given position. use this method to avoid temporary object 
+        ///  creation that the other methods introduce.
+        /// </summary>
+        public virtual ccQuad3 tile(int x, int y)
+        {
+            int idx = (m_sGridSize.y * x + y);
             ccQuad3[] vertArray = m_pVertices;
 
             ccQuad3 ret = new ccQuad3();
@@ -54,9 +63,9 @@ namespace cocos2d
         /// <summary>
         /// returns the original tile (untransformed) at the given position
         /// </summary>
-        public ccQuad3 originalTile(ccGridSize pos)
+        public virtual ccQuad3 originalTile(int x, int y)
         {
-            int idx = (m_sGridSize.y * pos.x + pos.y);
+            int idx = (m_sGridSize.y * x + y);
             ccQuad3[] vertArray = m_pOriginalVertices;
 
             ccQuad3 ret = new ccQuad3();
@@ -67,13 +76,29 @@ namespace cocos2d
 
             return ret;
         }
+        /// <summary>
+        /// returns the original tile (untransformed) at the given position
+        /// </summary>
+        public virtual ccQuad3 originalTile(ccGridSize pos)
+        {
+            return (originalTile(pos.x, pos.y));
+        }
 
         /// <summary>
         /// sets a new tile
         /// </summary>
-        public void setTile(ccGridSize pos, ccQuad3 coords)
+        public virtual void setTile(ccGridSize pos, ccQuad3 coords)
         {
             int idx = (m_sGridSize.y * pos.x + pos.y);
+            ccQuad3[] vertArray = m_pVertices;
+            vertArray[idx] = coords;
+        }
+        /// <summary>
+        /// sets a new tile
+        /// </summary>
+        public virtual void setTile(int x, int y, ccQuad3 coords)
+        {
+            int idx = (m_sGridSize.y * x + y);
             ccQuad3[] vertArray = m_pVertices;
             vertArray[idx] = coords;
         }

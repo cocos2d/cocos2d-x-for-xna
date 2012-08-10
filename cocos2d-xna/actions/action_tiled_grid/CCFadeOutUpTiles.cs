@@ -50,6 +50,10 @@ namespace cocos2d
         public override void transformTile(ccGridSize pos, float distance)
         {
             ccQuad3 coords = originalTile(pos);
+            if (coords == null)
+            {
+                return;
+            }
             CCPoint step = m_pTarget.Grid.Step;
 
             coords.bl.y += (step.y / 2) * (1.0f - distance);

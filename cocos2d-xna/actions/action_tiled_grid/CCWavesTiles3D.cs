@@ -103,15 +103,19 @@ namespace cocos2d
             {
                 for (j = 0; j < m_sGridSize.y; j++)
                 {
-                    ccQuad3 coords = originalTile(new ccGridSize(i, j));
-
+                    ccQuad3 coords = originalTile(i, j);
+                    if (coords == null)
+                    {
+                        // Scene not ready yet
+                        return;
+                    }
                     coords.bl.z = ((float)Math.Sin(time * (float)Math.PI * m_nWaves * 2 +
                         (coords.bl.y + coords.bl.x) * .01f) * m_fAmplitude * m_fAmplitudeRate);
                     coords.br.z = coords.bl.z;
                     coords.tl.z = coords.bl.z;
                     coords.tr.z = coords.bl.z;
 
-                    setTile(new ccGridSize(i, j), coords);
+                    setTile(i, j, coords);
                 }
             }
         }

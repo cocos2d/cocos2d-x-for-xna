@@ -50,6 +50,7 @@ namespace tests
 
         public void unscheduleAll(float dt)
         {
+            CCLog.Log("Unschedule all of my tasks");
             unsheduleAllSelectors();
         }
     }

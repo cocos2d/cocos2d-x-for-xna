@@ -108,7 +108,10 @@ namespace cocos2d
         /// </summary>
         public virtual bool initWithDuration(float t, CCScene scene)
         {
-            Debug.Assert(scene != null, "Argument scene must be non-nil");
+            if (scene == null)
+            {
+                throw (new ArgumentNullException("scene", "Target scene must not be null"));
+            }
 
             if (base.init())
             {
@@ -119,7 +122,10 @@ namespace cocos2d
                 m_pOutScene = CCDirector.sharedDirector().runningScene;
                 m_eSceneType = ccSceneFlag.ccTransitionScene;
 
-                Debug.Assert(m_pInScene != m_pOutScene, "Incoming scene must be different from the outgoing scene");
+                if (m_pInScene == m_pOutScene)
+                {
+                    throw (new ArgumentException("scene", "Target and source scenes must be different"));
+                }
 
                 // disable events while transitions
                 CCTouchDispatcher.sharedDispatcher().IsDispatchEvents = false;

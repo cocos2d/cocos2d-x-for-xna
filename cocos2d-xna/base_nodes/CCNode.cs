@@ -218,7 +218,10 @@ namespace cocos2d
         /// <param name="child"></param>
         public virtual void addChild(CCNode child)
         {
-            Debug.Assert(child != null, "Argument must be no-null");
+            if (child == null)
+            {
+                throw (new ArgumentNullException("child", "Child can not be null."));
+            }
             addChild(child, child.zOrder, child.tag);
         }
 
@@ -229,7 +232,10 @@ namespace cocos2d
         /// </summary>
         public virtual void addChild(CCNode child, int zOrder)
         {
-            Debug.Assert(child != null, "Argument must be no-null");
+            if (child == null)
+            {
+                throw (new ArgumentNullException("child", "Child can not be null."));
+            }
             addChild(child, zOrder, child.tag);
         }
 
@@ -242,12 +248,11 @@ namespace cocos2d
         {
             if (child == null)
             {
-                Debug.WriteLine("Error - child in addChild is null");
-                return;
+                throw (new ArgumentNullException("child", "Child can not be null."));
             }
             if (child.m_pParent != null)
             {
-                Debug.WriteLine("child in addChild is already added. Child tag=" + tag);
+                Debug.WriteLine("child in addChild is already added. Child tag=" + tag + ", parent=" + child.m_pParent.tag);
                 return;
             }
 

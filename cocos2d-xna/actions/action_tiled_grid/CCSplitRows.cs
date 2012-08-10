@@ -71,7 +71,12 @@ namespace cocos2d
 
             for (j = 0; j < m_sGridSize.y; ++j)
             {
-                ccQuad3 coords = originalTile(new ccGridSize(0, j));
+                ccQuad3 coords = originalTile(0,j);
+                if (coords == null)
+                {
+                    // Scene not ready yet
+                    return;
+                }
                 float direction = 1;
 
                 if ((j % 2) == 0)

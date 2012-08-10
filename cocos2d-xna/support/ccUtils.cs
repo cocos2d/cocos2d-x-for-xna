@@ -31,6 +31,11 @@ namespace cocos2d
 {
     public class ccUtils
     {
+        /// <summary>
+        /// Parses an int value using the default number style and the invariant culture parser.
+        /// </summary>
+        /// <param name="toParse">The value to parse</param>
+        /// <returns>The int value of the string</returns>
         public static int ccParseInt(string toParse)
         {
             // http://www.cocos2d-x.org/boards/17/topics/11690
@@ -38,6 +43,13 @@ namespace cocos2d
             // https://github.com/cocos2d/cocos2d-x-for-xna/issues/17
             return (int.Parse(toParse, System.Globalization.CultureInfo.InvariantCulture));
         }
+        /// <summary>
+        /// Parses aint value for the given string using the given number style and using
+        /// the invariant culture parser.
+        /// </summary>
+        /// <param name="toParse">The value to parse.</param>
+        /// <param name="ns">The number style used to parse the int value.</param>
+        /// <returns>The int value of the string.</returns>
         public static int ccParseInt(string toParse, NumberStyles ns)
         {
             // http://www.cocos2d-x.org/boards/17/topics/11690
@@ -46,6 +58,11 @@ namespace cocos2d
             return (int.Parse(toParse, ns, System.Globalization.CultureInfo.InvariantCulture));
         }
 
+        /// <summary>
+        /// Parses a float value using the default number style and the invariant culture parser.
+        /// </summary>
+        /// <param name="toParse">The value to parse</param>
+        /// <returns>The float value of the string.</returns>
         public static float ccParseFloat(string toParse)
         {
             // http://www.cocos2d-x.org/boards/17/topics/11690
@@ -53,6 +70,13 @@ namespace cocos2d
             // https://github.com/cocos2d/cocos2d-x-for-xna/issues/17
             return (float.Parse(toParse, System.Globalization.CultureInfo.InvariantCulture));
         }
+        /// <summary>
+        /// Parses a float value for the given string using the given number style and using
+        /// the invariant culture parser.
+        /// </summary>
+        /// <param name="toParse">The value to parse.</param>
+        /// <param name="ns">The number style used to parse the float value.</param>
+        /// <returns>The float value of the string.</returns>
         public static float ccParseFloat(string toParse, NumberStyles ns)
         {
             // http://www.cocos2d-x.org/boards/17/topics/11690
@@ -60,6 +84,13 @@ namespace cocos2d
             return (float.Parse(toParse, ns, System.Globalization.CultureInfo.InvariantCulture));
         }
         
+        /// <summary>
+        /// Returns the next Power of Two for the given value. If x = 3, then this returns 4.
+        /// If x = 4 then 4 is returned. If the value is a power of two, then the same value
+        /// is returned.
+        /// </summary>
+        /// <param name="x">The base of the POT test</param>
+        /// <returns>The next power of 2 (1, 2, 4, 8, 16, 32, 64, 128, etc)</returns>
         public static long ccNextPOT(long x)
         {
             x = x - 1;

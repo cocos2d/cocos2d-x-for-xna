@@ -12,6 +12,17 @@
 	Test: SchedulerAutoRemove: Fixed the debug output of the current time in the first scheduled task.
 	Test: SchedulerUpdate: Fixed "onEnter" method that was not overriding base.
 	Test: SchedulerUpdateFromCustom: Changed debug output to use G2 formatting.
+	CCGridAction: Removed Debug.Assert(false) in startWithTarget. Exceptions should be used instead of assert.
+	CCTiledGrid3DAction: added implementation for actionWithSize.
+	ccUtils: Added comments for the ccNextPOT function.
+	action_tiled_grid.*: Added defensive checks to accommodate the Scheduler tick() move into the update pipe.
+	CCTiledGrid3D: Added virtual to the tile/originalTile methods.
+	CCTiledGrid3D: Added overloaded methods that don't take ccGridSize (avoid temporary object creation)
+	action_tiled_grid.*: Converted from using lots of new ccGridSize() to explicit x,y int value passing (performance).
+	Test: Menu3: Added onEnter() to resume the actions that are paused when the layer is hidden.
+	CCLayerMultiplexer: Made all of the methods to be virtual.
+	CCLayerMultiplexer: Changed switchTo() to NOT set the "cleanup=YES" flag when hiding the child layer.
+	
 
 cocos2d-x for xna 0.1.2 Aug.05 2012
 	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.

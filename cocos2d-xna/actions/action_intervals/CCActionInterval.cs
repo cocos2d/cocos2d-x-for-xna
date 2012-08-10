@@ -140,14 +140,12 @@ namespace cocos2d
 
         public void setAmplitudeRate(float amp)
         {
-            Debug.Assert(false);
+            throw new NotImplementedException();
         }
 
         public float getAmplitudeRate()
         {
-            Debug.Assert(false);
-
-            return 0;
+            throw new NotImplementedException();
         }
 
         public static CCActionInterval actionWithDuration(float d)

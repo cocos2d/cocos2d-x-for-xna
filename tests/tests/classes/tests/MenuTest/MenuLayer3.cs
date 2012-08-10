@@ -34,6 +34,7 @@ namespace tests
     public class MenuLayer3 : CCLayer
     {
         protected CCMenuItem m_disabledItem;
+        private CCNode m_item1, m_item2, m_item3;
 
         string s_MenuItem = "Images/menuitemsprite";
         public MenuLayer3()
@@ -44,7 +45,8 @@ namespace tests
             CCLabelBMFont label = CCLabelBMFont.labelWithString("Enable AtlasItem", "fonts/fnt/bitmapFontTest3");
             CCMenuItemLabel item1 = CCMenuItemLabel.itemWithLabel(label, this, this.menuCallback2);
             CCMenuItemFont item2 = CCMenuItemFont.itemFromString("--- Go Back ---", this, this.menuCallback);
-
+            m_item2 = item2;
+            m_item1 = item1;
             CCSprite spriteNormal = CCSprite.spriteWithFile(s_MenuItem, new CCRect(0, 23 * 2, 115, 23));
             CCSprite spriteSelected = CCSprite.spriteWithFile(s_MenuItem, new CCRect(0, 23 * 1, 115, 23));
             CCSprite spriteDisabled = CCSprite.spriteWithFile(s_MenuItem, new CCRect(0, 23 * 0, 115, 23));
@@ -53,29 +55,29 @@ namespace tests
             CCMenuItemSprite item3 = CCMenuItemSprite.itemFromNormalSprite(spriteNormal, spriteSelected, spriteDisabled, this, this.menuCallback3);
             m_disabledItem = item3;
             m_disabledItem.Enabled = false;
+            m_item3 = item3;
 
             CCMenu menu = CCMenu.menuWithItems(item1, item2, item3);
             menu.position = new CCPoint(0, 0);
 
+            addChild(menu);
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
-            item1.position = new CCPoint(s.width / 2 - 150, s.height / 2);
-            item2.position = new CCPoint(s.width / 2 - 200, s.height / 2);
-            item3.position = new CCPoint(s.width / 2, s.height / 2 - 100);
+            m_item1.position = new CCPoint(s.width / 2 - 150, s.height / 2);
+            m_item2.position = new CCPoint(s.width / 2 - 200, s.height / 2);
+            m_item3.position = new CCPoint(s.width / 2, s.height / 2 - 100);
             CCJumpBy jump = CCJumpBy.actionWithDuration(3, new CCPoint(400, 0), 50, 4);
-            item2.runAction(CCRepeatForever.actionWithAction(
-                                        (CCActionInterval)(CCSequence.actions(jump, jump.reverse()))
-                                        )
-                            );
             CCActionInterval spin1 = CCRotateBy.actionWithDuration(3, 360);
             CCActionInterval spin2 = (CCActionInterval)(spin1.copy());
             CCActionInterval spin3 = (CCActionInterval)(spin1.copy());
 
-            item1.runAction(CCRepeatForever.actionWithAction(spin1));
-            item2.runAction(CCRepeatForever.actionWithAction(spin2));
-            item3.runAction(CCRepeatForever.actionWithAction(spin3));
-
-            addChild(menu);
+            m_item1.runAction(CCRepeatForever.actionWithAction(spin1));
+            m_item2.runAction(CCRepeatForever.actionWithAction(
+                                        (CCActionInterval)(CCSequence.actions(jump, jump.reverse()))
+                                        )
+                            );
+            m_item2.runAction(CCRepeatForever.actionWithAction(spin2)); // Augments the jump
+            m_item3.runAction(CCRepeatForever.actionWithAction(spin3));
         }
         public void menuCallback(CCObject pSender)
         {

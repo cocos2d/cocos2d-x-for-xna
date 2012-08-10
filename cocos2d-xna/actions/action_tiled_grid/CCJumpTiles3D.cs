@@ -98,11 +98,17 @@ namespace cocos2d
             float sinz = ((float)Math.Sin((float)Math.PI * time * m_nJumps * 2) * m_fAmplitude * m_fAmplitudeRate);
             float sinz2 = (float)(Math.Sin((float)Math.PI * (time * m_nJumps * 2 + 1)) * m_fAmplitude * m_fAmplitudeRate);
 
+            ccGridSize gridPt = new ccGridSize();
             for (i = 0; i < m_sGridSize.x; i++)
             {
                 for (j = 0; j < m_sGridSize.y; j++)
                 {
-                    ccQuad3 coords = originalTile(new ccGridSize(i, j));
+                    gridPt.set(i, j);
+                    ccQuad3 coords = originalTile(i,j);
+                    if (coords == null)
+                    {
+                        return;
+                    }
 
                     if (((i + j) % 2) == 0)
                     {
@@ -119,7 +125,7 @@ namespace cocos2d
                         coords.tr.z += sinz2;
                     }
 
-                    setTile(new ccGridSize(i, j), coords);
+                    setTile(i, j, coords);
                 }
             }
         }

@@ -86,8 +86,12 @@ namespace cocos2d
                 {
                     for (j = 0; j < m_sGridSize.y; ++j)
                     {
-                        ccQuad3 coords = originalTile(new ccGridSize(i, j));
-
+                        ccQuad3 coords = originalTile(i,j);
+                        if (coords == null)
+                        {
+                            // Always bail out here b/c the object is not setup correctly.
+                            return;
+                        }
                         Random rand = new Random();
                         // X
                         coords.bl.x += (rand.Next() % (m_nRandrange * 2)) - m_nRandrange;
@@ -109,7 +113,7 @@ namespace cocos2d
                             coords.tr.z += (rand.Next() % (m_nRandrange * 2)) - m_nRandrange;
                         }
 
-                        setTile(new ccGridSize(i, j), coords);
+                        setTile(i,j, coords);
                     }
                 }
 
