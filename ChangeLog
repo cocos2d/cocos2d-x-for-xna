@@ -19,7 +19,6 @@
 	CCTiledGrid3D: Added virtual to the tile/originalTile methods.
 	CCTiledGrid3D: Added overloaded methods that don't take ccGridSize (avoid temporary object creation)
 	action_tiled_grid.*: Converted from using lots of new ccGridSize() to explicit x,y int value passing (performance).
-	Test: Menu3: Added onEnter() to resume the actions that are paused when the layer is hidden.
 	CCLayerMultiplexer: Made all of the methods to be virtual.
 	CCLayerMultiplexer: Changed switchTo() to NOT set the "cleanup=YES" flag when hiding the child layer.
 	
