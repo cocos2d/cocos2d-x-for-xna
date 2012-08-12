@@ -21,7 +21,13 @@
 	action_tiled_grid.*: Converted from using lots of new ccGridSize() to explicit x,y int value passing (performance).
 	CCLayerMultiplexer: Made all of the methods to be virtual.
 	CCLayerMultiplexer: Changed switchTo() to NOT set the "cleanup=YES" flag when hiding the child layer.
-	
+	CCActionTween: Taken from cocos2d-x as it was missing from the xna api.
+	CCCatmullRomTo: Taken from cocos2d-x (missing Action)
+	CCCatmullRomBy: Taken from cocos2d-x (missing Action)
+	CCCardinalSplineBy: Support class for CCCatmullRomBy
+	CCCardinalSplineTo: Support class for CCCatmullRomTo
+	CCPoint: Added the geometry methods that are required for the CCCardinalSpline actions
+	ccUtils: Added a cardinal spline calculator for the CCCardinalSpline actions.
 
 cocos2d-x for xna 0.1.2 Aug.05 2012
 	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.
