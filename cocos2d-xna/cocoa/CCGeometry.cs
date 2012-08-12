@@ -36,16 +36,284 @@ namespace cocos2d
             y = 0.0f;
         }
 
+        public CCPoint(CCPoint copy)
+        {
+            x = copy.x;
+            y = copy.y;
+        }
+
         public CCPoint(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
 
+        public CCPoint Add(CCPoint pt)
+        {
+            CCPoint np = new CCPoint(x + pt.x, y + pt.y);
+            return (np);
+        }
         public static CCPoint Zero
         {
-            get { return new CCPoint(0, 0); }
+            get { return new CCPoint(0f, 0f); }
         }
+
+        public CCPoint Neg()
+        {
+            return (ccp(-x, -y));
+        }
+
+        public CCPoint ccp(float x, float y)
+        {
+            return (new CCPoint(x, y));
+        }
+
+        public CCPoint Sub(CCPoint v2)
+        {
+            return ccp(x - v2.x, y - v2.y);
+        }
+        public CCPoint Mult(float s)
+        {
+            return ccp(x * s, y * s);
+        }
+        public CCPoint Midpoint(CCPoint v2)
+        {
+            return Add(v2).Mult(0.5f);
+        }
+        public float Dot(CCPoint v2)
+        {
+            return x * v2.x + y * v2.y;
+        }
+        public float Cross(CCPoint v2)
+        {
+            return x * v2.y - y * v2.x;
+        }
+        public CCPoint Perp()
+        {
+            return ccp(-y, x);
+        }
+        public CCPoint RPerp()
+        {
+            return ccp(y, -x);
+        }
+        /// <summary>
+        /// Returns the projection of this over v2.
+        /// </summary>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        public CCPoint Project(CCPoint v2)
+        {
+            return v2.Mult(Dot(v2) / v2.Dot(v2));
+        }
+        public CCPoint Rotate(CCPoint v2)
+        {
+            return ccp(x * v2.x - y * v2.y, x * v2.y + y * v2.x);
+        }
+        public CCPoint Unrotate(CCPoint v2)
+        {
+            return ccp(x * v2.x + y * v2.y, y * v2.x - x * v2.y);
+        }
+        public float LengthSQ()
+        {
+            return Dot(this);
+        }
+        public float DistanceCQ(CCPoint v2)
+        {
+            return Sub(v2).LengthSQ();
+        }
+
+        public static float Length(CCPoint v)
+        {
+            return (float)Math.Sqrt(v.LengthSQ());
+        }
+
+        public static float Distance(CCPoint v1, CCPoint v2)
+        {
+            return Length(v1.Sub(v2));
+        }
+
+        public static CCPoint Normalize(CCPoint v)
+        {
+            return v.Mult(1f / Length(v));
+        }
+
+        public static CCPoint ForAngle(float a)
+        {
+            return new CCPoint((float)Math.Cos(a), (float)Math.Sin(a));
+        }
+
+        public static float ToAngle(CCPoint v)
+        {
+            return (float)Math.Atan2(v.y, v.x);
+        }
+
+        public static CCPoint Lerp(CCPoint a, CCPoint b, float alpha)
+        {
+            return a.Mult(1f - alpha).Add(b.Mult(alpha));
+        }
+
+        public static float clampf(float value, float min_inclusive, float max_inclusive)
+        {
+            if (min_inclusive > max_inclusive) {
+                ccMacros.CC_SWAP(ref min_inclusive, ref max_inclusive);
+            }
+            return value < min_inclusive ? min_inclusive : value < max_inclusive? value : max_inclusive;
+        }
+
+        public CCPoint Clamp(CCPoint p, CCPoint min_inclusive, CCPoint max_inclusive)
+        {
+            return new CCPoint(clampf(p.x, min_inclusive.x, max_inclusive.x), clampf(p.y, min_inclusive.y, max_inclusive.y));
+        }
+
+        public static CCPoint FromSize(CCSize s)
+        {
+            return new CCPoint(s.width, s.height);
+        }
+
+
+        public static bool FuzzyEqual(CCPoint a, CCPoint b, float var)
+        {
+            if (a.x - var <= b.x && b.x <= a.x + var)
+                if (a.y - var <= b.y && b.y <= a.y + var)
+                    return true;
+            return false;
+        }
+
+        public static CCPoint CompMult(CCPoint a, CCPoint b)
+        {
+            return new CCPoint(a.x * b.x, a.y * b.y);
+        }
+
+        public static float AngleSigned(CCPoint a, CCPoint b)
+        {
+            CCPoint a2 = Normalize(a);
+            CCPoint b2 = Normalize(b);
+            float angle = (float)Math.Atan2(a2.x * b2.y - a2.y * b2.x, a2.Dot(b2));
+            if (Math.Abs(angle) < ccMacros.FLT_EPSILON) return 0f;
+            return angle;
+        }
+
+        /** Rotates a point counter clockwise by the angle around a pivot
+         @param v is the point to rotate
+         @param pivot is the pivot, naturally
+         @param angle is the angle of rotation cw in radians
+         @returns the rotated point
+         @since v0.99.1
+         */
+        public static CCPoint RotateByAngle(CCPoint v, CCPoint pivot, float angle)
+        {
+            CCPoint r = v.Sub(pivot);
+            float cosa = (float)Math.Cos(angle), sina = (float)Math.Sin(angle);
+            float t = r.x;
+            r.x = t * cosa - r.y * sina + pivot.x;
+            r.y = t * sina + r.y * cosa + pivot.y;
+            return r;
+        }
+
+
+        public static bool SegmentIntersect(CCPoint A, CCPoint B, CCPoint C, CCPoint D)
+        {
+            float S, T;
+
+            if (LineIntersect(A, B, C, D, out S, out T)
+                && (S >= 0.0f && S <= 1.0f && T >= 0.0f && T <= 1.0f))
+                return true;
+
+            return false;
+        }
+
+        public static CCPoint IntersectPoint(CCPoint A, CCPoint B, CCPoint C, CCPoint D)
+        {
+            float S, T;
+
+            if (LineIntersect(A, B, C, D, out S, out T))
+            {
+                // Point of intersection
+                CCPoint P = new CCPoint();
+                P.x = A.x + S * (B.x - A.x);
+                P.y = A.y + S * (B.y - A.y);
+                return P;
+            }
+
+            return CCPointZero;
+        }
+
+        public static readonly CCPoint CCPointZero = new CCPoint(0, 0);
+
+        /** A general line-line intersection test
+         @param p1 
+            is the startpoint for the first line P1 = (p1 - p2)
+         @param p2 
+            is the endpoint for the first line P1 = (p1 - p2)
+         @param p3 
+            is the startpoint for the second line P2 = (p3 - p4)
+         @param p4 
+            is the endpoint for the second line P2 = (p3 - p4)
+         @param s 
+            is the range for a hitpoint in P1 (pa = p1 + s*(p2 - p1))
+         @param t
+            is the range for a hitpoint in P3 (pa = p2 + t*(p4 - p3))
+         @return bool 
+            indicating successful intersection of a line
+            note that to truly test intersection for segments we have to make 
+            sure that s & t lie within [0..1] and for rays, make sure s & t > 0
+            the hit point is        p3 + t * (p4 - p3);
+            the hit point also is    p1 + s * (p2 - p1);
+         @since v0.99.1
+         */
+        public static bool LineIntersect(CCPoint A, CCPoint B,
+                              CCPoint C, CCPoint D,
+                              out float S, out float T)
+        {
+            S = 0f;
+            T = 0f;
+
+            // FAIL: Line undefined
+            if ((A.x == B.x && A.y == B.y) || (C.x == D.x && C.y == D.y))
+            {
+                return false;
+            }
+            float BAx = B.x - A.x;
+            float BAy = B.y - A.y;
+            float DCx = D.x - C.x;
+            float DCy = D.y - C.y;
+            float ACx = A.x - C.x;
+            float ACy = A.y - C.y;
+
+            float denom = DCy * BAx - DCx * BAy;
+
+            S = DCx * ACy - DCy * ACx;
+            T = BAx * ACy - BAy * ACx;
+
+            if (denom == 0)
+            {
+                if (S == 0 || T == 0)
+                {
+                    // Lines incident
+                    return true;
+                }
+                // Lines parallel and not incident
+                return false;
+            }
+
+            S = S / denom;
+            T = T / denom;
+
+            // Point of intersection
+            // CGPoint P;
+            // P.x = A.x + *S * (B.x - A.x);
+            // P.y = A.y + *S * (B.y - A.y);
+
+            return true;
+        }
+
+        public float Angle(CCPoint b)
+        {
+            float angle = (float)Math.Acos(Normalize(this).Dot(Normalize(b)));
+            if (Math.Abs(angle) < ccMacros.FLT_EPSILON) return 0f;
+            return angle;
+        }
+
 
         public static bool CCPointEqualToPoint(CCPoint point1, CCPoint point2)
         {

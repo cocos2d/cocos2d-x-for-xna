@@ -136,10 +136,15 @@
     <Compile Include="actions\action_instants\CCShow.cs" />
     <Compile Include="actions\action_instants\CCStopGrid.cs" />
     <Compile Include="actions\action_instants\CCToggleVisibility.cs" />
+    <Compile Include="actions\action_intervals\CCActionTween.cs" />
     <Compile Include="actions\action_intervals\CCAnimate.cs" />
     <Compile Include="actions\action_intervals\CCBezierBy.cs" />
     <Compile Include="actions\action_intervals\CCBezierTo.cs" />
     <Compile Include="actions\action_intervals\CCBlink.cs" />
+    <Compile Include="actions\action_intervals\CCCardinalSplineBy.cs" />
+    <Compile Include="actions\action_intervals\CCCardinalSplineTo.cs" />
+    <Compile Include="actions\action_intervals\CCCatmullRomBy.cs" />
+    <Compile Include="actions\action_intervals\CCCatmullRomTo.cs" />
     <Compile Include="actions\action_intervals\CCDelayTime.cs" />
     <Compile Include="actions\action_intervals\CCFadeIn.cs" />
     <Compile Include="actions\action_intervals\CCFadeOut.cs" />
@@ -267,6 +272,7 @@
     <Compile Include="platform\OGLES.cs" />
     <Compile Include="predefine\ccConfig.cs" />
     <Compile Include="predefine\ccMacros.cs" />
+    <Compile Include="predefine\CCPointArray.cs" />
     <Compile Include="predefine\CCPointExtension.cs" />
     <Compile Include="predefine\CCProtocols.cs" />
     <Compile Include="predefine\CCTouch.cs" />
