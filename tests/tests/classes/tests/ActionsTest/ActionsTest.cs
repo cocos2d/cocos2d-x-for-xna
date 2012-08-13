@@ -35,6 +35,7 @@ namespace tests
         ACTION_REVERSESEQUENCE2_LAYER,
         //ACTION_ORBIT_LAYER,
         //ACTION_FLLOW_LAYER,
+        ACTION_TWEEN,
         ACTION_LAYER_COUNT,
     };
 
@@ -106,6 +107,8 @@ namespace tests
                 //    pLayer = new ActionOrbit(); break;
                 //case (int)ActionTest.ACTION_FLLOW_LAYER:
                 //    pLayer = new ActionFollow(); break;
+                case (int)ActionTest.ACTION_TWEEN:
+                    pLayer = new ActionTween(); break;
             default:
                 break;
             }
@@ -321,6 +324,53 @@ namespace tests
             return "Manual Transformation";
         }
     };
+
+    public class ActionTween : ActionsDemo
+    {
+        private void myTween(float dx, string key)
+        {
+            CCLog.Log("myTween: dx=" + dx + ", for key=" + key);
+
+            m_tamara.position.x = dx;
+            switch (key)
+            {
+                case "tamara":
+                    m_tamara.position = new CCPoint(dx, m_tamara.position.y);
+                    break;
+                case "grossini":
+                    m_grossini.position = new CCPoint(dx, m_grossini.position.y);
+                    break;
+                case "kathia":
+                    m_kathia.position = new CCPoint(dx, m_kathia.position.y);
+                    break;
+            }
+        }
+
+        public override void onEnter()
+        {
+            base.onEnter();
+            centerSprites(3);
+
+            CCSize s = CCDirector.sharedDirector().getWinSize();
+
+            CCActionInterval actionTween1 = CCActionTween.actionWithDuration(3, "tamara", 25f, 250f, new CCActionTweenDelegate(myTween));
+            CCActionInterval actionTween2 = CCActionTween.actionWithDuration(3, "grossini", 150f, 260f, new CCActionTweenDelegate(myTween));
+            CCActionInterval actionTween3 = CCActionTween.actionWithDuration(3, "kathia", 75f, 250f, new CCActionTweenDelegate(myTween));
+
+            // source code: CCActionInterval* actionByBack = actionBy->reverse();
+            CCFiniteTimeAction actionTween1Back = actionTween1.reverse();
+
+            m_tamara.runAction(actionTween2);
+            m_grossini.runAction(CCSequence.actions(actionTween1, actionTween1Back));
+            m_kathia.runAction(actionTween3);
+        }
+
+        public override string subtitle()
+        {
+            return "CCActionTween";
+        }
+    }
+
 
     public class ActionMove : ActionsDemo
     {

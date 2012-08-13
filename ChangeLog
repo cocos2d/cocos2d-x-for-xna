@@ -28,6 +28,7 @@
 	CCCardinalSplineTo: Support class for CCCatmullRomTo
 	CCPoint: Added the geometry methods that are required for the CCCardinalSpline actions
 	ccUtils: Added a cardinal spline calculator for the CCCardinalSpline actions.
+	CCActionTween: Added a test case and fixed the reverse() override.
 
 cocos2d-x for xna 0.1.2 Aug.05 2012
 	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.
