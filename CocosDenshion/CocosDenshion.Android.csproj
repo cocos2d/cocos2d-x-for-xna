@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{F028609A-7A53-4F01-8939-5B823285EC10}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CocosDenshion</RootNamespace>
+    <AssemblyName>CocosDenshion</AssemblyName>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AndroidSupportedAbis>armeabi%3barmeabi-v7a%3bx86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\AnyCPU\Debug</OutputPath>
+    <DefineConstants>DEBUG;ANDROID,CC_FONT_LABEL_SUPPORT,CC_DIRECTOR_FAST_FPS,CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD,CC_COCOSNODE_RENDER_SUBPIXEL,CC_SPRITEBATCHNODE_RENDER_SUBPIXEL,CC_USES_VBO,CC_NODE_TRANSFORM_USING_AFFINE_MATRIX,CC_OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\AnyCPU\Release</OutputPath>
+    <DefineConstants>DEBUG;ANDROID,CC_FONT_LABEL_SUPPORT,CC_DIRECTOR_FAST_FPS,CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD,CC_COCOSNODE_RENDER_SUBPIXEL,CC_SPRITEBATCHNODE_RENDER_SUBPIXEL,CC_USES_VBO,CC_NODE_TRANSFORM_USING_AFFINE_MATRIX,CC_OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Android" />
+    <Reference Include="OpenTK" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="EffectPlayer.cs" />
+    <Compile Include="MusicPlayer.cs" />
+    <Compile Include="SimpleAudioEngine.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cocos2d-xna\cocos2d-xna.csproj">
+      <Project>{47EE6CE6-493D-4967-944A-5E55B71AA9FD}</Project>
+      <Name>cocos2d-xna</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>
