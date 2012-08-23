@@ -45,11 +45,23 @@ namespace cocos2d
             b = 0;
         }
 
+        public ccColor3B(ccColor3B copy)
+        {
+            r = copy.r;
+            g = copy.g;
+            b = copy.b;
+        }
+
         public ccColor3B(byte inr, byte ing, byte inb)
         {
             r = inr;
             g = ing;
             b = inb;
+        }
+
+        public ccColor3B copy()
+        {
+            return (new ccColor3B(r, g, b));
         }
 
         /// <summary>
@@ -58,7 +70,7 @@ namespace cocos2d
         public ccColor3B(Microsoft.Xna.Framework.Color color)
         {
             r = color.R;
-            g = color.B;
+            g = color.G; // was color.B
             b = color.B;
         }
 
@@ -73,6 +85,9 @@ namespace cocos2d
     /// </summary>
     public class ccColor4B
     {
+        /// <summary>
+        /// Constructs a transparent (a=0) instance of color4B.
+        /// </summary>
         public ccColor4B()
         {
             r = 0;
@@ -81,6 +96,13 @@ namespace cocos2d
             a = 0;
         }
 
+        public ccColor4B(ccColor3B c3)
+        {
+            r = c3.r;
+            g = c3.g;
+            b = c3.b;
+            a = 255;
+        }
         public ccColor4B(byte inr, byte ing, byte inb, byte ina)
         {
             r = inr;
@@ -89,13 +111,17 @@ namespace cocos2d
             a = ina;
         }
 
+        public ccColor4B copy()
+        {
+            return (new ccColor4B(r, g, b, a));
+        }
         /// <summary>
         /// Convert Color value of XNA Framework to ccColor4B type
         /// </summary>
         public ccColor4B(Microsoft.Xna.Framework.Color color)
         {
             r = color.R;
-            g = color.B;
+            g = color.G; // was color.B
             b = color.B;
             a = color.A;
         }
@@ -128,6 +154,11 @@ namespace cocos2d
             a = ina;
         }
 
+        public ccColor4F copy()
+        {
+            return (new ccColor4F(r, g, b, a));
+        }
+
         public float r;
         public float g;
         public float b;
@@ -152,6 +183,16 @@ namespace cocos2d
             y = iny;
         }
 
+        public ccVertex2F(ccVertex2F copy)
+        {
+            x = copy.x;
+            y = copy.y;
+        }
+
+        public ccVertex2F copy()
+        {
+            return (new ccVertex2F(this));
+        }
         public float x;
         public float y;
     }

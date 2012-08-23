@@ -117,7 +117,12 @@ namespace cocos2d
         {
             return Dot(this);
         }
+        [Obsolete("Use DistanceSQ instead. This method was a typograhpic error.")]
         public float DistanceCQ(CCPoint v2)
+        {
+            return (DistanceSQ(v2));
+        }
+        public float DistanceSQ(CCPoint v2)
         {
             return Sub(v2).LengthSQ();
         }

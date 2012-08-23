@@ -1,0 +1,8 @@
+Shader Programs:
+
+http://digitalerr0r.wordpress.com/2011/12/12/xna-4-0-shader-programming-1intro-to-hlsl-ambient-light/
+
+Game State Management:
+
+http://code.msdn.microsoft.com/wpapps/Game-State-Management-b7869983
+

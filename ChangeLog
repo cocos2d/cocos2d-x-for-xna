@@ -29,6 +29,12 @@
 	CCPoint: Added the geometry methods that are required for the CCCardinalSpline actions
 	ccUtils: Added a cardinal spline calculator for the CCCardinalSpline actions.
 	CCActionTween: Added a test case and fixed the reverse() override.
+        ccTypes: Added copy ctor and copy methods to the color classes.
+        ccColor4B: Changed init of green component to be green from the XNA color object.
+        ccColor3B: Changed init of green component to be green from the XNA color object.
+	CCVertex: Added vertex support methods for the CCMotionStreak class.
+	CCMotionStreak: Added the code for this class.
+
 
 cocos2d-x for xna 0.1.2 Aug.05 2012
 	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.

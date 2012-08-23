@@ -103,7 +103,7 @@ namespace cocos2d
         }
 
         /// <summary>
-        /// draws a poligon given a pointer to CCPoint coordiantes and the number of vertices measured in points.
+        /// draws a polygon given a pointer to CCPoint coordiantes and the number of vertices measured in points.
         /// The polygon can be closed or open
         /// </summary>
         public static void ccDrawPoly(CCPoint[] vertices, int numOfVertices, bool closePolygon, ccColor4F color)
@@ -112,7 +112,7 @@ namespace cocos2d
         }
 
         /// <summary>
-        /// draws a poligon given a pointer to CCPoint coordiantes and the number of vertices measured in points.
+        /// draws a polygon given a pointer to CCPoint coordiantes and the number of vertices measured in points.
         /// The polygon can be closed or open and optionally filled with current GL color
         /// </summary>
         public static void ccDrawPoly(CCPoint[] vertices, int numOfVertices, bool closePolygon, bool fill, ccColor4F color)
