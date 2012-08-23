@@ -29,10 +29,10 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MonoGame.Framework.Android">
+      <HintPath>..\Android\MonoGame3D\MonoGame.Framework.Android.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Mono.Android" />
     <Reference Include="OpenTK" />
@@ -49,7 +49,7 @@
     <Compile Include="TMX\TMXProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cocos2d.Framework\cocos2d.Framework.csproj">
+    <ProjectReference Include="..\cocos2d.Framework\cocos2d.Framework.Android.csproj">
       <Project>{CC156337-B4A7-479F-9262-9A708B5E1164}</Project>
       <Name>cocos2d.Framework</Name>
     </ProjectReference>

@@ -1,4 +1,13 @@
 using System;
+#if ANDROID
+using Android.App;
+using Android.Content;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using Android.OS;
+#endif
+using Microsoft.Xna.Framework;
 
 namespace tests
 {
@@ -16,6 +25,30 @@ namespace tests
             }
         }
     }
+#endif
+#if ANDROID
+	[Activity (Label = "cocos2d Tests",
+	           MainLauncher = true,
+	           Icon = "@drawable/ic_launcher",
+               Theme = "@style/Theme.NoTitleBar",
+	           ScreenOrientation=Android.Content.PM.ScreenOrientation.Landscape,
+	           LaunchMode=Android.Content.PM.LaunchMode.SingleInstance,
+	           ConfigurationChanges = Android.Content.PM.ConfigChanges.KeyboardHidden)]
+	public class TestsActivity : AndroidGameActivity
+	{
+		protected override void OnCreate (Bundle bundle)
+		{
+			base.OnCreate (bundle);
+
+			// Create our OpenGL view, and display it
+			Game1.Activity = this;
+			var g = new Game1 ();
+			SetContentView (g.Window);
+			g.Run ();
+		}
+		
+	}
+
 #endif
 }
 

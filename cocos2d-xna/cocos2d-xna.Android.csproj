@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\AnyCPU\Debug</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>TRACE;DEBUG;ANDROID,CC_FONT_LABEL_SUPPORT,CC_DIRECTOR_FAST_FPS,CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD,CC_COCOSNODE_RENDER_SUBPIXEL,CC_SPRITEBATCHNODE_RENDER_SUBPIXEL,CC_USES_VBO,CC_NODE_TRANSFORM_USING_AFFINE_MATRIX,CC_OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,13 +30,19 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\AnyCPU\Release</OutputPath>
+    <OutputPath>bin\Release</OutputPath>
     <DefineConstants>TRACE;DEBUG;ANDROID,CC_FONT_LABEL_SUPPORT,CC_DIRECTOR_FAST_FPS,CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD,CC_COCOSNODE_RENDER_SUBPIXEL,CC_SPRITEBATCHNODE_RENDER_SUBPIXEL,CC_USES_VBO,CC_NODE_TRANSFORM_USING_AFFINE_MATRIX,CC_OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lidgren.Network.Android">
+      <HintPath>..\Android\MonoGame3D\Lidgren.Network.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework.Android">
+      <HintPath>..\Android\MonoGame3D\MonoGame.Framework.Android.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
@@ -44,10 +50,10 @@
     <Reference Include="Mono.Android" />
     <Reference Include="OpenTK" />
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\XNA\cocos2d-xna\cocos2d-xna\external lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>external lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="zlib.net">
-      <HintPath>..\..\..\XNA\cocos2d-xna\cocos2d-xna\external lib\zlib.net.dll</HintPath>
+      <HintPath>external lib\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -311,11 +317,7 @@
     <Folder Include="keypad_dispatcher\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\cocos2d.Content.Pipeline.Importers\cocos2d.Content.Pipeline.Importers.csproj">
-      <Project>{FBE4633D-00D1-4391-8184-63B91DA28D4B}</Project>
-      <Name>cocos2d.Content.Pipeline.Importers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\cocos2d.Framework\cocos2d.Framework.csproj">
+    <ProjectReference Include="..\cocos2d.Framework\cocos2d.Framework.Android.csproj">
       <Project>{CC156337-B4A7-479F-9262-9A708B5E1164}</Project>
       <Name>cocos2d.Framework</Name>
     </ProjectReference>
