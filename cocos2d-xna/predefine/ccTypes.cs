@@ -59,6 +59,14 @@ namespace cocos2d
             b = inb;
         }
 
+        public Color XNAColor
+        {
+            get
+            {
+                return (new Color(r, g, b, 255));
+            }
+        }
+
         public ccColor3B copy()
         {
             return (new ccColor3B(r, g, b));
@@ -94,6 +102,14 @@ namespace cocos2d
             g = 0;
             b = 0;
             a = 0;
+        }
+
+        public Color XNAColor
+        {
+            get
+            {
+                return (new Color(r, g, b, a));
+            }
         }
 
         public ccColor4B(ccColor3B c3)
