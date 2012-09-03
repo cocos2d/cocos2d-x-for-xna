@@ -209,6 +209,10 @@ namespace cocos2d
         {
             return (new ccVertex2F(this));
         }
+        public Vector3 ToVector3()
+        {
+            return (new Vector3(x, y, 0f));
+        }
         public float x;
         public float y;
     }
@@ -231,6 +235,11 @@ namespace cocos2d
             x = inx;
             y = iny;
             z = inz;
+        }
+
+        public Vector3 ToVector3()
+        {
+            return (new Vector3(x, y, z));
         }
 
         public float x;
