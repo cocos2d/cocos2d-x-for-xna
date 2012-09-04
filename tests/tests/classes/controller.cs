@@ -134,8 +134,8 @@ namespace tests
                     pScene = new ParticleTestScene(); break;
                 case (int)TestCases.TEST_EASE_ACTIONS:
                     pScene = new EaseActionsTestScene(); break;
-                //case (int)TestCases.TEST_MOTION_STREAK:
-                //    pScene = new MotionStreakTestScene(); break;
+                case (int)TestCases.TEST_MOTION_STREAK:
+                    pScene = new MotionStreakTestScene(); break;
                 case (int)TestCases.TEST_DRAW_PRIMITIVES:
                     pScene = new DrawPrimitivesTestScene(); break;
                 //case (int)TestCases.TEST_COCOSNODE:

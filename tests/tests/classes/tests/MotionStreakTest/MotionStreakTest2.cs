@@ -21,7 +21,7 @@ namespace tests
             CCSize s = CCDirector.sharedDirector().getWinSize();
 
             // create the streak object and add it to the scene
-            //m_streak = CCMotionStreak.streakWithFade(3, 3, s_streak, 64, 32, new ccColor4B(255,255,255,255) );
+            m_streak = CCMotionStreak.streakWithFade(3, 3, 64, new ccColor3B(255, 255, 255), s_streak);
             addChild(m_streak);
 
             m_streak.position = (new CCPoint(s.width / 2, s.height / 2));

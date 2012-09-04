@@ -37,7 +37,7 @@ namespace tests
             m_target.position = (new CCPoint(100, 0));
 
             // create the streak object and add it to the scene
-            //m_streak = CCMotionStreak.streakWithFade(2, 3, s_streak, 32, 32, new ccColor4B(0,255,0,255) );
+            m_streak = CCMotionStreak.streakWithFade(2f, 3f, 32f, new ccColor3B(0, 255, 0), s_streak);
             addChild(m_streak);
             // schedule an update on each frame so we can syncronize the streak with the target
             schedule(onUpdate);
@@ -48,6 +48,29 @@ namespace tests
             CCActionInterval motion = CCMoveBy.actionWithDuration(2, new CCPoint(100, 0));
             m_root.runAction(CCRepeatForever.actionWithAction((CCActionInterval)(CCSequence.actions(motion, motion.reverse()))));
             m_root.runAction(action1);
+            CCActionInterval colorAction = CCRepeatForever.actionWithAction((CCActionInterval)CCSequence.actions(
+        CCTintTo.actionWithDuration(0.2f, 255, 0, 0),
+        CCTintTo.actionWithDuration(0.2f, 0, 255, 0),
+        CCTintTo.actionWithDuration(0.2f, 0, 0, 255),
+        CCTintTo.actionWithDuration(0.2f, 0, 255, 255),
+        CCTintTo.actionWithDuration(0.2f, 255, 255, 0),
+        CCTintTo.actionWithDuration(0.2f, 255, 0, 255),
+        CCTintTo.actionWithDuration(0.2f, 255, 255, 255)
+                ));
+            m_streak.runAction(colorAction);
+            /*
+    CCActionInterval *colorAction = CCRepeatForever::create((CCActionInterval *)CCSequence::create(
+        CCTintTo::create(0.2f, 255, 0, 0),
+        CCTintTo::create(0.2f, 0, 255, 0),
+        CCTintTo::create(0.2f, 0, 0, 255),
+        CCTintTo::create(0.2f, 0, 255, 255),
+        CCTintTo::create(0.2f, 255, 255, 0),
+        CCTintTo::create(0.2f, 255, 0, 255),
+        CCTintTo::create(0.2f, 255, 255, 255),
+        NULL));
+
+    streak->runAction(colorAction);
+             */
         }
 
         public void onUpdate(float delta)

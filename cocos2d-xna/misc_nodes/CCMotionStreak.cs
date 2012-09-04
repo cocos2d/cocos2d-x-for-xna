@@ -125,6 +125,7 @@ namespace cocos2d
             Texture = texture;
             Color = color;
 //            scheduleUpdate();
+            schedule(update);
 
             return true;
         }
@@ -224,7 +225,13 @@ namespace cocos2d
 
             if (m_pVerticesPCT == null)
             {
-                m_pVerticesPCT = new List<VertexPositionColorTexture>((m_uNuPoints+1) * 2);
+                m_pVerticesPCT = new VertexPositionColorTexture[((m_uNuPoints+1) * 2)];
+            }
+            if (m_uNuPoints * 2 > m_pVerticesPCT.Length)
+            {
+                VertexPositionColorTexture[] tmp = new VertexPositionColorTexture[((m_uNuPoints + 1) * 2)];
+                m_pVerticesPCT.CopyTo(tmp, 0);
+                m_pVerticesPCT = tmp;
             }
             delta *= m_fFadeDelta;
 
@@ -279,8 +286,8 @@ namespace cocos2d
                     m_pColor[newIdx2 + 1].a = op;
                     VertexPositionColorTexture vpc = new VertexPositionColorTexture(m_pVerticesPCT[newIdx2].Position, m_pColor[newIdx2].XNAColor, m_pVerticesPCT[newIdx2].TextureCoordinate);
                     m_pVerticesPCT[newIdx2] = vpc;
-                    vpc = new VertexPositionColorTexture(m_pVerticesPCT[newIdx2+1].Position, m_pColor[newIdx2].XNAColor, m_pVerticesPCT[newIdx2+1].TextureCoordinate); 
-                    m_pVerticesPCT[newIdx2] = vpc;
+                    vpc = new VertexPositionColorTexture(m_pVerticesPCT[newIdx2+1].Position, m_pColor[newIdx2+1].XNAColor, m_pVerticesPCT[newIdx2+1].TextureCoordinate); 
+                    m_pVerticesPCT[newIdx2+1] = vpc;
                 }
             }
             m_uNuPoints -= mov;
@@ -340,18 +347,35 @@ namespace cocos2d
             // Updated Tex Coords only if they are different than previous step
             if (m_uPreviousNuPoints != m_uNuPoints)
             {
+                if (m_uNuPoints > m_uPreviousNuPoints)
+                {
+                    VertexPositionColorTexture[] tmp = new VertexPositionColorTexture[((m_uNuPoints + 1) * 2)];
+                    m_pVerticesPCT.CopyTo(tmp, 0);
+                    m_pVerticesPCT = tmp;
+                }
                 float texDelta = 1.0f / m_uNuPoints;
                 for (i = 0; i < m_uNuPoints; i++)
                 {
                     m_pTexCoords[i * 2] = new ccTex2F(0, texDelta * i);
                     m_pTexCoords[i * 2 + 1] = new ccTex2F(1, texDelta * i);
+                    VertexPositionColorTexture vpc;
+                    if (m_pVertices[i * 2] != null)
+                    {
+                        vpc = new VertexPositionColorTexture(m_pVertices[i * 2].ToVector3(), m_pColor[i * 2].XNAColor, m_pTexCoords[i * 2].ToVector2());
+                        m_pVerticesPCT[i * 2] = vpc;
+                    }
+                    if (m_pVertices[i * 2 + 1] != null)
+                    {
+                        vpc = new VertexPositionColorTexture(m_pVertices[i * 2 + 1].ToVector3(), m_pColor[i * 2 + 1].XNAColor, m_pTexCoords[i * 2 + 1].ToVector2());
+                        m_pVerticesPCT[i * 2 + 1] = vpc;
+                    }
                 }
 
                 m_uPreviousNuPoints = m_uNuPoints;
             }
         }
 
-        private List<VertexPositionColorTexture> m_pVerticesPCT;
+        private VertexPositionColorTexture[] m_pVerticesPCT;
 
         private void reset()
         {
@@ -391,7 +415,7 @@ namespace cocos2d
             foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                app.GraphicsDevice.DrawUserPrimitives<VertexPositionColorTexture>(PrimitiveType.TriangleList, m_pVerticesPCT.ToArray(), 0, m_uNuPoints*2);
+                app.GraphicsDevice.DrawUserPrimitives<VertexPositionColorTexture>(PrimitiveType.TriangleStrip, m_pVerticesPCT, 0, m_uNuPoints*2-1);
             }
             app.basicEffect.Alpha = startAlpha;
         }
