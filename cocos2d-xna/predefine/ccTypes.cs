@@ -265,6 +265,11 @@ namespace cocos2d
             v = inv;
         }
 
+        public Vector2 ToVector2()
+        {
+            return (new Vector2(u, v));
+        }
+
         public float u;
         public float v;
     }
