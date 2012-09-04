@@ -44,12 +44,6 @@
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lidgren.Network.Android">
-      <HintPath>..\..\Android\MonoGame3D\Lidgren.Network.Android.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework.Android">
-      <HintPath>..\..\Android\MonoGame3D\MonoGame.Framework.Android.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
@@ -74,33 +68,52 @@
     <Content Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Content\fonts\Arial.xnb">
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Content\HelloWorld.xnb">
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Content\CloseNormal.xnb">
+    </AndroidAsset>
+    <AndroidAsset Include="Assets\Content\CloseSelected.xnb">
+    </AndroidAsset>
+	<!--
     <AndroidAsset Include="background.png">
-	<Link>Assets\Content\background.png</Link>
+      <Link>Assets\Content\background.png</Link>
     </AndroidAsset>
     <AndroidAsset Include="..\HelloCocos2dContent\SpriteFont1.spritefont">
-	<Link>Assets\Content\SpriteFont1.spritefont</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\HelloCocos2dContent\fonts\Arial.spritefont">
-	<Link>Assets\Content\fonts\Arial.spritefont</Link>
+      <Link>Assets\Content\SpriteFont1.spritefont</Link>
     </AndroidAsset>
     <AndroidAsset Include="..\HelloCocos2dContent\CloseNormal.png">
-	<Link>Assets\Content\CloseNormal.png</Link>
+      <Link>Assets\Content\CloseNormal.png</Link>
     </AndroidAsset>
     <AndroidAsset Include="..\HelloCocos2dContent\CloseSelected.png">
-	<Link>Assets\Content\CloseSelected.png</Link>
+      <Link>Assets\Content\CloseSelected.png</Link>
     </AndroidAsset>
     <AndroidAsset Include="..\HelloCocos2dContent\HelloWorld.png">
-	<Link>Assets\Content\HelloWorld.png</Link>
+      <Link>Assets\Content\HelloWorld.png</Link>
     </AndroidAsset>
+	-->
     <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\MonoGame\MonoGame.Framework\MonoGame.Framework.Android.csproj">
+      <Project>{BA9476CF-99BA-4D03-92F2-73D2C5E58883}</Project>
+      <Name>MonoGame.Framework.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MonoGame\ThirdParty\Lidgren.Network\Lidgren.Network.Android.csproj">
+      <Project>{565129E0-4EE5-4F6F-B403-C3484C9740BE}</Project>
+      <Name>Lidgren.Network.Android</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\cocos2d-xna\cocos2d-xna.Android.csproj">
       <Project>{47EE6CE6-493D-4967-944A-5E55B71AA9FD}</Project>
       <Name>cocos2d-xna</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\cocos2d.Framework\cocos2d.Framework.Android.csproj">
+      <Project>{CC156337-B4A7-479F-9262-9A708B5E1164}</Project>
+      <Name>cocos2d.Framework.Android</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

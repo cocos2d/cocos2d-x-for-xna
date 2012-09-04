@@ -9,7 +9,7 @@ using Android.OS;
 #endif
 using Microsoft.Xna.Framework;
 
-namespace tests
+namespace HelloCocos2d
 {
 #if WINDOWS || XBOX
     static class Program
