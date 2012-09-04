@@ -29,9 +29,10 @@ namespace tests
             // Frame rate is 30 fps by default for Windows Phone.
             TargetElapsedTime = TimeSpan.FromTicks(333333);
 
+#if !MONOGAME
             // Extend battery life under lock.
             InactiveSleepTime = TimeSpan.FromSeconds(1);
-
+#endif
             CCApplication application = new AppDelegate(this, graphics);
             this.Components.Add(application);
         }
