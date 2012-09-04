@@ -103,8 +103,15 @@ namespace cocos2d
             m_rcViewPort = new Rectangle(0, 0, 800, 480); //graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             _size = new CCSize(800,480);
 #elif !WINDOWS && !XBOX && !XBOX360
-            m_rcViewPort = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
-            _size = new CCSize(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            if (graphics.GraphicsDevice == null)
+            {
+                graphics.DeviceCreated += new EventHandler<EventArgs>(graphics_DeviceCreated);
+            }
+            else
+            {
+                m_rcViewPort = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+                _size = new CCSize(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            }
 #endif
         }
 
@@ -209,7 +216,7 @@ namespace cocos2d
                             if (m_rcViewPort.Contains((int)touch.Position.X, (int)touch.Position.Y))
                             {
                                 m_pTouches.AddLast(new CCTouch(touch.Id, touch.Position.X - m_rcViewPort.Left / m_fScreenScaleFactor, touch.Position.Y - m_rcViewPort.Top / m_fScreenScaleFactor));
-                                m_pTouchMap.Add(touch.Id, m_pTouches.Last);
+                                m_pTouchMap[touch.Id] = m_pTouches.Last;
                                 newTouches.Add(m_pTouches.Last.Value);
                             }
                             break;
