@@ -428,7 +428,7 @@ namespace cocos2d
             foreach (var pass in app.basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                app.GraphicsDevice.DrawUserPrimitives<VertexPositionColorTexture>(PrimitiveType.TriangleStrip, m_pVerticesPCT, 0, m_uNuPoints*2-1);
+                app.GraphicsDevice.DrawUserPrimitives<VertexPositionColorTexture>(PrimitiveType.TriangleStrip, m_pVerticesPCT, 0, m_uNuPoints*2);
             }
             app.basicEffect.Alpha = startAlpha;
         }
