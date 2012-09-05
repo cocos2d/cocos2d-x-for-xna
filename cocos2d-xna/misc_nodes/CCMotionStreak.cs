@@ -47,6 +47,7 @@ namespace cocos2d
             m_tBlendFunc = new ccBlendFunc();
             m_tBlendFunc.src = 0;// CC_BLEND_SRC;
             m_tBlendFunc.dst = 0x0303;// CC_BLEND_DST;
+            m_tOpacity = 0xff; // Fully opaque
         }
 
         public static CCMotionStreak streakWithFade(float fade, float minSeg, float stroke, ccColor3B color, string path)
@@ -243,7 +244,7 @@ namespace cocos2d
             {
                 if (m_pVerticesPCT[i] == null)
                 {
-                    m_pVerticesPCT[i] = new VertexPositionColorTexture(m_pVertices[i].ToVector3(), m_pColor[i].XNAColor, m_pVerticesPCT[i].TextureCoordinate);
+                    m_pVerticesPCT[i] = new VertexPositionColorTexture(m_pVertices[i].ToVector3(), m_pColor[i].XNAColor, m_pTexCoords[i].ToVector2());
                 }
                 if (m_pVerticesPCT[i*2] == null)
                 {
@@ -284,10 +285,17 @@ namespace cocos2d
                     byte op = (byte)(m_pPointState[newIdx] * 255.0f);
                     m_pColor[newIdx2].a = op;
                     m_pColor[newIdx2 + 1].a = op;
-                    VertexPositionColorTexture vpc = new VertexPositionColorTexture(m_pVerticesPCT[newIdx2].Position, m_pColor[newIdx2].XNAColor, m_pVerticesPCT[newIdx2].TextureCoordinate);
-                    m_pVerticesPCT[newIdx2] = vpc;
-                    vpc = new VertexPositionColorTexture(m_pVerticesPCT[newIdx2+1].Position, m_pColor[newIdx2+1].XNAColor, m_pVerticesPCT[newIdx2+1].TextureCoordinate); 
-                    m_pVerticesPCT[newIdx2+1] = vpc;
+                    VertexPositionColorTexture vpc;
+                    if (m_pVertices[newIdx2] != null)
+                    {
+                        vpc = new VertexPositionColorTexture(m_pVertices[newIdx2].ToVector3(), m_pColor[newIdx2].XNAColor, m_pTexCoords[newIdx2].ToVector2());
+                        m_pVerticesPCT[newIdx2] = vpc;
+                    }
+                    if (m_pVertices[newIdx2 + 1] != null)
+                    {
+                        vpc = new VertexPositionColorTexture(m_pVertices[newIdx2 + 1].ToVector3(), m_pColor[newIdx2 + 1].XNAColor, m_pTexCoords[newIdx2 + 1].ToVector2());
+                        m_pVerticesPCT[newIdx2 + 1] = vpc;
+                    }
                 }
             }
             m_uNuPoints -= mov;
@@ -349,7 +357,12 @@ namespace cocos2d
             {
                 if (m_uNuPoints > m_uPreviousNuPoints)
                 {
-                    VertexPositionColorTexture[] tmp = new VertexPositionColorTexture[((m_uNuPoints + 1) * 2)];
+                    int count = (m_uNuPoints + 1) * 2;
+                    if (count < m_pVerticesPCT.Length)
+                    {
+                        count = m_pVerticesPCT.Length;
+                    }
+                    VertexPositionColorTexture[] tmp = new VertexPositionColorTexture[count];
                     m_pVerticesPCT.CopyTo(tmp, 0);
                     m_pVerticesPCT = tmp;
                 }
