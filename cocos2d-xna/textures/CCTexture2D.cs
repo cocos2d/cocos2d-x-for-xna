@@ -99,6 +99,7 @@ namespace cocos2d
         // Default is: RGBA8888 (32-bit textures)
         public static CCTexture2DPixelFormat g_defaultAlphaPixelFormat = CCTexture2DPixelFormat.kCCTexture2DPixelFormat_Default;
         private static Color g_MyBlack = new Color(0, 0, 0, 0);
+        private static uint NameIndex = 1;
 
         public CCTexture2D()
         {
@@ -109,6 +110,7 @@ namespace cocos2d
             m_bHasPremultipliedAlpha = false;
             m_bPVRHaveAlphaPremultiplied = true;
             m_tContentSize = new CCSize();
+            Name = NameIndex++;
         }
 
         public Texture2D Texture

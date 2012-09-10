@@ -34,6 +34,8 @@
         ccColor3B: Changed init of green component to be green from the XNA color object.
 	CCVertex: Added vertex support methods for the CCMotionStreak class.
 	CCMotionStreak: Added the code for this class.
+	CCTexture2D: Added automatic setting of the uName to make animations with non-sprite-sheet frames work properly.
+
 
 
 cocos2d-x for xna 0.1.2 Aug.05 2012
