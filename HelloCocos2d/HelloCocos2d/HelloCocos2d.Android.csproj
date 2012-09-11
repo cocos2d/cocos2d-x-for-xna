@@ -76,7 +76,7 @@
     </AndroidAsset>
     <AndroidAsset Include="Assets\Content\CloseSelected.xnb">
     </AndroidAsset>
-	<!--
+    <!--
     <AndroidAsset Include="background.png">
       <Link>Assets\Content\background.png</Link>
     </AndroidAsset>
