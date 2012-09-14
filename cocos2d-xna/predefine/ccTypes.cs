@@ -112,6 +112,13 @@ namespace cocos2d
             }
         }
 
+        public ccColor4B(ccColor4B copy)
+        {
+            r = copy.r;
+            g = copy.g;
+            b = copy.b;
+            a = copy.a;
+        }
         public ccColor4B(ccColor3B c3)
         {
             r = c3.r;
