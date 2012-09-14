@@ -53,7 +53,7 @@ namespace cocos2d
             }
 
             // Validate vertexes
-            offset = (offset == 0) ? 0 : offset - 1;
+            offset = (offset == 0) ? 0 : (offset - 1);
             for (int i = offset; i < nuPointsMinus; i++)
             {
                 idx = i * 2;
