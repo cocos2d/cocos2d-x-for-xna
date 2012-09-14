@@ -264,16 +264,16 @@ namespace cocos2d
                         m_pPointState[newIdx] = m_pPointState[i];
 
                         // Move point
-                        m_pPointVertexes[newIdx] = m_pPointVertexes[i];
+                        m_pPointVertexes[newIdx] = new CCPoint(m_pPointVertexes[i]);
 
                         // Move vertices
                         i2 = i*2;
                         newIdx2 = newIdx*2;
-                        m_pVertices[newIdx2] = m_pVertices[i2];
-                        m_pVertices[newIdx2 + 1] = m_pVertices[i2 + 1];
+                        m_pVertices[newIdx2] = new ccVertex2F(m_pVertices[i2]);
+                        m_pVertices[newIdx2 + 1] = new ccVertex2F(m_pVertices[i2 + 1]);
                         // Move color
-                        m_pColor[newIdx2] = m_pColor[i2];
-                        m_pColor[newIdx2 + 1] = m_pColor[i2 + 1];
+                        m_pColor[newIdx2] = new ccColor4B(m_pColor[i2]);
+                        m_pColor[newIdx2 + 1] = new ccColor4B(m_pColor[i2 + 1]);
                         // Move the GL vertex data
                         m_pVerticesPCT[newIdx2] = m_pVerticesPCT[i2];
                         m_pVerticesPCT[newIdx2 + 1] = m_pVerticesPCT[i2 + 1];
@@ -319,7 +319,7 @@ namespace cocos2d
 
             if (appendNewPoint)
             {
-                m_pPointVertexes[m_uNuPoints] = m_tPositionR;
+                m_pPointVertexes[m_uNuPoints] = new CCPoint(m_tPositionR);
                 m_pPointState[m_uNuPoints] = 1.0f;
 
                 // Color asignment
