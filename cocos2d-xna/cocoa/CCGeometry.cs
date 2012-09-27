@@ -27,25 +27,56 @@ namespace cocos2d
 {
     public class CCPoint
     {
-        public float x;
-        public float y;
+        private float _x, _y;
+
+        public float x
+        {
+            get
+            {
+                return (_x);
+            }
+            set
+            {
+                _x = value;
+            }
+        }
+
+        public float y
+        {
+            get
+            {
+                return (_y);
+            }
+            set
+            {
+                _y = value;
+            }
+        }
 
         public CCPoint()
         {
-            x = 0.0f;
-            y = 0.0f;
+            _x = 0f;
+            _y = 0f;
         }
 
         public CCPoint(CCPoint copy)
         {
-            x = copy.x;
-            y = copy.y;
+            _x = copy.x;
+            _y = copy.y;
         }
 
         public CCPoint(float x, float y)
         {
-            this.x = x;
-            this.y = y;
+            this._x = x;
+            this._y = y;
+        }
+
+        public bool IsZero
+        {
+            get
+            {
+                return (_x == 0f && _y == 0f);
+            }
         }
 
         public CCPoint Add(CCPoint pt)
@@ -322,9 +353,9 @@ namespace cocos2d
 
         public static bool CCPointEqualToPoint(CCPoint point1, CCPoint point2)
         {
-            Debug.Assert((point1 != null) && (point2 != null));
+            // Debug.Assert((point1 != null) && (point2 != null));
 
-            if ((point1 == null) || (point2 == null))
+            if (false/*(point1 == null) || (point2 == null)*/)
             {
                 return false;
             }
@@ -475,11 +506,11 @@ namespace cocos2d
 
         public static bool CCRectContainsPoint(CCRect rect, CCPoint point)
         {
-            Debug.Assert((rect != null) && (point != null));
+            Debug.Assert((rect != null)/* && (point != null)*/);
 
             bool bRet = false;
 
-            if (rect != null && point != null)
+            if (rect != null/* && point != null*/)
             {
                 if (float.IsNaN(point.x))
                 {
