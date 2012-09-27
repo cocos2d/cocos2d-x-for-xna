@@ -66,7 +66,6 @@ namespace cocos2d
             m_fDelay = delay;
             m_pobFrames = pFrames;
             return true;
-            throw new NotFiniteNumberException();
         }
 
         /** adds a frame to a CCAnimation */
