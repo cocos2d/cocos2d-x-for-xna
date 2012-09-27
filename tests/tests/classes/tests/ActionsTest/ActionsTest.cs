@@ -331,7 +331,7 @@ namespace tests
         {
             CCLog.Log("myTween: dx=" + dx + ", for key=" + key);
 
-            m_tamara.position.x = dx;
+            m_tamara.position = new CCPoint(dx, m_tamara.position.y);
             switch (key)
             {
                 case "tamara":

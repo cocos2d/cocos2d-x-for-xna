@@ -325,8 +325,7 @@ namespace cocos2d
             float cosa = (float)Math.Cos(angle), sina = (float)Math.Sin(angle);
             float t = r.x;
 
-            r.x = t * cosa - r.y * sina + pivot.x;
-            r.y = t * sina + r.y * cosa + pivot.y;
+            r = ccp(t * cosa - r.y * sina + pivot.x, t * sina + r.y * cosa + pivot.y);
 
             return r;
         }
