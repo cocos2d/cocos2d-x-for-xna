@@ -183,6 +183,7 @@
     <Compile Include="classes\tests\LabelTest\LabelTTFTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\LogicTest.cs" />
     <Compile Include="classes\tests\LayerTest\LayerGradient.cs" />
+    <Compile Include="classes\tests\LayerTest\LayerScaleTest.cs" />
     <Compile Include="classes\tests\LayerTest\Layertest.cs" />
     <Compile Include="classes\tests\LayerTest\LayerTest1.cs" />
     <Compile Include="classes\tests\LayerTest\LayerTest2.cs" />
