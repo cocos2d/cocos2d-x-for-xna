@@ -170,12 +170,7 @@ namespace cocos2d
                         continue;
                     }
                     // = new CCPoint((float)(item.delta.x * time), (float)(item.delta.y * time));
-                    if (item.position == null)
-                    {
-                        item.position = new CCPoint();
-                    }
-                    item.position.x = (float)(item.delta.x * time);
-                    item.position.y = (float)(item.delta.y * time);
+                    item.position = new CCPoint((float)(item.delta.x * time), (float)(item.delta.y * time));
                     placeTile(i, j, item);
 
                     f++;
