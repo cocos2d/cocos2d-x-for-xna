@@ -488,11 +488,13 @@ namespace cocos2d
         /// </summary>
         public virtual void visit()
         {
+            Matrix world = CCApplication.sharedApplication().basicEffect.World;
             // quick return if not visible
             if (!m_bIsVisible)
             {
                 return;
             }
+            
             m_tCCNodeTransform = Matrix.Identity;
             Matrix ori = Matrix.Identity * CCApplication.sharedApplication().basicEffect.View;
 
@@ -515,7 +517,9 @@ namespace cocos2d
                     node = m_pChildren[i];
                     if (node != null && node.m_nZOrder < 0)
                     {
+                        Matrix world2 = CCApplication.sharedApplication().basicEffect.World;
                         node.visit();
+                        CCApplication.sharedApplication().basicEffect.World = world2;
                     }
                     else
                     {
@@ -536,7 +540,9 @@ namespace cocos2d
 
                     if (node != null)
                     {
+                        Matrix world2 = CCApplication.sharedApplication().basicEffect.World;
                         node.visit();
+                        CCApplication.sharedApplication().basicEffect.World = world2;
                     }
                 }
             }
@@ -547,7 +553,7 @@ namespace cocos2d
                 m_pGrid.afterDraw(this);
             }
 
-            CCApplication.sharedApplication().basicEffect.World = Matrix.Invert(m_tCCNodeTransform) * CCApplication.sharedApplication().basicEffect.World;
+            CCApplication.sharedApplication().basicEffect.World = world; // Matrix.Invert(m_tCCNodeTransform) * CCApplication.sharedApplication().basicEffect.World;
             CCApplication.sharedApplication().basicEffect.View = ori;
             CCApplication.sharedApplication().viewMatrix = ori;
         }
@@ -589,6 +595,8 @@ namespace cocos2d
         {
             // transformations
 
+            CCApplication app = CCApplication.sharedApplication();
+
 #if CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
             // BEGIN alternative -- using cached transform
             //
@@ -599,7 +607,6 @@ namespace cocos2d
                 m_bIsTransformGLDirty = false;
             }
 
-            CCApplication app = CCApplication.sharedApplication();
             m_tCCNodeTransform = TransformUtils.CGAffineToMatrix(m_pTransformGL);
 
             if (m_fVertexZ > 0)
@@ -607,18 +614,10 @@ namespace cocos2d
                 m_tCCNodeTransform *= Matrix.CreateRotationZ(m_fVertexZ);
             }
 
-
-
             // XXX: Expensive calls. Camera should be integrated into the cached affine matrix
             if (m_pCamera != null && !(m_pGrid != null && m_pGrid.Active))
             {
                 bool translate = (m_tAnchorPointInPixels.x != 0.0f || m_tAnchorPointInPixels.y != 0.0f);
-
-                //if (translate)
-                //{
-                //    m_tCCNodeTransform *= Matrix.CreateTranslation(-m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y, 0);
-                //    //ccglTranslate(RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(m_tAnchorPointInPixels.y), 0);
-                //}
 
                 Matrix? matrix = m_pCamera.locate();
                 if (matrix != null)
@@ -629,14 +628,12 @@ namespace cocos2d
                         m_tCCNodeTransform;
                 }
 
-                //if (translate)
-                //{
-                //    m_tCCNodeTransform *= Matrix.CreateTranslation(m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y, 0);
-                //    //ccglTranslate(RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.x), RENDER_IN_SUBPIXEL(-m_tAnchorPointInPixels.y), 0);
-                //}
+
             }
 
+            // This is ok here. Visit() will restore the world transform for the next node.
             app.basicEffect.World = m_tCCNodeTransform * app.basicEffect.World;
+
 
             // END alternative
 #else
@@ -909,22 +906,22 @@ namespace cocos2d
             {
                 m_tTransform = CCAffineTransform.CCAffineTransformMakeIdentity();
 
-                if (!m_bIsRelativeAnchorPoint && !CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+                if (!m_bIsRelativeAnchorPoint && !m_tAnchorPointInPixels.IsZero)
                 {
                     m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tAnchorPointInPixels.x, m_tAnchorPointInPixels.y);
                 }
 
-                if (!CCPoint.CCPointEqualToPoint(m_tPositionInPixels, new CCPoint()))
+                if (!m_tPositionInPixels.IsZero)
                 {
                     m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, m_tPositionInPixels.x, m_tPositionInPixels.y);
                 }
 
-                if (m_fRotation != 0)
+                if (m_fRotation != 0f)
                 {
                     m_tTransform = CCAffineTransform.CCAffineTransformRotate(m_tTransform, -ccMacros.CC_DEGREES_TO_RADIANS(m_fRotation));
                 }
 
-                if (m_fSkewX != 0 || m_fSkewY != 0)
+                if (m_fSkewX != 0f || m_fSkewY != 0f)
                 {
                     // create a skewed coordinate system
                     CCAffineTransform skew = CCAffineTransform.CCAffineTransformMake(1.0f,
@@ -934,12 +931,12 @@ namespace cocos2d
                     m_tTransform = CCAffineTransform.CCAffineTransformConcat(skew, m_tTransform);
                 }
 
-                if (!(m_fScaleX == 1 && m_fScaleY == 1))
+                if (!(m_fScaleX == 1f && m_fScaleY == 1f))
                 {
                     m_tTransform = CCAffineTransform.CCAffineTransformScale(m_tTransform, m_fScaleX, m_fScaleY);
                 }
 
-                if (!CCPoint.CCPointEqualToPoint(m_tAnchorPointInPixels, new CCPoint()))
+                if (!m_tAnchorPointInPixels.IsZero)
                 {
                     m_tTransform = CCAffineTransform.CCAffineTransformTranslate(m_tTransform, -m_tAnchorPointInPixels.x, -m_tAnchorPointInPixels.y);
                 }
