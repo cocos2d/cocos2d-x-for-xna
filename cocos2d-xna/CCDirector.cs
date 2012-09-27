@@ -891,9 +891,9 @@ namespace cocos2d
         /// </summary>
         public void applyOrientation()
         {
-            CCSize s = m_obWinSizeInPixels;
-            float w = s.width / 2;
-            float h = s.height / 2;
+            //CCSize s = m_obWinSizeInPixels;
+            //float w = s.width / 2;
+            //float h = s.height / 2;
 
             // XXX it's using hardcoded values.
             // What if the the screen size changes in the future?
