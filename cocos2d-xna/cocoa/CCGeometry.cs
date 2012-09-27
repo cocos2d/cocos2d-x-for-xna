@@ -383,6 +383,12 @@ namespace cocos2d
 
         }
 
+        public CCRect(CCRect copy)
+        {
+            origin = new CCPoint(copy.origin.x, copy.origin.y);
+            size = new CCSize(copy.size.width, copy.size.height);
+        }
+
         public CCRect(float x, float y, float width, float height)
         {
             origin = new CCPoint();
@@ -500,6 +506,53 @@ namespace cocos2d
             }
 
             return bRet;
+        }
+
+        /// <summary>
+        /// Unions the space of the two rects, using rectA as the start of the union, and returns
+        /// a new rect that encapsulates both rectangles.
+        /// </summary>
+        /// <param name="rectA"></param>
+        /// <param name="rectB"></param>
+        /// <returns></returns>
+        public static CCRect CCRectUnion(CCRect rectA, CCRect rectB)
+        {
+            /* +-----+          +---------+
+             * |     |          |         |
+             * |  +-------+  ==>|         |
+             * |  |       |     |         |
+             * +--|       |     |         |
+             *    +-------+     +---------+
+             */
+            // Set the X
+            float xLA = rectA.origin.x;
+            float xLB = rectB.origin.x;
+            float xRA = xLA + rectA.size.width;
+            float xRB = xLB + rectB.size.width;
+            if (xLB < xLA)
+            {
+                xLA = xLB;
+            }
+            if (xRB > xRA)
+            {
+                xRA = xRB;
+            }
+            // Set the Y
+            float yBA = rectA.origin.y;
+            float yBB = rectB.origin.y;
+            float yTA = yBA + rectA.size.height;
+            float yTB = yBB + rectB.size.height;
+            if (yBB < yBA)
+            {
+                yBA = yBB;
+            }
+            if (yTB > yTA)
+            {
+                yTA = yTB;
+            }
+            // Compute the new rect
+            CCRect r = new CCRect(xLA, yBA, xRA - xLA, yTA - yBA);
+            return (r);
         }
 
         public static bool CCRectIntersetsRect(CCRect rectA, CCRect rectB)
