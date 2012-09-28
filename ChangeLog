@@ -35,6 +35,7 @@
 	CCVertex: Added vertex support methods for the CCMotionStreak class.
 	CCMotionStreak: Added the code for this class.
 	CCTexture2D: Added automatic setting of the uName to make animations with non-sprite-sheet frames work properly.
+	CCNode: Fixed world transform being clobbered after each visit to child nodes.
 
 
 
