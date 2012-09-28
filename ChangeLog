@@ -1,3 +1,4 @@
+cocos2d-x for xna 0.1.3 Sep.28 2012
 
 	CCNode: Fixed a bad static init of an array.
 	MusicPlayer: [pkayatt] Added #if ZUNE checks on the stop() method per pkayatt suggestions (Forum #13744)
@@ -36,8 +37,6 @@
 	CCMotionStreak: Added the code for this class.
 	CCTexture2D: Added automatic setting of the uName to make animations with non-sprite-sheet frames work properly.
 	CCNode: Fixed world transform being clobbered after each visit to child nodes.
-
-
 
 cocos2d-x for xna 0.1.2 Aug.05 2012
 	CCLabelBMFont: Added handling of missing characters in a BM font definition with an exception.
