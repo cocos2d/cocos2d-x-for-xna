@@ -161,7 +161,6 @@ namespace cocos2d
             base.Update(gameTime);
         }
 
-        VertexDeclaration vertexDeclaration;
         /// <summary>
         /// Invoked by the render engine when the game components need to be refreshed.
         /// </summary>
