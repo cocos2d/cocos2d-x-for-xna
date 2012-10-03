@@ -1188,6 +1188,7 @@ namespace cocos2d
         public void setTextureRect(CCRect rect)
         {
             CCRect rectInPixels = ccMacros.CC_RECT_POINTS_TO_PIXELS(rect);
+            m_obTextureRect = rect;
             setTextureRectInPixels(rectInPixels, false, rectInPixels.size);
         }
 
