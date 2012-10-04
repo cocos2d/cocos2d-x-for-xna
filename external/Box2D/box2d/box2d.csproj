@@ -59,6 +59,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\b2BroadPhase.cs" />
     <Compile Include="Common\b2Color.cs" />
     <Compile Include="Common\b2Draw.cs" />
     <Compile Include="Common\b2Mat22.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Rope\b2Rope.cs" />
     <Compile Include="Rope\b2RopeDef.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
