@@ -59,7 +59,11 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\b2AABB.cs" />
     <Compile Include="Collision\b2BroadPhase.cs" />
+    <Compile Include="Collision\b2Collision.cs" />
+    <Compile Include="Collision\Shapes\b2PolygonShape.cs" />
+    <Compile Include="Collision\Shapes\b2Shape.cs" />
     <Compile Include="Common\b2Color.cs" />
     <Compile Include="Common\b2Draw.cs" />
     <Compile Include="Common\b2Mat22.cs" />

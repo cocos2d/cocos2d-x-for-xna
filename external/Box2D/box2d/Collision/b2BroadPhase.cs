@@ -13,7 +13,7 @@ namespace Box2D.Collision
         public int next;
     };
 
-    public class b2BroadPhase
+    public class b2BroadPhase : IComparer<b2Pair>
     {
         public static int e_nullProxy = -1;
 
@@ -149,7 +149,7 @@ namespace Box2D.Collision
         {
             b2AABB aabbA = m_tree.GetFatAABB(proxyIdA);
             b2AABB aabbB = m_tree.GetFatAABB(proxyIdB);
-            return b2TestOverlap(aabbA, aabbB);
+            return b2Collision.b2TestOverlap(aabbA, aabbB);
         }
 
         public b2AABB GetFatAABB(int proxyId)
@@ -204,7 +204,7 @@ namespace Box2D.Collision
 
             // Sort the pair buffer to expose duplicates.
             // Sort starting with the m_pairCount
-            m_pairBuffer.OrderBy((b2Pair) => { }); //  b2PairLessThan);
+            Array.Sort(m_pairBuffer, 0, m_pairCount, this);
 
             // Send the pairs back to the client.
             int i2 = 0;
@@ -241,5 +241,14 @@ namespace Box2D.Collision
         {
             m_tree.RayCast(callback, input);
         }
+
+        #region IComparer<b2Pair> Members
+
+        public int Compare(b2Pair x, b2Pair y)
+        {
+            return (b2PairLessThan(x, y) ? -1 : 1);
+        }
+
+        #endregion
     }
 }
