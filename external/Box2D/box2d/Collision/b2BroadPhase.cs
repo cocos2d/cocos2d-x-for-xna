@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Box2D.Common;
+using Box2D.Dynamics;
 
 namespace Box2D.Collision
 {
@@ -177,7 +178,7 @@ namespace Box2D.Collision
             return m_tree.GetAreaRatio();
         }
 
-        public void UpdatePairs<T>(T callback)
+        public void UpdatePairs(b2ContactManager callback)
         {
             // Reset pair buffer
             m_pairCount = 0;
