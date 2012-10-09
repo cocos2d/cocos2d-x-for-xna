@@ -7,6 +7,7 @@ namespace Box2D.Common
 {
     public abstract class b2Draw
     {
+        [Flags]
         public enum b2DrawFlags
         {
             e_shapeBit = 0x1,
@@ -16,32 +17,32 @@ namespace Box2D.Common
             e_centerOfMassBit = 0x10
         }
 
-        private uint m_drawFlags = 0x0;
+        private b2DrawFlags m_drawFlags = 0x0;
 
         public b2Draw()
         {
         }
 
         /// Set the drawing flags.
-        public void SetFlags(uint flags)
+        public void SetFlags(b2DrawFlags flags)
         {
             m_drawFlags = flags;
         }
 
         /// Get the drawing flags.
-        public uint GetFlags()
+        public b2DrawFlags GetFlags()
         {
             return (m_drawFlags);
         }
 
         /// Append flags to the current flags.
-        public void AppendFlags(uint flags)
+        public void AppendFlags(b2DrawFlags flags)
         {
             m_drawFlags |= flags;
         }
 
         /// Clear flags from the current flags.
-        public void ClearFlags(uint flags)
+        public void ClearFlags(b2DrawFlags flags)
         {
             m_drawFlags &= ~flags;
         }

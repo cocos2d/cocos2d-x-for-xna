@@ -52,12 +52,12 @@ namespace Box2D.Common
             a -= d;
         }
 
-        private b2Vec2 localCenter;    ///< local center of mass position
-        private b2Vec2 c0, c;        ///< center world positions
-        private float a0, a;        ///< world angles
+        public b2Vec2 localCenter;    ///< local center of mass position
+        public b2Vec2 c0, c;        ///< center world positions
+        public float a0, a;        ///< world angles
 
         /// Fraction of the current time step in the range [0,1]
         /// c0 and a0 are the positions at alpha0.
-        private float alpha0;
+        public float alpha0;
     }
 }

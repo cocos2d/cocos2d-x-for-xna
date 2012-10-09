@@ -7,89 +7,6 @@ using Box2D.Collision.Shapes;
 
 namespace Box2D.Collision
 {
-    enum b2ContactFeatureType
-    {
-        e_vertex = 0,
-        e_face = 1
-    }
-
-    /// The features that intersect to form the contact point
-    /// This must be 4 bytes or less.
-    public struct b2ContactFeature
-    {
-        byte indexA;        ///< Feature index on shapeA
-        byte indexB;        ///< Feature index on shapeB
-        byte typeA;        ///< The feature type on shapeA
-        byte typeB;        ///< The feature type on shapeB
-
-        public b2ContactFeature(byte iA, byte iB, byte tA, byte tB)
-        {
-            indexA = iA;
-            indexB = iB;
-            typeA = tA;
-            typeB = tB;
-        }
-        public static b2ContactFeature Zero = new b2ContactFeature(0, 0, 0, 0);
-    }
-
-    /// A manifold point is a contact point belonging to a contact
-    /// manifold. It holds details related to the geometry and dynamics
-    /// of the contact points.
-    /// The local point usage depends on the manifold type:
-    /// -e_circles: the local center of circleB
-    /// -e_faceA: the local center of cirlceB or the clip point of polygonB
-    /// -e_faceB: the clip point of polygonA
-    /// This structure is stored across time steps, so we keep it small.
-    /// Note: the impulses are used for internal caching and may not
-    /// provide reliable contact forces, especially for high speed collisions.
-    struct b2ManifoldPoint
-    {
-        public b2Vec2 localPoint;       ///< usage depends on manifold type
-        public float normalImpulse;     ///< the non-penetration impulse
-        public float tangentImpulse;    ///< the friction impulse
-        public b2ContactFeature id;     ///< uniquely identifies a contact point between two shapes
-    }
-
-    /// A manifold for two touching convex shapes.
-    /// Box2D supports multiple types of contact:
-    /// - clip point versus plane with radius
-    /// - point versus point with radius (circles)
-    /// The local point usage depends on the manifold type:
-    /// -e_circles: the local center of circleA
-    /// -e_faceA: the center of faceA
-    /// -e_faceB: the center of faceB
-    /// Similarly the local normal usage:
-    /// -e_circles: not used
-    /// -e_faceA: the normal on polygonA
-    /// -e_faceB: the normal on polygonB
-    /// We store contacts in this way so that position correction can
-    /// account for movement, which is critical for continuous physics.
-    /// All contact scenarios must be expressed in one of these types.
-    /// This structure is stored across time steps, so we keep it small.
-    enum b2ManifoldType
-    {
-        e_circles,
-        e_faceA,
-        e_faceB
-    }
-
-    /// This is used to compute the current state of a contact manifold.
-    public struct b2WorldManifold
-    {
-        /// Evaluate the manifold with supplied transforms. This assumes
-        /// modest motion from the original state. This does not change the
-        /// point count, impulses, etc. The radii must come from the shapes
-        /// that generated the manifold.
-        public void Initialize(b2Manifold[] manifold,
-                        b2Transform xfA, float radiusA,
-                        b2Transform xfB, float radiusB)
-        {
-            points = new b2Vec2[b2Settings.b2_maxManifoldPoints];
-        }
-
-        public b2Vec2 normal;      ///< world vector pointing from A to B
-        public b2Vec2[] points;    ///< world contact point (point of intersection)
-    }
 
     /// This is used for determining the state of contact points.
     public enum b2PointState
@@ -118,17 +35,10 @@ namespace Box2D.Collision
     /// come from b2RayCastInput.
     public struct b2RayCastOutput
     {
-        public b2Vec2 normal;
-        public float fraction;
-    }
+        public b2Vec2 normal = new b2Vec2();
+        public float fraction = 0f;
 
-    public class b2Manifold
-    {
-        public b2ManifoldPoint[] points = new b2ManifoldPoint[b2Settings.b2_maxManifoldPoints];    ///< the points of contact
-        public b2Vec2 localNormal;                                ///< not use for Type::e_points
-        public b2Vec2 localPoint;                                ///< usage depends on manifold type
-        public b2ManifoldType type;
-        public int pointCount;                                ///< the number of manifold points
+        public static b2RayCastOutput Zero = new b2RayCastOutput();
     }
 
     public abstract class b2Collision
@@ -156,6 +66,45 @@ namespace Box2D.Collision
         public void b2GetPointStates(b2PointState[] state1, b2PointState[] state2,
                               b2Manifold manifold1, b2Manifold manifold2)
         {
+            for (int i = 0; i < b2Settings.b2_maxManifoldPoints; ++i)
+            {
+                state1[i] = b2PointState.b2_nullState;
+                state2[i] = b2PointState.b2_nullState;
+            }
+
+            // Detect persists and removes.
+            for (int i = 0; i < manifold1.pointCount; ++i)
+            {
+                b2ContactFeature id = manifold1.points[i].id;
+
+                state1[i] = b2PointState.b2_removeState;
+
+                for (int j = 0; j < manifold2.pointCount; ++j)
+                {
+                    if (manifold2.points[j].id.Equals(id))
+                    {
+                        state1[i] = b2PointState.b2_persistState;
+                        break;
+                    }
+                }
+            }
+
+            // Detect persists and adds.
+            for (int i = 0; i < manifold2.pointCount; ++i)
+            {
+                b2ContactFeature id = manifold2.points[i].id;
+
+                state2[i] = b2PointState.b2_addState;
+
+                for (int j = 0; j < manifold1.pointCount; ++j)
+                {
+                    if (manifold1.points[j].id.Equals(id))
+                    {
+                        state2[i] = b2PointState.b2_persistState;
+                        break;
+                    }
+                }
+            }
         }
 
         /// Compute the collision manifold between two circles.
@@ -314,8 +263,50 @@ namespace Box2D.Collision
 
         /// Clipping for contact manifolds.
         public int b2ClipSegmentToLine(b2ClipVertex[] vOut, b2ClipVertex[] vIn,
-                                     b2Vec2 normal, float32 offset, int vertexIndexA)
+                                     b2Vec2 normal, float offset, byte vertexIndexA)
         {
+            // Start with no output points
+            int numOut = 0;
+
+            // Calculate the distance of end points to the line
+            float distance0 = b2Math.b2Dot(normal, vIn[0].v) - offset;
+            float distance1 = b2Math.b2Dot(normal, vIn[1].v) - offset;
+
+            // If the points are behind the plane
+            if (distance0 <= 0.0f) vOut[numOut++] = vIn[0];
+            if (distance1 <= 0.0f) vOut[numOut++] = vIn[1];
+
+            // If the points are on different sides of the plane
+            if (distance0 * distance1 < 0.0f)
+            {
+                // Find intersection point of edge and plane
+                float interp = distance0 / (distance0 - distance1);
+                vOut[numOut].v = vIn[0].v + interp * (vIn[1].v - vIn[0].v);
+
+                // VertexA is hitting edgeB.
+                vOut[numOut].id.indexA = vertexIndexA;
+                vOut[numOut].id.indexB = vIn[0].id.indexB;
+                vOut[numOut].id.typeA = b2ContactFeatureType.e_vertex;
+                vOut[numOut].id.typeB = b2ContactFeatureType.e_face;
+                ++numOut;
+            }
+
+            return numOut;
+        }
+
+        public bool b2TestOverlap(b2AABB a, b2AABB b)
+        {
+            b2Vec2 d1, d2;
+            d1 = b.lowerBound - a.upperBound;
+            d2 = a.lowerBound - b.upperBound;
+
+            if (d1.x > 0.0f || d1.y > 0.0f)
+                return false;
+
+            if (d2.x > 0.0f || d2.y > 0.0f)
+                return false;
+
+            return true;
         }
 
         /// Determine if two generic shapes overlap.

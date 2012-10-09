@@ -41,6 +41,24 @@ namespace Box2D.Collision.Shapes
         {
         }
 
+        public b2ShapeType ShapeType
+        {
+            get { return (m_type); }
+            set { m_type = value; }
+        }
+
+        public float Radius
+        {
+            get { return (m_radius); }
+            set { m_radius = value; }
+        }
+
+        public b2Shape(b2Shape copy)
+        {
+            m_type = copy.m_type;
+            m_radius = copy.m_radius;
+        }
+
         /// Clone the concrete shape using the provided allocator.
         public abstract b2Shape Clone();
 
@@ -79,7 +97,7 @@ namespace Box2D.Collision.Shapes
         /// @param density the density in kilograms per meter squared.
         public abstract b2MassData ComputeMass(float density);
 
-        private b2ShapeType m_type;
-        private float m_radius;
+        protected b2ShapeType m_type;
+        protected float m_radius;
     }
 }

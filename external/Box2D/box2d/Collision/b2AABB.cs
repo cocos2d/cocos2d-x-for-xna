@@ -62,8 +62,91 @@ namespace Box2D.Collision
             return result;
         }
 
-        public bool RayCast(b2RayCastOutput output, b2RayCastInput input)
+        public bool RayCast(out b2RayCastOutput output, b2RayCastInput input)
         {
+            float tmin = -float.MaxValue;
+            float tmax = float.MaxValue;
+
+            b2Vec2 p = input.p1;
+            b2Vec2 d = input.p2 - input.p1;
+            b2Vec2 absD = b2Math.b2Abs(d);
+
+            b2Vec2 normal = new b2Vec2(0,0);
+
+            for (int i = 0; i < 2; ++i)
+            {
+                float p_i, lb, ub, d_i, absd_i;
+                p_i = (i == 0 ? p.x : p.y);
+                lb = (i == 0 ? m_lowerBound.x : m_lowerBound.y);
+                ub = (i == 0 ? m_upperBound.x : m_upperBound.y);
+                absd_i = (i == 0 ? absD.x : absD.y);
+                d_i = (i == 0 ? d.x : d.y);
+
+                if (absd_i < b2Settings.b2_epsilon)
+                {
+                    // Parallel.
+                    if (p_i < lb || ub < p_i)
+                    {
+                        output.fraction = 0f;
+                        output.normal = new b2Vec2(0, 0);
+                        return false;
+                    }
+                }
+                else
+                {
+                    float inv_d = 1.0f / d_i;
+                    float t1 = (lb - p_i) * inv_d;
+                    float t2 = (ub - p_i) * inv_d;
+
+                    // Sign of the normal vector.
+                    float s = -1.0f;
+
+                    if (t1 > t2)
+                    {
+                        b2Math.b2Swap(t1, t2);
+                        s = 1.0f;
+                    }
+
+                    // Push the min up
+                    if (t1 > tmin)
+                    {
+                        normal.SetZero();
+                        if (i == 0)
+                        {
+                            normal.x = s;
+                        }
+                        else
+                        {
+                            normal.y = s;
+                        }
+                        tmin = t1;
+                    }
+
+                    // Pull the max down
+                    tmax = b2Math.b2Min(tmax, t2);
+
+                    if (tmin > tmax)
+                    {
+                        output.fraction = 0f;
+                        output.normal = new b2Vec2(0, 0);
+                        return false;
+                    }
+                }
+            }
+
+            // Does the ray start inside the box?
+            // Does the ray intersect beyond the max fraction?
+            if (tmin < 0.0f || input.maxFraction < tmin)
+            {
+                output.fraction = 0f;
+                output.normal = new b2Vec2(0, 0);
+                return false;
+            }
+
+            // Intersection.
+            output.fraction = tmin;
+            output.normal = normal;
+            return true;
         }
 
         public b2Vec2 lowerBound { get { return (m_lowerBound); } set { m_lowerBound = value; } }

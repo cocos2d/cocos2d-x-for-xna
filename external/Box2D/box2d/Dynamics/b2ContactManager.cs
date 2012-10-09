@@ -2,25 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Box2D.Collision;
 
 namespace Box2D.Dynamics
 {
     public class b2ContactManager
     {
         private b2BroadPhase m_broadPhase;
-        private b2Contact* m_contactList;
+        private b2Contact m_contactList;
         private int m_contactCount;
         private b2ContactFilter m_contactFilter;
         private b2ContactListener m_contactListener;
-        private b2BlockAllocator m_allocator;
 
         public b2ContactManager()
         {
             m_contactList = null;
             m_contactCount = 0;
-            m_contactFilter = &b2_defaultFilter;
-            m_contactListener = &b2_defaultListener;
-            m_allocator = null;
+            m_contactFilter = b2ContactFilter.b2_defaultFilter;
+            m_contactListener = b2ContactListener.b2_defaultListener;
+        }
+
+        public b2BroadPhase BroadPhase { 
+            get { return (m_broadPhase); } 
+            set { m_broadPhase = value; } 
         }
 
         public b2ContactListener ContactListener
