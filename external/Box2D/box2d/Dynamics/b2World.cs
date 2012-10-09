@@ -93,7 +93,6 @@ namespace Box2D.Dynamics
         }
 
         /// Enable/disable sleep.
-        public void SetAllowSleeping(bool flag);
         public bool GetAllowSleeping() { return m_allowSleep; }
 
         /// Enable/disable warm starting. For testing.
@@ -226,13 +225,12 @@ namespace Box2D.Dynamics
 
         public b2Joint CreateJoint(b2JointDef def)
         {
-            b2Assert(IsLocked() == false);
             if (IsLocked())
             {
                 return null;
             }
 
-            b2Joint j = b2Joint.Create(def, &m_blockAllocator);
+            b2Joint j = b2Joint.Create(def);
 
             // Connect to the world list.
             j.m_prev = null;
@@ -265,8 +263,8 @@ namespace Box2D.Dynamics
             // If the joint prevents collisions, then flag any contacts for filtering.
             if (def.collideConnected == false)
             {
-                b2ContactEdge* edge = bodyB.GetContactList();
-                while (edge)
+                b2ContactEdge edge = bodyB.GetContactList();
+                while (edge != null)
                 {
                     if (edge.other == bodyA)
                     {
@@ -286,7 +284,6 @@ namespace Box2D.Dynamics
 
         public void DestroyJoint(b2Joint j)
         {
-            b2Assert(IsLocked() == false);
             if (IsLocked())
             {
                 return;
@@ -356,16 +353,15 @@ namespace Box2D.Dynamics
             j.m_edgeB.prev = null;
             j.m_edgeB.next = null;
 
-            b2Joint.Destroy(j, &m_blockAllocator);
+            b2Joint.Destroy(j);
 
-            b2Assert(m_jointCount > 0);
             --m_jointCount;
 
             // If the joint prevents collisions, then flag any contacts for filtering.
             if (collideConnected == false)
             {
-                b2ContactEdge* edge = bodyB.GetContactList();
-                while (edge)
+                b2ContactEdge edge = bodyB.GetContactList();
+                while (edge != null)
                 {
                     if (edge.other == bodyA)
                     {
@@ -390,7 +386,7 @@ namespace Box2D.Dynamics
             m_allowSleep = flag;
             if (m_allowSleep == false)
             {
-                for (b2Body b = m_bodyList; b; b = b.m_next)
+                for (b2Body b = m_bodyList; b != null; b = b.m_next)
                 {
                     b.SetAwake(true);
                 }

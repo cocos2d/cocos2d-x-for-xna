@@ -35,31 +35,20 @@ namespace Box2D.Collision
     /// come from b2RayCastInput.
     public struct b2RayCastOutput
     {
-        public b2Vec2 normal = new b2Vec2();
-        public float fraction = 0f;
+        public b2Vec2 normal;
+        public float fraction;
 
-        public static b2RayCastOutput Zero = new b2RayCastOutput();
+        public b2RayCastOutput(b2Vec2 b, float f)
+        {
+            normal = b;
+            fraction = f;
+        }
+        public static b2RayCastOutput Zero = new b2RayCastOutput(new b2Vec2(), 0f);
     }
 
     public abstract class b2Collision
     {
         public static byte b2_nullFeature = byte.MaxValue;
-
-        public static bool b2TestOverlap(b2AABB a, b2AABB b)
-        {
-            b2Vec2 d1, d2;
-            d1 = b.lowerBound - a.upperBound;
-            d2 = a.lowerBound - b.upperBound;
-
-            if (d1.x > 0.0f || d1.y > 0.0f)
-                return false;
-
-            if (d2.x > 0.0f || d2.y > 0.0f)
-                return false;
-
-            return true;
-        }
-
 
         /// Compute the point states given two manifolds. The states pertain to the transition from manifold1
         /// to manifold2. So state1 is either persist or remove while state2 is either add or persist.

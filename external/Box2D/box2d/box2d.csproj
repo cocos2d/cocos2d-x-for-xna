@@ -80,6 +80,8 @@
     <Compile Include="Common\b2Transform.cs" />
     <Compile Include="Common\bVec2.cs" />
     <Compile Include="Common\bVec3.cs" />
+    <Compile Include="Dynamics\b2Body.cs" />
+    <Compile Include="Dynamics\b2BodyDef.cs" />
     <Compile Include="Dynamics\b2ContactFilter.cs" />
     <Compile Include="Dynamics\b2ContactListener.cs" />
     <Compile Include="Dynamics\b2ContactManager.cs" />
