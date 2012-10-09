@@ -13,7 +13,7 @@ namespace Box2D.Dynamics
     /// sub-step forces may approach infinity for rigid body collisions. These
     /// match up one-to-one with the contact points in b2Manifold.
     /// </summary>
-    public struct b2ContactImpulse
+    public class b2ContactImpulse
     {
         public float[] normalImpulses = new float[b2Settings.b2_maxManifoldPoints];
         public float[] tangentImpulses = new float[b2Settings.b2_maxManifoldPoints];
@@ -405,10 +405,10 @@ namespace Box2D.Dynamics
     m_profile.solvePosition = 0.0f;
 
     // Size the island for the worst case.
-    b2Island island(m_bodyCount,
-                    m_contactManager.m_contactCount,
+    b2Island island = new b2Island(m_bodyCount,
+                    m_contactManager.ContactCount,
                     m_jointCount,
-                    m_contactManager.m_contactListener);
+                    m_contactManager.ContactListener);
 
     // Clear all the island flags.
     for (b2Body b = m_bodyList; b; b = b.m_next)
@@ -429,7 +429,7 @@ namespace Box2D.Dynamics
     b2Body[] stack = new b2Body[stackSize];
     for (b2Body seed = m_bodyList; seed; seed = seed.m_next)
     {
-        if (seed.m_flags & b2Body.e_islandFlag)
+        if (seed.m_flags & b2BodyType.e_islandFlag)
         {
             continue;
         }
@@ -440,7 +440,7 @@ namespace Box2D.Dynamics
         }
 
         // The seed can be dynamic or kinematic.
-        if (seed.GetType() == b2_staticBody)
+        if (seed.GetBodyType() == b2BodyType.b2_staticBody)
         {
             continue;
         }
@@ -449,14 +449,13 @@ namespace Box2D.Dynamics
         island.Clear();
         int stackCount = 0;
         stack[stackCount++] = seed;
-        seed.m_flags |= b2Body.e_islandFlag;
+        seed.m_flags |= b2BodyType.e_islandFlag;
 
         // Perform a depth first search (DFS) on theraint graph.
         while (stackCount > 0)
         {
             // Grab the next body off the stack and add it to the island.
             b2Body b = stack[--stackCount];
-            b2Assert(b.IsActive() == true);
             island.Add(b);
 
             // Make sure the body is awake.
@@ -464,7 +463,7 @@ namespace Box2D.Dynamics
 
             // To keep islands as small as possible, we don't
             // propagate islands across static bodies.
-            if (b.GetType() == b2_staticBody)
+            if (b.GetBodyType() == b2BodyType.b2_staticBody)
             {
                 continue;
             }
@@ -475,7 +474,7 @@ namespace Box2D.Dynamics
                 b2Contact contact = ce.contact;
 
                 // Has this contact already been added to an island?
-                if (contact.m_flags & b2Contact.e_islandFlag)
+                if (contact.m_flags & b2ContactType.e_islandFlag)
                 {
                     continue;
                 }
@@ -496,7 +495,7 @@ namespace Box2D.Dynamics
                 }
 
                 island.Add(contact);
-                contact.m_flags |= b2Contact.e_islandFlag;
+                contact.m_flags |= b2ContactType.e_islandFlag;
 
                 b2Body other = ce.other;
 
@@ -506,15 +505,14 @@ namespace Box2D.Dynamics
                     continue;
                 }
 
-                b2Assert(stackCount < stackSize);
                 stack[stackCount++] = other;
-                other.m_flags |= b2Body.e_islandFlag;
+                other.m_flags |= b2BodyType.e_islandFlag;
             }
 
             // Search all joints connect to this body.
-            for (b2JointEdge* je = b.m_jointList; je; je = je.next)
+            for (b2JointEdge je = b.FirstJoint; je; je = je.next)
             {
-                if (je.joint.m_islandFlag == true)
+                if (je.joint.IslandFlag == true)
                 {
                     continue;
                 }
@@ -530,19 +528,17 @@ namespace Box2D.Dynamics
                 island.Add(je.joint);
                 je.joint.m_islandFlag = true;
 
-                if (other.m_flags & b2Body.e_islandFlag)
+                if (other.m_flags & b2BodyType.e_islandFlag)
                 {
                     continue;
                 }
 
-                b2Assert(stackCount < stackSize);
                 stack[stackCount++] = other;
-                other.m_flags |= b2Body.e_islandFlag;
+                other.m_flags |= b2BodyType.e_islandFlag;
             }
         }
 
-        b2Profile profile;
-        profile = island.Solve(step, m_gravity, m_allowSleep);
+        b2Profile profile = island.Solve(step, m_gravity, m_allowSleep);
         m_profile.solveInit += profile.solveInit;
         m_profile.solveVelocity += profile.solveVelocity;
         m_profile.solvePosition += profile.solvePosition;
@@ -552,14 +548,12 @@ namespace Box2D.Dynamics
         {
             // Allow static bodies to participate in other islands.
             b2Body b = island.m_bodies[i];
-            if (b.GetType() == b2_staticBody)
+            if (b.GetType() == b2BodyType.b2_staticBody)
             {
-                b.m_flags &= ~b2Body.e_islandFlag;
+                b.m_flags &= ~b2BodyType.e_islandFlag;
             }
         }
     }
-
-    m_stackAllocator.Free(stack);
 
     {
         b2Timer timer;
@@ -567,12 +561,12 @@ namespace Box2D.Dynamics
         for (b2Body b = m_bodyList; b; b = b.GetNext())
         {
             // If a body was not in an island then it did not move.
-            if ((b.m_flags & b2Body.e_islandFlag) == 0)
+            if ((b.m_flags & b2BodyType.e_islandFlag) == 0)
             {
                 continue;
             }
 
-            if (b.GetType() == b2_staticBody)
+            if (b.GetBodyType() == b2BodyType.b2_staticBody)
             {
                 continue;
             }
@@ -590,7 +584,7 @@ namespace Box2D.Dynamics
         // Find TOI contacts and solve them.
         public void SolveTOI(b2TimeStep step)
 {
-    b2Island island = new b2Island(2 * b2_maxTOIContacts, b2_maxTOIContacts, 0, &m_stackAllocator, m_contactManager.m_contactListener);
+    b2Island island = new b2Island(2 * b2Settings.b2_maxTOIContacts, b2Settings.b2_maxTOIContacts, 0, m_contactManager.ContactListener);
 
     if (m_stepComplete)
     {
@@ -600,10 +594,10 @@ namespace Box2D.Dynamics
             b.m_sweep.alpha0 = 0.0f;
         }
 
-        for (b2Contact c = m_contactManager.m_contactList; c; c = c.m_next)
+        for (b2Contact c = m_contactManager.ContactList; c; c = c.m_next)
         {
             // Invalidate TOI
-            c.m_flags &= ~(b2Contact.e_toiFlag | b2Contact.e_islandFlag);
+            c.m_flags &= ~(b2ContactType.e_toiFlag | b2ContactType.e_islandFlag);
             c.m_toiCount = 0;
             c.m_toi = 1.0f;
         }
@@ -616,7 +610,7 @@ namespace Box2D.Dynamics
         b2Contact minContact = null;
         float minAlpha = 1.0f;
 
-        for (b2Contact c = m_contactManager.m_contactList; c; c = c.m_next)
+        for (b2Contact c = m_contactManager.ContactList; c != null; c = c.m_next)
         {
             // Is this contact disabled?
             if (c.IsEnabled() == false)
@@ -625,13 +619,13 @@ namespace Box2D.Dynamics
             }
 
             // Prevent excessive sub-stepping.
-            if (c.m_toiCount > b2_maxSubSteps)
+            if (c.m_toiCount > b2Settings.b2_maxSubSteps)
             {
                 continue;
             }
 
             float alpha = 1.0f;
-            if (c.m_flags & b2Contact.e_toiFlag)
+            if (c.m_flags & b2ContactType.e_toiFlag)
             {
                 // This contact has a valid cached TOI.
                 alpha = c.m_toi;
@@ -652,10 +646,10 @@ namespace Box2D.Dynamics
 
                 b2BodyType typeA = bA.m_type;
                 b2BodyType typeB = bB.m_type;
-                b2Assert(typeA == b2_dynamicBody || typeB == b2_dynamicBody);
+                b2Assert(typeA == b2BodyType.b2_dynamicBody || typeB == b2BodyType.b2_dynamicBody);
 
-                bool activeA = bA.IsAwake() && typeA != b2_staticBody;
-                bool activeB = bB.IsAwake() && typeB != b2_staticBody;
+                bool activeA = bA.IsAwake() && typeA != b2BodyType.b2_staticBody;
+                bool activeB = bB.IsAwake() && typeB != b2BodyType.b2_staticBody;
 
                 // Is at least one body active (awake and dynamic or kinematic)?
                 if (activeA == false && activeB == false)
@@ -663,8 +657,8 @@ namespace Box2D.Dynamics
                     continue;
                 }
 
-                bool collideA = bA.IsBullet() || typeA != b2_dynamicBody;
-                bool collideB = bB.IsBullet() || typeB != b2_dynamicBody;
+                bool collideA = bA.IsBullet() || typeA != b2BodyType.b2_dynamicBody;
+                bool collideB = bB.IsBullet() || typeB != b2BodyType.b2_dynamicBody;
 
                 // Are these two non-bullet dynamic bodies?
                 if (collideA == false && collideB == false)
@@ -687,25 +681,22 @@ namespace Box2D.Dynamics
                     bB.m_sweep.Advance(alpha0);
                 }
 
-                b2Assert(alpha0 < 1.0f);
-
                 int indexA = c.GetChildIndexA();
                 int indexB = c.GetChildIndexB();
 
                 // Compute the time of impact in interval [0, minTOI]
-                b2TOIInput input;
+                b2TOIInput input = new b2TOIInput();
                 input.proxyA.Set(fA.GetShape(), indexA);
                 input.proxyB.Set(fB.GetShape(), indexB);
                 input.sweepA = bA.m_sweep;
                 input.sweepB = bB.m_sweep;
                 input.tMax = 1.0f;
 
-                b2TOIOutput output;
-                b2TimeOfImpact(&output, &input);
+                b2TOIOutput output = b2TimeOfImpact(input);
 
                 // Beta is the fraction of the remaining portion of the .
                 float beta = output.t;
-                if (output.state == b2TOIOutput.e_touching)
+                if (output.state == b2TOIOutputType.e_touching)
                 {
                     alpha = b2Min(alpha0 + (1.0f - alpha0) * beta, 1.0f);
                 }
@@ -715,7 +706,7 @@ namespace Box2D.Dynamics
                 }
 
                 c.m_toi = alpha;
-                c.m_flags |= b2Contact.e_toiFlag;
+                c.m_flags |= b2ContactType.e_toiFlag;
             }
 
             if (alpha < minAlpha)
@@ -726,7 +717,7 @@ namespace Box2D.Dynamics
             }
         }
 
-        if (minContact == null || 1.0f - 10.0f * b2_epsilon < minAlpha)
+        if (minContact == null || 1.0f - 10.0f * b2Settings.b2_epsilon < minAlpha)
         {
             // No more TOI events. Done!
             m_stepComplete = true;
@@ -746,8 +737,8 @@ namespace Box2D.Dynamics
         bB.Advance(minAlpha);
 
         // The TOI contact likely has some new contact points.
-        minContact.Update(m_contactManager.m_contactListener);
-        minContact.m_flags &= ~b2Contact.e_toiFlag;
+        minContact.Update(m_contactManager.ContactListener);
+        minContact.m_flags &= ~b2ContactType.e_toiFlag;
         ++minContact.m_toiCount;
 
         // Is the contact solid?
@@ -771,25 +762,25 @@ namespace Box2D.Dynamics
         island.Add(bB);
         island.Add(minContact);
 
-        bA.m_flags |= b2Body.e_islandFlag;
-        bB.m_flags |= b2Body.e_islandFlag;
-        minContact.m_flags |= b2Contact.e_islandFlag;
+        bA.BodyType |= b2BodyType.e_islandFlag;
+        bB.BodyType |= b2BodyType.e_islandFlag;
+        minContact.ContentType |= b2ContactType.e_islandFlag;
 
         // Get contacts on bodyA and bodyB.
-        b2Body bodies[2] = {bA, bB};
+        b2Body[] bodies = new b2Body[] {bA, bB};
         for (int i = 0; i < 2; ++i)
         {
             b2Body body = bodies[i];
-            if (body.m_type == b2_dynamicBody)
+            if (body.m_type == b2BodyType.b2_dynamicBody)
             {
-                for (b2ContactEdge* ce = body.m_contactList; ce; ce = ce.next)
+                for (b2ContactEdge ce = body.ContactList; ce != null; ce = ce.next)
                 {
-                    if (island.m_bodyCount == island.m_bodyCapacity)
+                    if (island.BodyCount == island.BodyCapacity)
                     {
                         break;
                     }
 
-                    if (island.m_contactCount == island.m_contactCapacity)
+                    if (island.ContactCount == island.ContactCapacity)
                     {
                         break;
                     }
@@ -797,7 +788,7 @@ namespace Box2D.Dynamics
                     b2Contact contact = ce.contact;
 
                     // Has this contact already been added to the island?
-                    if (contact.m_flags & b2Contact.e_islandFlag)
+                    if (contact.ContactType & b2ContactType.e_islandFlag)
                     {
                         continue;
                     }
@@ -1072,8 +1063,8 @@ namespace Box2D.Dynamics
 {
     b2Body bodyA = joint.GetBodyA();
     b2Body bodyB = joint.GetBodyB();
-    b2Transform& xf1 = bodyA.GetTransform();
-    b2Transform& xf2 = bodyB.GetTransform();
+    b2Transform xf1 = bodyA.GetTransform();
+    b2Transform xf2 = bodyB.GetTransform();
     b2Vec2 x1 = xf1.p;
     b2Vec2 x2 = xf2.p;
     b2Vec2 p1 = joint.GetAnchorA();
@@ -1149,7 +1140,7 @@ namespace Box2D.Dynamics
         }
     }
 
-    if (flags & b2Draw.e_jointBit)
+    if (flags & b2DrawFlags.e_jointBit)
     {
         for (b2Joint j = m_jointList; j; j = j.GetNext())
         {
@@ -1157,9 +1148,9 @@ namespace Box2D.Dynamics
         }
     }
 
-    if (flags & b2Draw.e_pairBit)
+    if (flags & b2DrawFlags.e_pairBit)
     {
-        b2Color color(0.3f, 0.9f, 0.9f);
+        b2Color color = new b2Color(0.3f, 0.9f, 0.9f);
         for (b2Contact c = m_contactManager.m_contactList; c; c = c.GetNext())
         {
             //b2Fixture fixtureA = c.GetFixtureA();
@@ -1172,10 +1163,10 @@ namespace Box2D.Dynamics
         }
     }
 
-    if (flags & b2Draw.e_aabbBit)
+    if (flags & b2DrawFlags.e_aabbBit)
     {
         b2Color color(0.9f, 0.3f, 0.9f);
-        b2BroadPhase* bp = &m_contactManager.m_broadPhase;
+        b2BroadPhase bp = m_contactManager.BroadPhase;
 
         for (b2Body b = m_bodyList; b; b = b.GetNext())
         {
@@ -1186,11 +1177,11 @@ namespace Box2D.Dynamics
 
             for (b2Fixture f = b.GetFixtureList(); f; f = f.GetNext())
             {
-                for (int i = 0; i < f.m_proxyCount; ++i)
+                for (int i = 0; i < f.ProxyCount; ++i)
                 {
-                    b2FixtureProxy* proxy = f.m_proxies + i;
+                    b2FixtureProxy proxy = f.Proxies[i];
                     b2AABB aabb = bp.GetFatAABB(proxy.proxyId);
-                    b2Vec2 vs[4];
+                    b2Vec2 vs = new b2Vec2[4];
                     vs[0].Set(aabb.lowerBound.x, aabb.lowerBound.y);
                     vs[1].Set(aabb.upperBound.x, aabb.lowerBound.y);
                     vs[2].Set(aabb.upperBound.x, aabb.upperBound.y);
@@ -1211,31 +1202,31 @@ namespace Box2D.Dynamics
             m_debugDraw.DrawTransform(xf);
         }
     }
-}
+        }
 
         public int GetProxyCount()
         {
-            return m_contactManager.m_broadPhase.GetProxyCount();
+            return m_contactManager.BroadPhase.GetProxyCount();
         }
 
         public int GetTreeHeight()
         {
-            return m_contactManager.m_broadPhase.GetTreeHeight();
+            return m_contactManager.BroadPhase.GetTreeHeight();
         }
 
         public int GetTreeBalance()
         {
-            return m_contactManager.m_broadPhase.GetTreeBalance();
+            return m_contactManager.BroadPhase.GetTreeBalance();
         }
 
         public float GetTreeQuality()
         {
-            return m_contactManager.m_broadPhase.GetTreeQuality();
+            return m_contactManager.BroadPhase.GetTreeQuality();
         }
 
         public void Dump()
         {
-            if ((m_flags & e_locked) == e_locked)
+            if ((m_flags & b2WorldType.e_locked) == e_locked)
             {
                 return;
             }

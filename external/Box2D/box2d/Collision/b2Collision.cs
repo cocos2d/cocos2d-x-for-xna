@@ -63,7 +63,7 @@ namespace Box2D.Collision
 
         /// Compute the point states given two manifolds. The states pertain to the transition from manifold1
         /// to manifold2. So state1 is either persist or remove while state2 is either add or persist.
-        public void b2GetPointStates(b2PointState[] state1, b2PointState[] state2,
+        public static void b2GetPointStates(b2PointState[] state1, b2PointState[] state2,
                               b2Manifold manifold1, b2Manifold manifold2)
         {
             for (int i = 0; i < b2Settings.b2_maxManifoldPoints; ++i)
@@ -108,18 +108,18 @@ namespace Box2D.Collision
         }
 
         /// Compute the collision manifold between two circles.
-        public void b2CollideCircles(b2Manifold manifold,
+        public static void b2CollideCircles(b2Manifold manifold,
                                b2CircleShape circleA, b2Transform xfA,
                                b2CircleShape circleB, b2Transform xfB)
         {
             manifold.pointCount = 0;
 
-            b2Vec2 pA = b2Math.b2Mul(xfA, circleA.m_p);
-            b2Vec2 pB = b2Math.b2Mul(xfB, circleB.m_p);
+            b2Vec2 pA = b2Math.b2Mul(xfA, circleA.Position);
+            b2Vec2 pB = b2Math.b2Mul(xfB, circleB.Position);
 
             b2Vec2 d = pB - pA;
             float distSqr = b2Math.b2Dot(d, d);
-            float rA = circleA.m_radius, rB = circleB.m_radius;
+            float rA = circleA.Radius, rB = circleB.Radius;
             float radius = rA + rB;
             if (distSqr > radius * radius)
             {
@@ -127,16 +127,16 @@ namespace Box2D.Collision
             }
 
             manifold.type = b2ManifoldType.e_circles;
-            manifold.localPoint = circleA.m_p;
+            manifold.localPoint = circleA.Position;
             manifold.localNormal.SetZero();
             manifold.pointCount = 1;
 
-            manifold.points[0].localPoint = circleB.m_p;
+            manifold.points[0].localPoint = circleB.Position;
             manifold.points[0].id = b2ContactFeature.Zero;
         }
 
         /// Compute the collision manifold between a polygon and a circle.
-        public void b2CollidePolygonAndCircle(b2Manifold manifold,
+        public static void b2CollidePolygonAndCircle(b2Manifold manifold,
                                         b2PolygonShape polygonA, b2Transform xfA,
                                         b2CircleShape circleB, b2Transform xfB)
         {
@@ -149,10 +149,10 @@ namespace Box2D.Collision
             // Find the min separating edge.
             int normalIndex = 0;
             float separation = -b2Settings.b2_maxFloat;
-            float radius = polygonA.m_radius + circleB.m_radius;
-            int vertexCount = polygonA.m_vertexCount;
-            b2Vec2[] vertices = polygonA.m_vertices;
-            b2Vec2[] normals = polygonA.m_normals;
+            float radius = polygonA.Radius + circleB.Radius;
+            int vertexCount = polygonA.GetVertexCount();
+            b2Vec2[] vertices = polygonA.Vertices;
+            b2Vec2[] normals = polygonA.Normals;
 
             for (int i = 0; i < vertexCount; ++i)
             {
@@ -184,7 +184,7 @@ namespace Box2D.Collision
                 manifold.type = b2ManifoldType.e_faceA;
                 manifold.localNormal = normals[normalIndex];
                 manifold.localPoint = 0.5f * (v1 + v2);
-                manifold.points[0].localPoint = circleB.m_p;
+                manifold.points[0].localPoint = circleB.Position;
                 manifold.points[0].id = b2ContactFeature.Zero;
                 return;
             }
@@ -204,7 +204,7 @@ namespace Box2D.Collision
                 manifold.localNormal = cLocal - v1;
                 manifold.localNormal.Normalize();
                 manifold.localPoint = v1;
-                manifold.points[0].localPoint = circleB.m_p;
+                manifold.points[0].localPoint = circleB.Position;
                 manifold.points[0].id = b2ContactFeature.Zero;
             }
             else if (u2 <= 0.0f)
@@ -219,13 +219,13 @@ namespace Box2D.Collision
                 manifold.localNormal = cLocal - v2;
                 manifold.localNormal.Normalize();
                 manifold.localPoint = v2;
-                manifold.points[0].localPoint = circleB.m_p;
+                manifold.points[0].localPoint = circleB.Position;
                 manifold.points[0].id = b2ContactFeature.Zero;
             }
             else
             {
                 b2Vec2 faceCenter = 0.5f * (v1 + v2);
-                float separation = b2Math.b2Dot(cLocal - faceCenter, normals[vertIndex1]);
+                separation = b2Math.b2Dot(cLocal - faceCenter, normals[vertIndex1]);
                 if (separation > radius)
                 {
                     return;
@@ -241,28 +241,61 @@ namespace Box2D.Collision
         }
 
         /// Compute the collision manifold between two polygons.
-        public void b2CollidePolygons(b2Manifold manifold,
+        public static void b2CollidePolygons(b2Manifold manifold,
                                 b2PolygonShape polygonA, b2Transform xfA,
                                 b2PolygonShape polygonB, b2Transform xfB)
         {
         }
 
+        public static float b2EdgeSeparation(b2PolygonShape poly1, b2Transform xf1, int edge1,
+                                      b2PolygonShape poly2, b2Transform xf2)
+        {
+            b2Vec2[] vertices1 = poly1.Vertices;
+            b2Vec2[] normals1 = poly1.Normals;
+
+            int count2 = poly2.GetVertexCount();
+            b2Vec2[] vertices2 = poly2.Vertices;
+
+            // Convert normal from poly1's frame into poly2's frame.
+            b2Vec2 normal1World = b2Math.b2Mul(xf1.q, normals1[edge1]);
+            b2Vec2 normal1 = b2Math.b2MulT(xf2.q, normal1World);
+
+            // Find support vertex on poly2 for -normal.
+            int index = 0;
+            float minDot = b2Settings.b2_maxFloat;
+
+            for (int i = 0; i < count2; ++i)
+            {
+                float dot = b2Math.b2Dot(vertices2[i], normal1);
+                if (dot < minDot)
+                {
+                    minDot = dot;
+                    index = i;
+                }
+            }
+
+            b2Vec2 v1 = b2Math.b2Mul(xf1, vertices1[edge1]);
+            b2Vec2 v2 = b2Math.b2Mul(xf2, vertices2[index]);
+            float separation = b2Math.b2Dot(v2 - v1, normal1World);
+            return separation;
+        }
+
         /// Compute the collision manifold between an edge and a circle.
-        public void b2CollideEdgeAndCircle(b2Manifold manifold,
+        public static void b2CollideEdgeAndCircle(b2Manifold manifold,
                                         b2EdgeShape polygonA, b2Transform xfA,
                                         b2CircleShape circleB, b2Transform xfB)
         {
         }
 
         /// Compute the collision manifold between an edge and a circle.
-        public void b2CollideEdgeAndPolygon(b2Manifold manifold,
+        public static void b2CollideEdgeAndPolygon(b2Manifold manifold,
                                         b2EdgeShape edgeA, b2Transform xfA,
                                         b2PolygonShape circleB, b2Transform xfB)
         {
         }
 
         /// Clipping for contact manifolds.
-        public int b2ClipSegmentToLine(b2ClipVertex[] vOut, b2ClipVertex[] vIn,
+        public static int b2ClipSegmentToLine(b2ClipVertex[] vOut, b2ClipVertex[] vIn,
                                      b2Vec2 normal, float offset, byte vertexIndexA)
         {
             // Start with no output points
@@ -294,7 +327,7 @@ namespace Box2D.Collision
             return numOut;
         }
 
-        public bool b2TestOverlap(b2AABB a, b2AABB b)
+        public static bool b2TestOverlap(b2AABB a, b2AABB b)
         {
             b2Vec2 d1, d2;
             d1 = b.lowerBound - a.upperBound;
@@ -310,7 +343,7 @@ namespace Box2D.Collision
         }
 
         /// Determine if two generic shapes overlap.
-        public bool b2TestOverlap(b2Shape shapeA, int indexA,
+        public static bool b2TestOverlap(b2Shape shapeA, int indexA,
                              b2Shape shapeB, int indexB,
                             b2Transform xfA, b2Transform xfB)
         {

@@ -5,18 +5,18 @@ using System.Text;
 
 namespace Box2D.Common
 {
+    [Flags]
+    public enum b2DrawFlags
+    {
+        e_shapeBit = 0x1,
+        e_jointBit = 0x2,
+        e_aabbBit = 0x4,
+        e_pairBit = 0x8,
+        e_centerOfMassBit = 0x10
+    }
+
     public abstract class b2Draw
     {
-        [Flags]
-        public enum b2DrawFlags
-        {
-            e_shapeBit = 0x1,
-            e_jointBit = 0x2,
-            e_aabbBit = 0x4,
-            e_pairBit = 0x8,
-            e_centerOfMassBit = 0x10
-        }
-
         private b2DrawFlags m_drawFlags = 0x0;
 
         public b2Draw()

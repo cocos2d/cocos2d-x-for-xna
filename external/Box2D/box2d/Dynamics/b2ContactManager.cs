@@ -22,6 +22,12 @@ namespace Box2D.Dynamics
             m_contactListener = b2ContactListener.b2_defaultListener;
         }
 
+        public int ContactCount
+        {
+            get { return (m_contactCount); }
+            set { m_contactCount = value; }
+        }
+
         public b2BroadPhase BroadPhase { 
             get { return (m_broadPhase); } 
             set { m_broadPhase = value; } 

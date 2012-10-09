@@ -21,6 +21,24 @@ namespace Box2D.Collision.Shapes
             m_centroid.SetZero();
         }
 
+        public b2Vec2[] Vertices
+        {
+            get { return (m_vertices); }
+            set { m_vertices = value; }
+        }
+
+        public b2Vec2[] Normals
+        {
+            get { return (m_normals); }
+            set { m_normals = value; }
+        }
+
+        public b2Vec2 Centroid
+        {
+            get { return (m_centroid); }
+            set { m_centroid = value; }
+        }
+
         /// Get the vertex count.
         public int GetVertexCount()
         {

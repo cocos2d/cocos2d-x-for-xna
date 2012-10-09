@@ -21,6 +21,12 @@ namespace Box2D.Collision.Shapes
             m_p.SetZero();
         }
 
+        public b2Vec2 Position
+        {
+            get { return (m_p); }
+            set { m_p = value; }
+        }
+
         public virtual int GetSupport(b2Vec2 d)
         {
             return 0;
