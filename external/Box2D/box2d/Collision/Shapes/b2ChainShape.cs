@@ -10,13 +10,42 @@ namespace Box2D.Collision.Shapes
     {
         /// The vertices. Owned by this class.
         protected b2Vec2[] m_vertices;
-
+        public b2Vec2[] Vertices
+        {
+            get { return (m_vertices); }
+            set { m_vertices = value; }
+        }
         /// The vertex count.
         protected int m_count;
-
+        public int Count
+        {
+            get { return (m_count); }
+            set { m_count = value; }
+        }
         protected b2Vec2 m_prevVertex = new b2Vec2();
+        public b2Vec2 PrevVertex
+        {
+            get { return (m_prevVertex); }
+            set { m_prevVertex = value; }
+        }
+
         protected b2Vec2 m_nextVertex = new b2Vec2();
+        public b2Vec2 NextVertex
+        {
+            get { return (m_nextVertex); }
+            set { m_nextVertex = value; }
+        }
         protected bool m_hasPrevVertex, m_hasNextVertex;
+        public bool HasPrevVertex
+        {
+            get { return (m_hasPrevVertex); }
+            set { m_hasPrevVertex = value; }
+        }
+        public bool HasNextVertex
+        {
+            get { return (m_hasNextVertex); }
+            set { m_hasNextVertex = value; }
+        }
 
         public b2ChainShape()
         {

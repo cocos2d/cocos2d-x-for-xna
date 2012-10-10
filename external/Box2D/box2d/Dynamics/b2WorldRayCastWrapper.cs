@@ -27,7 +27,18 @@ namespace Box2D.Dynamics
             return input.maxFraction;
         }
 
-        b2BroadPhase broadPhase;
-        b2RayCastCallback callback;
+        private b2BroadPhase broadPhase;
+        public b2BroadPhase BroadPhase
+        {
+            get { return (broadPhase); }
+            set { broadPhase = value; }
+        }
+             
+        private b2RayCastCallback callback;
+        public b2RayCastCallback Callback
+        {
+            get { return (callback); }
+            set { callback = value; }
+        }
     }
 }

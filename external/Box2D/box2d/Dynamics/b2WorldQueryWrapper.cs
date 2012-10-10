@@ -15,7 +15,18 @@ namespace Box2D.Dynamics
             return callback.ReportFixture(proxy.fixture);
         }
 
-        public b2BroadPhase broadPhase;
-        public b2QueryCallback callback;
+        private b2BroadPhase broadPhase;
+        public b2BroadPhase BroadPhase
+        {
+            get { return (broadPhase); }
+            set { broadPhase = value; }
+        }
+
+        private b2QueryCallback callback;
+        public b2QueryCallback Callback
+        {
+            get { return (callback); }
+            set { callback = value; }
+        }
     }
 }

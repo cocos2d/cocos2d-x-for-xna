@@ -238,7 +238,7 @@ namespace Box2D.Collision
             m_tree.Query(callback, aabb);
         }
 
-        void RayCast<T>(T callback, b2RayCastInput input)
+        public void RayCast<T>(T callback, b2RayCastInput input)
         {
             m_tree.RayCast(callback, input);
         }
