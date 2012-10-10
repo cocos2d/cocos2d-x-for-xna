@@ -84,7 +84,7 @@ namespace cocos2d
             }
 
             // CCGrid3DAction::copyWithZone(pZone);
-            copyWithZone(pZone);
+            base.copyWithZone(pZone);
             pCopy.initWithWaves(m_nWaves, m_fAmplitude, m_sGridSize, m_fDuration);
 
             // CC_SAFE_DELETE(pNewZone);
@@ -95,14 +95,17 @@ namespace cocos2d
         {
             int i, j;
 
+            float coeffA = time * (float)Math.PI * m_nWaves * 2f;
+            float coeffB = m_fAmplitude * m_fAmplitudeRate;
+
             for (i = 1; i < m_sGridSize.x; ++i)
             {
                 for (j = 1; j < m_sGridSize.y; ++j)
                 {
-                    ccVertex3F v = originalVertex(new ccGridSize(i, j));
-                    v.x = (v.x + ((float)Math.Sin(time * (float)Math.PI * m_nWaves * 2 + v.x * .01f) * m_fAmplitude * m_fAmplitudeRate));
-                    v.y = (v.y + ((float)Math.Sin(time * (float)Math.PI * m_nWaves * 2 + v.y * .01f) * m_fAmplitude * m_fAmplitudeRate));
-                    setVertex(new ccGridSize(i, j), v);
+                    ccVertex3F v = originalVertex(i, j);
+                    v.x = (v.x + ((float)Math.Sin(coeffA + v.x * .01f) * coeffB));
+                    v.y = (v.y + ((float)Math.Sin(coeffA + v.y * .01f) * coeffB));
+                    setVertex(i, j, v);
                 }
             }
         }

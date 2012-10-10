@@ -62,6 +62,12 @@ namespace cocos2d
             return g.originalVertex(pos);
         }
 
+        public ccVertex3F originalVertex(int i, int j)
+        {
+            CCGrid3D g = (CCGrid3D)m_pTarget.Grid;
+            return g.originalVertex(i, j);
+        }
+
         /// <summary>
         /// sets a new vertex to a certain position of the grid
         /// </summary>
@@ -69,6 +75,12 @@ namespace cocos2d
         {
             CCGrid3D g = (CCGrid3D)m_pTarget.Grid;
             g.setVertex(pos, vertex);
+        }
+
+        public void setVertex(int i, int j, ccVertex3F vertex)
+        {
+            CCGrid3D g = (CCGrid3D)m_pTarget.Grid;
+            g.setVertex(i, j, vertex);
         }
 
         /// <summary>

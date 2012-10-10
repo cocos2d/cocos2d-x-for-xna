@@ -73,6 +73,21 @@ namespace cocos2d
             return vert;
         }
 
+        public ccVertex3F originalVertex(int px, int py)
+        {
+            int index = (px * (m_sGridSize.y + 1) + py);
+            ccVertex3F[] vertArray = m_pOriginalVertices;
+
+            ccVertex3F vert = new ccVertex3F()
+            {
+                x = vertArray[index].x,
+                y = vertArray[index].y,
+                z = vertArray[index].z
+            };
+
+            return vert;
+        }
+
         /// <summary>
         /// sets a new vertex at a given position
         /// </summary>
@@ -83,6 +98,17 @@ namespace cocos2d
             vertArray[index].x = vertex.x;
             vertArray[index].y = vertex.y;
             vertArray[index].z = vertex.z;
+        }
+
+        public void setVertex(int px, int py, ccVertex3F vertex)
+        {
+            int index = px * (m_sGridSize.y + 1) + py;
+            ccVertex3F[] vertArray = m_pVertices;
+            vertArray[index].x = vertex.x;
+            vertArray[index].y = vertex.y;
+            vertArray[index].z = vertex.z;
+
+            //System.Diagnostics.Debug.WriteLine("setVertex: {0},{1} = {2},{3},{4}", px, py, vertex.x, vertex.y, vertex.z);
         }
 
         public override void blit()
