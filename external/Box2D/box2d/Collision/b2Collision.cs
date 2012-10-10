@@ -337,5 +337,131 @@ namespace Box2D.Collision
                             b2Transform xfA, b2Transform xfB)
         {
         }
+
+        // Find the max separation between poly1 and poly2 using edge normals from poly1.
+        public static float b2FindMaxSeparation(out int edgeIndex,
+                                         b2PolygonShape poly1, b2Transform xf1,
+                                         b2PolygonShape poly2, b2Transform xf2)
+        {
+            int count1 = poly1.GetVertexCount();
+            b2Vec2[] normals1 = poly1.Normals;
+
+            // Vector pointing from the centroid of poly1 to the centroid of poly2.
+            b2Vec2 d = b2Math.b2Mul(xf2, poly2.Centroid) - b2Math.b2Mul(xf1, poly1.Centroid);
+            b2Vec2 dLocal1 = b2Math.b2MulT(xf1.q, d);
+
+            // Find edge normal on poly1 that has the largest projection onto d.
+            int edge = 0;
+            float maxDot = -b2Settings.b2_maxFloat;
+            for (int i = 0; i < count1; ++i)
+            {
+                float dot = b2Math.b2Dot(normals1[i], dLocal1);
+                if (dot > maxDot)
+                {
+                    maxDot = dot;
+                    edge = i;
+                }
+            }
+
+            // Get the separation for the edge normal.
+            float s = b2EdgeSeparation(poly1, xf1, edge, poly2, xf2);
+
+            // Check the separation for the previous edge normal.
+            int prevEdge = edge - 1 >= 0 ? edge - 1 : count1 - 1;
+            float sPrev = b2EdgeSeparation(poly1, xf1, prevEdge, poly2, xf2);
+
+            // Check the separation for the next edge normal.
+            int nextEdge = edge + 1 < count1 ? edge + 1 : 0;
+            float sNext = b2EdgeSeparation(poly1, xf1, nextEdge, poly2, xf2);
+
+            // Find the best edge and the search direction.
+            int bestEdge;
+            float bestSeparation;
+            int increment;
+            if (sPrev > s && sPrev > sNext)
+            {
+                increment = -1;
+                bestEdge = prevEdge;
+                bestSeparation = sPrev;
+            }
+            else if (sNext > s)
+            {
+                increment = 1;
+                bestEdge = nextEdge;
+                bestSeparation = sNext;
+            }
+            else
+            {
+                edgeIndex = edge;
+                return s;
+            }
+
+            // Perform a local search for the best edge normal.
+            for (; ; )
+            {
+                if (increment == -1)
+                    edge = bestEdge - 1 >= 0 ? bestEdge - 1 : count1 - 1;
+                else
+                    edge = bestEdge + 1 < count1 ? bestEdge + 1 : 0;
+
+                s = b2EdgeSeparation(poly1, xf1, edge, poly2, xf2);
+
+                if (s > bestSeparation)
+                {
+                    bestEdge = edge;
+                    bestSeparation = s;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            edgeIndex = bestEdge;
+            return bestSeparation;
+        }
+
+        public static void b2FindIncidentEdge(b2ClipVertex[] c,
+                                     b2PolygonShape poly1, b2Transform xf1, int edge1,
+                                     b2PolygonShape poly2, b2Transform xf2)
+        {
+            b2Vec2[] normals1 = poly1.Normals;
+
+            int count2 = poly2.GetVertexCount();
+            b2Vec2[] vertices2 = poly2.Vertices;
+            b2Vec2[] normals2 = poly2.Normals;
+
+            // Get the normal of the reference edge in poly2's frame.
+            b2Vec2 normal1 = b2Math.b2MulT(xf2.q, b2Math.b2Mul(xf1.q, normals1[edge1]));
+
+            // Find the incident edge on poly2.
+            int index = 0;
+            float minDot = b2Settings.b2_maxFloat;
+            for (int i = 0; i < count2; ++i)
+            {
+                float dot = b2Math.b2Dot(normal1, normals2[i]);
+                if (dot < minDot)
+                {
+                    minDot = dot;
+                    index = i;
+                }
+            }
+
+            // Build the clip vertices for the incident edge.
+            int i1 = index;
+            int i2 = i1 + 1 < count2 ? i1 + 1 : 0;
+
+            c[0].v = b2Math.b2Mul(xf2, vertices2[i1]);
+            c[0].id.indexA = (byte)edge1;
+            c[0].id.indexB = (byte)i1;
+            c[0].id.typeA = b2ContactFeatureType.e_face;
+            c[0].id.typeB = b2ContactFeatureType.e_vertex;
+
+            c[1].v = b2Math.b2Mul(xf2, vertices2[i2]);
+            c[1].id.indexA = (byte)edge1;
+            c[1].id.indexB = (byte)i2;
+            c[1].id.typeA = b2ContactFeatureType.e_face;
+            c[1].id.typeB = b2ContactFeatureType.e_vertex;
+        }
     }
 }
