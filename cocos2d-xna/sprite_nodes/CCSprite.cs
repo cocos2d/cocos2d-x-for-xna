@@ -485,7 +485,7 @@ namespace cocos2d
                 app.basicEffect.TextureEnabled = true;
                 if (!newBlend) // @@ TotallyEvil
                 {
-                    app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+                   // app.GraphicsDevice.BlendState = BlendState.AlphaBlend;
                 }
                 app.basicEffect.Alpha = (float)this.Opacity / 255.0f;
                 app.basicEffect.VertexColorEnabled = true;

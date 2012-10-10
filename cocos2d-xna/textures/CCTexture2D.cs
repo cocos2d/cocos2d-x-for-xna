@@ -107,8 +107,13 @@ namespace cocos2d
             m_uPixelsHigh = 0;
             m_fMaxS = 0.0f;
             m_fMaxT = 0.0f;
+#if ANDROID
+            m_bHasPremultipliedAlpha = false;
+            m_bPVRHaveAlphaPremultiplied = false;
+#else
             m_bHasPremultipliedAlpha = false;
             m_bPVRHaveAlphaPremultiplied = true;
+#endif
             m_tContentSize = new CCSize();
             Name = NameIndex++;
         }
@@ -369,15 +374,15 @@ namespace cocos2d
                 CCLog.Log(string.Format("cocos2d: WARNING: Image ({0} x {1}) is bigger than the supported {2} x {3}", POTWide, POTHigh, maxTextureSize, maxTextureSize));
                 return false;
             }
-
+#if ANDROID
+            return initTextureWithImage(texture, texture.Width, texture.Height);
+#else
             return initPremultipliedATextureWithImage(texture, texture.Width, texture.Height);
+#endif
         }
 
-
-        public bool initPremultipliedATextureWithImage(Texture2D texture, int POTWide, int POTHigh)
+        public bool initTextureWithImage(Texture2D texture, int POTWide, int POTHigh)
         {
-#warning "to set pixelFormat,alpha"
-
             texture2D = texture;
             m_tContentSize.width = texture2D.Width;
             m_tContentSize.height = texture2D.Height;
@@ -388,8 +393,14 @@ namespace cocos2d
             m_fMaxS = m_tContentSize.width / (float)(POTWide);
             m_fMaxT = m_tContentSize.height / (float)(POTHigh);
 
-            m_bHasPremultipliedAlpha = true;
+            return true;
+        }
 
+        public bool initPremultipliedATextureWithImage(Texture2D texture, int POTWide, int POTHigh)
+        {
+#warning "to set pixelFormat,alpha"
+            initTextureWithImage(texture, POTWide, POTHigh);
+            m_bHasPremultipliedAlpha = true;
             return true;
         }
 
