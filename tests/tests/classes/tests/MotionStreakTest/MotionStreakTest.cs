@@ -14,7 +14,7 @@ namespace tests
         string s_pPathR2 = "Images/r2";
         string s_pPathF1 = "Images/f1";
         string s_pPathF2 = "Images/f2";
-        static int sceneIdx = -1;
+        static int sceneIdx = 0;
         static int MAX_LAYER = 2;
 
         public static CCLayer createMotionLayer(int nIndex)
