@@ -100,6 +100,23 @@ namespace CocosDenshion
             sharedList().Clear();
         }
 
+        /// <summary>
+        /// Restore the media player's state to how it was prior to the game launch. You need to do this when the game terminates
+        /// if you run music that clobbers the music that was playing before the game launched.
+        /// </summary>
+        public void RestoreMediaState()
+        {
+            sharedMusic().RestoreMediaState();
+        }
+
+        /// <summary>
+        /// Save the media player's current playback state.
+        /// </summary>
+        public void SaveMediaState()
+        {
+            sharedMusic().SaveMediaState();
+        }
+
         /**
         @brief  Set the zip file name
         @param pszZipFileName The relative path of the .zip file
