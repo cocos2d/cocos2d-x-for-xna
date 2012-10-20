@@ -877,7 +877,7 @@ namespace cocos2d
             CCScheduler.sharedScheduler().unscheduleAllSelectorsForTarget(this);
         }
 
-        [Obsolete("use unscheduleAllSelectors()"]
+        [Obsolete("use unscheduleAllSelectors()")]
         public void unsheduleAllSelectors()
         {
             unscheduleAllSelectors();
