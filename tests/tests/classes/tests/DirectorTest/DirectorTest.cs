@@ -177,14 +177,14 @@ namespace tests
 
             foreach (CCTouch touch in touches)
             {
-                if (touch != null)
+                if (touch == null)
                     break;
                 CCPoint a = touch.locationInView(touch.view());
 
                 CCDirector director = CCDirector.sharedDirector();
                 CCPoint b = director.convertToUI(director.convertToGL(a));
                 //CCLog("(%d,%d) == (%d,%d)", (int) a.x, (int)a.y, (int)b.x, (int)b.y );
-                CCLog.Log("(%d,%d) == (%d,%d)", (int)a.x, (int)a.y, (int)b.x, (int)b.y);
+                CCLog.Log("({0},{1}) == ({2},{3})", (int)a.x, (int)a.y, (int)b.x, (int)b.y);
             }
         }
 
