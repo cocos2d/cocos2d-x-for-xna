@@ -48,7 +48,7 @@ namespace tests
             //    _profilingTimer = CCProfiler::timerWithName(profilerName().c_str(), this);
             //#endif
             CCNode ccnode = new CCNode();
-            ccnode.sheduleUpdate();
+            ccnode.scheduleUpdate();
 
         }
 

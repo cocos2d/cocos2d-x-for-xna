@@ -40,7 +40,7 @@ namespace tests
             m_label3 = CCLabelBMFont.labelWithString("0", "fonts/fnt/bitmapFontTest4");
             m_label4 = CCLabelBMFont.labelWithString("0", "fonts/fnt/bitmapFontTest4");
 
-            base.sheduleUpdate();
+            base.scheduleUpdate();
             schedule(step1);
             schedule(step2, 0);
             schedule(step3, 1.0f);

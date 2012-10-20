@@ -48,7 +48,7 @@ namespace tests
             addChild(label, 1);
             label.position = new CCPoint(s.width / 2, s.height - 50);
             CCNode ccnode = new CCNode();
-            ccnode.sheduleUpdate();
+            ccnode.scheduleUpdate();
 
             m_plabel = CCLabelBMFont.labelWithString("00.0", "fonts/arial16.fnt");
             m_plabel.position = new CCPoint(s.width / 2, s.height / 2);

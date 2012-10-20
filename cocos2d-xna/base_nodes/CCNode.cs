@@ -452,7 +452,7 @@ namespace cocos2d
         {
             // actions
             stopAllActions();
-            unsheduleAllSelectors();
+            unscheduleAllSelectors();
 
             // timers
             foreach (CCNode node in m_pChildren)
@@ -801,6 +801,12 @@ namespace cocos2d
         /// Only one "update" method could be scheduled per node.
         /// @since v0.99.3
         /// </summary>
+        public void scheduleUpdate()
+        {
+            scheduleUpdateWithPriority(0);
+        }
+
+        [Obsolete("Use scheduleUpdate() instead")]
         public void sheduleUpdate()
         {
             scheduleUpdateWithPriority(0);
@@ -866,9 +872,15 @@ namespace cocos2d
         /// Actions are not affected by this method.
         /// @since v0.99.3
         /// </summary>
-        public void unsheduleAllSelectors()
+        public void unscheduleAllSelectors()
         {
             CCScheduler.sharedScheduler().unscheduleAllSelectorsForTarget(this);
+        }
+
+        [Obsolete("use unscheduleAllSelectors()"]
+        public void unsheduleAllSelectors()
+        {
+            unscheduleAllSelectors();
         }
 
         /// <summary>

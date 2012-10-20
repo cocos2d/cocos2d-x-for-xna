@@ -32,7 +32,7 @@ namespace tests
         public void schedUpdate(float dt)
         {
             unschedule(schedUpdate);
-            base.sheduleUpdate();
+            base.scheduleUpdate();
             schedule(stopUpdate, 2.0f);
         }
 

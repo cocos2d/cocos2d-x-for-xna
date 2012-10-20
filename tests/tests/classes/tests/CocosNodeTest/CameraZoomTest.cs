@@ -39,7 +39,7 @@ namespace tests
             //		[cam setCenterX:0 centerY:0 centerZ:0);
 
             m_z = 0;
-            base.sheduleUpdate();
+            base.scheduleUpdate();
         }
 
         public void update(float dt)

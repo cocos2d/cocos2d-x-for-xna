@@ -65,7 +65,7 @@ namespace tests
                 {
                     break;
                 }
-                item.unsheduleAllSelectors();
+                item.unscheduleAllSelectors();
             }
         }
     }

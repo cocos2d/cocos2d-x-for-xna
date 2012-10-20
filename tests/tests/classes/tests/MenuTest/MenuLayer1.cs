@@ -143,7 +143,7 @@ namespace tests
         public void allowTouches(float dt)
         {
             CCTouchDispatcher.sharedDispatcher().setPriority(-128 + 1, this);
-            base.unsheduleAllSelectors();
+            base.unscheduleAllSelectors();
             CCLog.Log("TOUCHES ALLOWED AGAIN");
         }
         public void menuCallback(CCObject pSender)

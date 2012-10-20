@@ -11,7 +11,7 @@ namespace tests
         public override void onEnter()
         {
             base.onEnter();
-            sheduleUpdate();
+            scheduleUpdate();
             schedule(tick);
             schedule(stopSelectors, 0.4f);
         }
@@ -38,7 +38,7 @@ namespace tests
 
         public void stopSelectors(float dt)
         {
-            base.unsheduleAllSelectors();
+            base.unscheduleAllSelectors();
         }
     }
 }
