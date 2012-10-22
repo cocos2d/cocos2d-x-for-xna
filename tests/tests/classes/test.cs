@@ -42,9 +42,9 @@ namespace cocos2d
         //TEST_PERFORMANCE,
         TEST_ZWOPTEX,
         //TEST_CURL,
-        //TEST_USERDEFAULT,
+        TEST_USERDEFAULT,
         TEST_DIRECTOR,
-        //TEST_BUGS,
+        TEST_BUGS,
         //TEST_FONTS,
         //TEST_CURRENT_LANGUAGE,
         TESTS_COUNT,
@@ -90,9 +90,9 @@ namespace cocos2d
             //"PerformanceTest",
             "ZwoptexTest",
             //"CurlTest",
-            //"UserDefaultTest",
+            "UserDefaultTest",
             "DirectorTest",
-            //"BugsTest",
+            "BugsTest",
             //"FontTest",
             //"CurrentLanguageTest"
         };

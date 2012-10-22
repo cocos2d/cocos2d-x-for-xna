@@ -75,6 +75,10 @@ namespace tests
                     pLayer = new Bug1174Layer();
                     pLayer.init();
                     break;
+                case 9:
+                    pLayer = new CCDefaultCodeBug();
+                    pLayer.init();
+                    break;
                 default:
                     break;
             }

@@ -15,12 +15,6 @@ namespace tests
 
             CCDirector.sharedDirector().replaceScene(this);
         }
-
-        public static int MAX_COUNT = 9;
-        public static int LINE_SPACE = 40;
-        public static int kItemTagBasic = 5432;
-        public static CCPoint s_tCurPos = new CCPoint(0, 0);
-
         public static string[] testsName = new string[] 
             { "Bug-350",
               "Bug-422",
@@ -30,7 +24,14 @@ namespace tests
               "Bug-899",
               "Bug-914",
               "Bug-1159",
-              "Bug-1174"
+              "Bug-1174",
+              "CCDefaultCodeBug"
             };
+
+        public static int MAX_COUNT = testsName.Length;
+        public static int LINE_SPACE = 40;
+        public static int kItemTagBasic = 5432;
+        public static CCPoint s_tCurPos = new CCPoint(0, 0);
+
     }
 }

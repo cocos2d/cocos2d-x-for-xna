@@ -153,6 +153,17 @@ namespace cocos2d
         public byte g;
         public byte b;
         public byte a;
+
+        public string ToString()
+        {
+            return (string.Format("{0},{1},{2},{3}", r, g, b, a));
+        }
+
+        public static ccColor4B Parse(string s)
+        {
+            string[] f = s.Split(',');
+            return(new ccColor4B(byte.Parse(f[0]), byte.Parse(f[1]), byte.Parse(f[2]), byte.Parse(f[3])));
+        }
     }
 
     /// <summary>
@@ -186,6 +197,17 @@ namespace cocos2d
         public float g;
         public float b;
         public float a;
+
+        public string ToString()
+        {
+            return (string.Format("{0},{1},{2},{3}", r, g, b, a));
+        }
+
+        public static ccColor4F Parse(string s)
+        {
+            string[] f = s.Split(',');
+            return(new ccColor4F(float.Parse(f[0]), float.Parse(f[1]), float.Parse(f[2]), float.Parse(f[3])));
+        }
     }
 
     /// <summary>

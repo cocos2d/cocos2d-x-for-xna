@@ -102,6 +102,7 @@
     <Compile Include="classes\tests\BugsTest\BugsTestBaseLayer.cs" />
     <Compile Include="classes\tests\BugsTest\BugsTestMainLayer.cs" />
     <Compile Include="classes\tests\BugsTest\BugsTestScene.cs" />
+    <Compile Include="classes\tests\BugsTest\CCDefaultCodeBug.cs" />
     <Compile Include="classes\tests\ClickAndMoveTest\ClickAndMoveTest.cs" />
     <Compile Include="classes\tests\CocosDenshionTest\CocosDenshionTest.cs" />
     <Compile Include="classes\tests\ActionManagerTest\CrashTest.cs" />

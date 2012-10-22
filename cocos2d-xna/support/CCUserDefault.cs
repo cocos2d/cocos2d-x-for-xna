@@ -115,7 +115,7 @@ public class CCUserDefault {
 
 		if (value != null)
 		{
-			ret = (value == "true");
+			ret = bool.Parse(value);
 		}
 
 		return ret;

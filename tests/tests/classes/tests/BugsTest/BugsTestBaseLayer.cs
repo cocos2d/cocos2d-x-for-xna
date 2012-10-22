@@ -19,7 +19,7 @@ namespace tests
             CCMenuItemFont pMainItem = CCMenuItemFont.itemFromString("Back", this,
                 backCallback);
             pMainItem.position = new CCPoint(s.width - 50, 25);
-            CCMenu pMenu = CCMenu.menuWithItems(pMainItem, null);
+            CCMenu pMenu = CCMenu.menuWithItem(pMainItem);
             pMenu.position = new CCPoint(0, 0);
             addChild(pMenu);
         }
