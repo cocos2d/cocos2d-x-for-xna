@@ -356,6 +356,7 @@
     <Compile Include="classes\tests\TileMapTest\TMXTilesetTest.cs" />
     <Compile Include="classes\tests\TileMapTest\TMXUncompressedTest.cs" />
     <Compile Include="classes\tests\TouchesTest\Ball.cs" />
+    <Compile Include="classes\tests\TouchesTest\DispatcherTest.cs" />
     <Compile Include="classes\tests\TouchesTest\Paddle.cs" />
     <Compile Include="classes\tests\TouchesTest\PongLayer.cs" />
     <Compile Include="classes\tests\TouchesTest\PongScene.cs" />

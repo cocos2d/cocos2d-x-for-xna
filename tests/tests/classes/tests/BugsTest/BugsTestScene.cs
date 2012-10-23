@@ -25,7 +25,8 @@ namespace tests
               "Bug-914",
               "Bug-1159",
               "Bug-1174",
-              "CCDefaultCodeBug"
+              "CCDefaultCodeBug",
+              "Touches Crash"
             };
 
         public static int MAX_COUNT = testsName.Length;

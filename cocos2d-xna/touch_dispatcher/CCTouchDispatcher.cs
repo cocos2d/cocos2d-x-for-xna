@@ -105,7 +105,7 @@ namespace cocos2d
         /// See StandardTouchDelegate description.
         /// IMPORTANT: The delegate will be retained.
         /// </summary>
-        public void addStandardDelegate(ICCTouchDelegate pDelegate, int nPriority)
+        public void addStandardDelegate(ICCStandardTouchDelegate pDelegate, int nPriority)
         {
             CCTouchHandler pHandler = CCStandardTouchHandler.handlerWithDelegate(pDelegate, nPriority);
             if (!m_bLocked)
@@ -124,7 +124,7 @@ namespace cocos2d
         /// See TargetedTouchDelegate description.
         /// IMPORTANT: The delegate will be retained.
         /// </summary>
-        public void addTargetedDelegate(ICCTouchDelegate pDelegate, int nPriority, bool bSwallowsTouches)
+        public void addTargetedDelegate(ICCTargetedTouchDelegate pDelegate, int nPriority, bool bSwallowsTouches)
         {
             CCTouchHandler pHandler = CCTargetedTouchHandler.handlerWithDelegate(pDelegate, nPriority, bSwallowsTouches);
             if (!m_bLocked)
@@ -323,13 +323,17 @@ namespace cocos2d
                 m_bToAdd = false;
                 foreach (CCTouchHandler pHandler in m_pHandlersToAdd)
                 {
-                    if (pHandler.Delegate is ICCTargetedTouchDelegate)
+                    if (pHandler is CCTargetedTouchHandler && pHandler.Delegate is ICCTargetedTouchDelegate)
                     {
                         forceAddHandler(pHandler, m_pTargetedHandlers);
                     }
-                    else
+                    else if (pHandler is CCStandardTouchHandler && pHandler.Delegate is ICCStandardTouchDelegate)
                     {
                         forceAddHandler(pHandler, m_pStandardHandlers);
+                    }
+                    else
+                    {
+                        CCLog.Log("ERROR: inconsistent touch handler and delegate found in m_pHandlersToAdd of CCTouchDispatcher");
                     }
                 }
 
@@ -374,7 +378,7 @@ namespace cocos2d
 
         public CCTouchHandler findHandler(ICCTouchDelegate pDelegate)
         {
-            foreach (CCTargetedTouchHandler handler in m_pTargetedHandlers)
+            foreach (CCTouchHandler handler in m_pTargetedHandlers)
             {
                 if (handler.Delegate == pDelegate)
                 {
@@ -382,7 +386,7 @@ namespace cocos2d
                 }
             }
 
-            foreach (CCStandardTouchHandler handler in m_pStandardHandlers)
+            foreach (CCTouchHandler handler in m_pStandardHandlers)
             {
                 if (handler.Delegate == pDelegate)
                 {
@@ -395,9 +399,8 @@ namespace cocos2d
 
         protected void forceRemoveDelegate(ICCTouchDelegate pDelegate)
         {
-            // XXX: remove it from both handlers ???
             // remove handler from m_pStandardHandlers
-            foreach (CCStandardTouchHandler pHandler in m_pStandardHandlers)
+            foreach (CCTouchHandler pHandler in m_pStandardHandlers)
             {
                 if (pHandler != null && pHandler.Delegate == pDelegate)
                 {
@@ -407,7 +410,7 @@ namespace cocos2d
             }
 
             // remove handler from m_pTargetedHandlers
-            foreach (CCTargetedTouchHandler pHandler in m_pTargetedHandlers)
+            foreach (CCTouchHandler pHandler in m_pTargetedHandlers)
             {
                 if (pHandler != null && pHandler.Delegate == pDelegate)
                 {

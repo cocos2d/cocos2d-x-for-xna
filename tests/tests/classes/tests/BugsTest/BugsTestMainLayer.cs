@@ -79,6 +79,10 @@ namespace tests
                     pLayer = new CCDefaultCodeBug();
                     pLayer.init();
                     break;
+                case 10:
+                    pLayer = new DispatcherTest();
+                    pLayer.init();
+                    break;
                 default:
                     break;
             }

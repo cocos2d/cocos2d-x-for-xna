@@ -33,7 +33,7 @@ namespace cocos2d
  This type of delegate is the same one used by CocoaTouch. You will receive all the events (Began,Moved,Ended,Cancelled).
  @since v0.8
  */
-    public interface ICCStandardTouchDelegate
+    public interface ICCStandardTouchDelegate : ICCTouchDelegate
     {
         // optional
         void ccTouchesBegan(List<CCTouch> pTouches, CCEvent pEvent);
