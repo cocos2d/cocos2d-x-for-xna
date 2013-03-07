@@ -522,10 +522,12 @@ namespace cocos2d
                     point.y = 0;
                 }
 
+/*
                 float minx = CCRectGetMinX(rect);
                 float maxx = CCRectGetMaxX(rect);
                 float miny = CCRectGetMinY(rect);
                 float maxy = CCRectGetMaxY(rect);
+*/
 
                 if (point.x >= CCRectGetMinX(rect)
                     && point.x <= CCRectGetMaxX(rect)
