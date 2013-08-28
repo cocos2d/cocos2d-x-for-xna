@@ -1,6 +1,8 @@
 cocos2d-x for xna
 ==================
 
+This project has been replaced with [Cocos2D-XNA][4].
+
 cocos2d-x for xna is a 2D game engine in C#, based on [cocos2d-x][1] and licensed under MIT.
 The engine is jointly developed by [cocos2d-x][1] and [OpenXLive][2].
 
@@ -21,7 +23,11 @@ Thanks to the core-developers
 		chunlin.qin(elvis)
 		yang.you(youyang)
 		kaiwei.liu(lkw)
+		Totally Evil Entertainment
+		Gena Minchuk
 
 [1]: http://www.cocos2d-x.org "cocos2d-x"
 [2]: http://www.openxlive.com "OpenXLive"
 [3]: http://www.cocos2d-x.org/embedded/cocos2d-x/classes.html "API References"
+[4]: http://github.com/Cocos2DXNA/cocos2d-xna
+
